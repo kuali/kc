@@ -18,9 +18,14 @@
 --
 
 delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP Template';
-
-INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP Template','FDP Agreement',sysdate,'admin',
-'<?xml version="1.0" encoding="UTF-8"?>
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP Template','FDP Agreement',sysdate,'admin', EMPTY_CLOB(), 'FDP_Template_Agreement.xsl','application/octet-stream',1,SYS_GUID(),4);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 <xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
 <xsl:param name="SV_OutputFormat" select="''PDF''"/>
@@ -93,7 +98,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <fo:inline>
 <xsl:copy-of select="$value-of-template"/>
 </fo:inline>
-</xsl:otherwise>
+</xsl:otherwise>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 </xsl:choose>
 </xsl:for-each>
 </xsl:for-each>
@@ -202,7 +216,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <fo:block>
 <fo:inline>
 <xsl:text>PTE Federal Award No: </xsl:text>
-</fo:inline>
+</fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 <xsl:for-each select="subcontract:SubContractData">
 <xsl:for-each select="subcontract:Award">
 <xsl:for-each select="award:AwardDetails">
@@ -274,7 +297,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <xsl:for-each select="award:SponsorDescription">
 <xsl:variable name="value-of-template">
 <xsl:apply-templates/>
-</xsl:variable>
+</xsl:variable>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 <xsl:choose>
 <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block>
@@ -365,7 +397,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </fo:inline>
 <xsl:for-each select="subcontract:SubContractData">
 <xsl:for-each select="subcontract:Award">
-<xsl:for-each select="award:AwardDetails">
+<xsl:for-each select="award:AwardDetails">';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 <xsl:for-each select="award:OtherHeaderDetails">
 <xsl:for-each select="award:CFDANumber">
 <xsl:variable name="value-of-template">
@@ -456,7 +497,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <fo:block>
 <fo:inline>
 <xsl:text>Subaward Period of Performance: </xsl:text>
-</fo:inline>
+</fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 </fo:block>
 </fo:table-cell>
 </fo:table-row>
@@ -547,7 +597,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <xsl:choose>
 <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block>
-<xsl:copy-of select="$value-of-template"/>
+<xsl:copy-of select="$value-of-template"/>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 </fo:block>
 </xsl:when>
 <xsl:otherwise>
@@ -638,7 +697,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </fo:table-row>
 <fo:table-row>
 <fo:table-cell padding="2pt"  number-columns-spanned="3"  display-align="center">
-<fo:block> <xsl:text></xsl:text> </fo:block>
+<fo:block> <xsl:text></xsl:text> </fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 <fo:block>
 <fo:inline>
 <xsl:text>Incrementally Estimated Total: </xsl:text>
@@ -729,7 +797,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <xsl:with-param name="text-length">
 <xsl:value-of select="string-length(string(concat(subcontract:SubContractData/subcontract:PrintRequirement/subcontract:ImageUncheckedPath,&apos;checkbox.gif&apos;)))"/>
 </xsl:with-param>
-</xsl:call-template>
+</xsl:call-template>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 <xsl:text>)</xsl:text>
 </xsl:attribute>
 </fo:external-graphic>
@@ -822,7 +899,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:when>
 <xsl:when test="subcontract:SubContractData/subcontract:PrintRequirement/subcontract:Attachment4Required = &quot;Y&quot;">
 <fo:external-graphic content-height="8" content-width="8">
-<xsl:attribute name="src">
+<xsl:attribute name="src">';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 <xsl:text>url(</xsl:text>
 <xsl:call-template name="double-backslash">
 <xsl:with-param name="text">
@@ -911,7 +997,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:when>
 <xsl:otherwise>
 <fo:inline font-family="Arial" font-size="8pt">
-<xsl:text>&#160;</xsl:text>
+<xsl:text>&#160;</xsl:text>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 </fo:inline>
 <fo:external-graphic content-height="8" content-width="7">
 <xsl:attribute name="src">
@@ -1002,7 +1097,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <xsl:attribute name="src">
 <xsl:text>url(</xsl:text>
 <xsl:call-template name="double-backslash">
-<xsl:with-param name="text">
+<xsl:with-param name="text">';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 <xsl:value-of select="string(concat(subcontract:SubContractData/subcontract:PrintRequirement/subcontract:ImageUncheckedPath,&apos;checkbox.gif&apos;))"/>
 </xsl:with-param>
 <xsl:with-param name="text-length">
@@ -1094,7 +1198,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:when>
 <xsl:when test="subcontract:SubContractData/subcontract:PrintRequirement/subcontract:Attachment5Required = &quot;Y&quot;">
 <fo:inline font-family="Arial" font-size="9pt" font-weight="normal">
-<xsl:text>&#160;</xsl:text>
+<xsl:text>&#160;</xsl:text>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 </fo:inline>
 <fo:external-graphic content-height="8" content-width="7">
 <xsl:attribute name="src">
@@ -1181,7 +1294,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <xsl:otherwise>
 <fo:inline font-family="Arial" font-size="9pt">
 <xsl:copy-of select="$value-of-template"/>
-</fo:inline>
+</fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 </xsl:otherwise>
 </xsl:choose>
 </xsl:for-each>
@@ -1266,7 +1388,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </fo:inline>
 
 <fo:inline font-family="Arial" font-size="9pt" font-weight="normal">
-<xsl:text> </xsl:text>  </fo:inline>
+<xsl:text> </xsl:text>  </fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 <fo:block/> <xsl:text>7)Substantive changes made to this subaward agreement require the written approval of each party''s Authorized Official as shown in Attachments 3A and 3B.  The PTE  may issue non-substantive changes to the Period of Performance  (check one) </xsl:text>
 
                                                <fo:external-graphic content-height="8" content-width="8">
@@ -1365,7 +1496,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </fo:block>
 </xsl:when>
 <xsl:otherwise>
-<fo:inline>
+<fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 <xsl:copy-of select="$value-of-template"/>
 </fo:inline>
 </xsl:otherwise>
@@ -1461,7 +1601,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </fo:block>
 </fo:table-cell>
 <fo:table-cell border="solid 1pt gray" padding="1pt" display-align="center">
-<fo:block>
+<fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 <fo:inline-container>
 <fo:block>
 <xsl:text>&#x2029;</xsl:text>
@@ -1548,7 +1697,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <fo:inline-container>
 <fo:block>
 <xsl:text>&#x2029;</xsl:text>
-</fo:block>
+</fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 </fo:inline-container>
 <fo:table table-layout="fixed" width="100%" border="solid 1pt gray" border-spacing="-1pt">
 <fo:table-column column-width="proportional-column-width(1)"/>
@@ -1639,7 +1797,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <fo:block>
 <fo:inline font-family="Arial" font-size="12pt" font-weight="bold">
 <xsl:text>Certification Regarding Lobbying</xsl:text>
-</fo:inline>
+</fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 </fo:block>
 </fo:block>
 </fo:block>
@@ -1729,7 +1896,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <fo:block/>
 <fo:inline font-family="Arial" font-size="9pt">
 <xsl:text>Subrecipient certifies by signing this Subaward Agreement that it complies with the Uniform Guidance, will provide notice of the completion of required audits and any adverse findings which impact this subaward as required by parts 200.501-200.521, and will provide access to records as required by parts 200.336, 200.337, and 200.201 as applicable.</xsl:text>
-</fo:inline>
+</fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 </fo:block>
 </fo:table-cell>
 </fo:table-row>
@@ -1783,12 +1959,20 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:choose>
 </xsl:template>
 </xsl:stylesheet>
-','FDP_Template_Agreement.xsl','application/octet-stream',1,SYS_GUID(),4);
+';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
 
 delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP Modification';
-
-INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP Modification','FDP Modification',sysdate,'admin',
-'<?xml version="1.0" encoding="UTF-8"?>
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP Modification','FDP Modification',sysdate,'admin', EMPTY_CLOB(),'FDP_Modification_Template.xsl','application/octet-stream',1,SYS_GUID(),4);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 <xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
 <xsl:param name="SV_OutputFormat" select="''PDF''"/>
@@ -1913,7 +2097,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <xsl:copy-of select="$value-of-template"/>
 </fo:inline>
 </xsl:otherwise>
-</xsl:choose>
+</xsl:choose>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 </xsl:for-each>
 </xsl:for-each>
 </xsl:for-each>
@@ -2008,7 +2201,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <xsl:for-each select="subcontract:City">
 <xsl:variable name="value-of-template">
 <xsl:apply-templates/>
-</xsl:variable>
+</xsl:variable>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 <xsl:choose>
 <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block>
@@ -2107,7 +2309,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <fo:block>
 <xsl:copy-of select="$value-of-template"/>
 </fo:block>
-</xsl:when>
+</xsl:when>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 <xsl:otherwise>
 <fo:inline>
 <xsl:copy-of select="$value-of-template"/>
@@ -2198,7 +2409,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:for-each>
 </xsl:for-each>
 </xsl:for-each>
-<fo:block/>
+<fo:block/>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 <fo:inline>
 <xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
 </fo:inline>
@@ -2281,7 +2501,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:for-each>
 </fo:block>
 </fo:table-cell>
-</fo:table-row>
+</fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 </fo:table-body>
 </fo:table>
 </fo:table-cell>
@@ -2378,7 +2607,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <xsl:for-each select="award:SponsorAwardNumber">
 <xsl:variable name="value-of-template">
 <xsl:apply-templates/>
-</xsl:variable>
+</xsl:variable>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 <xsl:choose>
 <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block>
@@ -2471,7 +2709,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <fo:table-cell display-align="center">
 <fo:table padding="0" table-layout="fixed" width="100%">
 <fo:table-column column-width="100%"/>
-<fo:table-body>
+<fo:table-body>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 <fo:table-row>
 <fo:table-cell padding="2" text-align="left" display-align="center" border-top="solid 1pt gray">
 <fo:block>
@@ -2568,7 +2815,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')"/>
 <xsl:text>/</xsl:text>
 <xsl:value-of select="format-number(number(substring(string(string(.)), 1, 4)), ''0000'')"/>
-</fo:inline>
+</fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 </xsl:for-each>
 </xsl:for-each>
 </xsl:for-each>
@@ -2649,7 +2905,16 @@ Amendment No.:
 <xsl:copy-of select="$value-of-template"/>
 </fo:inline>
 </xsl:otherwise>
-</xsl:choose>
+</xsl:choose>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 </xsl:for-each>
 </xsl:for-each>
 </xsl:for-each>
@@ -2743,7 +3008,16 @@ Subaward No.:
 <xsl:text>/</xsl:text>
 <xsl:value-of select="format-number(number(substring(string(string(.)), 1, 4)), ''0000'')"/>
 </fo:inline>
-</xsl:for-each>
+</xsl:for-each> ';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 </xsl:for-each>
 </xsl:for-each>
 </fo:block>
@@ -2835,7 +3109,16 @@ Subaward No.:
 </xsl:with-param>
 </xsl:call-template>
 <xsl:text>)</xsl:text>
-</xsl:attribute>
+</xsl:attribute> ';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 </fo:external-graphic>
 </xsl:otherwise>
 </xsl:choose>
@@ -2930,7 +3213,16 @@ Subaward No.:
 <fo:inline>
 <xsl:text>This Amendment revises the above-referenced Research Subaward Agreement as follows:</xsl:text>
 </fo:inline>
-</fo:block>
+</fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 <fo:block text-align="center" >
 <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt"/>
 </fo:block>
@@ -3018,7 +3310,16 @@ Subaward No.:
 </fo:inline>
 </fo:inline>
 </fo:block>
-</fo:list-item-body>
+</fo:list-item-body>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 </fo:list-item>
 </fo:list-block>
 </fo:block>
@@ -3109,7 +3410,16 @@ Subaward No.:
 <xsl:for-each select="subcontract:SubContractData">
 <xsl:for-each select="subcontract:SubcontractDetail">
 <xsl:for-each select="subcontract:StartDate">
-<fo:inline>
+<fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')"/>
 <xsl:text>/</xsl:text>
 <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')"/>
@@ -3203,7 +3513,16 @@ Subaward No.:
 <xsl:for-each select="subcontract:SubcontractAmountInfo">
 <xsl:for-each select="subcontract:ObligatedChange">
 <xsl:value-of select="."/>
-</xsl:for-each>
+</xsl:for-each>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 </xsl:for-each>
 </xsl:for-each>
 <xsl:text> to include the </xsl:text>
@@ -3299,7 +3618,16 @@ Subaward No.:
 </fo:block>
 </xsl:when>
 <xsl:otherwise>
-<fo:inline>
+<fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 <xsl:copy-of select="$value-of-template"/>
 </fo:inline>
 </xsl:otherwise>
@@ -3385,7 +3713,16 @@ Subaward No.:
 <xsl:attribute name="src">
 <xsl:text>url(</xsl:text>
 <xsl:call-template name="double-backslash">
-<xsl:with-param name="text">
+<xsl:with-param name="text"> ';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 <xsl:value-of select="string(concat(subcontract:SubContractData/subcontract:PrintRequirement/subcontract:ImageUncheckedPath,&apos;checkbox.gif&apos;))"/>
 </xsl:with-param>
 <xsl:with-param name="text-length">
@@ -3492,7 +3829,16 @@ Subaward No.:
 <fo:block/>
 <fo:block/>
 <fo:block/>
-<fo:block/>
+<fo:block/> ';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 </fo:table-cell>
 </fo:table-row>
 </fo:table-body>
@@ -3579,7 +3925,16 @@ Subaward No.:
 <fo:table padding="0" table-layout="fixed" width="100%">
 <fo:table-column column-width="75%"/>
 <fo:table-column column-width="25%"/>
-<fo:table-body>
+<fo:table-body>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification' FOR UPDATE;
+  buffer :='
 <fo:table-row>
 <fo:table-cell number-columns-spanned="2" padding="2pt" display-align="center">
 <fo:block>
@@ -3678,12 +4033,20 @@ Subaward No.:
 </xsl:choose>
 </xsl:template>
 </xsl:stylesheet>
-','FDP_Modification_Template.xsl','application/octet-stream',1,SYS_GUID(),4);
+';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
 
 delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP_AFOSR';
-
-INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_AFOSR',	'AFOSR Attachment',sysdate,'admin',
-'<?xml version="1.0" encoding="UTF-8"?>
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_AFOSR',	'AFOSR Attachment',sysdate,'admin', EMPTY_CLOB(),'AFOSR Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_AFOSR' FOR UPDATE;
+  buffer :='<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 	<xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
 	<xsl:param name="SV_OutputFormat" select="''PDF''"/>
@@ -3745,8 +4108,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 									</fo:table-row>
 								</fo:table-body>
 							</fo:table>
-							<fo:inline-container>
-								<fo:block>
+							<fo:inline-container>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_AFOSR' FOR UPDATE;
+  buffer :='								<fo:block>
 									<xsl:text>&#x2029;</xsl:text>
 								</fo:block>
 							</fo:inline-container>
@@ -3844,7 +4215,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 								<fo:block>
 									<xsl:text>&#x2029;</xsl:text>
 								</fo:block>
-							</fo:inline-container>
+							</fo:inline-container>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_AFOSR' FOR UPDATE;
+  buffer :='
 							<fo:table font-family="time" font-size="10pt" table-layout="fixed" width="100%" border-spacing="2pt">
 								<fo:table-column column-width="proportional-column-width(1)"/>
 								<fo:table-body start-indent="0pt">
@@ -3934,7 +4314,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:basic-link>
 																<fo:inline>
 																	<xsl:text> and Agency Specific Requirements found at </xsl:text>
-																</fo:inline>
+																</fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_AFOSR' FOR UPDATE;
+  buffer :='
 																<fo:basic-link text-decoration="underline" color="blue">
 																	<xsl:choose>
 																		<xsl:when test="substring(string(&apos;nsf.gov/pubs/policydocs/rtc/agencyspecifics/afosr_312.pdf&apos;), 1, 1) = ''#''">
@@ -4027,7 +4416,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 														</fo:list-item-body>
 													</fo:list-item>
 												</fo:list-block>
-											</fo:block>
+											</fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_AFOSR' FOR UPDATE;
+  buffer :='
 										</fo:table-cell>
 									</fo:table-row>
 								</fo:table-body>
@@ -4123,7 +4521,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																			<xsl:text>shall grant</xsl:text>
 																		</fo:inline>
 																	</xsl:when>
-																</xsl:choose>
+																</xsl:choose>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_AFOSR' FOR UPDATE;
+  buffer :='
 																<fo:inline>
 																	<xsl:text> to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient''s obligations to the Federal Government under its Prime Award. [Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient''s subject inventions as a part of consideration for the subaward. Should it be necessary, the Federal Government can authorize the Prime Recipient''s right to practice a Subrecipients''s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
@@ -4208,7 +4615,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				<xsl:for-each select="$XML"/>
 			</fo:block>
 		</fo:static-content>
-	</xsl:template>
+	</xsl:template>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_AFOSR' FOR UPDATE;
+  buffer :='
 <xsl:template name="double-backslash">
 <xsl:param name="text"/>
 <xsl:param name="text-length"/>
@@ -4235,12 +4651,20 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:choose>
 </xsl:template>
 </xsl:stylesheet>
-','AFOSR Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
 
 delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP_AMRMC';
-
-INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_AMRMC',	'AMRMC Attachment',sysdate,'admin',
-'<?xml version="1.0" encoding="UTF-8"?>
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_AMRMC',	'AMRMC Attachment',sysdate,'admin', EMPTY_CLOB(), 'AMRMC Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_AMRMC' FOR UPDATE;
+  buffer :='<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 	<xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
 	<xsl:param name="SV_OutputFormat" select="''PDF''"/>
@@ -4387,8 +4811,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 														<xsl:text>&#x2029;</xsl:text>
 													</fo:block>
 												</fo:inline-container>
-												<fo:block margin="0pt">
-
+												<fo:block margin="0pt">';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_AMRMC' FOR UPDATE;
+  buffer :='
 
 													<fo:block/>
 												</fo:block>
@@ -4483,7 +4915,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 														<fo:list-item-label end-indent="label-end()" text-align="right">
 															<fo:block>
 																<xsl:number format="1" value="1"/>.</fo:block>
-														</fo:list-item-label>
+														</fo:list-item-label>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_AMRMC' FOR UPDATE;
+  buffer :='
 														<fo:list-item-body start-indent="body-start()">
 															<fo:block font-family="time" font-size="10pt" font-weight="normal">
 																<fo:inline>
@@ -4571,7 +5012,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																			<fo:block>
 																				<xsl:number format="a" value="2"/>.</fo:block>
 																		</fo:list-item-label>
-																		<fo:list-item-body start-indent="body-start()">
+																		<fo:list-item-body start-indent="body-start()">';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_AMRMC' FOR UPDATE;
+  buffer :='
 																			<fo:block>
 																				<fo:inline>
 																					<xsl:text>The payment mechanism described in Article 22 and the financial reporting requirements in Article 52 of the Research Terms and Conditions and Article 9 of the Agency-Specific Requirements are replaced with Terms and Conditions (1) through (4) of this agreement; and</xsl:text>
@@ -4667,7 +5117,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	<xsl:when test="subcontract:SubContractData/subcontract:SubcontractTemplateInfo/subcontract:CopyRights = &quot;1&quot;">
 																		<fo:inline>
 																			<xsl:text>grants</xsl:text>
-																		</fo:inline>
+																		</fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_AMRMC' FOR UPDATE;
+  buffer :='
 																	</xsl:when>
 																	<xsl:when test="subcontract:SubContractData/subcontract:SubcontractTemplateInfo/subcontract:CopyRights = &quot;2&quot;">
 																		<fo:inline>
@@ -4758,7 +5217,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																								<xsl:copy-of select="$value-of-template"/>
 																							</fo:inline>
 																						</xsl:otherwise>
-																					</xsl:choose>
+																					</xsl:choose>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_AMRMC' FOR UPDATE;
+  buffer :='
 																				</xsl:for-each>
 																			</xsl:for-each>
 																		</xsl:for-each>
@@ -4822,12 +5290,20 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:choose>
 </xsl:template>
 </xsl:stylesheet>
-','AMRMC Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
 
 delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP_ARO';
-
-INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_ARO',	'ARO Attachment',sysdate,'admin',
-'<?xml version="1.0" encoding="UTF-8"?>
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_ARO',	'ARO Attachment',sysdate,'admin', EMPTY_CLOB(),'ARO Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_ARO' FOR UPDATE;
+  buffer :='<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 	<xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
 	<xsl:param name="SV_OutputFormat" select="''PDF''"/>
@@ -4944,7 +5420,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																<xsl:text>)</xsl:text>
 															</xsl:attribute>
 														</xsl:otherwise>
-													</xsl:choose>
+													</xsl:choose>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_ARO' FOR UPDATE;
+  buffer :='
 													<fo:inline>
 														<xsl:text>http://www.nsf.gov/bfa/dias/policy/rtc/appc.pdf </xsl:text>
 													</fo:inline>
@@ -5039,7 +5524,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
-													</fo:list-item>
+													</fo:list-item>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_ARO' FOR UPDATE;
+  buffer :='
 													<fo:list-item>
 														<fo:list-item-label end-indent="label-end()" text-align="right">
 															<fo:block>
@@ -5119,7 +5613,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																			<fo:block>
 																				<xsl:number format="a" value="1"/>.</fo:block>
 																		</fo:list-item-label>
-																		<fo:list-item-body start-indent="body-start()">
+																		<fo:list-item-body start-indent="body-start()">';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_ARO' FOR UPDATE;
+  buffer :='
 																			<fo:block>
 																				<fo:inline>
 																					<xsl:text>The right to initiate an automatic one-time extension of the end date provided by Article 25(c)(2) is replaced by the need to obtain prior written approval from the Prime Recipient;</xsl:text>
@@ -5210,7 +5713,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 													</fo:block>
 												</fo:inline-container>
 												<fo:list-block font-family="time" font-size="10pt" font-weight="normal" provisional-distance-between-starts="7mm" provisional-label-separation="2mm">
-													<fo:list-item>
+													<fo:list-item>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_ARO' FOR UPDATE;
+  buffer :='
 														<fo:list-item-label end-indent="label-end()" text-align="right">
 															<fo:block>
 																<xsl:number format="1" value="1"/>.</fo:block>
@@ -5298,7 +5810,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																		<fo:inline>
 																			<xsl:text>No</xsl:text>
 																		</fo:inline>
-																		<fo:block/>
+																		<fo:block/>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_ARO' FOR UPDATE;
+  buffer :='
 																		<fo:inline>
 																			<xsl:text>Carry Forward requests must be sent to Prime Recipient''s - </xsl:text>
 																		</fo:inline>
@@ -5383,12 +5904,20 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:choose>
 </xsl:template>
 </xsl:stylesheet>
-','ARO Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
 
 delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP_ATT_3A';
-
-INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_ATT_3A',	'FDP Attachment 3A',sysdate,'admin',
-'<?xml version="1.0" encoding="UTF-8"?>
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_ATT_3A',	'FDP Attachment 3A',sysdate,'admin', EMPTY_CLOB(),'FDP Attachment 3A.xsl','application/octet-stream',1,SYS_GUID(),3);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format">
     <xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
     <xsl:param name="SV_OutputFormat" select="''PDF''"/>
@@ -5500,7 +6029,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                 </xsl:for-each>
                                                 <fo:block/>
                                             </fo:block>
-                                        </fo:table-cell>
+                                        </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                     </fo:table-row>
                                     <fo:table-row>
                                         <fo:table-cell number-columns-spanned="9" padding="2pt" text-align="right" display-align="center">
@@ -5579,7 +6117,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                             <xsl:text>Name:</xsl:text>
                                                                                         </fo:inline>
                                                                                     </fo:block>
-                                                                                </fo:table-cell>
+                                                                                </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                                                 <fo:table-cell padding="1.5pt" display-align="center">
                                                                                     <fo:block>
                                                                                         <xsl:for-each select="subcontract:SubContractData">
@@ -5658,7 +6205,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                                 </xsl:for-each>
                                                                                             </xsl:for-each>
                                                                                         </xsl:for-each>
-                                                                                        <fo:block/>
+                                                                                        <fo:block/>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                                                         <xsl:for-each select="subcontract:SubContractData">
                                                                                             <xsl:for-each select="subcontract:PrimeRecipientContacts">
                                                                                                 <xsl:for-each select="subcontract:OrgRolodexDetails">
@@ -5764,7 +6320,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                             </xsl:for-each>
                                                                                         </xsl:for-each>
                                                                                     </fo:block>
-                                                                                </fo:table-cell>
+                                                                                </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                                                 <fo:table-cell padding="1.5pt" display-align="center">
                                                                                     <fo:block>
                                                                                         <fo:inline>
@@ -5847,7 +6412,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                     <fo:block>
                                                         <xsl:text>&#x2029;</xsl:text>
                                                     </fo:block>
-                                                </fo:inline-container>
+                                                </fo:inline-container>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                 <fo:table table-layout="fixed" width="100%" border-spacing="2pt">
                                                     <fo:table-column column-width="proportional-column-width(1)"/>
                                                     <fo:table-body start-indent="0pt">
@@ -5949,7 +6523,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                                 </xsl:for-each>
                                                                                             </xsl:for-each>
                                                                                         </xsl:for-each>
-                                                                                        <fo:block/>
+                                                                                        <fo:block/>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                                                         <xsl:for-each select="subcontract:SubContractData">
                                                                                             <xsl:for-each select="subcontract:PrimeAdministrativeContact">
                                                                                                 <xsl:for-each select="subcontract:RolodexDetails">
@@ -6049,7 +6632,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:inline>
                                                                                                             </xsl:otherwise>
-                                                                                                        </xsl:choose>
+                                                                                                        </xsl:choose>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                                                                     </xsl:for-each>
                                                                                                 </xsl:for-each>
                                                                                             </xsl:for-each>
@@ -6124,7 +6716,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                         </fo:table-body>
                                                                     </fo:table>
                                                                 </fo:block>
-                                                            </fo:table-cell>
+                                                            </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                         </fo:table-row>
                                                         <fo:table-row>
                                                             <fo:table-cell padding="1.5pt" display-align="center">
@@ -6225,7 +6826,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                     </fo:table>
                                                                 </fo:block>
                                                             </fo:table-cell>
-                                                        </fo:table-row>
+                                                        </fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                         <fo:table-row>
                                                             <fo:table-cell padding="1.5pt" display-align="center">
                                                                 <fo:block>
@@ -6309,7 +6919,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                             <xsl:text>Name:</xsl:text>
                                                                                         </fo:inline>
                                                                                     </fo:block>
-                                                                                </fo:table-cell>
+                                                                                </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                                                 <fo:table-cell padding="1.5pt" display-align="center">
                                                                                     <fo:block>
                                                                                         <xsl:for-each select="subcontract:SubContractData">
@@ -6402,7 +7021,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                                                 <xsl:copy-of select="$value-of-template"/>
                                                                                                             </fo:inline>
                                                                                                         </xsl:otherwise>
-                                                                                                    </xsl:choose>
+                                                                                                    </xsl:choose>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                                                                 </xsl:for-each>
                                                                                             </xsl:for-each>
                                                                                         </xsl:for-each>
@@ -6491,7 +7119,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                             <xsl:text>State:</xsl:text>
                                                                                         </fo:inline>
                                                                                     </fo:block>
-                                                                                </fo:table-cell>
+                                                                                </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                                                 <fo:table-cell number-columns-spanned="2" padding="2pt" text-align="left" display-align="center">
                                                                                     <fo:block>
                                                                                         <xsl:for-each select="subcontract:SubContractData">
@@ -6602,7 +7239,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                             </xsl:for-each>
                                                                                         </xsl:for-each>
                                                                                     </fo:block>
-                                                                                </fo:table-cell>
+                                                                                </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                                                 <fo:table-cell padding="1.5pt" text-align="left" display-align="center">
                                                                                     <fo:block>
                                                                                         <fo:inline>
@@ -6689,7 +7335,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                 </fo:table-cell>
                                                                             </fo:table-row>
                                                                         </fo:table-body>
-                                                                    </fo:table>
+                                                                    </fo:table>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                                 </fo:block>
                                                             </fo:table-cell>
                                                         </fo:table-row>
@@ -6761,7 +7416,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                     </fo:table>
                                                                 </fo:block>
                                                             </fo:table-cell>
-                                                        </fo:table-row>
+                                                        </fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                         <fo:table-row>
                                                             <fo:table-cell padding="1.5pt" display-align="center">
                                                                 <fo:block>
@@ -6856,7 +7520,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                             </xsl:for-each>
                                                                                         </xsl:for-each>
                                                                                     </fo:block>
-                                                                                </fo:table-cell>
+                                                                                </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                                             </fo:table-row>
                                                                         </fo:table-body>
                                                                     </fo:table>
@@ -6945,7 +7618,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                                     </xsl:for-each>
                                                                                                 </xsl:for-each>
                                                                                             </xsl:for-each>
-                                                                                        </xsl:for-each>
+                                                                                        </xsl:for-each>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                                                     </fo:block>
                                                                                 </fo:table-cell>
                                                                                 <fo:table-cell padding="1.5pt" display-align="center">
@@ -7037,7 +7719,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                             </xsl:for-each>
                                                                                         </xsl:for-each>
                                                                                     </fo:block>
-                                                                                </fo:table-cell>
+                                                                                </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                                                 <fo:table-cell padding="1.5pt" text-align="left" display-align="center">
                                                                                     <fo:block>
                                                                                         <fo:inline>
@@ -7133,7 +7824,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                             </fo:table-cell>
                                                         </fo:table-row>
                                                     </fo:table-body>
-                                                </fo:table>
+                                                </fo:table>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
 
 
 
@@ -7224,7 +7924,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                             <xsl:text>Address:</xsl:text>
                                                                                         </fo:inline>
                                                                                     </fo:block>
-                                                                                </fo:table-cell>
+                                                                                </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                                                 <fo:table-cell padding="1.5pt" display-align="center">
                                                                                     <fo:block>
                                                                                         <xsl:for-each select="subcontract:SubContractData">
@@ -7305,7 +8014,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                     </fo:table>
                                                                 </fo:block>
                                                             </fo:table-cell>
-                                                        </fo:table-row>
+                                                        </fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                         <fo:table-row>
                                                             <fo:table-cell padding="1.5pt" display-align="center">
                                                                 <fo:block>
@@ -7395,7 +8113,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                     <fo:block>
                                                                                         <fo:inline>
                                                                                             <xsl:text>Zip Code: </xsl:text>
-                                                                                        </fo:inline>
+                                                                                        </fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                                                         <xsl:for-each select="subcontract:SubContractData">
                                                                                             <xsl:for-each select="subcontract:PrimeAuthorizedOfficial">
                                                                                                 <xsl:for-each select="subcontract:RolodexDetails">
@@ -7487,7 +8214,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                             <xsl:text>Fax:</xsl:text>
                                                                                         </fo:inline>
                                                                                     </fo:block>
-                                                                                </fo:table-cell>
+                                                                                </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                                                                                 <fo:table-cell padding="1.5pt" text-align="left" display-align="center">
                                                                                     <fo:block>
                                                                                         <xsl:for-each select="subcontract:SubContractData">
@@ -7586,7 +8322,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                 </fo:table-body>
                             </fo:table>
                         </xsl:for-each>
-                    </fo:block>
+                    </fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
                     <fo:block id="SV_RefID_PageTotal"/>
                 </fo:flow>
             </fo:page-sequence>
@@ -7623,12 +8368,20 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:choose>
 </xsl:template>
 </xsl:stylesheet>
-','FDP Attachment 3A.xsl','application/octet-stream',1,SYS_GUID(),3);
+';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
 
 delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP_ATT_3B';
-
-INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_ATT_3B',	'FDP Attachment 3B',sysdate,'admin',
-'<?xml version="1.0" encoding="UTF-8"?>
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_ATT_3B',	'FDP Attachment 3B',sysdate,'admin', EMPTY_CLOB(),'FDP Attachment 3B.xsl','application/octet-stream',1,SYS_GUID(),3);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 	<xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
 	<xsl:param name="SV_OutputFormat" select="''PDF''"/>
@@ -7664,7 +8417,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 								<fo:table-column column-width="proportional-column-width(1)"/>
 								<fo:table-column column-width="proportional-column-width(1)"/>
 								<fo:table-column column-width="proportional-column-width(1)"/>
-								<fo:table-column column-width="proportional-column-width(1)"/>
+								<fo:table-column column-width="proportional-column-width(1)"/>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 								<fo:table-body start-indent="0pt">
 									<fo:table-row font-family="Arial">
 										<fo:table-cell font-family="Arial" font-size="9pt" number-columns-spanned="9" padding="2pt" height="32" text-align="right" display-align="before">
@@ -7752,7 +8514,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 													<fo:block>
 														<xsl:text>&#x2029;</xsl:text>
 													</fo:block>
-												</fo:inline-container>
+												</fo:inline-container>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 												<fo:table font-family="Arial" font-size="9pt" table-layout="fixed" width="100%" border-spacing="2pt">
 													<fo:table-column column-width="8%"/>
 													<fo:table-column column-width="30%"/>
@@ -7853,7 +8624,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																				</xsl:for-each>
 																			</xsl:for-each>
 																		</xsl:for-each>
-																	</xsl:for-each>
+																	</xsl:for-each>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 																	<fo:inline>
 																		<xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
 																	</fo:inline>
@@ -7933,7 +8713,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																<fo:block>
 																	<fo:inline>
 																		<xsl:text>Zip Code +4: </xsl:text>
-																	</fo:inline>
+																	</fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 																	<xsl:for-each select="subcontract:SubContractData">
 																		<xsl:for-each select="subcontract:SubcontractDetail">
 																			<xsl:for-each select="subcontract:SubcontractorOrgRolodexDetails">
@@ -8026,7 +8815,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	<fo:inline>
 																		<xsl:text>Is the Performance Site the Same Address as Above? </xsl:text>
 																	</fo:inline>
-																	<xsl:choose>
+																	<xsl:choose>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 																		<xsl:when test="subcontract:SubContractData/subcontract:SubcontractTemplateInfo/subcontract:PerfSiteDiffFromOrgAddr = &quot;Y&quot;">
 																			<fo:inline>
 																				<xsl:text>Yes</xsl:text>
@@ -8123,7 +8921,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																			<xsl:for-each select="subcontract:ParentDunsNumber">
 																				<xsl:variable name="value-of-template">
 																					<xsl:apply-templates/>
-																				</xsl:variable>
+																				</xsl:variable>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 																				<xsl:choose>
 																					<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 																						<fo:block>
@@ -8228,7 +9035,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 															</fo:table-cell>
 														</fo:table-row>
 													</fo:table-body>
-												</fo:table>
+												</fo:table>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 												<fo:block text-align="center">
 													<fo:leader leader-pattern="rule" rule-thickness="1" leader-length="100%" color="black"/>
 												</fo:block>
@@ -8306,7 +9122,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																							<fo:block>
 																								<xsl:copy-of select="$value-of-template"/>
 																							</fo:block>
-																						</xsl:when>
+																						</xsl:when>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 																						<xsl:otherwise>
 																							<fo:inline>
 																								<xsl:copy-of select="$value-of-template"/>
@@ -8390,7 +9215,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:block>
 															</fo:table-cell>
 															<fo:table-cell number-columns-spanned="9" padding="2pt" text-align="left" display-align="center">
-																<fo:block>
+																<fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 																	<xsl:for-each select="subcontract:SubContractData">
 																		<xsl:for-each select="subcontract:AdministrativeContact">
 																			<xsl:for-each select="subcontract:RolodexDetails">
@@ -8483,7 +9317,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																			</xsl:for-each>
 																		</xsl:for-each>
 																	</xsl:for-each>
-																</fo:block>
+																</fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 															</fo:table-cell>
 															<fo:table-cell padding="2pt" text-align="left" display-align="center">
 																<fo:block>
@@ -8573,7 +9416,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 													</fo:block>
 												</fo:inline-container>
 												<fo:table font-family="Arial" font-size="9pt" table-layout="fixed" width="100%" border-spacing="2pt">
-													<fo:table-column column-width="8%"/>
+													<fo:table-column column-width="8%"/>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 													<fo:table-column column-width="30%"/>
 													<fo:table-column column-width="5%"/>
 													<fo:table-column column-width="proportional-column-width(1)"/>
@@ -8661,7 +9513,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																					</xsl:variable>
 																					<xsl:choose>
 																						<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
-																							<fo:block>
+																							<fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 																								<xsl:copy-of select="$value-of-template"/>
 																							</fo:block>
 																						</xsl:when>
@@ -8752,7 +9613,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	<fo:inline>
 																		<xsl:text>Zip Code: </xsl:text>
 																	</fo:inline>
-																	<xsl:for-each select="subcontract:SubContractData">
+																	<xsl:for-each select="subcontract:SubContractData">';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 																		<xsl:for-each select="subcontract:SubcontractDetail">
 																			<xsl:for-each select="subcontract:SiteInvestigatorDetails">
 																				<xsl:for-each select="subcontract:Pincode">
@@ -8847,7 +9717,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																				</xsl:for-each>
 																			</xsl:for-each>
 																		</xsl:for-each>
-																	</xsl:for-each>
+																	</xsl:for-each>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 																</fo:block>
 															</fo:table-cell>
 															<fo:table-cell number-columns-spanned="6" padding="2pt" text-align="left" display-align="center">
@@ -8940,7 +9819,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																						<xsl:otherwise>
 																							<fo:inline>
 																								<xsl:copy-of select="$value-of-template"/>
-																							</fo:inline>
+																							</fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 																						</xsl:otherwise>
 																					</xsl:choose>
 																				</xsl:for-each>
@@ -9026,7 +9914,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																					<xsl:variable name="value-of-template">
 																						<xsl:apply-templates/>
 																					</xsl:variable>
-																					<xsl:choose>
+																					<xsl:choose>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 																						<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 																							<fo:block>
 																								<xsl:copy-of select="$value-of-template"/>
@@ -9118,7 +10015,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:block>
 															</fo:table-cell>
 															<fo:table-cell padding="2pt" text-align="left" display-align="center">
-																<fo:block>
+																<fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 																	<xsl:for-each select="subcontract:SubContractData">
 																		<xsl:for-each select="subcontract:FinancialContact">
 																			<xsl:for-each select="subcontract:RolodexDetails">
@@ -9215,7 +10121,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																		</xsl:for-each>
 																	</xsl:for-each>
 																</fo:block>
-															</fo:table-cell>
+															</fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 															<fo:table-cell padding="2pt" display-align="center">
 																<fo:block/>
 															</fo:table-cell>
@@ -9300,7 +10215,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																							</fo:block>
 																						</xsl:when>
 																						<xsl:otherwise>
-																							<fo:inline>
+																							<fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 																								<xsl:copy-of select="$value-of-template"/>
 																							</fo:inline>
 																						</xsl:otherwise>
@@ -9392,7 +10316,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																					</xsl:variable>
 																					<xsl:choose>
 																						<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
-																							<fo:block>
+																							<fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 																								<xsl:copy-of select="$value-of-template"/>
 																							</fo:block>
 																						</xsl:when>
@@ -9482,7 +10415,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	<fo:inline>
 																		<xsl:text>Fax:</xsl:text>
 																	</fo:inline>
-																</fo:block>
+																</fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 															</fo:table-cell>
 															<fo:table-cell number-columns-spanned="4" padding="2pt" text-align="left" display-align="center">
 																<fo:block>
@@ -9579,7 +10521,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 <xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 <xsl:choose>
 <xsl:when test="$text-after-bs-length = 0">
-<xsl:choose>
+<xsl:choose>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B' FOR UPDATE;
+  buffer :='
 <xsl:when test="substring($text, $text-length) = ''\\''">
 <xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
 </xsl:when>
@@ -9598,13 +10549,20 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:choose>
 </xsl:template>
 </xsl:stylesheet>
-
-','FDP Attachment 3B.xsl','application/octet-stream',1,SYS_GUID(),3);
+';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
 
 delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP_ATT_3B_2';
-
-INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_ATT_3B_2',	'FDP Attachment 3BPage2',sysdate,'admin',
-'<?xml version="1.0" encoding="UTF-8"?>
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_ATT_3B_2',	'FDP Attachment 3BPage2',sysdate,'admin', EMPTY_CLOB(),'FDP Attachment 3BPage2.xsl','application/octet-stream',1,SYS_GUID(),3);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B_2' FOR UPDATE;
+  buffer :='<?xml version="1.0" encoding="UTF-8"?>
 <!--Designed and generated by Altova StyleVision Enterprise Edition 2008 rel. 2 - see http://www.altova.com/stylevision for more information.-->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 	<xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
@@ -9669,7 +10627,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 												</fo:block>
 											</fo:block>
 										</fo:table-cell>
-									</fo:table-row>
+									</fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B_2' FOR UPDATE;
+  buffer :='
 									<fo:table-row>
 										<fo:table-cell number-columns-spanned="9" padding="2pt" text-align="right" display-align="center">
 											<fo:block>
@@ -9752,7 +10719,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 														</xsl:for-each>
 													</xsl:for-each>
 												</xsl:for-each>
-												<fo:block/>
+												<fo:block/>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B_2' FOR UPDATE;
+  buffer :='
 												<fo:block text-align="center">
 													<fo:leader leader-pattern="rule" rule-thickness="1" leader-length="100%" color="black"/>
 												</fo:block>
@@ -9846,7 +10822,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	<fo:inline>
 																		<xsl:text>Fax:</xsl:text>
 																	</fo:inline>
-																</fo:block>
+																</fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B_2' FOR UPDATE;
+  buffer :='
 															</fo:table-cell>
 															<fo:table-cell number-columns-spanned="3" padding="2pt" text-align="left" display-align="center">
 																<fo:block/>
@@ -9931,7 +10916,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																		<xsl:text>&#160;&#160;&#160;&#160; (I) 80 percent or more of its annual gross revenues in Federal awards (federal contracts (and subcontracts), loans, grants (and subgrants) and cooperative agreements); AND</xsl:text>
 																	</fo:inline>
 																	<fo:block/>
-																	<fo:block>
+																	<fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B_2' FOR UPDATE;
+  buffer :='
 																		<fo:leader leader-pattern="space"/>
 																	</fo:block>
 																	<fo:inline-container>
@@ -10019,7 +11013,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																						<fo:block/>
 																					</fo:table-cell>
 																				</fo:table-row>
-																				<fo:table-row>
+																				<fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B_2' FOR UPDATE;
+  buffer :='
 																					<fo:table-cell padding="2pt" display-align="center">
 																						<fo:block>
 																							<fo:inline>
@@ -10110,7 +11113,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																								<xsl:text>Officer 5 Name</xsl:text>
 																							</fo:inline>
 																						</fo:block>
-																					</fo:table-cell>
+																					</fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3B_2' FOR UPDATE;
+  buffer :='
 																					<fo:table-cell padding="2pt" display-align="center">
 																						<fo:block/>
 																					</fo:table-cell>
@@ -10178,13 +11190,20 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:choose>
 </xsl:template>
 </xsl:stylesheet>
-
-','FDP Attachment 3BPage2.xsl','application/octet-stream',1,SYS_GUID(),3);
+';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
 
 delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP_DOE';
-
-INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_DOE',	'DOE Attachment',sysdate,'admin',
-'<?xml version="1.0" encoding="UTF-8"?>
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_DOE',	'DOE Attachment',sysdate,'admin', EMPTY_CLOB(),'DOE Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_DOE' FOR UPDATE;
+  buffer :='<?xml version="1.0" encoding="UTF-8"?>
 <!--Designed and generated by Altova StyleVision Enterprise Edition 2008 rel. 2 - see http://www.altova.com/stylevision for more information.-->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 	<xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
@@ -10288,7 +11307,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																<xsl:value-of select="substring(string(&apos;nsf.gov/bfa/dias/policy/rtc/appc.pdf  &apos;), 2)"/>
 															</xsl:attribute>
 														</xsl:when>
-														<xsl:otherwise>
+														<xsl:otherwise>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_DOE' FOR UPDATE;
+  buffer :='
 															<xsl:attribute name="external-destination">
 																<xsl:text>url(</xsl:text>
 																<xsl:call-template name="double-backslash">
@@ -10390,7 +11418,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																			</xsl:variable>
 																			<xsl:choose>
 																				<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
-																					<fo:block>
+																					<fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_DOE' FOR UPDATE;
+  buffer :='
 																						<xsl:copy-of select="$value-of-template"/>
 																					</fo:block>
 																				</xsl:when>
@@ -10483,7 +11520,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																			<xsl:attribute name="internal-destination">
 																				<xsl:value-of select="substring(string(&apos;nsf.gov/pubs/policydocs/rtc/doe_708.pdf&apos;), 2)"/>
 																			</xsl:attribute>
-																		</xsl:when>
+																		</xsl:when>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_DOE' FOR UPDATE;
+  buffer :='
 																		<xsl:otherwise>
 																			<xsl:attribute name="external-destination">
 																				<xsl:text>url(</xsl:text>
@@ -10573,7 +11619,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 										</fo:table-cell>
 									</fo:table-row>
 								</fo:table-body>
-							</fo:table>
+							</fo:table>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_DOE' FOR UPDATE;
+  buffer :='
 							<fo:inline-container>
 								<fo:block>
 									<xsl:text>&#x2029;</xsl:text>
@@ -10659,7 +11714,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																		<fo:inline>
 																			<xsl:text>grants</xsl:text>
 																		</fo:inline>
-																	</xsl:when>
+																	</xsl:when>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_DOE' FOR UPDATE;
+  buffer :='
 																	<xsl:when test="subcontract:SubContractData/subcontract:SubcontractTemplateInfo/subcontract:CopyRights = &quot;2&quot;">
 																		<fo:inline>
 																			<xsl:text>shall grant</xsl:text>
@@ -10751,7 +11815,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="headerall">
 		<fo:static-content flow-name="xsl-region-before">
 			<fo:block>
-				<xsl:for-each select="$XML"/>
+				<xsl:for-each select="$XML"/>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_DOE' FOR UPDATE;
+  buffer :='
 			</fo:block>
 		</fo:static-content>
 	</xsl:template>
@@ -10781,12 +11854,21 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:choose>
 </xsl:template>
 </xsl:stylesheet>
-','DOE Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
 
 delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP_EPA';
-
-INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_EPA',	'EPA Attachment',sysdate,'admin',
-'<?xml version="1.0" encoding="UTF-8"?>
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_EPA',	'EPA Attachment',sysdate,'admin', EMPTY_CLOB(),'EPA Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_EPA' FOR UPDATE;
+  buffer :='<?xml version="1.0" encoding="UTF-8"?>
 <!--Designed and generated by Altova StyleVision Enterprise Edition 2008 rel. 2 - see http://www.altova.com/stylevision for more information.-->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 	<xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
@@ -10848,8 +11930,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 										</fo:table-cell>
 									</fo:table-row>
 								</fo:table-body>
-							</fo:table>
-							<fo:inline-container>
+							</fo:table>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_EPA' FOR UPDATE;
+  buffer :='							<fo:inline-container>
 								<fo:block>
 									<xsl:text>&#x2029;</xsl:text>
 								</fo:block>
@@ -10925,7 +12015,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 							<fo:block margin="0pt">
 								<fo:block/>
 							</fo:block>
-							<fo:inline-container>
+							<fo:inline-container>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_EPA' FOR UPDATE;
+  buffer :='
 								<fo:block>
 									<xsl:text>&#x2029;</xsl:text>
 								</fo:block>
@@ -11017,7 +12116,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																				</xsl:call-template>
 																				<xsl:text>)</xsl:text>
 																			</xsl:attribute>
-																		</xsl:otherwise>
+																		</xsl:otherwise>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_EPA' FOR UPDATE;
+  buffer :='
 																	</xsl:choose>
 																	<fo:inline>
 																		<xsl:text>http://www.nsf.gov/bfa/dias/policy/rtc/terms.pdf</xsl:text>
@@ -11107,7 +12215,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 													<fo:list-item>
 														<fo:list-item-label end-indent="label-end()" text-align="right">
 															<fo:block>
-																<xsl:number format="1" value="4"/>.</fo:block>
+																<xsl:number format="1" value="4"/>.</fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_EPA' FOR UPDATE;
+  buffer :='
 														</fo:list-item-label>
 														<fo:list-item-body start-indent="body-start()">
 															<fo:block>
@@ -11201,7 +12318,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient </xsl:text>
+																	<xsl:text>Subrecipient </xsl:text>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_EPA' FOR UPDATE;
+  buffer :='
 																</fo:inline>
 																<xsl:choose>
 																	<xsl:when test="subcontract:SubContractData/subcontract:SubcontractTemplateInfo/subcontract:CopyRights = &quot;1&quot;">
@@ -11294,7 +12420,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 					</fo:block>
 					<fo:block id="SV_RefID_PageTotal"/>
 				</fo:flow>
-			</fo:page-sequence>
+			</fo:page-sequence>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_EPA' FOR UPDATE;
+  buffer :='
 		</fo:root>
 	</xsl:template>
 	<xsl:template name="headerall">
@@ -11329,13 +12464,21 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:otherwise>
 </xsl:choose>
 </xsl:template>
-</xsl:stylesheet>
-','EPA Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+</xsl:stylesheet>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
 
 delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP_NASA';
-
-INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_NASA',	'NASA Attachment',sysdate,'admin',
-'<?xml version="1.0" encoding="UTF-8"?>
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_NASA',	'NASA Attachment',sysdate,'admin', EMPTY_CLOB(),'NASA Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NASA' FOR UPDATE;
+  buffer :='<?xml version="1.0" encoding="UTF-8"?>
 <!--Designed and generated by Altova StyleVision Enterprise Edition 2008 rel. 2 - see http://www.altova.com/stylevision for more information.-->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 	<xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
@@ -11394,8 +12537,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 													</fo:block>
 												</fo:block>
 											</fo:block>
-										</fo:table-cell>
-									</fo:table-row>
+										</fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+  DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NASA' FOR UPDATE;
+  buffer :='									</fo:table-row>
 								</fo:table-body>
 							</fo:table>
 							<fo:inline-container>
@@ -11465,7 +12616,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 							</fo:table>
 							<fo:block>
 								<fo:leader leader-pattern="space"/>
-							</fo:block>
+							</fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+  DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NASA' FOR UPDATE;
+  buffer :='
 							<fo:inline-container>
 								<fo:block>
 									<xsl:text>&#x2029;</xsl:text>
@@ -11553,7 +12713,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																				<xsl:value-of select="substring(string(&apos;nsf.gov/pubs/policydocs/rtc/termsidebyside_june11.pdf&apos;), 2)"/>
 																			</xsl:attribute>
 																		</xsl:when>
-																		<xsl:otherwise>
+																		<xsl:otherwise>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+  DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NASA' FOR UPDATE;
+  buffer :='
 																			<xsl:attribute name="external-destination">
 																				<xsl:text>url(</xsl:text>
 																				<xsl:call-template name="double-backslash">
@@ -11653,7 +12822,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 															</fo:block>
 														</fo:list-item-body>
 													</fo:list-item>
-													<fo:list-item>
+													<fo:list-item>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+  DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NASA' FOR UPDATE;
+  buffer :='
 														<fo:list-item-label end-indent="label-end()" text-align="right">
 															<fo:block>
 																<xsl:number format="1" value="4"/>.</fo:block>
@@ -11737,7 +12915,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
-													</fo:list-item>
+													</fo:list-item>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+  DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NASA' FOR UPDATE;
+  buffer :='
 													<fo:list-item>
 														<fo:list-item-label end-indent="label-end()" text-align="right">
 															<fo:block>
@@ -11828,7 +13015,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	<xsl:text>&#160;&#160;&#160;&#160; </xsl:text>
 																</fo:inline>
 															</fo:block>
-														</fo:list-item-body>
+														</fo:list-item-body>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+  DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NASA' FOR UPDATE;
+  buffer :='
 													</fo:list-item>
 												</fo:list-block>
 											</fo:block>
@@ -11879,12 +13075,20 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:choose>
 </xsl:template>
 </xsl:stylesheet>
-','NASA Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
 
 delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP_NIH';
-
-INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_NIH',	'NIH Attachment',sysdate,'admin',
-'<?xml version="1.0" encoding="UTF-8"?>
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_NIH',	'NIH Attachment',sysdate,'admin', EMPTY_CLOB(),'NIH Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NIH' FOR UPDATE;
+  buffer :='<?xml version="1.0" encoding="UTF-8"?>
         <!--Designed and generated by Altova StyleVision Enterprise Edition 2008 rel. 2 - see http://www.altova.com/stylevision for more information.-->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract"
@@ -11979,8 +13183,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                         </fo:block>
                     </fo:block>
                 </fo:table-cell>
-            </fo:table-row>
-            <fo:table-row font-size="10pt" font-weight="normal">
+            </fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NIH' FOR UPDATE;
+  buffer :='            <fo:table-row font-size="10pt" font-weight="normal">
                 <fo:table-cell padding="0" display-align="center">
                     <fo:block>
                         <fo:inline>
@@ -12089,7 +13301,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                         </fo:inline>
                                     </fo:block>
                                 </fo:list-item-body>
-                            </fo:list-item>
+                            </fo:list-item>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NIH' FOR UPDATE;
+  buffer :='
                             <fo:list-item>
                                 <fo:list-item-label end-indent="label-end()" text-align="right">
                                     <fo:block>
@@ -12194,7 +13415,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                         <xsl:text>)</xsl:text>
                                                     </xsl:attribute>
                                                 </xsl:otherwise>
-                                            </xsl:choose>
+                                            </xsl:choose>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NIH' FOR UPDATE;
+  buffer :='
                                             <fo:inline>
                                                 <xsl:text> http://www.nsf.gov/pubs/policydocs/rtc/termsidebyside_june11.pdf </xsl:text>
                                             </fo:inline>
@@ -12286,7 +13516,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                             </fo:list-item>
                         </fo:list-block>
                     </fo:block>
-                </fo:list-item-body>
+                </fo:list-item-body>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NIH' FOR UPDATE;
+  buffer :='
             </fo:list-item>
             <fo:list-item>
                 <fo:list-item-label end-indent="label-end()" text-align="right">
@@ -12378,7 +13617,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                     <xsl:text>)</xsl:text>
                                 </xsl:attribute>
                             </fo:external-graphic>
-                        </xsl:when>
+                        </xsl:when>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NIH' FOR UPDATE;
+  buffer :='
                         <xsl:when
                                 test="subcontract:SubContractData/subcontract:SubcontractTemplateInfo/subcontract:TreatmentPrgmIncomeAdditive = &quot;Y&quot;">
                             <fo:external-graphic content-height="8" content-width="7">
@@ -12468,7 +13716,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                     <fo:inline>
                                         <xsl:text>grants</xsl:text>
                                     </fo:inline>
-                                </xsl:when>
+                                </xsl:when>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NIH' FOR UPDATE;
+  buffer :='
                                 <xsl:when
                                         test="subcontract:SubContractData/subcontract:SubcontractTemplateInfo/subcontract:CopyRights = &quot;2&quot;">
                                     <fo:inline>
@@ -12556,7 +13813,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                 <xsl:copy-of select="$value-of-template"/>
                                             </fo:block>
                                         </xsl:when>
-                                        <xsl:otherwise>
+                                        <xsl:otherwise>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NIH' FOR UPDATE;
+  buffer :='
                                             <fo:inline>
                                                 <xsl:copy-of select="$value-of-template"/>
                                             </fo:inline>
@@ -12644,7 +13910,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                             </fo:inline-container>
                                                             <fo:list-block provisional-distance-between-starts="7mm"
                                                                            provisional-label-separation="2mm">
-                                                                <fo:list-item>
+                                                                <fo:list-item>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NIH' FOR UPDATE;
+  buffer :='
                                                                     <fo:list-item-label end-indent="label-end()"
                                                                                         text-align="right">
                                                                         <fo:block>
@@ -12748,7 +14023,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
                                                                                 <xsl:text>Such report shall be made before expenditure of funds authorized in this Subrecipient Agreement and within 45 days of any subsequently identified financial conflict of interest.</xsl:text>
                                                                             </fo:inline>
                                                                         </fo:block>
-                                                                    </fo:list-item-body>
+                                                                    </fo:list-item-body>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NIH' FOR UPDATE;
+  buffer :='
                                                                 </fo:list-item>
                                                             </fo:list-block>
                                                         </fo:block>
@@ -12818,12 +14102,21 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:choose>
 </xsl:template>
 </xsl:stylesheet>
-','NIH Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
 
 delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP_NSF';
-
-INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_NSF',	'NSF Attachment',sysdate,'admin',
-'<?xml version="1.0" encoding="UTF-8"?>
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_NSF',	'NSF Attachment',sysdate,'admin', EMPTY_CLOB(), 'NSF Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NSF' FOR UPDATE;
+  buffer :='<?xml version="1.0" encoding="UTF-8"?>
 <!--Designed and generated by Altova StyleVision Enterprise Edition 2008 rel. 2 - see http://www.altova.com/stylevision for more information.-->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 	<xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
@@ -12921,8 +14214,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 													<xsl:text> By signing this Research Subaward Agreement Subrecipient makes the certifications and assurances specified in the Research Terms and Conditions Appendix C found at </xsl:text>
 												</fo:inline>
 												<fo:basic-link text-decoration="underline" color="blue">
-													<xsl:choose>
-														<xsl:when test="substring(string(&apos;nsf.gov/bfa/dias/policy/rtc/appc_june11.pdf&apos;), 1, 1) = ''#''">
+													<xsl:choose>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NSF' FOR UPDATE;
+  buffer :='														<xsl:when test="substring(string(&apos;nsf.gov/bfa/dias/policy/rtc/appc_june11.pdf&apos;), 1, 1) = ''#''">
 															<xsl:attribute name="internal-destination">
 																<xsl:value-of select="substring(string(&apos;nsf.gov/bfa/dias/policy/rtc/appc_june11.pdf&apos;), 2)"/>
 															</xsl:attribute>
@@ -13017,7 +14318,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	<xsl:text>The restrictions on the expenditure of federal funds in appropriations acts are applicable to this subaward to the extent those restrictions are pertinent.</xsl:text>
 																</fo:inline>
 															</fo:block>
-														</fo:list-item-body>
+														</fo:list-item-body>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NSF' FOR UPDATE;
+  buffer :='
 													</fo:list-item>
 													<fo:list-item>
 														<fo:list-item-label end-indent="label-end()" text-align="right">
@@ -13105,7 +14415,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																				<xsl:text>)</xsl:text>
 																			</xsl:attribute>
 																		</xsl:otherwise>
-																	</xsl:choose>
+																	</xsl:choose>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NSF' FOR UPDATE;
+  buffer :='
 																	<fo:inline>
 																		<xsl:text>http://www.nsf.gov/pubs/policydocs/rtc/nsf_212.pdf</xsl:text>
 																	</fo:inline>
@@ -13196,7 +14515,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 												<fo:inline>
 													<xsl:text>Special terms and conditions: </xsl:text>
 												</fo:inline>
-											</fo:block>
+											</fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NSF' FOR UPDATE;
+  buffer :='
 										</fo:table-cell>
 										<fo:table-cell font-family="time" font-size="10pt" padding="2pt" display-align="center">
 											<fo:block>
@@ -13287,7 +14615,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 														<fo:list-item-label end-indent="label-end()" text-align="right">
 															<fo:block>
 																<xsl:number format="1" value="3"/>.</fo:block>
-														</fo:list-item-label>
+														</fo:list-item-label>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_NSF' FOR UPDATE;
+  buffer :='
 														<fo:list-item-body start-indent="body-start()">
 															<fo:block>
 																<fo:inline>
@@ -13388,12 +14725,21 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:choose>
 </xsl:template>
 </xsl:stylesheet>
-','NSF Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
 
 delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP_ONR';
-
-INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_ONR',	'ONR Attachment',sysdate,'admin',
-'<?xml version="1.0" encoding="UTF-8"?>
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_ONR',	'ONR Attachment',sysdate,'admin', EMPTY_CLOB(), 'ONR Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_ONR' FOR UPDATE;
+  buffer :='<?xml version="1.0" encoding="UTF-8"?>
 <!--Designed and generated by Altova StyleVision Enterprise Edition 2008 rel. 2 - see http://www.altova.com/stylevision for more information.-->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 	<xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
@@ -13478,8 +14824,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 														<xsl:text>&#x2029;</xsl:text>
 													</fo:block>
 												</fo:inline-container>
-												<fo:block margin="0pt">
-													<fo:block/>
+												<fo:block margin="0pt">';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_ONR' FOR UPDATE;
+  buffer :='													<fo:block/>
 												</fo:block>
 											</fo:block>
 										</fo:table-cell>
@@ -13564,7 +14918,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 											<fo:block>
 												<fo:inline-container>
 													<fo:block>
-														<xsl:text>&#x2029;</xsl:text>
+														<xsl:text>&#x2029;</xsl:text>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_ONR' FOR UPDATE;
+  buffer :='
 													</fo:block>
 												</fo:inline-container>
 												<fo:list-block provisional-distance-between-starts="7mm" provisional-label-separation="2mm">
@@ -13658,7 +15021,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:basic-link>
 																<fo:inline>
 																	<xsl:text> and Agency Specific Requirements found at </xsl:text>
-																</fo:inline>
+																</fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_ONR' FOR UPDATE;
+  buffer :='
 																<fo:basic-link text-decoration="underline" color="blue">
 																	<xsl:choose>
 																		<xsl:when test="substring(string(&apos;nsf.gov/pubs/policydocs/rtc/onr_708.pdf&apos;), 1, 1) = ''#''">
@@ -13747,7 +15119,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																<fo:inline>
 																	<xsl:text>Title to equipment costing $5,000 or more that is purchased or fabricated with research funds or Subrecipient cost sharing&#160;&#160;&#160; funds, as direct costs of the project or program, shall unconditionally vest in the Subrecipient upon acquisition without further obligation to the Federal Awarding Agency subject to the conditions specified in Article 34(a) of the Research Terms and Conditions</xsl:text>
 																</fo:inline>
-															</fo:block>
+															</fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_ONR' FOR UPDATE;
+  buffer :='
 														</fo:list-item-body>
 													</fo:list-item>
 												</fo:list-block>
@@ -13836,7 +15217,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																<fo:inline>
 																	<xsl:text>Subrecipient </xsl:text>
 																</fo:inline>
-																<xsl:choose>
+																<xsl:choose>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_ONR' FOR UPDATE;
+  buffer :='
 																	<xsl:when test="subcontract:SubContractData/subcontract:SubcontractTemplateInfo/subcontract:CopyRights = &quot;1&quot;">
 																		<fo:inline>
 																			<xsl:text>grants</xsl:text>
@@ -13929,7 +15319,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</fo:flow>
 			</fo:page-sequence>
 		</fo:root>
-	</xsl:template>
+	</xsl:template>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_ONR' FOR UPDATE;
+  buffer :='
 	<xsl:template name="headerall">
 		<fo:static-content flow-name="xsl-region-before">
 			<fo:block>
@@ -13963,11 +15362,20 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:choose>
 </xsl:template>
 </xsl:stylesheet>
-','ONR Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
-delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP_USDA';
+';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
 
-INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_USDA',	'USDA Attachment',sysdate,'admin',
-'<?xml version="1.0" encoding="UTF-8"?>
+delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP_USDA';
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_USDA',	'USDA Attachment',sysdate,'admin', EMPTY_CLOB(),'USDA Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_USDA' FOR UPDATE;
+  buffer :='<?xml version="1.0" encoding="UTF-8"?>
 <!--Designed and generated by Altova StyleVision Enterprise Edition 2008 rel. 2 - see http://www.altova.com/stylevision for more information.-->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 	<xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
@@ -14029,8 +15437,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 										</fo:table-cell>
 									</fo:table-row>
 								</fo:table-body>
-							</fo:table>
-							<fo:inline-container>
+							</fo:table>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_USDA' FOR UPDATE;
+  buffer :='							<fo:inline-container>
 								<fo:block>
 									<xsl:text>&#x2029;</xsl:text>
 								</fo:block>
@@ -14098,7 +15514,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 							<fo:block>
 								<fo:leader leader-pattern="space"/>
 							</fo:block>
-							<fo:inline-container>
+							<fo:inline-container> ';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_USDA' FOR UPDATE;
+  buffer :='
 								<fo:block>
 									<xsl:text>&#x2029;</xsl:text>
 								</fo:block>
@@ -14188,7 +15613,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																		<xsl:otherwise>
 																			<xsl:attribute name="external-destination">
 																				<xsl:text>url(</xsl:text>
-																				<xsl:call-template name="double-backslash">
+																				<xsl:call-template name="double-backslash">';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_USDA' FOR UPDATE;
+  buffer :='
 																					<xsl:with-param name="text">
 																						<xsl:value-of select="string(&apos;nsf.gov/bfa/dias/policy/rtc/terms.pdf&apos;)"/>
 																					</xsl:with-param>
@@ -14281,7 +15715,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																			</fo:block>
 																		</fo:list-item-body>
 																	</fo:list-item>
-																</fo:list-block>
+																</fo:list-block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_USDA' FOR UPDATE;
+  buffer :='
 															</fo:block>
 														</fo:list-item-body>
 													</fo:list-item>
@@ -14376,7 +15819,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																<xsl:number format="1" value="2"/>.</fo:block>
 														</fo:list-item-label>
 														<fo:list-item-body start-indent="body-start()">
-															<fo:block>
+															<fo:block>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_USDA' FOR UPDATE;
+  buffer :='
 																<fo:inline>
 																	<xsl:text>Data Rights</xsl:text>
 																</fo:inline>
@@ -14465,7 +15917,16 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 												</fo:list-block>
 											</fo:block>
 										</fo:table-cell>
-									</fo:table-row>
+									</fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=2 AND FORM_ID = 'FDP_USDA' FOR UPDATE;
+  buffer :='
 								</fo:table-body>
 							</fo:table>
 							<fo:block/>
@@ -14511,4 +15972,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 </xsl:choose>
 </xsl:template>
 </xsl:stylesheet>
-','USDA Attachment.xsl','application/octet-stream',1,SYS_GUID(),2);
+';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
