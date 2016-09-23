@@ -22,9 +22,14 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.award.AwardFixtureFactory;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.subaward.bo.*;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 import java.sql.Date;
 
@@ -79,14 +84,22 @@ public class SubAwardDocumentRuleTest extends KcIntegrationTestBase {
         subAwardCloseout.setDateRequested(new Date(2012, 1, 1));
         subAwardCloseout.setDateFollowup(new Date(2012, 2, 15));
         
+        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
+        Award testAward = AwardFixtureFactory.createAwardFixture();
+        AwardDocument awardDoc = (AwardDocument) documentService.getNewDocument(AwardDocument.class);
+        awardDoc.setAward(testAward);
+        documentService.saveDocument(awardDoc);
+        
         subAwardFundingSource = new SubAwardFundingSource();
-        subAwardFundingSource.setAwardId(1000L);
+        subAwardFundingSource.setAwardId(testAward.getAwardId());
 
         subAwardFfataReporting = new SubAwardFfataReporting();
         subAwardFfataReporting.setSubAwardAmountInfoId(999);
         subAwardFfataReporting.setSubAwardAmountInfo(subAwardAmountInfo);
         subAwardFfataReporting.setSubmitterId("admin");
         subAwardFfataReporting.setDateSubmitted(subAwardAmountInfo.getEffectiveDate());
+        
+        
     }
     
     @After
