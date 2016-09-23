@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* fixing question integration test #noreelase (#1994)
+
+  * Douglas Pace on Fri, 23 Sep 2016 11:02:29 -0700 [View Commit](../../commit/bee63bc5b042a22c2cfca835178dd91a07a9550a)
+
+##coeus-1609.0040
 * RESKC-1692:fix fancybox issues with multiple personnel or locations on iacuc procecures
   * Joe Williams on Fri, 23 Sep 2016 09:11:48 -0500 [View Commit](../../commit/eaac0498a0ad66d17f261a549ba2807a105e869a)
 
