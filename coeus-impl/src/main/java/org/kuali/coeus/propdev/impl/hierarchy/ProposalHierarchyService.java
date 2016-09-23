@@ -132,11 +132,12 @@ public interface ProposalHierarchyService {
      * @param principalId The princpal to reject the document as.
      * @param rejectFile The file uploaded when the proposoal development was rejected.
      * @throws WorkflowException if there is a problem getting the workflow document, or rejecting the document.
-     * @throws ProposalHierarchyException 
-     * @throws IOException if there is a problem with the upload file.
+     * @throws ProposalHierarchyException
      */
     void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalId, MultipartFile rejectFile)
-    throws WorkflowException, ProposalHierarchyException, IOException;
+    throws WorkflowException, ProposalHierarchyException;
+
+    void createAndSaveActionNarrative(String reason, String title, MultipartFile file, String narrativeTypeCode, ProposalDevelopmentDocument pDoc);
 
     boolean validateRemovePermissions(DevelopmentProposal childProposal, String principalId);
 

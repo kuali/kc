@@ -29,7 +29,7 @@ import org.kuali.coeus.common.framework.print.ReportHelper;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplateList;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
-import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentRejectionBean;
+import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentActionBean;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
@@ -110,7 +110,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private String narrativeUserRightsSelectedAttachment;
     private ProposalChangedData newProposalChangedData;
     private boolean sendOverrideNotification;
-    private ProposalDevelopmentRejectionBean proposalDevelopmentRejectionBean;
+    private ProposalDevelopmentActionBean proposalDevelopmentRejectionBean;
+    private ProposalDevelopmentActionBean proposalDevelopmentApprovalBean;
     private List<SponsorFormTemplateList> sponsorFormTemplates;
     private ReportHelper reportHelper;
     private List<DevelopmentProposal> hierarchyDevelopmentProposals;
@@ -197,7 +198,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
         narrativeUserRights = new ArrayList<NarrativeUserRights>();
 
-        proposalDevelopmentRejectionBean = new ProposalDevelopmentRejectionBean();
+        proposalDevelopmentRejectionBean = new ProposalDevelopmentActionBean();
+        proposalDevelopmentApprovalBean = new ProposalDevelopmentActionBean();
         populatePersonEditableFields();
 
         updateAnswerHeader = new AnswerHeader();
@@ -552,12 +554,20 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.personEditableFields = personEditableFields;
     }
 
-    public ProposalDevelopmentRejectionBean getProposalDevelopmentRejectionBean() {
+    public ProposalDevelopmentActionBean getProposalDevelopmentRejectionBean() {
         return proposalDevelopmentRejectionBean;
     }
 
-    public void setProposalDevelopmentRejectionBean(ProposalDevelopmentRejectionBean proposalDevelopmentRejectionBean) {
+    public void setProposalDevelopmentRejectionBean(ProposalDevelopmentActionBean proposalDevelopmentRejectionBean) {
         this.proposalDevelopmentRejectionBean = proposalDevelopmentRejectionBean;
+    }
+
+    public ProposalDevelopmentActionBean getProposalDevelopmentApprovalBean() {
+        return proposalDevelopmentApprovalBean;
+    }
+
+    public void setProposalDevelopmentApprovalBean(ProposalDevelopmentActionBean proposalDevelopmentApprovalBean) {
+        this.proposalDevelopmentApprovalBean = proposalDevelopmentApprovalBean;
     }
 
     public S2sAppSubmission getDisplayedS2sAppSubmission() {

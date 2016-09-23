@@ -35,8 +35,7 @@ import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
 import org.kuali.coeus.common.notification.impl.rule.event.SendNotificationEvent;
-import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
-import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentRejectionBean;
+import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentActionBean;
 import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentRejectionRule;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
@@ -47,7 +46,6 @@ import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.propdev.impl.state.ProposalStateService;
 import org.kuali.coeus.s2sgen.api.core.S2SException;
-import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.common.framework.compliance.core.SaveSpecialReviewLinkEvent;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewService;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
@@ -62,7 +60,6 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
 import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
 import org.kuali.rice.kew.actiontaken.service.ActionTakenService;
@@ -73,7 +70,6 @@ import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KualiRuleService;
-import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -105,15 +101,13 @@ public class ProposalDevelopmentSubmitController extends
     public static final String ANOTHER_USER_APPROVED_NOTIFICATION = "Another User Approved Notification";
     public static final String PROPOSAL_NUMBER = "proposalNumber";
     public static final String PROPOSAL_STATE = "proposalState";
+    private static final String ENABLE_PD_WORKFLOW_APPROVAL_COMMENTS = "ENABLE_PD_WORKFLOW_APPROVAL_COMMENTS";
+    private static final String PROPOSAL_APPROVAL_ATTACHMENT = "Proposal approval attachment.";
 
     private final Logger LOGGER = Logger.getLogger(ProposalDevelopmentSubmitController.class);
 
     private static final String AUTO_SUBMIT_TO_SPONSOR_ON_FINAL_APPROVAL = "autoSubmitToSponsorOnFinalApproval";
 	private static final String SUBMIT_TO_SPONSOR = "submitToSponsor";
-
-    @Autowired
-    @Qualifier("kcNotificationService")
-    private KcNotificationService kcNotificationService;
 
     @Autowired
     @Qualifier("kualiRuleService")
@@ -122,10 +116,6 @@ public class ProposalDevelopmentSubmitController extends
     @Autowired
     @Qualifier("wizardControllerService")
     private WizardControllerService wizardControllerService;
-
-    @Autowired
-    @Qualifier("globalVariableService")
-    private GlobalVariableService globalVariableService;
 
     @Autowired
     @Qualifier("kualiConfigurationService")
@@ -162,10 +152,6 @@ public class ProposalDevelopmentSubmitController extends
     @Autowired
     @Qualifier("krmsRulesExecutionService")
     private KrmsRulesExecutionService krmsRulesExecutionService;
-
-    @Autowired
-    @Qualifier("parameterService")
-    private ParameterService parameterService;
     
     @Autowired
     @Qualifier("proposalStateService")
@@ -178,10 +164,6 @@ public class ProposalDevelopmentSubmitController extends
     @Autowired
     @Qualifier("proposalHierarchyService")
     private ProposalHierarchyService proposalHierarchyService;
-    
-    @Autowired
-    @Qualifier("legacyDataAdapter")
-    private LegacyDataAdapter legacyDataAdapter;
 
     @Autowired
     @Qualifier("kcWorkflowService")
@@ -691,7 +673,7 @@ public class ProposalDevelopmentSubmitController extends
 
 	protected void addCreateInstPropDetails(ProposalAdminDetails proposalAdminDetails) {
 		proposalAdminDetails.setInstPropCreateDate(new Timestamp(System.currentTimeMillis()));
-        proposalAdminDetails.setInstPropCreateUser(globalVariableService.getUserSession().getPrincipalName());
+        proposalAdminDetails.setInstPropCreateUser(getGlobalVariableService().getUserSession().getPrincipalName());
 	}
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=approveCheck")
@@ -716,6 +698,19 @@ public class ProposalDevelopmentSubmitController extends
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=approve")
     public ModelAndView approve(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+
+        WorkflowDocument workflowDoc = form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument();
+        if (canGenerateRequestsInFuture(workflowDoc, getGlobalVariableService().getUserSession().getPrincipalId())) {
+            DialogResponse frDialogResponse = form.getDialogResponse("PropDev-SubmitPage-ReceiveFutureRequests");
+            if(frDialogResponse == null) {
+                return getModelAndViewService().showDialog("PropDev-SubmitPage-ReceiveFutureRequests", false, form);
+            } else if (frDialogResponse.getResponseAsBoolean()){
+                form.getWorkflowDocument().setReceiveFutureRequests();
+            } else {
+                form.getWorkflowDocument().setDoNotReceiveFutureRequests();
+            }
+        }
+
         form.setAuditActivated(true);
 
         if (getValidationState(form).equals(AuditHelper.ValidationState.ERROR)) {
@@ -723,21 +718,30 @@ public class ProposalDevelopmentSubmitController extends
             return getModelAndViewService().getModelAndView(form);
         }
 
-        WorkflowDocument workflowDoc = form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument();
-        if (canGenerateRequestsInFuture(workflowDoc, getGlobalVariableService().getUserSession().getPrincipalId())) {
-            DialogResponse dialogResponse = form.getDialogResponse("PropDev-SubmitPage-ReceiveFutureRequests");
-            if(dialogResponse == null) {
-                return getModelAndViewService().showDialog("PropDev-SubmitPage-ReceiveFutureRequests", false, form);
-            } else if (dialogResponse.getResponseAsBoolean()){
-                form.getWorkflowDocument().setReceiveFutureRequests();
-            } else {
-                form.getWorkflowDocument().setDoNotReceiveFutureRequests();
+        List<NotificationTypeRecipient> recipients = getRelatedApproversFromActionRequest(form.getProposalDevelopmentDocument().getDocumentNumber(), getGlobalVariableService().getUserSession().getPrincipalId()).stream()
+    			.map(this::createRecipientFromPerson).collect(toList());
+
+        final boolean approvalComments = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, ENABLE_PD_WORKFLOW_APPROVAL_COMMENTS);
+        if (approvalComments) {
+            final DialogResponse approveDialogResponse = form.getDialogResponse("PropDev-SubmitPage-ApproveDialog");
+            if (approveDialogResponse == null) {
+                return getModelAndViewService().showDialog("PropDev-SubmitPage-ApproveDialog", false, form);
+            } else if (!approveDialogResponse.getResponseAsBoolean()) {
+                return getModelAndViewService().getModelAndView(form);
+            } else if (approveDialogResponse.getResponseAsBoolean()) {
+                form.setAnnotation(StringUtils.defaultString(form.getProposalDevelopmentApprovalBean().getActionReason()));
             }
         }
 
-        List<NotificationTypeRecipient> recipients = getRelatedApproversFromActionRequest(form.getProposalDevelopmentDocument().getDocumentNumber(), globalVariableService.getUserSession().getPrincipalId()).stream()
-    			.map(this::createRecipientFromPerson).collect(toList());
         getTransactionalDocumentControllerService().performWorkflowAction(form, UifConstants.WorkflowAction.APPROVE);
+
+        if (approvalComments) {
+            final String narrativeTypeCode = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.APPROVE_NARRATIVE_TYPE_CODE_PARAM);
+            final DevelopmentProposal pbo = getProposalHierarchyService().getDevelopmentProposal(form.getDevelopmentProposal().getProposalNumber());
+            final ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(pbo.getProposalDocument().getDocumentNumber());
+            getProposalHierarchyService().createAndSaveActionNarrative(form.getProposalDevelopmentApprovalBean().getActionReason(), PROPOSAL_APPROVAL_ATTACHMENT, form.getProposalDevelopmentApprovalBean().getActionFile(), narrativeTypeCode, pDoc);
+        }
+
         if (recipients.size() != 0) {
             sendAnotherUserApprovedNotification(form, recipients);
         }
@@ -846,13 +850,13 @@ public class ProposalDevelopmentSubmitController extends
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=reject")
     public ModelAndView reject(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
-        ProposalDevelopmentRejectionBean bean = form.getProposalDevelopmentRejectionBean();
+        ProposalDevelopmentActionBean bean = form.getProposalDevelopmentRejectionBean();
         if (new ProposalDevelopmentRejectionRule().proccessProposalDevelopmentRejection(bean)){
             List<NotificationTypeRecipient> recipients = 
-            		getAllCurrentApprovers(form.getProposalDevelopmentDocument().getDocumentNumber(), globalVariableService.getUserSession().getPrincipalId()).stream()
+            		getAllCurrentApprovers(form.getProposalDevelopmentDocument().getDocumentNumber(), getGlobalVariableService().getUserSession().getPrincipalId()).stream()
             			.map(this::createRecipientFromPerson).collect(toList());
-            getProposalHierarchyService().rejectProposalDevelopmentDocument(form.getDevelopmentProposal().getProposalNumber(), bean.getRejectReason(),
-                    getGlobalVariableService().getUserSession().getPrincipalId(),bean.getRejectFile());
+            getProposalHierarchyService().rejectProposalDevelopmentDocument(form.getDevelopmentProposal().getProposalNumber(), bean.getActionReason(),
+                    getGlobalVariableService().getUserSession().getPrincipalId(),bean.getActionFile());
             updateProposalAdminDetailsForReject(form.getDevelopmentProposal());
             if (recipients.size() != 0) {
                 sendRejectNotification(form, recipients);
@@ -934,20 +938,21 @@ public class ProposalDevelopmentSubmitController extends
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=cancelReject")
     public ModelAndView cancelReject(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
-        form.setProposalDevelopmentRejectionBean(new ProposalDevelopmentRejectionBean());
+        form.setProposalDevelopmentRejectionBean(new ProposalDevelopmentActionBean());
         return getModelAndViewService().getModelAndView(form);
     }
 
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=cancelApprove")
+    public ModelAndView cancelApprove(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+        form.setProposalDevelopmentApprovalBean(new ProposalDevelopmentActionBean());
+        return getModelAndViewService().getModelAndView(form);
+    }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendAdHocRequests")
     public ModelAndView sendAdHocRequests(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
         form.setCanEditView(null);
         form.setEvaluateFlagsAndModes(true);
         return getTransactionalDocumentControllerService().sendAdHocRequests(form);
-    }
-
-    public GlobalVariableService getGlobalVariableService() {
-      return globalVariableService;
     }
 
 	private void submitS2sApplication(ProposalDevelopmentDocument proposalDevelopmentDocument) throws Exception{
@@ -969,10 +974,6 @@ public class ProposalDevelopmentSubmitController extends
 	public void setInstitutionalProposalService(InstitutionalProposalService institutionalProposalService) {
 		this.institutionalProposalService = institutionalProposalService;
 	}
-	
-  public void setGlobalVariableService(GlobalVariableService globalVariableService) {
-      this.globalVariableService = globalVariableService;
-  }
   
   public ConfigurationService getConfigurationService() {
 	  return configurationService;
@@ -980,14 +981,6 @@ public class ProposalDevelopmentSubmitController extends
 
     public void setConfigurationService(ConfigurationService configurationService) {
       this.configurationService = configurationService;
-    }
-
-    public KcNotificationService getKcNotificationService() {
-        return kcNotificationService;
-    }
-
-    public void setKcNotificationService(KcNotificationService kcNotificationService) {
-        this.kcNotificationService = kcNotificationService;
     }
 
     public KualiRuleService getKualiRuleService() {
@@ -1061,13 +1054,6 @@ public class ProposalDevelopmentSubmitController extends
     public void setKrmsRulesExecutionService(KrmsRulesExecutionService krmsRulesExecutionService) {
 		this.krmsRulesExecutionService = krmsRulesExecutionService;
 	}
-	public ParameterService getParameterService() {
-		return parameterService;
-	}
-
-    public void setParameterService(ParameterService parameterService) {
-		this.parameterService = parameterService;
-	}
 
 	public ProposalStateService getProposalStateService() {
 		return proposalStateService;
@@ -1082,9 +1068,6 @@ public class ProposalDevelopmentSubmitController extends
 
     public void setSpecialReviewService(SpecialReviewService specialReviewService) {
 		this.specialReviewService = specialReviewService;
-	}
-	public LegacyDataAdapter getLegacyDataAdapter() {
-		return legacyDataAdapter;
 	}
 
     public KcWorkflowService getKcWorkflowService() {

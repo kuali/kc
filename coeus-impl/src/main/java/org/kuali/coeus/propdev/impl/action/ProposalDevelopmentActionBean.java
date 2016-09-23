@@ -22,32 +22,32 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 
-public class ProposalDevelopmentRejectionBean implements Serializable {
+public class ProposalDevelopmentActionBean implements Serializable {
 
 
     private static final long serialVersionUID = 4081027512143550976L;
     
-    private String rejectReason;
-    transient private MultipartFile rejectFile;
+    private String actionReason;
+    transient private MultipartFile actionFile;
     
 
-    public ProposalDevelopmentRejectionBean() {
+    public ProposalDevelopmentActionBean() {
         
     }
 
-    public MultipartFile getRejectFile() {
-        return rejectFile;
+    public MultipartFile getActionFile() {
+        return actionFile;
     }
 
-    public void setRejectFile(MultipartFile rejectFile) {
-        this.rejectFile = rejectFile;
+    public void setActionFile(MultipartFile actionFile) {
+        this.actionFile = actionFile;
     }
 
-    public String getRejectReason() {
-        return rejectReason;
+    public String getActionReason() {
+        return actionReason;
     }
 
-    public void setRejectReason(String rejectReason) {
-        this.rejectReason = rejectReason;
+    public void setActionReason(String actionReason) {
+        this.actionReason = actionReason;
     }
 }

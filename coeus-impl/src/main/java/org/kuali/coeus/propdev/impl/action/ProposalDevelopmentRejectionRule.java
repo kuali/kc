@@ -19,28 +19,17 @@
 package org.kuali.coeus.propdev.impl.action;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentRejectionBean;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 
-/**
- * 
- * This class manages the rules for rejecting a proposal development.
- */
 public class ProposalDevelopmentRejectionRule extends KcTransactionalDocumentRuleBase {
-    
-    /**
-     * 
-     * This method validate the reject action.
-     * @param bean
-     * @return
-     */
-    public boolean proccessProposalDevelopmentRejection(ProposalDevelopmentRejectionBean bean) {
+
+    public boolean proccessProposalDevelopmentRejection(ProposalDevelopmentActionBean bean) {
         boolean valid = true;
-        if (StringUtils.isEmpty(bean.getRejectReason())) {
+        if (StringUtils.isEmpty(bean.getActionReason())) {
             valid = false;
             String errorParams = "";
-            reportError("proposalDevelopmentRejectionBean.rejectReason", RiceKeyConstants.ERROR_REQUIRED, errorParams);
+            reportError("proposalDevelopmentRejectionBean.actionReason", RiceKeyConstants.ERROR_REQUIRED, errorParams);
         }
         return valid;
     }
