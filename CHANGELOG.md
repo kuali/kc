@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1692:fix fancybox issues with multiple personnel or locations on iacuc procecures
+  * Joe Williams on Fri, 23 Sep 2016 09:11:48 -0500 [View Commit](../../commit/eaac0498a0ad66d17f261a549ba2807a105e869a)
+
+##coeus-1609.0039
 * No Changes
 
 
