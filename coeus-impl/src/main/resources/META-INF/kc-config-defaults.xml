@@ -228,7 +228,7 @@
     <param name="kc.flyway.baseline.version">0</param>
 
 	<!-- Auto-ingester properties -->
-	<param name="kc.kew.auto.ingestion.paths" override="false">org/kuali/coeus/rice-xml,org/kuali/coeus/coeus-xml</param>
+	<param name="kc.kew.auto.ingestion.paths" override="false">org/kuali/coeus/rice-xml/1,org/kuali/coeus/rice-xml/2,org/kuali/coeus/rice-xml/3,org/kuali/coeus/rice-xml/4,org/kuali/coeus/coeus-xml/1,org/kuali/coeus/coeus-xml/2,org/kuali/coeus/coeus-xml/3,org/kuali/coeus/coeus-xml/4</param>
    	<param name="kc.kew.auto.ingestion.principalId" override="false">admin</param>
    	<param name="kc.kew.auto.ingestion.enabled" override="false">true</param>
 
