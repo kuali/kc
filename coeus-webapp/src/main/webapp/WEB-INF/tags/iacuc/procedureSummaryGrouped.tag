@@ -61,7 +61,7 @@
 					<c:forEach items="${studyProcedure.iacucProtocolStudyGroupPersons}" var="procedurePerson" varStatus="personIndex">
                  		<c:out value="${procedurePerson.protocolPerson.personName}"/> <br /> 
                      	Trained : <c:out value="${procedurePerson.protocolPerson.personTrainedStatus}"/> <br/>
-						<a href="#qualification-div${groupIndex}${procedureIndex.index}${personIndex.index}" id="viewQualificationsLink" >
+						<a href="#qualification-div${groupIndex}${procedureIndex.index}${personIndex.index}" class="viewQualificationsLink" >
 				    		<img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-viewqualifications.gif" alt="View Qualifications" class="tinybutton addButton" />
 						</a>		               	
 						<br/><br/>

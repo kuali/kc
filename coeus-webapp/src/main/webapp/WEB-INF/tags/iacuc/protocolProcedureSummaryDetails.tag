@@ -21,7 +21,7 @@
 <script type="text/javascript">
 	var saveButtonClicked = false;
 	jq(document).ready(function() {
-		jq("#viewQualificationsLink").fancybox();
+		jq(".viewQualificationsLink").fancybox();
     });
 </script>
 

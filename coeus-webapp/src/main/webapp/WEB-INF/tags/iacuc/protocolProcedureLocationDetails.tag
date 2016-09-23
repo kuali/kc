@@ -163,7 +163,7 @@
 					<c:set var="procedureIndex" value="${status.index}"/>
 		            <td width="20%" align="left" valign="middle" class="infoline">
 		               	<div align="center">
-								<a href="#content-div${procedureIndex}" id="editProcedureLink" >
+								<a href="#content-div${procedureIndex}" class="editProcedureLink" >
 								    <img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-assigneditproceedures.gif" alt="Edit Procedure" class="tinybutton addButton" />
 								</a>		               	
 	                        <c:if test="${!readOnly}">
@@ -173,19 +173,25 @@
 		            	</div>
 					</td>
 	            </tr>
-				<c:set var="displayTitle" value="Procedures at ${locationName}, ${protocolLocation.locationRoom}" />
-				<c:set var="procedureCollectionReference" value="${KualiForm.document.protocolList[0].iacucProtocolStudyGroupLocations[status.index].procedureDetails}" />
-				<c:set var="procedureCollectionProperty" value="document.protocolList[0].iacucProtocolStudyGroupLocations" />
-				<c:set var="submitMethod" value="setEditLocationProcedures.line${procedureLocationIndex}" />
-   				<kra-iacuc:iacucProtocolEditProcedures
+        	</c:forEach>
+        </table>
+        <c:forEach var="protocolLocation" items="${collectionReference}" varStatus="status">
+            <c:set var="locationName" value="${protocolLocation.iacucLocationName.locationName}" />
+            <c:set var="locationId" value="${protocolLocation.locationId}" />
+            <c:set var="procedureLocationIndex" value="${status.index}"/>
+            <c:set var="displayTitle" value="Procedures at ${locationName}, ${protocolLocation.locationRoom}" />
+            <c:set var="procedureCollectionReference" value="${KualiForm.document.protocolList[0].iacucProtocolStudyGroupLocations[status.index].procedureDetails}" />
+            <c:set var="procedureCollectionProperty" value="document.protocolList[0].iacucProtocolStudyGroupLocations" />
+            <c:set var="submitMethod" value="setEditLocationProcedures.line${procedureLocationIndex}" />
+            <c:set var="procedureIndex" value="${status.index}"/>
+            <kra-iacuc:iacucProtocolEditProcedures
                     procedureIndex="${procedureIndex}"
                     displayTitle="${displayTitle}"
                     procedureCollectionReference="${procedureCollectionReference}"
                     procedureCollectionProperty="${procedureCollectionProperty}"
-                    submitMethod="${submitMethod}" 
+                    submitMethod="${submitMethod}"
                     isPersonEditProcedure="false"
                     procedureViewedBySpecies="${procedureViewedBySpecies}"/>
-        	</c:forEach>
-        </table>
+        </c:forEach>
     </div>
 </kul:innerTab>
