@@ -48,7 +48,7 @@
 			         	<div align="left">
 							<c:out value="${person.personName}" />
 							</br>
-							<a href="#training-div${procedurePersonIndex}" id="viewTrainingLink" >
+							<a href="#training-div${procedurePersonIndex}" class="viewTrainingLink" >
 							    <img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-viewtrainingdetails.gif" alt="View Training Details" class="tinybutton addButton" />
 							</a>		               	
 			      		</div>
@@ -60,31 +60,34 @@
 					</td>
 		            <td width="20%" align="left" valign="middle" class="infoline">
 		               	<div align="center">
-								<a href="#content-div${procedurePersonIndex}" id="editProcedureLink" >
+								<a href="#content-div${procedurePersonIndex}" class="editProcedureLink" >
 								    <img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-assigneditproceedures.gif" alt="Edit Procedure" class="tinybutton addButton" />
 								</a>		               	
 		            	</div>
 					</td>
 				</tr>
-				<c:set var="displayTrainingTitle" value="Training Details for : ${person.personName}" />
-				<c:set var="trainingCollectionReference" value="${KualiForm.document.protocolList[0].protocolPersons[status.index].iacucPersonTrainings}" />
-   				<kra-iacuc:iacucProtocolPersonTraining
-                    personIndex="${procedurePersonIndex}"
-                    displayTitle="${displayTrainingTitle}"
-                    trainingCollectionReference="${trainingCollectionReference}"/>
-				
-				<c:set var="displayTitle" value="Procedures Conducted by: ${person.personName}" />
-				<c:set var="procedureCollectionReference" value="${KualiForm.document.protocolList[0].protocolPersons[status.index].procedureDetails}" />
-				<c:set var="procedureCollectionProperty" value="document.protocolList[0].protocolPersons" />
-		 		<c:set var="submitMethod" value="setEditPersonProcedures.line${procedurePersonIndex}" />
-   				<kra-iacuc:iacucProtocolEditProcedures
-                    procedureIndex="${procedurePersonIndex}"
-                    displayTitle="${displayTitle}"
-                    procedureCollectionReference="${procedureCollectionReference}"
-                    procedureCollectionProperty="${procedureCollectionProperty}"
-                    submitMethod="${submitMethod}" 
-                    isPersonEditProcedure="true"
-                    procedureViewedBySpecies="${procedureViewedBySpecies}"/>
 			</c:forEach>
    		</table>
+    <c:forEach items="${KualiForm.document.protocolList[0].protocolPersons}" var="person" varStatus="status">
+        <c:set var="procedurePersonIndex" value="${status.index}"/>
+        <c:set var="displayTrainingTitle" value="Training Details for : ${person.personName}" />
+        <c:set var="trainingCollectionReference" value="${KualiForm.document.protocolList[0].protocolPersons[status.index].iacucPersonTrainings}" />
+        <kra-iacuc:iacucProtocolPersonTraining
+                personIndex="${procedurePersonIndex}"
+                displayTitle="${displayTrainingTitle}"
+                trainingCollectionReference="${trainingCollectionReference}"/>
+
+        <c:set var="displayTitle" value="Procedures Conducted by: ${person.personName}" />
+        <c:set var="procedureCollectionReference" value="${KualiForm.document.protocolList[0].protocolPersons[status.index].procedureDetails}" />
+        <c:set var="procedureCollectionProperty" value="document.protocolList[0].protocolPersons" />
+        <c:set var="submitMethod" value="setEditPersonProcedures.line${procedurePersonIndex}" />
+        <kra-iacuc:iacucProtocolEditProcedures
+                procedureIndex="${procedurePersonIndex}"
+                displayTitle="${displayTitle}"
+                procedureCollectionReference="${procedureCollectionReference}"
+                procedureCollectionProperty="${procedureCollectionProperty}"
+                submitMethod="${submitMethod}"
+                isPersonEditProcedure="true"
+                procedureViewedBySpecies="${procedureViewedBySpecies}"/>
+    </c:forEach>
 </kul:innerTab>

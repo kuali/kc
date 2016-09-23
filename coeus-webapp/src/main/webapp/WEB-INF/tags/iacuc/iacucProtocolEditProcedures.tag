@@ -40,14 +40,14 @@
 	var editProcedureSelectedDiv="editProcedure";
 	var checkboxDisabled = "${readOnly}";
 	jq(document).ready(function() {
-    	jq("#editProcedureLink").fancybox({
+    	jq(".editProcedureLink").fancybox({
 			'onClosed' : function() {
 				if (saveButtonClicked != false) {
 					jq('#onProcedureEdit').click();
 			    }				
 			}
     	});
-		jq("#viewTrainingLink").fancybox();
+		jq(".viewTrainingLink").fancybox();
 
 		jq(".checkBoxSelectAll").click(function () {
 			if(checkboxDisabled == "false") {
