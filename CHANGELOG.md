@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* - Fix award budget endpoint for amount overrides (#1995)
+
+  * tdurkin on Fri, 23 Sep 2016 16:00:13 -0400 [View Commit](../../commit/87a08cd1f06da5da31aded653f62b478afe54b7b)
+
+##coeus-1609.0042
 * No Changes
 
 
