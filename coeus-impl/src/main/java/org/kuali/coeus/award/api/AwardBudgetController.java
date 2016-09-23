@@ -176,7 +176,7 @@ public class AwardBudgetController extends RestController {
             BudgetPeriodDto matchingPeriodDto = awardBudgetExtDto.getBudgetPeriods().stream().filter(budgetPeriodDto ->
                     budgetPeriodDto.getPeriodNumber().intValue() == budgetPeriod.getBudgetPeriod()).findFirst().get();
             AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt) budgetPeriod;
-            if (matchingPeriodDto.getTotalIndirectCost().isNonZero() && matchingPeriodDto.getTotalFringeAmount().isNonZero()) {
+            if (matchingPeriodDto.getTotalIndirectCost().isNonZero() || matchingPeriodDto.getTotalFringeAmount().isNonZero()) {
                 awardBudgetPeriod.setRateOverrideFlag(true);
                 awardBudgetPeriod.setTotalFringeAmount(awardBudgetExtDto.getBudgetPeriods().get(0).getTotalFringeAmount());
                 awardBudgetPeriod.setPrevTotalFringeAmount(ScaleTwoDecimal.ZERO);

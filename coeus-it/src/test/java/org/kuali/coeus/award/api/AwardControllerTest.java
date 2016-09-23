@@ -97,9 +97,9 @@ public class AwardControllerTest extends AwardControllerTestBase {
         Assert.assertTrue(newAwardDto.getAwardSponsorContacts().size() == 1);
         Assert.assertTrue(newAwardDto.getAwardSponsorContacts().get(0).getRolodexId() == 132);
         Assert.assertTrue(newAwardDto.getAwardSponsorContacts().get(0).getOrgName().equalsIgnoreCase("NIH-NI AAA"));
-        Assert.assertTrue(newAwardDto.getProjectPersons().get(0).getEmailAddress().equalsIgnoreCase("kcnotification+aemcafee@gmail.com"));
-        Assert.assertTrue(newAwardDto.getProjectPersons().get(1).getEmailAddress().equalsIgnoreCase("kcnotification+byler@gmail.com"));
-        Assert.assertTrue(newAwardDto.getProjectPersons().get(2).getEmailAddress().equalsIgnoreCase("kcnotification+eagle@gmail.com"));
+        Assert.assertNotNull(newAwardDto.getProjectPersons().get(0).getEmailAddress());
+        Assert.assertNotNull(newAwardDto.getProjectPersons().get(1).getEmailAddress());
+        Assert.assertNotNull(newAwardDto.getProjectPersons().get(2).getEmailAddress());
         Assert.assertTrue(newAwardDto.getProjectPersons().get(0).getPhoneNumber().equalsIgnoreCase("321-321-1214"));
 
 
