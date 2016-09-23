@@ -87,15 +87,15 @@ public class QuestionLookupableHelperServiceTest extends KcIntegrationTestBase {
         
         // Create & submit new Question document for version 1 of the question
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Question.class));
-        maintDocument.getDocumentHeader().setDocumentDescription("test 1111"); 
-        maintDocument.getNewMaintainableObject().setBusinessObject(createQuestion(1111, SEQUENCE_STATUS_ARCHIVED));
+        maintDocument.getDocumentHeader().setDocumentDescription("test 90000"); 
+        maintDocument.getNewMaintainableObject().setBusinessObject(createQuestion(90000, SEQUENCE_STATUS_ARCHIVED));
         maintDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
         documentService.routeDocument(maintDocument, null, null);
         
         // Create & submit new Question document for version 2 of the question
         maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Question.class));
-        maintDocument.getDocumentHeader().setDocumentDescription("test 1112"); 
-        maintDocument.getNewMaintainableObject().setBusinessObject(createQuestion(1112, SEQUENCE_STATUS_CURRENT));
+        maintDocument.getDocumentHeader().setDocumentDescription("test 90001"); 
+        maintDocument.getNewMaintainableObject().setBusinessObject(createQuestion(90001, SEQUENCE_STATUS_CURRENT));
         maintDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
         documentService.routeDocument(maintDocument, null, null);
         
