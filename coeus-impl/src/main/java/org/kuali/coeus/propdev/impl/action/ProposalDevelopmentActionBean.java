@@ -24,16 +24,10 @@ import java.io.Serializable;
 
 public class ProposalDevelopmentActionBean implements Serializable {
 
-
     private static final long serialVersionUID = 4081027512143550976L;
     
     private String actionReason;
-    transient private MultipartFile actionFile;
-    
-
-    public ProposalDevelopmentActionBean() {
-        
-    }
+    private  transient MultipartFile actionFile;
 
     public MultipartFile getActionFile() {
         return actionFile;

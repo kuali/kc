@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
@@ -62,7 +61,6 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
 import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
-import org.kuali.rice.kew.actiontaken.service.ActionTakenService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.*;
@@ -120,7 +118,7 @@ public class ProposalDevelopmentSubmitController extends
     @Autowired
     @Qualifier("kualiConfigurationService")
     private ConfigurationService configurationService;
-    
+
     @Autowired
     @Qualifier("s2sSubmissionService")
     private S2sSubmissionService s2sSubmissionService;
@@ -150,10 +148,6 @@ public class ProposalDevelopmentSubmitController extends
     private KcBusinessRulesEngine kcBusinessRulesEngine;
     
     @Autowired
-    @Qualifier("krmsRulesExecutionService")
-    private KrmsRulesExecutionService krmsRulesExecutionService;
-    
-    @Autowired
     @Qualifier("proposalStateService")
     private ProposalStateService proposalStateService;   
     
@@ -172,10 +166,6 @@ public class ProposalDevelopmentSubmitController extends
     @Autowired
     @Qualifier("actionRequestService")
     private ActionRequestService actionRequestService;
-
-    @Autowired
-    @Qualifier("actionTakenService")
-    private ActionTakenService actionTakenService;
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=populateAdHocs")
     public ModelAndView populateAdHocs(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
@@ -892,7 +882,7 @@ public class ProposalDevelopmentSubmitController extends
 
     protected HashSet<String> getRelatedApproversFromActionRequest(String documentNumber, String loggedInUser) {
         final List<ActionRequestValue> allActionRequestsByDocumentId = getAllActionRequestsByDocumentId(documentNumber);
-        HashSet<String> users = allActionRequestsByDocumentId.stream()
+        return allActionRequestsByDocumentId.stream()
         		.filter(actionRequestValue -> loggedInUser.equals(actionRequestValue.getPrincipalId()))
         		.flatMap(this::getRelatedActionRequests)
         		.flatMap(this::getActionAndChildren)
@@ -900,8 +890,6 @@ public class ProposalDevelopmentSubmitController extends
         		.map(ActionRequestValue::getPrincipalId)
         		.filter(principalId -> principalId != null && !principalId.equals(loggedInUser))
         		.collect(toCollection(HashSet::new));
-
-        return users;
     }
     
     protected HashSet<String> getAllCurrentApprovers(String documentNumber, String loggedInUser) {
@@ -962,7 +950,7 @@ public class ProposalDevelopmentSubmitController extends
 	public S2sSubmissionService getS2sSubmissionService() {
 		return s2sSubmissionService;
 	}
-    
+
 	public void setS2sSubmissionService(S2sSubmissionService s2sSubmissionService) {
 		this.s2sSubmissionService = s2sSubmissionService;
 	}
@@ -1047,14 +1035,6 @@ public class ProposalDevelopmentSubmitController extends
 		this.kcBusinessRulesEngine = kcBusinessRulesEngine;
 	}
 
-    public KrmsRulesExecutionService getKrmsRulesExecutionService() {
-		return krmsRulesExecutionService;
-	}
-
-    public void setKrmsRulesExecutionService(KrmsRulesExecutionService krmsRulesExecutionService) {
-		this.krmsRulesExecutionService = krmsRulesExecutionService;
-	}
-
 	public ProposalStateService getProposalStateService() {
 		return proposalStateService;
 	}
@@ -1084,13 +1064,5 @@ public class ProposalDevelopmentSubmitController extends
 
     public void setActionRequestService(ActionRequestService actionRequestService) {
         this.actionRequestService = actionRequestService;
-    }
-
-    public ActionTakenService getActionTakenService() {
-        return actionTakenService;
-    }
-
-    public void setActionTakenService(ActionTakenService actionTakenService) {
-        this.actionTakenService = actionTakenService;
     }
 }

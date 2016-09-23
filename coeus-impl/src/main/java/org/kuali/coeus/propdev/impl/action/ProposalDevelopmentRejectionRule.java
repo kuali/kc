@@ -24,12 +24,14 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 
 public class ProposalDevelopmentRejectionRule extends KcTransactionalDocumentRuleBase {
 
+    private static final String ACTION_REASON = "proposalDevelopmentRejectionBean.actionReason";
+
     public boolean proccessProposalDevelopmentRejection(ProposalDevelopmentActionBean bean) {
         boolean valid = true;
         if (StringUtils.isEmpty(bean.getActionReason())) {
             valid = false;
             String errorParams = "";
-            reportError("proposalDevelopmentRejectionBean.actionReason", RiceKeyConstants.ERROR_REQUIRED, errorParams);
+            reportError(ACTION_REASON, RiceKeyConstants.ERROR_REQUIRED, errorParams);
         }
         return valid;
     }
