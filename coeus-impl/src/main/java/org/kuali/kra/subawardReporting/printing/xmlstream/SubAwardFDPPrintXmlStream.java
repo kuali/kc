@@ -137,6 +137,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         final SubContractDataDocument subContractDataDoc = SubContractDataDocument.Factory.newInstance();
         subContractDataDoc.setSubContractData(subContractData);
 
+
         final Map<String, XmlObject> xmlObjectList = new LinkedHashMap<>();
         xmlObjectList.put(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE.getSubAwardPrintType(), subContractDataDoc);
         return xmlObjectList;
@@ -145,7 +146,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
    public void setSubcontractTemplateInfo(SubContractData subContractData, SubAward subaward) {
        SubcontractTemplateInfo subContractTemplateInfo = SubcontractTemplateInfo.Factory.newInstance();
        List<SubcontractTemplateInfo> templateDataList = new ArrayList<>();
-      
+
        SubAwardTemplateInfo subawardTemplate;
        if(subaward.getSubAwardTemplateInfo() != null && !subaward.getSubAwardTemplateInfo().isEmpty() ){
            subawardTemplate =subaward.getSubAwardTemplateInfo().get(0);
