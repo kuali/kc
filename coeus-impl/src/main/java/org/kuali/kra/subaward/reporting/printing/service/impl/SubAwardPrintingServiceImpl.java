@@ -50,7 +50,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
     private static final String SUB_AWARD_FDP_TEMPLATE = "fdpAgreement";
     private static final String SUB_AWARD_FDP_MODIFICATION = "fdpModification";
     private static final String FDP_FROM_PARENT_AWARD = "FDP_FROM_PARENT_AWARD";
-    
+
     private SubAwardSF294Print subAwardSF294Print;
     private SubAwardSF295Print subAwardSF295Print;
     private PrintingService printingService;       
@@ -98,9 +98,9 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         source.setType(Constants.PDF_REPORT_CONTENT_TYPE);
         
         if(reportParameters.get("printType").equals(SF_295_REPORT)){
-            source.setName(SF_295_REPORT);
+            source.setName(SF_295_REPORT + Constants.PDF_FILE_EXTENSION);
         } else {
-            source.setName(SF_294_REPORT);
+            source.setName(SF_294_REPORT + Constants.PDF_FILE_EXTENSION);
         }
         return source;   
     }
@@ -167,9 +167,9 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         source.setType(Constants.PDF_REPORT_CONTENT_TYPE);
         
         if(reportParameters.get("fdpType").equals(SUB_AWARD_FDP_TEMPLATE)){
-            source.setName(SUB_AWARD_FDP_TEMPLATE);
+            source.setName(SUB_AWARD_FDP_TEMPLATE + Constants.PDF_FILE_EXTENSION);
         } else {
-            source.setName(SUB_AWARD_FDP_MODIFICATION);
+            source.setName(SUB_AWARD_FDP_MODIFICATION + Constants.PDF_FILE_EXTENSION);
         }
         return source;   
     }
