@@ -16,7 +16,7 @@
    - You should have received a copy of the GNU Affero General Public License
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --%>
-<%@ page import="org.kuali.kra.infrastructure.Constants"%>
+
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <kul:documentPage
@@ -35,10 +35,10 @@
         
         <script type="text/javascript">
             var $j = jQuery.noConflict();
-            var proposalType;
-            var protocolType;
+
+
             $j(document).ready(function() {
-               // $j("#fancybox-wrap").css('top', '100px !important');
+
                 $j("a.disclosureFeHistory").fancybox({ 
                     'width':400,
                     'height':200,
