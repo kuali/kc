@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1722, RESKC-1568: adding pdf extension for attachment downloads, fixing Attachment4Required checkbox so that it isn't always checked
+  * Travis Schneeberger on Mon, 26 Sep 2016 12:24:39 -0400 [View Commit](../../commit/056328b3dcc097ef78374f23cd191fe4747324cd)
+
+##coeus-1609.0046
 * No Changes
 
 
