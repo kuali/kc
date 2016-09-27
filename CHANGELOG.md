@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Revert "Amend renew perf"
+  * tdurkin on Tue, 27 Sep 2016 17:37:53 -0400 [View Commit](../../commit/f7020edad2515a763e666447246239f1f3f63ea9)
+
+##coeus-1609.0049
 * RESKC-1713: Improve performance on Protocol History
   * Terry Durkin on Fri, 23 Sep 2016 13:53:57 -0400 [View Commit](../../commit/bef80f5e8bf12c5edee18c73033e6ca53cc4f16d)
 
