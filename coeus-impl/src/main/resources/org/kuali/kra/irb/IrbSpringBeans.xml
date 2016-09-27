@@ -720,14 +720,13 @@
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
 
-    <bean id="protocolDao" parent="platformAwareDao" class="org.kuali.kra.irb.ProtocolDaoImpl">
+    <bean id="protocolDao" parent="platformAwareDao" class="org.kuali.kra.irb.ProtocolDaoOjb">
         <property name="lookupDao">
             <ref bean="lookupDao" />
         </property>
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
-        <property name="dataSource" ref="dataSource"/>
     </bean>
     
     <bean id="lookupDao" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">

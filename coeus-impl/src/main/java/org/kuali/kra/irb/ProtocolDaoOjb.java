@@ -34,11 +34,6 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 import org.kuali.rice.krad.service.util.OjbCollectionAware;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -48,11 +43,7 @@ import java.util.List;
  * 
  * This class is the implementation for ProtocolDao interface.
  */
-class ProtocolDaoImpl extends ProtocolDaoOjbBase<Protocol> implements OjbCollectionAware, ProtocolDao {
-
-    public static final String QUERY = "select protocol_id, protocol_number, sequence_number, submission_number from protocol_submission where protocol_number in (select PROTO_AMEND_REN_NUMBER from proto_amend_renewal where proto_amend_renewal_id in (select distinct PROTO_AMEND_RENEWAL_ID from proto_amend_renew_modules)) and protocol_number like ? and submission_number = ? order by protocol_id asc;";
-    private DataSource dataSource;
-
+class ProtocolDaoOjb extends ProtocolDaoOjbBase<Protocol> implements OjbCollectionAware, ProtocolDao {
     /**
      * The APPROVED_SUBMISSION_STATUS_CODE contains the status code of approved protocol submissions (i.e. 203).
      */
@@ -158,31 +149,5 @@ class ProtocolDaoImpl extends ProtocolDaoOjbBase<Protocol> implements OjbCollect
                 ProtocolLookupConstants.Property.RESEARCH_AREA_CODE, 
                 ProtocolResearchArea.class));
         return criteriaFields;
-    }
-
-    @Override
-    public Long getAmendmentsOrRenewalNumberForSubmission(String protocolNumber, int submissionNumber) {
-        try (Connection connection = getDataSource().getConnection();
-             PreparedStatement stmt = connection.prepareStatement(QUERY)) {
-            stmt.setString(1, protocolNumber + "%");
-            stmt.setInt(2, submissionNumber);
-            try  (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getLong(1);
-                } else {
-                    return null;
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public DataSource getDataSource() {
-        return this.dataSource;
-    }
-
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
     }
 }

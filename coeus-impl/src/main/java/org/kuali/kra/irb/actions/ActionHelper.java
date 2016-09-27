@@ -34,7 +34,10 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.*;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
@@ -103,8 +106,6 @@ import java.util.*;
  */
 @SuppressWarnings("serial")
 public class ActionHelper extends ActionHelperBase {
-
-    private ProtocolDao protocolDao;
 
     private static final String NAMESPACE = "KC-UNT";
     private static final List<String> ACTION_TYPE_SUBMISSION_DOC;
@@ -1313,14 +1314,10 @@ public class ActionHelper extends ActionHelperBase {
                 // Amendment details needs to be displayed even after the amendment has been merged with the protocol.
                 originalProtocolNumber = getProtocol().getProtocolNumber();
             }
+            List<ProtocolBase> protocols = getProtocolAmendRenewServiceHook().getAmendmentAndRenewals(originalProtocolNumber);
 
-            Long amendRenewProtocolId = this.getProtocolDao().getAmendmentsOrRenewalNumberForSubmission(originalProtocolNumber, currentSubmissionNumber);
-
-
-            Protocol amendmentRenewalProtocol = this.getBusinessObjectService().findBySinglePrimaryKey(Protocol.class, amendRenewProtocolId);
-
-            ProtocolAmendRenewalBase correctAmendment = amendmentRenewalProtocol.getProtocolAmendRenewal();
-
+            ProtocolAmendRenewal correctAmendment = (ProtocolAmendRenewal) getCorrectAmendment(protocols);
+            
             if (ObjectUtils.isNotNull(correctAmendment)) {
                 setSubmissionHasNoAmendmentDetails(false);
                 amendmentSummaryBean.setSummary(correctAmendment.getSummary());
@@ -1781,14 +1778,4 @@ public class ActionHelper extends ActionHelperBase {
         this.currentUserAuthorizedToAssignCommittee = currentUserAuthorizedToAssignCommittee;
     }
 
-    public ProtocolDao getProtocolDao() {
-        if (this.protocolDao == null) {
-            this.protocolDao = KcServiceLocator.getService(ProtocolDao.class);
-        }
-        return this.protocolDao;
-    }
-
-    public void setProtocolDao(ProtocolDao protocolDao) {
-        this.protocolDao = protocolDao;
-    }
 }
