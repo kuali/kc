@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1713: Improve performance on Protocol History
+  * Terry Durkin on Fri, 23 Sep 2016 13:53:57 -0400 [View Commit](../../commit/bef80f5e8bf12c5edee18c73033e6ca53cc4f16d)
+
+##coeus-1609.0048
 * RESKC-1724: upgrading rice, switching fancybox to the kuali fork
   * Travis Schneeberger on Tue, 27 Sep 2016 09:54:50 -0400 [View Commit](../../commit/5a39b43a36d3cb27f714104cd747d0fe604d1433)
 
