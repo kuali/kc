@@ -26,20 +26,22 @@ import java.sql.SQLException;
 
 public class SubAwardDaoImpl implements SubAwardDao {
 
+    public static final String QUERY = "select max(sequence_number) from subaward where subaward_code = ?";
     private DataSource dataSource;
 
     @Override
     public int getNextSequenceNumber(String subawardCode) {
-        try (Connection connection = getDataSource().getConnection()) {
-            try (PreparedStatement stmt = connection.prepareStatement("select max(sequence_number) from subaward where subaward_code = ?")) {
-                stmt.setString(1, subawardCode);
-                ResultSet rs = stmt.executeQuery();
+        try (Connection connection = getDataSource().getConnection();
+             PreparedStatement stmt = connection.prepareStatement(QUERY)) {
+            stmt.setString(1, subawardCode);
+            try  (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return rs.getInt(1) + 1;
                 } else {
                     return 1;
                 }
             }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
