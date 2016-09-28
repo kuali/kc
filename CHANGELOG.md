@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Add performance for protocol history back in with additional null checking
+  * Terry Durkin on Wed, 28 Sep 2016 10:44:57 -0400 [View Commit](../../commit/189dd1dd00f53685a870a3228b1dc0d9f992bbb6)
+
+##coeus-1609.0051
 * RESKC-1680: adding support for approval comments and attachments
   * Travis Schneeberger on Fri, 23 Sep 2016 17:31:00 -0400 [View Commit](../../commit/dc4852f7d949ffdbe0548380cae49bc7d2bb7b43)
 
