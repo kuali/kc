@@ -22,4 +22,6 @@
 \. ./rice/bootstrap/V1609_005__add_subaward_component.sql
 \. ./rice/bootstrap/V1609_006__fdp_update_param_desc.sql
 \. ./rice/bootstrap/V1609_009__ffata_reporting_flag.sql
+\. ./rice/bootstrap/V1609_011__pd_approval_dialog_flag.sql
+\. ./rice/bootstrap/V1609_012__pd_approval_narrative_type.sql
 commit;

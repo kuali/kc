@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1680: adding support for approval comments and attachments
+  * Travis Schneeberger on Fri, 23 Sep 2016 17:31:00 -0400 [View Commit](../../commit/dc4852f7d949ffdbe0548380cae49bc7d2bb7b43)
+
+##coeus-1609.0050
 * Revert "Amend renew perf"
   * tdurkin on Tue, 27 Sep 2016 17:37:53 -0400 [View Commit](../../commit/f7020edad2515a763e666447246239f1f3f63ea9)
 
