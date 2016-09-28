@@ -29,7 +29,7 @@ import org.kuali.coeus.common.framework.print.ReportHelper;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplateList;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
-import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentRejectionBean;
+import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentActionBean;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
@@ -110,7 +110,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private String narrativeUserRightsSelectedAttachment;
     private ProposalChangedData newProposalChangedData;
     private boolean sendOverrideNotification;
-    private ProposalDevelopmentRejectionBean proposalDevelopmentRejectionBean;
+    private ProposalDevelopmentActionBean proposalDevelopmentRejectionBean;
+    private ProposalDevelopmentActionBean proposalDevelopmentApprovalBean;
     private List<SponsorFormTemplateList> sponsorFormTemplates;
     private ReportHelper reportHelper;
     private List<DevelopmentProposal> hierarchyDevelopmentProposals;
@@ -135,7 +136,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     private NotificationHelper<ProposalDevelopmentNotificationContext> notificationHelper;
 
-    private List<String> unitRulesMessages = new ArrayList<String>();
+    private List<String> unitRulesMessages = new ArrayList<>();
 
     private ProposalDevelopmentBudgetExt selectedBudget;
     private boolean sendNarrativeChangeNotification;
@@ -173,21 +174,19 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
         workingUserRoles = new ArrayList<>();
 
-        editableCollectionLines = new HashMap<String,List<String>>();
+        editableCollectionLines = new HashMap<>();
 
         customDataHelper = new ProposalDevelopmentCustomDataHelper(this.getProposalDevelopmentDocument());
 
-        dataValidationItems = new ArrayList<DataValidationItem>();
+        dataValidationItems = new ArrayList<>();
 
-        creditSplitListItems = new ArrayList<ProposalCreditSplitListDto>();
+        creditSplitListItems = new ArrayList<>();
 
         proposalDevelopmentAttachmentHelper = new ProposalDevelopmentAttachmentHelper();
 
-        ProposalCopyCriteria proposalCopyCriteria1= new ProposalCopyCriteria(getProposalDevelopmentDocument());
-
         addOrganizationHelper = new OrganizationAddWizardHelper();
 
-        customDataGroups = new ArrayList<ProposalDevelopmentCustomDataGroupDto>();
+        customDataGroups = new ArrayList<>();
 
         notificationHelper = new NotificationHelper<>();
 
@@ -195,18 +194,19 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
         newProposalChangedData = new ProposalChangedData();
 
-        narrativeUserRights = new ArrayList<NarrativeUserRights>();
+        narrativeUserRights = new ArrayList<>();
 
-        proposalDevelopmentRejectionBean = new ProposalDevelopmentRejectionBean();
+        proposalDevelopmentRejectionBean = new ProposalDevelopmentActionBean();
+        proposalDevelopmentApprovalBean = new ProposalDevelopmentActionBean();
         populatePersonEditableFields();
 
         updateAnswerHeader = new AnswerHeader();
 
-        sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
+        sponsorFormTemplates = new ArrayList<>();
 
         reportHelper = new ReportHelper();
 
-        hierarchyDevelopmentProposals = new ArrayList<DevelopmentProposal>();
+        hierarchyDevelopmentProposals = new ArrayList<>();
 
         printS2sOppForms = new ArrayList<>();
     }
@@ -226,7 +226,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     }
 
     public List<Action> getOrderedNavigationActions() {
-        List<Action> actions = new ArrayList<Action>();
+        List<Action> actions = new ArrayList<>();
         addAllActions(actions, view.getNavigation().getItems());
         return actions;
     }
@@ -235,11 +235,9 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         if (components != null) {
             for (Component component : components) {
                 if (component instanceof ToggleMenu && component.isRender() && !component.isHidden()) {
-                    for (Component menuComponent: ((ToggleMenu) component).getMenuItems()) {
-                        if (menuComponent instanceof Action) {
-                            addActionIfAvailable((Action) menuComponent, actionList);
-                        }
-                    }
+                    ((ToggleMenu) component).getMenuItems().stream()
+                            .filter(menuComponent -> menuComponent instanceof Action)
+                            .forEach(menuComponent -> addActionIfAvailable((Action) menuComponent, actionList));
                 } else if (component instanceof Action) {
                     addActionIfAvailable((Action) component, actionList);
                 }
@@ -348,18 +346,17 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public List<ProposalPerson> getPersonnelWhoRequireCertification() {
         ProposalDevelopmentPermissionsService permissionsService = getProposalDevelopmentPermissionsService();
-        List<ProposalPerson> persons = getDevelopmentProposal().getProposalPersons().stream().
-                filter(person -> permissionsService.doesPersonRequireCertification(person)).collect(Collectors.toList());
-        return persons;
+        return getDevelopmentProposal().getProposalPersons().stream().
+                filter(permissionsService::doesPersonRequireCertification)
+                .collect(Collectors.toList());
     }
 
     public List<ProposalPerson> getPersonnelWhoRequireDisclosure() {
     	ProposalPersonCoiIntegrationService proposalPersonCoiIntegrationService = getProposalPersonCoiIntegrationService();
-    	List<ProposalPerson> persons = getPersonnelWhoRequireCertification().stream().filter(person -> {
+    	return getPersonnelWhoRequireCertification().stream().filter(person -> {
     		String coiStatus = proposalPersonCoiIntegrationService.getProposalPersonCoiStatus(person);
     		return !coiStatus.equals(CoiConstants.CERTIFICATION_INCOMPLETE) && !coiStatus.equals(CoiConstants.DISCLOSURE_NOT_REQUIRED);
     	}).collect(Collectors.toList());
-    	return persons;
     }
     
     private ProposalPersonCoiIntegrationService getProposalPersonCoiIntegrationService() {
@@ -389,7 +386,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public Tree<Object, String> getMedusaTreeView() {
     	if (medusaTree == null) {
-			medusaTree = new Tree<Object, String>();
+			medusaTree = new Tree<>();
 			MedusaNode rootNode = new MedusaNode();
 			rootNode.setNodeLabel("Medusa Tree");
 			medusaTree.setRootElement(rootNode);
@@ -405,13 +402,13 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
      * Creates the list of <code>{@link org.kuali.coeus.common.framework.person.attr.PersonEditableField}</code> field names.
      */
     public void populatePersonEditableFields() {
-        setPersonEditableFields(new HashMap<String, Boolean>());
+        setPersonEditableFields(new HashMap<>());
 
-        Map fieldValues = new HashMap();
+        Map<String, String> fieldValues = new HashMap<>();
         fieldValues.put("moduleCode", CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE);
         Collection<PersonEditableField> fields = getLegacyDataAdapter().findMatching(PersonEditableField.class, fieldValues);
         for (PersonEditableField field : fields) {
-            getPersonEditableFields().put(field.getFieldName(), Boolean.valueOf(field.isActive()));
+            getPersonEditableFields().put(field.getFieldName(), field.isActive());
         }
     }
 
@@ -552,12 +549,20 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.personEditableFields = personEditableFields;
     }
 
-    public ProposalDevelopmentRejectionBean getProposalDevelopmentRejectionBean() {
+    public ProposalDevelopmentActionBean getProposalDevelopmentRejectionBean() {
         return proposalDevelopmentRejectionBean;
     }
 
-    public void setProposalDevelopmentRejectionBean(ProposalDevelopmentRejectionBean proposalDevelopmentRejectionBean) {
+    public void setProposalDevelopmentRejectionBean(ProposalDevelopmentActionBean proposalDevelopmentRejectionBean) {
         this.proposalDevelopmentRejectionBean = proposalDevelopmentRejectionBean;
+    }
+
+    public ProposalDevelopmentActionBean getProposalDevelopmentApprovalBean() {
+        return proposalDevelopmentApprovalBean;
+    }
+
+    public void setProposalDevelopmentApprovalBean(ProposalDevelopmentActionBean proposalDevelopmentApprovalBean) {
+        this.proposalDevelopmentApprovalBean = proposalDevelopmentApprovalBean;
     }
 
     public S2sAppSubmission getDisplayedS2sAppSubmission() {
@@ -642,7 +647,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         return getUnitRulesMessages(KcKrmsConstants.MESSAGE_TYPE_ERROR);
     }
     protected List<String> getUnitRulesMessages(String messageType) {
-        List<String> messages = new ArrayList<String>();
+        List<String> messages = new ArrayList<>();
         for (String message : this.unitRulesMessages) {
             if (StringUtils.substringBefore(message, KcKrmsConstants.MESSAGE_SEPARATOR).equals(messageType)) {
                 messages.add(StringUtils.substringAfter(message, KcKrmsConstants.MESSAGE_SEPARATOR));
@@ -675,11 +680,12 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.viewOnly = viewOnly;
     }
 
-
+    @Override
     public ProposalDevelopmentBudgetExt getSelectedBudget() {
         return selectedBudget;
     }
 
+    @Override
     public void setSelectedBudget(ProposalDevelopmentBudgetExt selectedBudget) {
         this.selectedBudget = selectedBudget;
     }

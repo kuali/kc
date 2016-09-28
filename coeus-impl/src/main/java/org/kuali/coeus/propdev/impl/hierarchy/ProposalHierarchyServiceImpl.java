@@ -1204,9 +1204,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      * @param proposalDoc The ProposalDevelopmentDocument that should be rejected.
      * @param principalId the principal we are rejecting the document as.
      * @param appDocStatus the application document status to apply ( does not apply if null )
-     * @throws WorkflowException
      */
-    protected void rejectProposal( ProposalDevelopmentDocument proposalDoc, String reason, String principalId, String appDocStatus ) throws WorkflowException  {
+    protected void rejectProposal( ProposalDevelopmentDocument proposalDoc, String reason, String principalId, String appDocStatus )  {
         getKcDocumentRejectionService().reject(proposalDoc.getDocumentHeader().getWorkflowDocument(), reason, principalId, appDocStatus);
     }
 
@@ -1216,24 +1215,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      * @param hierarchyParent The hierarchy to reject
      * @param reason the reason to be applied to the annotation field.  The reason will be pre-pended with static text indicating if it was a child or the parent.
      * @param principalId the id of the principal that is rejecting the document.
-     * @throws ProposalHierarchyException If hierarchyParent is not a hierarchy, or there was a problem rejecting one of the documents.
      */
     protected void rejectProposalHierarchy(ProposalDevelopmentDocument hierarchyParent, String reason, String principalId ) throws ProposalHierarchyException {
-
-      //1. reject the parent.
-        try {
-            rejectProposal( hierarchyParent, renderMessage( PROPOSAL_ROUTING_REJECTED_ANNOTATION, reason ), principalId, renderMessage( HIERARCHY_REJECTED_APPSTATUS ) );
-        }
-        catch (WorkflowException e) {
-            throw new ProposalHierarchyException( String.format( "WorkflowException encountered rejecting proposal hierarchy parent %s", hierarchyParent.getDevelopmentProposal().getProposalNumber() ),e);
-        }
-
+        rejectProposal( hierarchyParent, renderMessage( PROPOSAL_ROUTING_REJECTED_ANNOTATION, reason ), principalId, renderMessage( HIERARCHY_REJECTED_APPSTATUS ) );
     }
-    
-    
+
     @Override
     public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalName, MultipartFile rejectFile )
-    throws WorkflowException, ProposalHierarchyException, IOException {
+    throws WorkflowException, ProposalHierarchyException {
         DevelopmentProposal pbo = getDevelopmentProposal(proposalNumber);
         ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(pbo.getProposalDocument().getDocumentNumber());
         if (!pbo.isInHierarchy()) {
@@ -1245,28 +1234,34 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             throw new UnsupportedOperationException(String.format("Cannot reject proposal %s it is a hierarchy child or ", proposalNumber));
         }
 
-        if (rejectFile != null && rejectFile.getBytes().length > 0) {
-            Narrative narrative = new Narrative();
-            narrative.setName(rejectFile.getOriginalFilename());
-            narrative.setComments(reason);
-            try {
-                narrative.init(rejectFile);
-            } catch (Exception e) {
-                throw new RuntimeException("Error Initializing narrative attachment file", e);
-            }
-            narrative.setNarrativeTypeCode(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.REJECT_NARRATIVE_TYPE_CODE_PARAM));
-            NarrativeStatus status = dataObjectService.findUnique(NarrativeStatus.class, QueryByCriteria.Builder.forAttribute(CODE, COMPLETE).build());
-            narrative.setNarrativeStatus(status);
-            narrative.setModuleStatusCode(status.getCode());
-            narrative.setModuleTitle("Proposal rejection attachment.");
-            narrative.setContactName(globalVariableService.getUserSession().getPrincipalName());
-            narrative.setPhoneNumber(globalVariableService.getUserSession().getPerson().getPhoneNumber());
-            narrative.setEmailAddress(globalVariableService.getUserSession().getPerson().getEmailAddress());
-            getLegacyNarrativeService().prepareNarrative(pDoc, narrative);
-            pDoc.getDevelopmentProposal().getInstituteAttachments().add(narrative);
-            dataObjectService.save(pDoc);
-        }
+        createAndSaveActionNarrative(reason, "Proposal rejection attachment.", rejectFile, getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.REJECT_NARRATIVE_TYPE_CODE_PARAM), pDoc);
 
+    }
+    @Override
+    public void createAndSaveActionNarrative(String reason, String title, MultipartFile file, String narrativeTypeCode, ProposalDevelopmentDocument pDoc) {
+        try {
+            if (file != null && file.getBytes().length > 0) {
+                Narrative narrative = new Narrative();
+                narrative.setName(file.getOriginalFilename());
+                narrative.setComments(reason);
+                try {
+                    narrative.init(file);
+                } catch (Exception e) {
+                    throw new RuntimeException("Error Initializing narrative attachment file", e);
+                }
+                narrative.setNarrativeTypeCode(narrativeTypeCode);
+                narrative.setModuleStatusCode(COMPLETE);
+                narrative.setModuleTitle(title);
+                narrative.setContactName(globalVariableService.getUserSession().getPrincipalName());
+                narrative.setPhoneNumber(globalVariableService.getUserSession().getPerson().getPhoneNumber());
+                narrative.setEmailAddress(globalVariableService.getUserSession().getPerson().getEmailAddress());
+                getLegacyNarrativeService().prepareNarrative(pDoc, narrative);
+                pDoc.getDevelopmentProposal().getInstituteAttachments().add(narrative);
+                dataObjectService.save(pDoc);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading narrative attachment file", e);
+        }
     }
 
     @Override

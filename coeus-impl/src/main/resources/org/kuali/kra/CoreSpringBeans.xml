@@ -487,7 +487,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/ProposalDevelopmentBudgetExt.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalDevelopmentDocument.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/masschange/ProposalDevelopmentPersonMassChange.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/action/ProposalDevelopmentRejectionBean.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/action/ProposalDevelopmentActionBean.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/ProposalInvestigatorCertification.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/location/ProposalLocationType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalLogPersonMassChange.xml</value>

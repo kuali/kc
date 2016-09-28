@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2016 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+  <bean id="ProposalDevelopmentActionBean" parent="ProposalDevelopmentActionBean-parentBean" />
+  <bean id="ProposalDevelopmentActionBean-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.action.ProposalDevelopmentActionBean" />
+	<property name="objectLabel" value="Proposal Development Action" />
+    <property name="titleAttribute" value="actionReason" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalDevelopmentActionBean-actionReason" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="ProposalDevelopmentActionBean-actionReason" parent="ProposalDevelopmentActionBean-actionReason-parentBean" />
+  <bean id="ProposalDevelopmentActionBean-actionReason-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="actionReason" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Action Reason" />
+    <property name="shortLabel" value="Action Reason" />
+    <property name="maxLength" value="4000" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="100"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="100" parent="Uif-TextAreaControl"/>
+    </property>
+    <property name="summary" value="Action Reason" />
+    <property name="description" value="Action Reason" />
+  </bean>
+</beans>

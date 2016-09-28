@@ -85,6 +85,7 @@ public interface Constants {
     public static final String INVALID_FILE_NAME_ERROR_CODE = "2";
     public static final String INVALID_FILE_NAME_CHECK_PARAMETER = "INVALID_FILE_NAME_CHECK";
     public static final String REJECT_NARRATIVE_TYPE_CODE_PARAM = "rejectNarrativeTypeCode";
+    public static final String APPROVE_NARRATIVE_TYPE_CODE_PARAM = "approveNarrativeTypeCode";
     public static final String HIDE_AND_DEFAULT_PROP_DEV_DOC_DESC_PARAM = "HIDE_AND_DEFAULT_PROP_DEV_DOC_DESC";
 
     public static final String PERSON_ROLE_PARAMETER_PREFIX = "personrole.";
