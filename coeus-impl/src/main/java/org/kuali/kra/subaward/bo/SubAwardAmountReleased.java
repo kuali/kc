@@ -274,9 +274,13 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcFile
         setMimeType(contentType);
     }
     
-    
+
     public SubAward getSubAward() {
-        return getSubAwardService().getActiveSubAward(getSubAwardId());
+        if (getSubAwardId() != null) {
+            return getSubAwardService().getActiveSubAward(getSubAwardId());
+        } else {
+            return null;
+        }
     }
     public SubAwardService getSubAwardService() {
         if (subAwardService == null) {
