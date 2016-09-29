@@ -68,11 +68,7 @@
     <property name="summary" value="Person Signature Code" />
     <property name="description" value="Person Signature Code" />
   </bean>
-  
-  <!-- This FileControlDefinition should be removed once a bug in Rice is fixed.
-        In other words, the Rice Team forgot to add the FileControlDefinition to
-        their XML configuration. -->
-<bean id="FileControlDefinition" class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition" abstract="true"/>
+
   <bean id="PersonSignature-templateFile" parent="PersonSignature-templateFile-parentBean" />
   <bean id="PersonSignature-templateFile-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="templateFile" />

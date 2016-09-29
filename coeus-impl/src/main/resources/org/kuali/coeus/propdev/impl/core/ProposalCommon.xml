@@ -91,33 +91,6 @@
         </property>
     </bean>
 
-    <bean id="PropBudget-ProjectPersonnelPage-SearchResults" parent="PropBudget-ProjectPersonnelPage-SearchResults-parentBean" />
-    <bean id="PropBudget-ProjectPersonnelPage-SearchResults-parentBean" abstract="true"
-          parent="Uif-CssGridGroup">
-        <property name="items">
-            <list>
-                <bean parent="PropBudget-ProjectPersonnelPage-Search-Result-Details"
-                      p:order="10" />
-            </list>
-        </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="PropBudget-ProjectPersonnelPage-WizardButton-Back"
-                              p:actionParameters="PropBudget-ProjectPersonnelPage-Wizard.step:0" p:order="10" />
-                        <bean parent="PropDev-PersonnelPage-WizardButton-Continue"
-                              p:actionParameters="PropDev-PersonnelPage-Wizard.step:2"
-                              p:actionLabel="Add Selected Personnel" p:refreshId="PropBudget-ProjectPersonnelPage-CollectionGroup"
-                              p:methodToCall="addProjectPersonnel" p:successCallback="dismissDialog('PropBudget-ProjectPersonnelPage-Wizard');"
-                              p:order="20" />
-                        <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" />
-                    </list>
-                </property>
-            </bean>
-        </property>
-    </bean>
-
     <bean id="PropDev-Personnel-TypeSelection-InputField" parent="PropDev-Personnel-TypeSelection-InputField-parentBean" />
     <bean id="PropDev-Personnel-TypeSelection-InputField-parentBean" abstract="true"
           parent="Uif-InputField" p:propertyName="lineType" p:order="10"

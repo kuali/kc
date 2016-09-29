@@ -388,7 +388,6 @@
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalComment.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalContact.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalCostShare.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalCreditSplit.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalCustomData.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalNotepad.xml</value>
@@ -621,7 +620,6 @@
                 <value>classpath:org/kuali/kra/datadictionary/ScheduleStatus.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SchoolCode.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/keyword/ScienceKeyword.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ScienceKeywordReference.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/compliance/core/SpecialReview.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/compliance/core/SpecialReviewApprovalType.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/compliance/exemption/SpecialReviewExemption.xml</value>
