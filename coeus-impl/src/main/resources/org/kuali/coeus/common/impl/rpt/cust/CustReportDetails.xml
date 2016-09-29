@@ -204,7 +204,6 @@
 		<property name="description" value="Permission Name" />
 	</bean> 
 
-  <bean id="FileControlDefinition" class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition" abstract="true"/>
 	<bean id="CustReportDetails-templateFile" parent="CustReportDetails-templateFile-parentBean" />
   <bean id="CustReportDetails-templateFile-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="templateFile" />

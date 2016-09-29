@@ -363,7 +363,6 @@
     	<property name="description" value="Indicates the type of proposal deadline."/>
   			</bean>
 
-  <bean id="DevelopmentProposal-primeSponsorCode" parent="DevelopmentProposal-primeSponsorCode-parentBean"/>
     <bean id="InstitutionalProposal-currentAccountNumber" parent="InstitutionalProposal-currentAccountNumber-parentBean" />
     <bean id="InstitutionalProposal-currentAccountNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="currentAccountNumber" />
@@ -776,7 +775,6 @@
     	<property name="description" value="This field determines whether the Sponsored Programs Office or the department will be mailing the proposal to the agency/sponsor."/>
   	</bean>
 
-  <bean id="DevelopmentProposal-mailType" parent="DevelopmentProposal-mailType-parentBean"/>
     <bean id="InstitutionalProposal-mailType" parent="InstitutionalProposal-mailType-parentBean" />
     <bean id="InstitutionalProposal-mailType-parentBean" abstract="true" parent="AttributeDefinition">
     	<property name="name" value="mailType"/>

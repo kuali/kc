@@ -60,4 +60,9 @@
     <bean id="PropDev-CloseBudget-Dialog" parent="PropDev-CloseBudget-Dialog-parentBean"/>
     <bean id="PropDev-CloseBudget-Dialog-parentBean" abstract="true" parent="PropDev-Close-Dialog"
           p:promptText="Would you like to save this budget before you close it?"/>
+
+	<!-- this dialog will be triggered from the controller -->
+	<bean id="PropBudget-ConfirmPeriodChangesDialog" parent="Uif-DialogGroup-YesNo"
+		  p:promptText="You are about to enter costs in a later period. Doing so will prevent you from being able to use the auto-calculate periods function to auto-calculate later periods. Do you wish to continue?"/>
+
 </beans>

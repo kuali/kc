@@ -74,11 +74,7 @@
     <property name="summary" value="Watermark Code" />
     <property name="description" value="Watermark Code" />
   </bean>
-  
-  <!-- This FileControlDefinition should be removed once a bug in Rice is fixed.
-        In other words, the Rice Team forgot to add the FileControlDefinition to
-        their XML configuration. -->
-<bean id="FileControlDefinition" class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition" abstract="true"/>
+
   <bean id="Watermark-templateFile" parent="Watermark-templateFile-parentBean" />
   <bean id="Watermark-templateFile-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="templateFile" />

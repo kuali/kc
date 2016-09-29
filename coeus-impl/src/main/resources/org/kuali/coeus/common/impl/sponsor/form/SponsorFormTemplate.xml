@@ -44,11 +44,6 @@
 
 <!-- Attribute Definitions -->
 
-
-   <!-- This FileControlDefinition should be removed once a bug in Rice is fixed.
-        In other words, the Rice Team forgot to add the FileControlDefinition to
-        their XML configuration. -->
-<bean id="FileControlDefinition" class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition" abstract="true"/>
   <bean id="SponsorFormTemplate-templateFile" parent="SponsorFormTemplate-templateFile-parentBean" />
   <bean id="SponsorFormTemplate-templateFile-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="templateFile" />

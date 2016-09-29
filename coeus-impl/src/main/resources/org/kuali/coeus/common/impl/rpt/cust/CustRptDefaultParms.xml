@@ -33,7 +33,7 @@
 			<list>
 				<ref bean="CustRptDefaultParms-parameterName" />
 				<ref bean="CustRptDefaultParms-reportTypeCode" />
-				<ref bean="CustReportDetails-custReportType.reportTypeCode" />
+				<ref bean="CustRptDefaultParms-custReportType.reportTypeCode" />
 				<ref bean="CustRptDefaultParms-className" />
 				<ref bean="CustRptDefaultParms-javaStatements" />
 				<ref bean="CustRptDefaultParms-unitForAuthCheck" />
@@ -90,8 +90,8 @@
 		<property name="description" value="Report Type Code" />
 	</bean>
 	
-  <bean id="CustReportDetails-custReportType.reportTypeCode" parent="CustReportDetails-custReportType.reportTypeCode-parentBean"/>
-  <bean id="CustReportDetails-custReportType.reportTypeCode-parentBean" abstract="true" parent="CustReportType-reportTypeCode">
+  <bean id="CustRptDefaultParms-custReportType.reportTypeCode" parent="CustRptDefaultParms-custReportType.reportTypeCode-parentBean"/>
+  <bean id="CustRptDefaultParms-custReportType.reportTypeCode-parentBean" abstract="true" parent="CustReportType-reportTypeCode">
 		<property name="name" value="custReportType.reportTypeCode" />
 		<property name="label" value="Report Type Code" />
 	</bean>

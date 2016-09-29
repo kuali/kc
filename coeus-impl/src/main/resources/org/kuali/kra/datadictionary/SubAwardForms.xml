@@ -76,9 +76,7 @@
 	<bean id="SubawardForms-versionNumber" parent="SubawardForms-versionNumber-parentBean" />
 	<bean id="SubawardForms-versionNumber-parentBean" abstract="true"
 		parent="AttributeReferenceDummy-versionNumber" />
-	<bean id="FileControlDefinition"
-		class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition"
-		abstract="true" />
+
 	<bean id="SubawardForms-templateFile" parent="SubawardForms-templateFile-parentBean" />
 	<bean id="SubawardForms-templateFile-parentBean" abstract="true"
 		parent="AttributeDefinition">

@@ -161,10 +161,6 @@
         </property>
     </bean>
 
-	<!-- this dialog will be triggered from the controller -->
-	<bean id="PropBudget-ConfirmPeriodChangesDialog" parent="Uif-DialogGroup-YesNo"
-		p:promptText="You are about to enter costs in a later period. Doing so will prevent you from being able to use the auto-calculate periods function to auto-calculate later periods. Do you wish to continue?"/>
-
 	<bean id="PropBudget-EditNonPersonnelPeriod-Section" parent="PropBudget-EditNonPersonnelPeriod-Section-parent" />
 	<bean id="PropBudget-EditNonPersonnelPeriod-Section-parent" abstract="true" parent="Uif-DialogGroup" 
         p:onHideDialogScript="jQuery('#PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog'));});"

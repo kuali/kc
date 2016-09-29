@@ -36,7 +36,7 @@
 			<list>
 				<ref bean="ProtocolType-protocolTypeCode"/>
 				<ref bean="ProtocolType-description"/>
-				<ref bean="ProtocolReviewType-globalFlag" />
+				<ref bean="ProtocolType-globalFlag" />
 				<ref bean="ProtocolType-versionNumber"/>
 			</list>
 		</property>
@@ -73,14 +73,8 @@
     	<property name="maxLength" value="300"/>
     </bean>
     
-     <bean id="ProtocolReviewType-globalFlag" parent="ProtocolReviewType-globalFlag-parentBean"/>
-    <bean id="ProtocolReviewType-globalFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-        <property name="name" value="globalFlag"/>
-        <property name="label" value="Global Flag"/>
-        <property name="shortLabel" value="Global Flag"/>
-        <property name="summary" value="Global Flag"/>
-        <property name="description" value="Global Flag"/>
-    </bean>
+     <bean id="ProtocolType-globalFlag" parent="ProtocolType-globalFlag-parentBean"/>
+    <bean id="ProtocolType-globalFlag-parentBean" abstract="true" parent="ProtocolReviewType-globalFlag"/>
 	
 	<bean id="ProtocolType-versionNumber" parent="ProtocolType-versionNumber-parentBean"/>
   <bean abstract="true" id="ProtocolType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
