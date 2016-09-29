@@ -72,7 +72,7 @@ public class KeyPersonnelServiceAdapter implements KeyPersonnelService {
         
     }
     @Override
-    public List<ProposalCreditSplitListDto> createCreditSplitListItems(List<ProposalPerson> investigators) {
+    public List<ProposalCreditSplitListDto> createCreditSplitListItems(ProposalDevelopmentDocument document) {
         return null;
     }
     @Override

@@ -158,11 +158,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                     }
                 }
                 if (!creditTypeFound ) {
-                    ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
-                    creditSplit.setProposalPerson(person);
-                    creditSplit.setInvCreditTypeCode(invcredtype.getCode());
-                    creditSplit.setCredit(new ScaleTwoDecimal(0));
-                    person.getCreditSplits().add(creditSplit);
+                    person.getCreditSplits().add(getProposalPersonCreditSplit(person, invcredtype.getCode()));
                 }
             }
             for(ProposalPersonUnit unitsplit:person.getUnits()){
@@ -175,11 +171,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                         }
                     }
                     if (!creditTypeFound ) {
-                        ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
-                        creditSplit.setProposalPersonUnit(unitsplit);
-                        creditSplit.setInvCreditTypeCode(invcrdtype.getCode());
-                        creditSplit.setCredit(new ScaleTwoDecimal(0));
-                        unitsplit.getCreditSplits().add(creditSplit);
+                        unitsplit.getCreditSplits().add(getProposalUnitCreditSplit(unitsplit, invcrdtype.getCode()));
                     }
                 }
             }
@@ -310,10 +302,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         }
 
         for (InvestigatorCreditType creditType : (Collection<InvestigatorCreditType>) getInvestigatorCreditTypes()) {
-            ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
-            creditSplit.setProposalPerson(person);
-            creditSplit.setInvCreditTypeCode(creditType.getCode());
-            creditSplit.setCredit(new ScaleTwoDecimal(0));
+            ProposalPersonCreditSplit creditSplit = getProposalPersonCreditSplit(person, creditType.getCode());
             person.getCreditSplits().add(creditSplit);
         }
 
@@ -482,11 +471,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     public List<ProposalUnitCreditSplit> createCreditSplits(ProposalPersonUnit unit) {
         List<ProposalUnitCreditSplit> retVal = new ArrayList<ProposalUnitCreditSplit>();
         for (InvestigatorCreditType creditType : getInvestigatorCreditTypes()) {
-            ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
-            creditSplit.setProposalPersonUnit(unit);
-            creditSplit.setInvCreditTypeCode(creditType.getCode());
-            creditSplit.setCredit(new ScaleTwoDecimal(0));
-            retVal.add(creditSplit);
+            retVal.add(getProposalUnitCreditSplit(unit, creditType.getCode()));
         }
         return retVal;
     }
@@ -544,8 +529,56 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 		this.personEditableService = personEditableService;
 	}
 
+
+
     @Override
-    public List<ProposalCreditSplitListDto> createCreditSplitListItems(List<ProposalPerson> investigators) {
+    public List<ProposalCreditSplitListDto> createCreditSplitListItems(ProposalDevelopmentDocument document) {
+        List<ProposalPerson> investigators = document.getDevelopmentProposal().getInvestigators();
+        if(!hasBeenRoutedOrCanceled(document)) {
+            handleNewCreditTypes(investigators, getInvestigatorCreditTypes());
+        }
+        return createCreditSplitListDtos(investigators);
+    }
+
+    public void handleNewCreditTypes(List<ProposalPerson> investigators, Collection<InvestigatorCreditType> creditTypes) {
+        investigators.stream().forEach(person -> {
+            List<InvestigatorCreditType> newCreditTypes = creditTypes.stream().filter(creditType -> {
+                return person.getCreditSplits().stream().noneMatch(creditSplit -> creditSplit.getInvCreditTypeCode().equals(creditType.getCode()));
+            }).collect(Collectors.toList());
+
+            newCreditTypes.stream().forEach(newCreditType -> {
+                person.getCreditSplits().add(getProposalPersonCreditSplit(person, newCreditType.getCode()));
+            });
+
+            person.getUnits().stream().forEach(unit -> {
+                List<InvestigatorCreditType> newUnitCreditTypes = creditTypes.stream().filter(creditType -> {
+                    return unit.getCreditSplits().stream().noneMatch(creditSplit -> creditSplit.getInvCreditTypeCode().equals(creditType.getCode()));
+                }).collect(Collectors.toList());
+
+                newUnitCreditTypes.stream().forEach(newUnitCreditType -> {
+                    unit.getCreditSplits().add(getProposalUnitCreditSplit(unit, newUnitCreditType.getCode()));
+                });
+            });
+        });
+    }
+
+    private ProposalPersonCreditSplit getProposalPersonCreditSplit(ProposalPerson person, String code) {
+        ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
+        creditSplit.setProposalPerson(person);
+        creditSplit.setInvCreditTypeCode(code);
+        creditSplit.setCredit(new ScaleTwoDecimal(0));
+        return creditSplit;
+    }
+
+    private ProposalUnitCreditSplit getProposalUnitCreditSplit(ProposalPersonUnit unit, String code) {
+        ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
+        creditSplit.setProposalPersonUnit(unit);
+        creditSplit.setInvCreditTypeCode(code);
+        creditSplit.setCredit(new ScaleTwoDecimal(0));
+        return creditSplit;
+    }
+
+    public List<ProposalCreditSplitListDto> createCreditSplitListDtos(List<ProposalPerson> investigators) {
         List<ProposalCreditSplitListDto> creditSplitListItems = new ArrayList<ProposalCreditSplitListDto>();
         Map<String,CreditSplit> totalInvestigatorSplits = new HashMap<>();
         for (ProposalPerson investigator : investigators) {

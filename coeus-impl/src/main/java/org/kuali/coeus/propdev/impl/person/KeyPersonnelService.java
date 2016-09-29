@@ -21,8 +21,6 @@ package org.kuali.coeus.propdev.impl.person;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 
@@ -108,7 +106,7 @@ public interface KeyPersonnelService {
     public void addProposalPerson(ProposalPerson proposalPerson, ProposalDevelopmentDocument document);
 
 
-    public List<ProposalCreditSplitListDto> createCreditSplitListItems(List<ProposalPerson> investigators);
+    public List<ProposalCreditSplitListDto> createCreditSplitListItems(ProposalDevelopmentDocument document);
 
     public List<ProposalUnitCreditSplit> createCreditSplits(ProposalPersonUnit unit);
 
