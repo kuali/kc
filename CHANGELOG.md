@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1609.0052
 * Add performance for protocol history back in with additional null checking
   * Terry Durkin on Wed, 28 Sep 2016 10:44:57 -0400 [View Commit](../../commit/189dd1dd00f53685a870a3228b1dc0d9f992bbb6)
 
