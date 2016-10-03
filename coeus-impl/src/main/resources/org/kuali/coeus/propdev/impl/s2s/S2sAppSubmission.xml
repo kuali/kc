@@ -101,10 +101,12 @@
     <property name="shortLabel" value="Agency Tracking Id" />
     <property name="maxLength" value="50" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+        <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
     <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
+        <bean parent="AnyCharacterPatternConstraint">
+            <property name="allowWhitespace" value="true"/>
+        </bean>
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="50"/>
@@ -124,10 +126,12 @@
     <property name="shortLabel" value="Comments" />
     <property name="maxLength" value="2000" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+        <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
     <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
+        <bean parent="AnyCharacterPatternConstraint">
+            <property name="allowWhitespace" value="true"/>
+        </bean>
     </property>
     <property name="control" >
       <bean parent="TextareaControlDefinition" p:rows="3" p:cols="30"/>
@@ -147,10 +151,12 @@
     <property name="shortLabel" value="S2S Tracking Id" />
     <property name="maxLength" value="50" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+        <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
     <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
+        <bean parent="AnyCharacterPatternConstraint">
+            <property name="allowWhitespace" value="true"/>
+        </bean>
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="50"/>
@@ -197,10 +203,12 @@
     <property name="shortLabel" value="Status" />
     <property name="maxLength" value="50" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+        <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
     <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
+        <bean parent="AnyCharacterPatternConstraint">
+            <property name="allowWhitespace" value="true"/>
+        </bean>
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="50"/>
