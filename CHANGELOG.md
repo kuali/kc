@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Fixing the validation pattern on some fields. (#2015)
+
+  * Gayathri Athreya on Mon, 3 Oct 2016 12:51:55 -0700 [View Commit](../../commit/34c71af701ca5f513d5166d5bb15bb2bc251572e)
+
+##coeus-1609.0056
 * No Changes
 
 
