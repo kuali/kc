@@ -98,7 +98,7 @@ public class UnitServiceImpl implements UnitService {
         List<Unit> units = new ArrayList<>();
         Map<String, Object> fieldValues = new HashMap<>();
         fieldValues.put(PARENT_UNIT_NUMBER, unitNumber);
-        units.addAll(getBusinessObjectService().findMatching(Unit.class, fieldValues));
+        units.addAll(getBusinessObjectService().findMatchingOrderBy(Unit.class, fieldValues, "unitNumber", true));
         return units;
     }
 
