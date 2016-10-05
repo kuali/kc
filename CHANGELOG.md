@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-1568: fixing Attachment4Required checkbox so it displays an empty checkbox when unchecked
+  * Travis Schneeberger on Wed, 5 Oct 2016 09:18:13 -0400 [View Commit](../../commit/97a733b0fc2bc602017f4a45aac6cf3d76f65795)
+* adding code values that are referenced by the HR api
+  * Travis Schneeberger on Fri, 30 Sep 2016 15:43:03 -0400 [View Commit](../../commit/87f366da56bfe24afd1739611ff7c49bcd65c303)
+* RESKC-1568: fixing Attachment4Required checkbox so it displays an empty checkbox when unchecked
+  * Travis Schneeberger on Thu, 29 Sep 2016 15:47:10 -0400 [View Commit](../../commit/eab197305471d9534f594cb2521fb74c9b4f564b)
+
+##coeus-1610.0001
 * Fixing the validation pattern on some fields. (#2015)
 
   * Gayathri Athreya on Mon, 3 Oct 2016 12:51:55 -0700 [View Commit](../../commit/34c71af701ca5f513d5166d5bb15bb2bc251572e)
