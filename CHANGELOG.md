@@ -1,6 +1,23 @@
 
 
 ##CURRENT
+* RESKC-1480: S2S PHS Career Development Award Supplement V3.0 will not validate and print/preview despite meeting the minimum required attachment validation if there is no PI/citizenship data. (#2016)
+
+  * There must be a better validation that is specific to the missing PI and/or Citizenship data for this form to aid the user.
+  * Just stating the form is not valid makes for a totally NOT AWESOME experience.
+  * This is happening in Res Demo 1 (proposal 1470) and MIT QA.(pd 31033)
+  * This form had passed QA tests in the 1605+ for MIT.
+  * But 1607.5-MIT and Kuali 1607.7 07-07-2016 18:48 a consistent error appears stating the form is invalid.
+  * Create a proposal with minimum required data.
+  * S2S: search for Grants. gov; PA-DD-K99
+  * Try to print/preview the CareerDevelopmentAwardSupp_3_0:
+  * result: 2 error rows: 1st identifies the required Research Strategy attachment; 2nd states the form name and it is 'not valid'.
+  * Attachments > upload the Career research Strategy narrative
+  * Return to S2S opportunity screen; attempt to print Career Dev form.
+  * Result: Form error persists:
+  * GrantApplication/Forms/PHS398_CareerDevelopmentAwardSup_3_0 is not valid in PHS398_CareerDevelopmentAwardSup_3_0  * Gayathri Athreya on Wed, 5 Oct 2016 10:54:45 -0700 [View Commit](../../commit/80a8540ba73c8f01d075dcdf8b98e2542916178c)
+
+##coeus-1610.0003
 * RESKC-1575: Sort units on unit hierarchy screen
   * Terry Durkin on Wed, 5 Oct 2016 11:25:44 -0400 [View Commit](../../commit/6b34ff9feff305132773e8dd15ec09cdea1114b3)
 
