@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1575: Sort units on unit hierarchy screen
+  * Terry Durkin on Wed, 5 Oct 2016 11:25:44 -0400 [View Commit](../../commit/6b34ff9feff305132773e8dd15ec09cdea1114b3)
+
+##coeus-1610.0002
 * RESKC-1568: fixing Attachment4Required checkbox so it displays an empty checkbox when unchecked
   * Travis Schneeberger on Wed, 5 Oct 2016 09:18:13 -0400 [View Commit](../../commit/97a733b0fc2bc602017f4a45aac6cf3d76f65795)
 * adding code values that are referenced by the HR api
