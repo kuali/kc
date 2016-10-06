@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1313: add validation to unit maintenance to not allow parent unit number to be the same as unit number
+  * Joe Williams on Thu, 6 Oct 2016 10:12:58 -0500 [View Commit](../../commit/d01f67646e90560ce92209741ca0a4a02806e849)
+
+##coeus-1610.0005
 * No Changes
 
 
