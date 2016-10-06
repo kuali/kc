@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.common.impl.unit;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
@@ -76,6 +77,10 @@ public class UnitMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
         Unit unit=(Unit)maintenanceDocument.getNewMaintainableObject().getDataObject();
         String unitNumber=unit.getUnitNumber();
         String parentUnitNumber=unit.getParentUnitNumber();
+        if(StringUtils.equals(unitNumber, parentUnitNumber)) {
+            GlobalVariables.getMessageMap().putError(DOCUMENT_PARENT_UNIT_NUMBER, KeyConstants.UNIT_SAME_AS_PARENT);
+            valid=false;
+        }
         List<Unit> allSubUnits = getUnitService().getAllSubUnits(unitNumber);
         for (Unit subunits : allSubUnits) {  
             if(subunits.getUnitNumber().equals(parentUnitNumber)){

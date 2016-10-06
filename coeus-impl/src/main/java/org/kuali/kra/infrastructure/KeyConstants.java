@@ -1141,6 +1141,7 @@ public final class KeyConstants {
 
     // unit errors
     public static final String PARENT_UNIT_REQUIRED = "error.required.parent.unit";
+    public static final String UNIT_SAME_AS_PARENT = "error.same.as.parent";
     
     /**
      * private utility class ctor.
