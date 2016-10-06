@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1612: fixes error on in progress proposals when new credit types are added
+  * Joe Williams on Thu, 29 Sep 2016 13:50:29 -0500 [View Commit](../../commit/096c51933c9dd139e7389d0ebae684b98f91be76)
+
+##coeus-1610.0007
 * RESKC-1746: add parameter to disable proposal development disapproval
   * Joe Williams on Thu, 6 Oct 2016 09:37:24 -0500 [View Commit](../../commit/6fff836e0b2f1533f1c22b5d5de06432670c03f7)
 
