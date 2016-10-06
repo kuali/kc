@@ -20,6 +20,7 @@ package org.kuali.coeus.propdev.impl;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelServiceImpl;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -40,8 +41,10 @@ public class KeyPersonnelServiceImplTest {
     public static final String FINANCIAL = "FINANCIAL";
     public static final String RECOGNITION = "RECOGNITION";
     public static final String RESPONSIBILITY = "RESPONSIBILITY";
+    public static final String SPACE = "SPACE";
     KeyPersonnelServiceImpl keyPersonnelService;
     private ProposalPerson proposalPerson;
+    private List<InvestigatorCreditType> investigatorCreditTypes;
 
     @Before
     public void setup() {
@@ -74,7 +77,15 @@ public class KeyPersonnelServiceImplTest {
 
         proposalPerson.getUnits().add(unit);
         proposalPerson.getUnits().add(unit2);
+
+        investigatorCreditTypes = new ArrayList() {{
+            add(new InvestigatorCreditType(FINANCIAL, FINANCIAL));
+            add(new InvestigatorCreditType(RECOGNITION, RECOGNITION));
+            add(new InvestigatorCreditType(RESPONSIBILITY, RESPONSIBILITY));
+            add(new InvestigatorCreditType(SPACE,SPACE));
+        }};
     }
+
 
     protected ProposalPersonCreditSplit createPersonCreditSplit(String financial, int value) {
         ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
@@ -101,12 +112,21 @@ public class KeyPersonnelServiceImplTest {
     public void test_createCreditSplitListItems() {
         List<ProposalPerson> proposalPersons = new ArrayList<>();
         proposalPersons.add(proposalPerson);
-        List<ProposalCreditSplitListDto> creditSplitListDtos =  keyPersonnelService.createCreditSplitListItems(proposalPersons);
+        List<ProposalCreditSplitListDto> creditSplitListDtos = keyPersonnelService.createCreditSplitListDtos(proposalPersons);
         assertEquals(5,creditSplitListDtos.size());
         verifyCreditSplitListDto(creditSplitListDtos.get(0), BOB, 100, 100, 100);
         verifyCreditSplitListDto(creditSplitListDtos.get(1),"1 - UNIT1",0,20,60);
         verifyCreditSplitListDto(creditSplitListDtos.get(2),"2 - UNIT2",50,20,0);
         verifyCreditSplitListDto(creditSplitListDtos.get(3),"Unit Total:",50,40,60);
         verifyCreditSplitListDto(creditSplitListDtos.get(4), "Investigator Total:", 100, 100, 100);
+    }
+
+    @Test
+    public void test_handleNewCreditTypes() {
+        List<ProposalPerson> proposalPersons = new ArrayList<>();
+        proposalPersons.add(proposalPerson);
+        keyPersonnelService.handleNewCreditTypes(proposalPersons, investigatorCreditTypes);
+        assertEquals(4, proposalPerson.getCreditSplits().size());
+        assertEquals(true, proposalPerson.getCreditSplits().stream().anyMatch(split -> split.getInvCreditTypeCode().equals(SPACE)));
     }
 }

@@ -647,7 +647,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
 
     public void populateCreditSplits(ProposalDevelopmentDocumentForm form) {
         getKeyPersonnelService().populateCreditSplit(form.getProposalDevelopmentDocument());
-        form.setCreditSplitListItems(getKeyPersonnelService().createCreditSplitListItems(form.getDevelopmentProposal().getInvestigators()));
+        form.setCreditSplitListItems(getKeyPersonnelService().createCreditSplitListItems(form.getProposalDevelopmentDocument()));
     }
 
     public void populateQuestionnaires(ProposalDevelopmentDocumentForm form) {
