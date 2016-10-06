@@ -20,4 +20,5 @@
 
 \. ./kc/bootstrap/V1610_002__fdp_form_update.sql
 \. ./kc/bootstrap/V1610_003__RESKC-1480.sql
+\. ./kc/bootstrap/V1610_004__RESKC-1746.sql
 commit;
