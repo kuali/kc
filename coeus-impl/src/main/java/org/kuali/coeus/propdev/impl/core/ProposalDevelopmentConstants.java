@@ -128,6 +128,7 @@ public class ProposalDevelopmentConstants {
         public static final String PROPOSAL_TYPE_CODE_BUDGET_SOW_UPDATE_PARM = "PROPOSAL_TYPE_CODE_BUDGET_SOW_UPDATE";
         public static final String PROPOSAL_TYPE_CODE_PRE_PROPOSAL_PARM = "PROPOSAL_TYPE_CODE_PRE_PROPOSAL";
         public static final String ENABLE_KEY_PERSON_VALIDATION_FOR_NON_EMPLOYEE_PERSONNEL = "ENABLE_KEY_PERSON_VALIDATION_FOR_NON_EMPLOYEE_PERSONNEL";
+        public static final String ENABLE_PD_WORKFLOW_DISAPPROVE = "ENABLE_PD_WORKFLOW_DISAPPROVE";
     }
     
     public static class AuthConstants {
