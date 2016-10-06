@@ -19,7 +19,7 @@
  -->
 
     <bean id="DataDictionaryOverrideMaintenanceDocument" parent="DataDictionaryOverrideMaintenanceDocument-parentBean"/>
-    <bean id="DataDictionaryOverrideMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <bean id="DataDictionaryOverrideMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
       <property name="businessObjectClass" value="org.kuali.coeus.sys.framework.dd.DataDictionaryOverride"/>
       <property name="maintainableClass" value="org.kuali.coeus.sys.impl.dd.DataDictionaryOverrideMaintainableImpl"/>
       <property name="businessRulesClass" value="org.kuali.coeus.sys.impl.dd.DataDictionaryOverrideMaintenanceDocumentRules" />
@@ -47,7 +47,7 @@
         <property name="maintainableItems">
             <list>
                 <bean parent="MaintainableFieldDefinition" p:name="id" p:required="true" p:unconditionallyReadOnly="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="overrideBeansFile" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="overrideBeansFile" />
                 <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" />
             </list>
         </property>
