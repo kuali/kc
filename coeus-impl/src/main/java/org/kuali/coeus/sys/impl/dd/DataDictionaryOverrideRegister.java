@@ -23,7 +23,7 @@ public class DataDictionaryOverrideRegister implements InitializingBean {
             previousLoadOrder.add(DataDictionaryOverrideConstants.OVERRIDE);
         }
 
-        getBusinessObjectService().findMatching(DataDictionaryOverride.class, Collections.singletonMap("active", true)).forEach(override ->
+        getBusinessObjectService().findMatchingOrderBy(DataDictionaryOverride.class, Collections.singletonMap("active", true), "id", true).forEach(override ->
                 getDataDictionaryService().getDataDictionary().addModuleDictionaryFile(DataDictionaryOverrideConstants.OVERRIDE,
                         new InMemoryResource(override.getAttachmentContent()))
         );

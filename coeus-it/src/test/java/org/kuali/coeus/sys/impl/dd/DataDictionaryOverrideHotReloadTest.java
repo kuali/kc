@@ -29,16 +29,13 @@ import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
-import org.kuali.rice.krad.service.DataDictionaryService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.uif.container.PageGroupBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -80,7 +77,7 @@ public class DataDictionaryOverrideHotReloadTest  extends KcIntegrationTestBase 
         final Consumer<DataDictionary> postOverrideAssert = (dataDictionary) ->
                 Assert.assertEquals("Create Sausage", ((PageGroupBase) dataDictionaryService.getDataDictionary().getDictionaryBean("PropDev-InitiatePage")).getHeader().getHeaderText());
 
-        test_valid_file(beanOverrideXml, true, preOverrideAssert, postOverrideAssert);
+        test_valid_file(beanOverrideXml, true, preOverrideAssert, postOverrideAssert, KRADConstants.MAINTENANCE_NEW_ACTION, null);
     }
 
     @Test
@@ -100,11 +97,64 @@ public class DataDictionaryOverrideHotReloadTest  extends KcIntegrationTestBase 
         final Consumer<DataDictionary> postOverrideAssert = (dataDictionary) ->
                 Assert.assertEquals("A Thing",((AttributeDefinition) dataDictionaryService.getDataDictionary().getDictionaryBean("Unit-unitNumber")).getLabel());
 
-        test_valid_file(beanOverrideXml, true, preOverrideAssert, postOverrideAssert);
+        test_valid_file(beanOverrideXml, true, preOverrideAssert, postOverrideAssert, KRADConstants.MAINTENANCE_NEW_ACTION, null);
     }
 
+    @Test
+    public void test_valid_file_kns_delete() throws Exception {
+        setOverrideParameter("Y");
 
-    private void test_valid_file(String beanOverrideXml, boolean active, Consumer<DataDictionary> preOverrideAssert, Consumer<DataDictionary> postOverrideAssert) throws Exception {
+        final String beanOverrideXml = "<beans xmlns=\"http://www.springframework.org/schema/beans\"\n" +
+                "\txmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:p=\"http://www.springframework.org/schema/p\"\n" +
+                "\txsi:schemaLocation=\"http://www.springframework.org/schema/beans\n" +
+                "                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd\">\n" +
+                "\t<bean id=\"Rolodex-rolodexId\" parent=\"Rolodex-rolodexId-parentBean\" p:label=\"A Thing\"/>\n" +
+                "</beans>";
+
+
+        final Consumer<DataDictionary> preOverrideAssert = (dataDictionary) ->
+                Assert.assertEquals("Address Book Id", ((AttributeDefinition) dataDictionaryService.getDataDictionary().getDictionaryBean("Rolodex-rolodexId")).getLabel());
+        final Consumer<DataDictionary> postOverrideAssert = (dataDictionary) ->
+                Assert.assertEquals("A Thing",((AttributeDefinition) dataDictionaryService.getDataDictionary().getDictionaryBean("Rolodex-rolodexId")).getLabel());
+
+        String overrideId = test_valid_file(beanOverrideXml, true, preOverrideAssert, postOverrideAssert, KRADConstants.MAINTENANCE_NEW_ACTION, null);
+
+        //reverse the preOverrideAssert & postOverrideAssert.  Deleting should revert things back to the way they were
+        test_valid_file(beanOverrideXml, true, postOverrideAssert, preOverrideAssert, KRADConstants.MAINTENANCE_DELETE_ACTION, KcServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(DataDictionaryOverride.class, overrideId));
+    }
+
+    @Test
+    public void test_valid_file_kns_update() throws Exception {
+        setOverrideParameter("Y");
+
+        final String beanOverrideXml = "<beans xmlns=\"http://www.springframework.org/schema/beans\"\n" +
+                "\txmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:p=\"http://www.springframework.org/schema/p\"\n" +
+                "\txsi:schemaLocation=\"http://www.springframework.org/schema/beans\n" +
+                "                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd\">\n" +
+                "\t<bean id=\"Rolodex-fullName\" parent=\"Rolodex-fullName-parentBean\" p:label=\"Slash\" />\n" +
+                "</beans>";
+
+        final String beanOverrideXml2 = "<beans xmlns=\"http://www.springframework.org/schema/beans\"\n" +
+                "\txmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:p=\"http://www.springframework.org/schema/p\"\n" +
+                "\txsi:schemaLocation=\"http://www.springframework.org/schema/beans\n" +
+                "                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd\">\n" +
+                "\t<bean id=\"Rolodex-fullName\" parent=\"Rolodex-fullName-parentBean\" p:label=\"Axl\"/>\n" +
+                "</beans>";
+
+        final Consumer<DataDictionary> preOverrideAssert = (dataDictionary) ->
+                Assert.assertEquals("Full Name", ((AttributeDefinition) dataDictionaryService.getDataDictionary().getDictionaryBean("Rolodex-fullName")).getLabel());
+        final Consumer<DataDictionary> postOverrideAssert = (dataDictionary) ->
+                Assert.assertEquals("Slash",((AttributeDefinition) dataDictionaryService.getDataDictionary().getDictionaryBean("Rolodex-fullName")).getLabel());
+        final Consumer<DataDictionary> postOverrideAssert2 = (dataDictionary) ->
+                Assert.assertEquals("Axl",((AttributeDefinition) dataDictionaryService.getDataDictionary().getDictionaryBean("Rolodex-fullName")).getLabel());
+
+        String overrideId = test_valid_file(beanOverrideXml, true, preOverrideAssert, postOverrideAssert, KRADConstants.MAINTENANCE_NEW_ACTION, null);
+
+
+        test_valid_file(beanOverrideXml2, true, postOverrideAssert, postOverrideAssert2, KRADConstants.MAINTENANCE_EDIT_ACTION,  KcServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(DataDictionaryOverride.class, overrideId));
+    }
+
+    private String test_valid_file(String beanOverrideXml, boolean active, Consumer<DataDictionary> preOverrideAssert, Consumer<DataDictionary> postOverrideAssert, String action, DataDictionaryOverride existing) throws Exception {
         setOverrideParameter("Y");
 
         MockFormFile formFile = new MockFormFile();
@@ -115,9 +165,20 @@ public class DataDictionaryOverrideHotReloadTest  extends KcIntegrationTestBase 
         formFile.setFileData(beanOverride);
 
         final DataDictionaryOverride override = new DataDictionaryOverride();
-        override.setActive(active);
-        override.setFileName(formFile.getFileName());
-        override.setContentType(formFile.getContentType());
+        if (existing != null) {
+            override.setId(existing.getId());
+            override.setObjectId(existing.getObjectId());
+            override.setVersionNumber(existing.getVersionNumber());
+            override.setActive(existing.isActive());
+            override.setContentType(existing.getContentType());
+            override.setFileName(existing.getFileName());
+        } else {
+            override.setId(KcServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_DD_OVERRIDE_ID", DataDictionaryOverride.class).toString());
+            override.setActive(active);
+            override.setFileName(formFile.getFileName());
+            override.setContentType(formFile.getContentType());
+        }
+
         override.setAttachmentContent(formFile.getFileData());
         override.setOverrideBeansFile(formFile);
 
@@ -126,10 +187,14 @@ public class DataDictionaryOverrideHotReloadTest  extends KcIntegrationTestBase 
         preOverrideAssert.accept(dataDictionaryService.getDataDictionary());
 
         MaintenanceDocumentBase document = newMaintDoc(override);
-        document.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
+        if (existing != null) {
+            document.getOldMaintainableObject().setDataObject(existing);
+        }
+        document.getNewMaintainableObject().setMaintenanceAction(action);
         document = (MaintenanceDocumentBase) documentService.routeDocument(document,null,null);
 
         postOverrideAssert.accept(dataDictionaryService.getDataDictionary());
+        return override.getId();
     }
 
     @Test(expected = ValidationException.class)
@@ -142,7 +207,7 @@ public class DataDictionaryOverrideHotReloadTest  extends KcIntegrationTestBase 
         final Consumer<DataDictionary> preOverrideAssert = (dataDictionary) -> Assert.assertFalse(GlobalVariables.getMessageMap().toString(), GlobalVariables.getMessageMap().hasErrors());
         final Consumer<DataDictionary> postOverrideAssert = (dataDictionary) -> {};
 
-        test_valid_file(beanOverrideXml, true, preOverrideAssert, postOverrideAssert);
+        test_valid_file(beanOverrideXml, true, preOverrideAssert, postOverrideAssert, KRADConstants.MAINTENANCE_NEW_ACTION, null);
     }
 
     @Test
@@ -161,7 +226,7 @@ public class DataDictionaryOverrideHotReloadTest  extends KcIntegrationTestBase 
                 Assert.assertEquals("Organization Id", ((AttributeDefinition) dataDictionaryService.getDataDictionary().getDictionaryBean("Unit-organizationId")).getLabel());
 
 
-        test_valid_file(beanOverrideXml, false, preOverrideAssert, postOverrideAssert);
+        test_valid_file(beanOverrideXml, false, preOverrideAssert, postOverrideAssert, KRADConstants.MAINTENANCE_NEW_ACTION, null);
     }
 
     private void setOverrideParameter(String value) {
@@ -196,7 +261,9 @@ public class DataDictionaryOverrideHotReloadTest  extends KcIntegrationTestBase 
     }
 
     protected MaintainableImpl getNewMaintainableImpl(PersistableBusinessObject bo) {
-        return (bo == null) ? new KualiMaintainableImpl() : new KualiMaintainableImpl(bo);
+        MaintainableImpl m = new DataDictionaryOverrideMaintainableImpl();
+        m.setDataObject(bo);
+        return m;
     }
 
 }

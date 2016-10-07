@@ -24,7 +24,6 @@
             <description>Create a Data Dictionary Override</description>
             <label>Data Dictionary Override Maintenance Document</label>
             <parent>KcSharedMaintenanceDocument</parent>
-            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
         </documentType>
     </documentTypes>
 </data>
