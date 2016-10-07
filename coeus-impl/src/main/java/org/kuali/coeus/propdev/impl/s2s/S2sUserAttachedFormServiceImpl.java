@@ -464,7 +464,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
             }
             fileName = fileNode.getFirstChild().getNodeValue(); 
             fileBytes = (byte[]) attachments.get(fileName);
-            if (fileBytes == null) {
+            if (fileBytes == null || fileBytes.length == 0) {
                 throw new S2SException("FileName mismatch in XML and PDF extracted file");
             }
 

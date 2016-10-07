@@ -36,7 +36,6 @@ public class S2sUserAttachedFormFile extends KcPersistableBusinessObjectBase imp
     @Column(name = "S2S_USER_ATTACHED_FORM_FILE_ID")
     private Long id;
 
-    @Basic(fetch = FetchType.LAZY)
     @Lob
     @Column(name = "FORM_FILE")
     private byte[] formFile;
