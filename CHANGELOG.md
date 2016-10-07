@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* adding data dictionary overrides test for update and delete
+  * Travis Schneeberger on Thu, 6 Oct 2016 19:06:53 -0400 [View Commit](../../commit/13857c7d3a7ef5c9ed7b38aa22f8b58a359a7f1c)
+* fixing data dictionary overrides, allowing docs to be opened from doc search, making sure delete functions correctly with runtime application enabled.  making sure inactivation works correctly with runtime application enabled.  Fixing validation when a file is not uploaded (happens when copying or editing existing objects).
+  * Travis Schneeberger on Thu, 6 Oct 2016 12:08:26 -0400 [View Commit](../../commit/81c04e8a727a592ea08d9f692a2ca64a64b3a0a5)
+
+##coeus-1610.0008
 * RESKC-1612: fixes error on in progress proposals when new credit types are added
   * Joe Williams on Thu, 29 Sep 2016 13:50:29 -0500 [View Commit](../../commit/096c51933c9dd139e7389d0ebae684b98f91be76)
 
