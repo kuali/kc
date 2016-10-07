@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1610.0009
 * adding data dictionary overrides test for update and delete
   * Travis Schneeberger on Thu, 6 Oct 2016 19:06:53 -0400 [View Commit](../../commit/13857c7d3a7ef5c9ed7b38aa22f8b58a359a7f1c)
 * fixing data dictionary overrides, allowing docs to be opened from doc search, making sure delete functions correctly with runtime application enabled.  making sure inactivation works correctly with runtime application enabled.  Fixing validation when a file is not uploaded (happens when copying or editing existing objects).
