@@ -18,9 +18,14 @@
  */
 package org.kuali.coeus.propdev.impl.copy;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.util.*;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +33,6 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
-import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeStatus;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
@@ -37,19 +41,19 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
-import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
-import org.kuali.coeus.propdev.impl.s2s.S2sProvider;
-import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
+import org.kuali.coeus.propdev.impl.s2s.*;
+import org.kuali.coeus.s2sgen.impl.generate.support.S2STestConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
-import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 import org.springframework.mock.web.MockMultipartFile;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -81,6 +85,7 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
     private ProposalDevelopmentDocument oldDocument;
 
     @Before
+    @Override
 	public void setUp() throws Exception {
         documentService = KRADServiceLocatorWeb.getDocumentService();
         saveDoc();
@@ -110,13 +115,68 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
 
         document.getDevelopmentProposal().getProposalYnqs();
         createCustomDocument(document);
-        List<Narrative> narratives = new ArrayList<Narrative>();
+        List<Narrative> narratives = new ArrayList<>();
         narratives.add(getNewNarrative(document.getDevelopmentProposal()));
         document.getDevelopmentProposal().setNarratives(narratives);
         addNote(document);
 
 		return document;
 	}
+
+	protected S2sUserAttachedForm getS2sUserAttachedForm(DevelopmentProposal proposal) throws IOException {
+        S2sUserAttachedForm form = new S2sUserAttachedForm();
+        form.setDevelopmentProposal(proposal);
+        form.setProposalNumber(proposal.getProposalNumber());
+
+        form.setDescription("A test UAF");
+        form.setFormFileName("a_file.pdf");
+        form.setFormName("Form_Name");
+        form.setNamespace("A_Namespace");
+
+        DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
+        Resource uafResource = resourceLoader.getResource(S2STestConstants.ATT_PACKAGE + "/Project_Abstract-V1.1_exercise1.pdf");
+        InputStream uafStream = uafResource.getInputStream();
+        BufferedInputStream uafBis = new BufferedInputStream(uafStream);
+
+        S2sUserAttachedFormFile formFile = new S2sUserAttachedFormFile();
+        formFile.setFormFile(IOUtils.toByteArray(uafBis));
+        formFile.setXmlFile("<xml></xml>");
+        formFile.setS2sUserAttachedForm(form);
+
+        List<S2sUserAttachedFormFile> formFiles = new ArrayList<>();
+        formFiles.add(formFile);
+
+        form.setS2sUserAttachedFormFileList(formFiles);
+
+        S2sUserAttachedFormAtt att = new S2sUserAttachedFormAtt();
+        att.setProposalNumber(proposal.getProposalNumber());
+        att.setName("exercise1.pdf");
+        att.setType("application/pdf");
+        att.setContentId("exercise1.pdf");
+        att.setS2sUserAttachedForm(form);
+
+
+        S2sUserAttachedFormAttFile file = new S2sUserAttachedFormAttFile();
+
+        Resource attResource = resourceLoader.getResource(S2STestConstants.ATT_PACKAGE + "/Project_Abstract-V1.1_exercise1.pdf");
+        InputStream attStream = attResource.getInputStream();
+        BufferedInputStream attBis = new BufferedInputStream(attStream);
+
+        file.setAttachment(IOUtils.toByteArray(attBis));
+        file.setS2sUserAttachedFormAtt(att);
+
+        List<S2sUserAttachedFormAttFile> files = new ArrayList<>();
+        files.add(file);
+
+        att.setS2sUserAttachedFormAttFiles(files);
+
+        List<S2sUserAttachedFormAtt> attachments = new ArrayList<>();
+        attachments.add(att);
+
+        form.setS2sUserAttachedFormAtts(attachments);
+
+        return form;
+    }
 
     protected S2sOpportunity getS2s(DevelopmentProposal proposal) throws DatatypeConfigurationException {
         S2sOpportunity opportunity = new S2sOpportunity();
@@ -168,7 +228,7 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
         note.setNoteText("testNote");
         note.setNoteTypeCode("BO");
         note.setNoteTopicText("topic");
-        List<Note> notes = new ArrayList<Note>();
+        List<Note> notes = new ArrayList<>();
         notes.add(note);
 
         proposalDocument.setNotes(notes);
@@ -213,6 +273,7 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
     }
 
 	@After
+    @Override
 	public void tearDown() throws Exception {
 		proposalDocument = null;
 		proposalCopyService = null;
@@ -221,6 +282,11 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
     protected void saveDoc() throws Exception {
         oldDocument = (ProposalDevelopmentDocument) getDocumentService().saveDocument(createProposal());
         oldDocument.getDevelopmentProposal().setS2sOpportunity(getS2s(oldDocument.getDevelopmentProposal()));
+
+        List<S2sUserAttachedForm> uaf = new ArrayList<>();
+        uaf.add(getS2sUserAttachedForm(oldDocument.getDevelopmentProposal()));
+
+        oldDocument.getDevelopmentProposal().setS2sUserAttachedForms(uaf);
         getDocumentService().saveDocument(oldDocument);
     }
 
@@ -242,16 +308,22 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
         assertEquals(copiedSites.get(0).getOrganization().getOrganizationId(), "000001");
         assertEquals(copiedSites.get(1).getOrganization().getOrganizationId(), "000001");
 
-        Organization organization = (Organization)getDataObjectService().find(Organization.class, copiedSites.get(0).getOrganization().getOrganizationId());
+        Organization organization = getDataObjectService().find(Organization.class, copiedSites.get(0).getOrganization().getOrganizationId());
 
         // test cong district
         assertEquals(copiedSites.get(0).getDefaultCongressionalDistrict().getCongressionalDistrict(), organization.getCongressionalDistrict());
         assertTrue(copiedDocument.getDevelopmentProposal().getNarratives().size() == 0);
 
         assertTrue(copiedDocument.getDevelopmentProposal().getS2sOpportunity() != null);
-        assertTrue(copiedDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId() == OPP_ID);
+        assertEquals(copiedDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId(), OPP_ID);
         assertTrue(copiedDocument.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms().size() == 11);
 
+        assertFalse(copiedDocument.getDevelopmentProposal().getS2sUserAttachedForms().isEmpty());
+        assertFalse(copiedDocument.getDevelopmentProposal().getS2sUserAttachedForms().get(0).getS2sUserAttachedFormFileList().isEmpty());
+        assertTrue(ArrayUtils.isNotEmpty(copiedDocument.getDevelopmentProposal().getS2sUserAttachedForms().get(0).getS2sUserAttachedFormFileList().get(0).getFormFile()));
+
+        assertFalse(copiedDocument.getDevelopmentProposal().getS2sUserAttachedForms().get(0).getS2sUserAttachedFormAtts().isEmpty());
+        assertTrue(ArrayUtils.isNotEmpty(copiedDocument.getDevelopmentProposal().getS2sUserAttachedForms().get(0).getS2sUserAttachedFormAtts().get(0).getData()));
     }
 
     @Test
@@ -284,7 +356,7 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
         criteria.setLeadUnitNumber(ORIGINAL_LEAD_UNIT);
         criteria.setIncludeAttachments(true);
         ProposalDevelopmentDocument copiedDocument = getProposalCopyService().copyProposal(oldDocument, criteria);
-        copiedDocument.getDevelopmentProposal().setNarratives(new ArrayList<Narrative>());
+        copiedDocument.getDevelopmentProposal().setNarratives(new ArrayList<>());
         getDocumentService().saveDocument(copiedDocument);
         assertTrue(copiedDocument.getDevelopmentProposal().getNarratives().size() == 0);
         assertTrue(oldDocument.getDevelopmentProposal().getNarratives().size() == 1);
@@ -297,12 +369,12 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
         Narrative narrative = new Narrative();
         narrative.setName("test");
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_INCOMPLETE);
-        Map map = new HashMap();
+        Map<String, Object> map = new HashMap<>();
         map.put("code", "1");
         List<NarrativeType> types = (List<NarrativeType>) getBusinessObjectService().findMatching(NarrativeType.class, map);
         narrative.setNarrativeType(types.get(0));
         narrative.setNarrativeTypeCode(types.get(0).getCode());
-        map = new HashMap();
+        map = new HashMap<>();
         map.put("code", "C");
         List<NarrativeStatus> status = (List<NarrativeStatus>) getBusinessObjectService().findMatching(NarrativeStatus.class, map);
         narrative.setNarrativeStatus(status.get(0));
@@ -331,17 +403,8 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
         return KcServiceLocator.getService(ProposalCopyService.class);
     }
 
-
-    protected ProposalDevelopmentDocument getNewProposalDevelopmentDocument() throws WorkflowException {
-        return (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
-    }
-
     protected ProposalDevelopmentService getProposalDevelopmentService() {
         return KcServiceLocator.getService(ProposalDevelopmentService.class);
-    }
-
-    protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KcServiceLocator.getService(QuestionnaireAnswerService.class);
     }
 
     protected DataObjectService getDataObjectService() {

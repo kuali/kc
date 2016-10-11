@@ -38,7 +38,6 @@ public class S2sUserAttachedFormAttFile extends KcPersistableBusinessObjectBase 
 
     @Column(name = "ATTACHMENT")
     @Lob
-    @Basic(fetch = FetchType.LAZY)
     private byte[] attachment;
 
     @ManyToOne(cascade = { CascadeType.REFRESH })
