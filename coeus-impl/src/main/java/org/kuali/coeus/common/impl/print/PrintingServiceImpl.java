@@ -20,6 +20,7 @@ package org.kuali.coeus.common.impl.print;
 
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,9 +47,7 @@ import javax.xml.transform.*;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
-import java.awt.Color;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.List;
 
@@ -193,10 +192,6 @@ public class PrintingServiceImpl implements PrintingService {
      */
     @Override
     public AttachmentDataSource print(List<Printable> printableArtifactList) throws PrintingException {
-        return print(printableArtifactList, false);
-    }
-
-    public AttachmentDataSource print(List<Printable> printableArtifactList, boolean headerFooterRequired) throws PrintingException {
         PrintableAttachment printablePdf;
         List<String> bookmarksList = new ArrayList<>();
         List<byte[]> pdfBaosList = new ArrayList<>();
@@ -212,7 +207,7 @@ public class PrintingServiceImpl implements PrintingService {
         }
 
         printablePdf = new PrintableAttachment();
-        byte[] mergedPdfBytes = mergePdfBytes(pdfBaosList, bookmarksList, headerFooterRequired);
+        byte[] mergedPdfBytes = mergePdfBytes(pdfBaosList, bookmarksList);
         // If there is a stylesheet issue, the pdf bytes will be null. To avoid an exception
         // initialize to an empty array before sending the content back
         if (mergedPdfBytes == null) {
@@ -225,6 +220,12 @@ public class PrintingServiceImpl implements PrintingService {
         fileName.append(Constants.PDF_FILE_EXTENSION);
         printablePdf.setName(fileName.toString());
         printablePdf.setType(Constants.PDF_REPORT_CONTENT_TYPE);
+
+        final boolean loggingEnable = kualiConfigurationService.getPropertyValueAsBoolean(Constants.PRINT_PDF_LOGGING_ENABLE);
+        if (loggingEnable) {
+            logPdfPrintDetails(printablePdf);
+        }
+
         return printablePdf;
     }
 
@@ -243,12 +244,12 @@ public class PrintingServiceImpl implements PrintingService {
         return StringUtils.deleteWhitespace(dateString);
     }
 
-    protected byte[] mergePdfBytes(List<byte[]> pdfBytesList, List<String> bookmarksList, boolean headerFooterRequired)
+    protected byte[] mergePdfBytes(List<byte[]> pdfBytesList, List<String> bookmarksList)
             throws PrintingException {
         Document document = null;
         PdfWriter writer = null;
         ByteArrayOutputStream mergedPdfReport = new ByteArrayOutputStream();
-        int totalNumOfPages = 0;
+
         PdfReader[] pdfReaderArr = new PdfReader[pdfBytesList.size()];
         int pdfReaderCount = 0;
         for (byte[] fileBytes : pdfBytesList) {
@@ -258,30 +259,14 @@ public class PrintingServiceImpl implements PrintingService {
                 reader = new PdfReader(fileBytes);
                 pdfReaderArr[pdfReaderCount] = reader;
                 pdfReaderCount = pdfReaderCount + 1;
-                totalNumOfPages += reader.getNumberOfPages();
+
             }
             catch (IOException e) {
                 LOG.error(e.getMessage(), e);
             }
         }
-        HeaderFooter footer = null;
-        if (headerFooterRequired) {
-            Calendar calendar = dateTimeService.getCurrentCalendar();
-            String dateString = formateCalendar(calendar);
-            StringBuilder footerPhStr = new StringBuilder();
-            footerPhStr.append(" of ");
-            footerPhStr.append(totalNumOfPages);
-            footerPhStr.append(getWhitespaceString(WHITESPACE_LENGTH_76));
-            footerPhStr.append(getWhitespaceString(WHITESPACE_LENGTH_76));
-            footerPhStr.append(getWhitespaceString(WHITESPACE_LENGTH_60));
-            footerPhStr.append(dateString);
-            Font font = FontFactory.getFont(FontFactory.TIMES, 8, Font.NORMAL, Color.BLACK);
-            Phrase beforePhrase = new Phrase("Page ", font);
-            Phrase afterPhrase = new Phrase(footerPhStr.toString(), font);
-            footer = new HeaderFooter(beforePhrase, afterPhrase);
-            footer.setAlignment(Element.ALIGN_BASELINE);
-            footer.setBorderWidth(0f);
-        }
+
+
         for (int count = 0; count < pdfReaderArr.length; count++) {
             PdfReader reader = pdfReaderArr[count];
             int nop;
@@ -303,10 +288,7 @@ public class PrintingServiceImpl implements PrintingService {
                     LOG.error(e.getMessage(), e);
                     throw new PrintingException(e.getMessage(), e);
                 }
-                if (footer != null) {
-                    document.setFooter(footer);
-                }
-                // writer.setPageEvent(new Watermark()); // add watermark object here
+
                 document.open();
             }
 
@@ -315,9 +297,7 @@ public class PrintingServiceImpl implements PrintingService {
             while (pageCount < nop) {
                 document.setPageSize(reader.getPageSize(++pageCount));
                 document.newPage();
-                if (footer != null) {
-                    document.setFooter(footer);
-                }
+
                 PdfImportedPage page = writer.getImportedPage(reader, pageCount);
 
                 cb.addTemplate(page, 1, 0, 0, 1, 0, 0);
@@ -342,12 +322,6 @@ public class PrintingServiceImpl implements PrintingService {
         return null;
     }
 
-
-    protected String formateCalendar(Calendar calendar) {
-        DateFormat dateFormat = new SimpleDateFormat("M/d/yy h:mm a");
-        return dateFormat.format(calendar.getTime());
-    }
-
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
@@ -357,15 +331,7 @@ public class PrintingServiceImpl implements PrintingService {
         this.dateTimeService = dateTimeService;
     }
 
-    protected String getWhitespaceString(int length) {
-        StringBuilder sb = new StringBuilder();
-        char[] whiteSpace = new char[length];
-        Arrays.fill(whiteSpace, Constants.SPACE_SEPARATOR);
-        sb.append(whiteSpace);
-        return sb.toString();
-    }
-
-    protected void logPrintDetails(Map<String, byte[]> xmlStreamMap) throws PrintingException {
+    protected void logPrintDetails(Map<String, byte[]> xmlStreamMap) {
         byte[] xmlBytes;
         String xmlString;
         String loggingDirectory = kualiConfigurationService.getPropertyValueAsString(Constants.PRINT_LOGGING_DIRECTORY);
@@ -380,11 +346,8 @@ public class PrintingServiceImpl implements PrintingService {
                     String dateString = getDateTimeService().getCurrentTimestamp().toString();
                     String reportName = StringUtils.deleteWhitespace(key);
                     String createdTime = StringUtils.replaceChars(StringUtils.deleteWhitespace(dateString), ":", "_");
-                    File dir = new File(loggingDirectory);
-                    if(!dir.exists() || !dir.isDirectory()){
-                        dir.mkdirs();
-                    }
-                    File file = new File(dir , reportName + createdTime + ".xml");
+                    File dir = getLoggingDir(loggingDirectory);
+                    File file = new File(dir , reportName + "_" + createdTime + ".xml");
 
                     out = new BufferedWriter(new FileWriter(file));
                     out.write(xmlString);
@@ -404,6 +367,29 @@ public class PrintingServiceImpl implements PrintingService {
                 }
             }
         }
+    }
+
+    protected void logPdfPrintDetails(AttachmentDataSource pdf) {
+        final String loggingDirectory = kualiConfigurationService.getPropertyValueAsString(Constants.PRINT_LOGGING_DIRECTORY);
+        if (loggingDirectory != null && pdf != null && pdf.getData() != null) {
+            final String dateString = new Timestamp(new Date().getTime()).toString();
+            final String createdTime = StringUtils.replaceChars(StringUtils.deleteWhitespace(dateString), ":", "_");
+            final String fileName = StringUtils.replaceChars(StringUtils.deleteWhitespace(pdf.getName().replace(".pdf", "")), ":", "_") + "_" + createdTime + ".pdf";
+
+            try {
+                FileUtils.writeByteArrayToFile(new File(getLoggingDir(loggingDirectory),fileName), pdf.getData());
+            } catch (IOException e) {
+                LOG.error(e.getMessage(), e);
+            }
+        }
+    }
+
+    protected File getLoggingDir(String loggingDirectory) {
+        File dir = new File(loggingDirectory);
+        if(!dir.exists() || !dir.isDirectory()){
+            dir.mkdirs();
+        }
+        return dir;
     }
 
     public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {

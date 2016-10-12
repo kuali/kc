@@ -129,7 +129,10 @@
 	<!-- Kuali parameters -->
 	<param name="encryption.key">7IC64w6kAAAA</param>
 	<param name="print.xml.directory">${java.io.tmpdir}/</param>
+
 	<param name="print.logging.enable">false</param>
+	<param name="print.logging.directory">${java.io.tmpdir}/</param>
+	<param name="print.pdf.logging.enable">false</param>
 
 	<!-- workaround until Rice resolves KULRICE-4065 -->
 	<param name="enable.nonproduction.data.unmasking">true</param>
