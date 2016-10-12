@@ -29,8 +29,6 @@ import java.util.List;
  * 
  */
 public interface PrintingService {
-	public int WHITESPACE_LENGTH_76 = 76;
-	public int WHITESPACE_LENGTH_60 = 60;
 
 	/**
 	 * 
@@ -38,10 +36,8 @@ public interface PrintingService {
 	 * notifications, docs and bos. It will take raw KC XML from bo/docs and
 	 * perform the XSLT to generate XML-FO, and will render the Printable XML-FO
 	 * as a PDF OutputStream.
-	 * 
-	 * @throws PrintingException
 	 */
-	public AttachmentDataSource print(Printable printableArtifact)
+	AttachmentDataSource print(Printable printableArtifact)
 			throws PrintingException;
 
 	/**
@@ -50,9 +46,7 @@ public interface PrintingService {
 	 * notifications, docs and bos. It will take raw KC XML from bo/docs and
 	 * perform the XSLT to generate XML-FO, and will render the {@link List} of
 	 * Printable XML-FO as a PDF OutputStream.
-	 * 
-	 * @throws PrintingException
 	 */
-	public AttachmentDataSource print(List<Printable> printableArtifactList)
+	AttachmentDataSource print(List<Printable> printableArtifactList)
 			throws PrintingException;
 }
