@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1580: support for Research & Related Budget 10 version 1.4, supporting saving pdf files to the filesystem, code cleanup
+  * Travis Schneeberger on Wed, 12 Oct 2016 12:05:38 -0400 [View Commit](../../commit/fa14c52ef6bfed4e9c4a49ea5144af3c75055999)
+
+##coeus-1610.0013
 * RESKC-1671: when copying a proposal, s2s attachments and forms are not properly copied to the target proposal.  Also, handling an empty user attached form attachment.
   * Travis Schneeberger on Fri, 7 Oct 2016 16:52:45 -0400 [View Commit](../../commit/f553f2d79a57b09eae29f65b499300e926b9b9ba)
 
