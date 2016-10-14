@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* KCCOI-974: Add descriptions for training and module. (#2025)
+
+  * Gayathri Athreya on Fri, 14 Oct 2016 11:43:11 -0700 [View Commit](../../commit/ec367c9e4f18895563a810995e7180912f00f0b8)
+
+##coeus-1610.0016
 * No Changes
 
 
