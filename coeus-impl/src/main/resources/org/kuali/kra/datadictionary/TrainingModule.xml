@@ -33,6 +33,8 @@
             <list>
                 <ref bean="TrainingModule-trainingCode" />
                 <ref bean="TrainingModule-moduleCode" />
+                <ref bean="TrainingModule-training.description" />
+                <ref bean="TrainingModule-coeusModule.description" />
                 <ref bean="TrainingModule-versionNumber" />
             </list>
         </property>
@@ -41,6 +43,13 @@
     <!-- Attribute Definitions -->
     <bean id="TrainingModule-trainingCode" parent="TrainingModule-trainingCode-parentBean" />
     <bean id="TrainingModule-trainingCode-parentBean" abstract="true" parent="Training-trainingCode-parentBean" />
+
+    <bean id="TrainingModule-training.description" parent="TrainingModule-training.description-parentBean"/>
+    <bean abstract="true" id="TrainingModule-training.description-parentBean" parent="Training-description-parentBean">
+        <property name="name" value="training.description"/>
+        <property name="label" value="Training Title"/>
+        <property name="shortLabel" value="Training Title"/>
+    </bean>
 
     <bean id="TrainingModule-moduleCode" parent="TrainingModule-moduleCode-parentBean" />
     <bean id="TrainingModule-moduleCode-parentBean" abstract="true" parent="CoeusModule-moduleCode">
@@ -63,6 +72,13 @@
         </property>
         <property name="summary" value="Module Code" />
         <property name="description" value="Module Code" />
+    </bean>
+
+    <bean id="TrainingModule-coeusModule.description" parent="TrainingModule-coeusModule.description-parentBean"/>
+    <bean abstract="true" id="TrainingModule-coeusModule.description-parentBean" parent="CoeusModule-description-parentBean">
+        <property name="name" value="coeusModule.description"/>
+        <property name="label" value="Coeus Module Name"/>
+        <property name="shortLabel" value="Coes Module Name"/>
     </bean>
 
     <bean id="TrainingModule-versionNumber" parent="TrainingModule-versionNumber-parentBean" />
@@ -115,13 +131,17 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition" p:attributeName="trainingCode" p:forceInquiry="true"/>
-                <bean parent="FieldDefinition" p:attributeName="moduleCode"/>
+                <bean parent="FieldDefinition" p:attributeName="training.description" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="moduleCode" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="coeusModule.description" p:forceInquiry="true"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition" p:attributeName="trainingCode" p:forceInquiry="true"/>
-                <bean parent="FieldDefinition" p:attributeName="moduleCode"/>
+                <bean parent="FieldDefinition" p:attributeName="training.description" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="moduleCode" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="coeusModule.description" p:forceInquiry="true"/>
             </list>
         </property>
     </bean>
@@ -132,13 +152,17 @@
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="trainingCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="training.description" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="moduleCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="coeusModule.description" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
         <bean p:propertyName="trainingCode" parent="Uif-DataField"/>
+        <bean p:propertyName="training.description" parent="Uif-DataField"/>
         <bean p:propertyName="moduleCode" parent="Uif-DataField"/>
+        <bean p:propertyName="coeusModule.description" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>
