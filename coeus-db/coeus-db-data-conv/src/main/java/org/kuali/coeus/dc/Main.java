@@ -160,6 +160,10 @@ public final class Main {
                 factory.getTimeAndMoneyUpdateUserDao().fixUpdateUsers();
             }
 
+            if (options.containsSubawardStatus()) {
+                factory.getSubawardStatusDao().fixSubawardStatus();
+            }
+
             if (options.containsDryRun()) {
                 coeusConnection.rollback();
                 riceConnection.rollback();

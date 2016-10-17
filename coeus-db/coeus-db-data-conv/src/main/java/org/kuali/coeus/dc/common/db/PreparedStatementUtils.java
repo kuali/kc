@@ -39,6 +39,11 @@ public final class PreparedStatementUtils {
         return stmt;
     }
 
+    public static PreparedStatement setInt(int index, int i, PreparedStatement stmt) throws SQLException {
+        stmt.setInt(index, i);
+        return stmt;
+    }
+
     public static PreparedStatement setTimestamp(int index, Timestamp t, PreparedStatement stmt) throws SQLException {
         stmt.setTimestamp(index, t);
         return stmt;

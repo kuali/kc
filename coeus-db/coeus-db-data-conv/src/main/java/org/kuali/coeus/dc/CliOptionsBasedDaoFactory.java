@@ -33,8 +33,10 @@ import org.kuali.coeus.dc.propynq.ProposalYnqConversionDao;
 import org.kuali.coeus.dc.propynq.ProposalYnqConversionDaoImpl;
 import org.kuali.coeus.dc.questseq.QuestSeqDao;
 import org.kuali.coeus.dc.questseq.QuestSeqDaoImpl;
-import org.kuali.coeus.dc.subaward.SubAwardAmountInfoDao;
-import org.kuali.coeus.dc.subaward.SubAwardAmountInfoDaoImpl;
+import org.kuali.coeus.dc.subaward.amntinfo.SubAwardAmountInfoDao;
+import org.kuali.coeus.dc.subaward.amntinfo.SubAwardAmountInfoDaoImpl;
+import org.kuali.coeus.dc.subaward.status.SubawardStatusDao;
+import org.kuali.coeus.dc.subaward.status.SubawardStatusDaoImpl;
 import org.kuali.coeus.dc.tm.KewDocHeaderDao;
 import org.kuali.coeus.dc.tm.KewDocHeaderDaoImpl;
 import org.kuali.coeus.dc.tm.TimeAndMoneyDocumentStatusDao;
@@ -222,6 +224,12 @@ public final class CliOptionsBasedDaoFactory {
         SubawardUpdateUserDaoImpl dao = new SubawardUpdateUserDaoImpl();
         dao.setConnectionDaoService(getConnectionDaoService());
         dao.setLastActionUserDao(getLastActionUserDao());
+        return dao;
+    }
+
+    public SubawardStatusDao getSubawardStatusDao() {
+        SubawardStatusDaoImpl dao = new SubawardStatusDaoImpl();
+        dao.setConnectionDaoService(getConnectionDaoService());
         return dao;
     }
 

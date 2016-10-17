@@ -51,7 +51,7 @@ public class CliOptions {
     public boolean containsNormalMigrationTarget() {
         return containsProposalPersonRole() || containsProposal() || containsIrb() || containsIacuc() || containsQuestSeq() || containsAwardUpdateUser() || containsIpUpdateUser() ||
                 containsSubawardUpdateUser() || containsTmUpdateUser() || containsTimeAndMoneyDocStatus() || containsSubawardAmountInfo() || containsProposalYnq() || containsProposalPersonNames() ||
-                containsTimeAndMoneyDups();
+                containsTimeAndMoneyDups() || containsSubawardStatus();
     }
 
     public boolean containsHelp() {
@@ -124,6 +124,10 @@ public class CliOptions {
 
     public boolean containsSubawardUpdateUser() {
         return contains("subaward-updateuser");
+    }
+
+    public boolean containsSubawardStatus() {
+        return contains("subaward-status");
     }
 
     public boolean containsTmUpdateUser() {
@@ -249,7 +253,7 @@ public class CliOptions {
                 + "\n"
                 + "If platform is not specified then the platform will be autodetected from the connection strings.\n"
                 + "\n"
-                + "The valid conversion targets are (proposal|irb|iacuc|pprole|questseq|tmdocstatus|subaward-amountinfo|tm-dups|award-updateuser|ip-updateuser|subaward-updateuser|tm-updateuser|proposal-ynq|proposal-person-names).\n"
+                + "The valid conversion targets are (proposal|irb|iacuc|pprole|questseq|tmdocstatus|subaward-amountinfo|tm-dups|award-updateuser|ip-updateuser|subaward-updateuser|tm-updateuser|proposal-ynq|proposal-person-names|subaward-status).\n"
                 + "\n"
                 + "The dryrun flag may still cause database sequences to increment.\n"
                 + "\n"

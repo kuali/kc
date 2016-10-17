@@ -26,14 +26,10 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.bo.PersistableAttachment;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
-/**
- * This class represents a subAwardAmountReleased.  It mainly deals with the
- * Amount released for a subAward.
- */
+
 public class SubAwardAmountReleased  extends SubAwardAssociate implements KcFile, PersistableAttachment {
 
     private static final long serialVersionUID = 1L;
@@ -51,120 +47,65 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcFile
     private String createdBy;
     private String documentNumber;
     private String invoiceStatus;
-    transient private FormFile newFile;
+    private transient FormFile newFile;
     private transient SubAwardService subAwardService;
-/**.
-     * This is the SubAwardAmountReleased() constructor
-     */
-    public SubAwardAmountReleased() {
-    }
-    /**
-     * Get the SubAwardAmtReleasedId.
-     * @return the subAwardAmtReleasedIds.
-     */
+
     public Integer getSubAwardAmtReleasedId() {
         return subAwardAmtReleasedId;
     }
-    /**
-     * Set the subAwardAmtReleasedId..
-     * @param subAwardAmtReleasedId the subAwardAmtReleasedId to be set
-*/
+
     public void setSubAwardAmtReleasedId(Integer subAwardAmtReleasedId) {
         this.subAwardAmtReleasedId = subAwardAmtReleasedId;
     }
-    /**
-     * Get the effectiveDate.
-     * @return the effectiveDate.
-     */
+
     public Date getEffectiveDate() {
         return effectiveDate;
     }
-    /**
-     * Set the effectiveDate attribute value..
-     * @param effectiveDate the effectiveDate to be set
-     */
+
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
-    /**
-     * Get the comments.
-     * @return the comments.
-     */
+
     public String getComments() {
         return comments;
     }
-    /**
-     * Set the comments attribute value..
-     * @param comments the comments to be set
-     */
+
     public void setComments(String comments) {
         this.comments = comments;
     }
-    /**
-     * Get the invoiceNumber.
-     * @return the invoiceNumber.
-     */
+
     public String getInvoiceNumber() {
         return invoiceNumber;
     }
-    /**
-     * Set the invoiceNumber attribute value..
-     * @param invoiceNumber the invoiceNumber to be set
-     */
+
     public void setInvoiceNumber(String invoiceNumber) {
         this.invoiceNumber = invoiceNumber;
     }
-    /**
-     * Get the startDate.
-     * @return the startDate.
-     */
+
     public Date getStartDate() {
         return startDate;
     }
-    /**
-     * Set the startDate..
-     * @param startDate the startDate to be set
-     */
+
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
-    /**
-     * Get the endDate.
-     * @return the endDate.
-     */
+
     public Date getEndDate() {
         return endDate;
     }
-    /**
-     * Set the endDate attribute value..
-     * @param endDate the endDate to be set
-     */
+
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-    /**
-     * Get the amountReleased.
-     * @return the amountReleased.
-     */
+
     public ScaleTwoDecimal getAmountReleased() {
         return amountReleased;
     }
-    /**
-     * Set the amountReleased..
-     * @param amountReleased the amountReleased to be set
-     */
+
     public void setAmountReleased(ScaleTwoDecimal amountReleased) {
         this.amountReleased = amountReleased;
     }
-    /**
-     * Gets the  Attachment File.
-     */
 
-    /**.
-     *
-     * This method used to populate the attachment
-     *  to subAwardReleased object by reading FormFile
-     */
     public void populateAttachment() {
         FormFile newFile = getNewFile();
         if (newFile == null) { return; }
@@ -176,72 +117,47 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcFile
                 mimeType = newFile.getContentType();
                 fileName = newFile.getFileName();
             }
-        } catch (FileNotFoundException e) {
         } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
-    /**
-     * Get the document.
-     * @return the document.
-     */
+
     public byte[] getDocument() {
         return document;
     }
-    /**
-     * Set the document attribute value..
-     * @param document the document to be set
-     */
+
     public void setDocument(byte[] document) {
         this.document = document;
     }
-    /**
-     * Get the fileName.
-     * @return the fileName.
-     */
+
+    @Override
     public String getFileName() {
         return fileName;
     }
-    /**
-     * Set the fileName..
-     * @param fileName the fileName to be set
-     */
+
+    @Override
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-    /**
-     * Get the mimeType.
-     * @return the mimeType.
-     */
+
     public String getMimeType() {
         return mimeType;
     }
-    /**
-     * Set the mimeType..
-     * @param mimeType the mimeType to be set
-     */
+
     public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
     }
     
-    /**
-     * Get the new File.
-     * @return the newFile.
-     */
     public FormFile getNewFile() {
         return this.newFile;
     }
 
-    /**
-     * Set the newfile..
-     * @param newfile the newfile to be set
-     */
     public void setNewFile(FormFile newFile) {
         this.newFile = newFile;
     }
 
     @Override
     public void resetPersistenceState() {
-
         this.subAwardAmtReleasedId = null;
     }
 
@@ -259,25 +175,36 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcFile
         return getDocument();
     }
 
+    @Override
     public byte[] getAttachmentContent() {
         return getDocument();
     }
+    @Override
     public void setAttachmentContent(byte[] arg0) {
         //do nothing as this will be called by the maint framework
         //in many cases with null when it is inappropriate to do so.
         //this.document = arg0;
     }
+
+    @Override
     public String getContentType() {
         return getMimeType();
     }
+
+    @Override
     public void setContentType(String contentType) {
         setMimeType(contentType);
     }
-    
-    
+
+    @Override
     public SubAward getSubAward() {
-        return getSubAwardService().getActiveSubAward(getSubAwardId());
+        if (getSubAwardId() != null) {
+            return getSubAwardService().getActiveSubAward(getSubAwardId());
+        } else {
+            return null;
+        }
     }
+
     public SubAwardService getSubAwardService() {
         if (subAwardService == null) {
             subAwardService = KcServiceLocator.getService(SubAwardService.class);
@@ -333,10 +260,7 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcFile
         return result;
     }
     
-    /**
-     * Typical equals method, but if primary key is not null and is equal then assume equals.
-     * @see org.kuali.kra.subaward.bo.SubAwardAssociate#equals(java.lang.Object)
-     */
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

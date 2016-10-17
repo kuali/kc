@@ -62,17 +62,17 @@ subaward copied amount infos forward to each successive subaward. This removes t
 This conversion, while doing the best it can, isn't 100% due to the fact that amount infos could be edited after having been previously routed. If changes have occurred to amount infos and the conversion is therefore unable to remove an expected duplicate, log messages will be printed similar to the following
 
 ```
-Nov 23, 2015 1:18:03 PM org.kuali.coeus.dc.subaward.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
+Nov 23, 2015 1:18:03 PM org.kuali.coeus.dc.subaward.amntinfo.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
 SEVERE: SUBAWARD-AMOUNTINFO:Cannot determine matching subaward amount info to delete. Found 0 potential matches in subaward_code(3370) subaward_id(30519) for previous subaward_amount_info_id(47970)
-Nov 23, 2015 1:18:13 PM org.kuali.coeus.dc.subaward.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
+Nov 23, 2015 1:18:13 PM org.kuali.coeus.dc.subaward.amntinfo.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
 SEVERE: SUBAWARD-AMOUNTINFO:Cannot determine matching subaward amount info to delete. Found 0 potential matches in subaward_code(3437) subaward_id(29785) for previous subaward_amount_info_id(49023)
-Nov 23, 2015 1:18:30 PM org.kuali.coeus.dc.subaward.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
+Nov 23, 2015 1:18:30 PM org.kuali.coeus.dc.subaward.amntinfo.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
 SEVERE: SUBAWARD-AMOUNTINFO:Cannot determine matching subaward amount info to delete. Found 0 potential matches in subaward_code(3617) subaward_id(29604) for previous subaward_amount_info_id(51997)
-Nov 23, 2015 1:18:30 PM org.kuali.coeus.dc.subaward.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
+Nov 23, 2015 1:18:30 PM org.kuali.coeus.dc.subaward.amntinfo.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
 SEVERE: SUBAWARD-AMOUNTINFO:Number of amount infos not deleted due to differences = 19
-Nov 23, 2015 1:18:30 PM org.kuali.coeus.dc.subaward.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
+Nov 23, 2015 1:18:30 PM org.kuali.coeus.dc.subaward.amntinfo.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
 SEVERE: SUBAWARD-AMOUNTINFO:Number of subawards with errors = 11
-Nov 23, 2015 1:18:30 PM org.kuali.coeus.dc.subaward.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
+Nov 23, 2015 1:18:30 PM org.kuali.coeus.dc.subaward.amntinfo.SubAwardAmountInfoDaoImpl fixSubAwardAmountInfoHistory
 SEVERE: SUBAWARD-AMOUNTINFO:Subawards in error = 3689, 3702, 3765, 3092, 3985, 2739, 3250, 3286, 3370, 3437, 3617
 ```
 
@@ -137,6 +137,15 @@ Subaward Update User (subaward-updateuser)
 In some cases, Subaward tables have an incorrect update user.  The incorrect user is the System User that has a username of 'kr'.  This target figures out the username of the last user to execute a workflow
 action on an subaward document and uses that as the update user.
 
+Subaward Status (subaward-status)
+In some cases Subaward records have incorrect statuses.  The following rules are used to correct the statuses.
+
+```
+For each distinct subaward code:
+  If the associated workflow doc for the last sequence is not final (F), then the last sequence should be set to PENDING, the second to last sequence should be set to ACTIVE and all previous sequences before the second to the last should be ARCHIVED.
+  If the associated workflow doc for the last sequence is final (F), then the last sequence should be set to ACTIVE and all previous ones should be ARCHIVED.
+  If there is not a workflow doc for the last sequence, then the last sequence should be set to ACTIVE and all previous ones should be ARCHIVED.
+```
 
 IRB (irb)
 
