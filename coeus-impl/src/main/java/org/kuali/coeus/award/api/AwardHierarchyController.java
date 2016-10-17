@@ -99,7 +99,7 @@ public class AwardHierarchyController extends AwardControllerBase {
         AwardDocument awardDocument = createDocument(newChildNode, awardDto);
         translateCollections(awardDto, awardDocument);
         changeDates(awardDocument.getAward(), awardDto);
-        addFundingProposals(awardDto, award);
+        addFundingProposals(awardDto, awardDocument.getAward());
         awardDocument.getAward().setAwardInMultipleNodeHierarchy(Boolean.TRUE);
 
         commonApiService.saveDocument(awardDocument);
