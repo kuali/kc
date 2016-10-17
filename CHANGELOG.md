@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+* RESKC-1726: opening the subaward amount released maintenance document from doc search causes numerous NullPointerExceptions
+  * Travis Schneeberger on Thu, 29 Sep 2016 16:19:07 -0400 [View Commit](../../commit/d2abab295a050145e9c39919110fbc55691b9b27)
+* RESKC-1726: on save only setting subaward to pending status if the subaward is new
+  * Travis Schneeberger on Thu, 29 Sep 2016 14:49:39 -0400 [View Commit](../../commit/85243bf3e8e48fdf3537a6b71612854a251eac43)
+* RESKC-1727: fixing subaward records that have incorrect statuses
+  * Travis Schneeberger on Mon, 17 Oct 2016 11:40:40 -0400 [View Commit](../../commit/bb0eca05110af3c3586e948b06155c94aaba8b98)
+* RESKC-1727: fixing subaward records that have incorrect statuses
+  * Travis Schneeberger on Wed, 28 Sep 2016 15:04:38 -0400 [View Commit](../../commit/0874e54a7f1745fa261e9141bc66b818eb055357)
+
+##coeus-1610.0018
 * Fix hierarchy child creation error. (#2032)
 
   * Gayathri Athreya on Mon, 17 Oct 2016 10:40:48 -0700 [View Commit](../../commit/69ec5efd4640af8ca8e9c5fb336f57f2c936f14e)
