@@ -22,17 +22,28 @@ public class SubawardStatusDaoImpl implements SubawardStatusDao {
     private static final String BACKUP_SUBAWARD = "CREATE TABLE SUBAWARD_BAK_1610_005 AS SELECT * FROM SUBAWARD";
     private static final String BACKUP_VERSION_HISTORY = "CREATE TABLE VH_SUBAWARD_BAK_1610_005 AS SELECT * FROM VERSION_HISTORY WHERE SEQ_OWNER_CLASS_NAME = 'org.kuali.kra.subaward.bo.SubAward'";
 
-    private static final String HIGHEST_SEQ_SUBAWARD_DOC_NUM = "select t.DOCUMENT_NUMBER, t.sequence_number, t.SUBAWARD_SEQUENCE_STATUS from subaward t where " +
+    private static final String HIGHEST_SEQ_SUBAWARD_DOC_NUM = "select t.DOCUMENT_NUMBER, t.sequence_number from subaward t where " +
             "t.sequence_number = (select max(sequence_number) from subaward u where u.subaward_code = t.subaward_code) and " +
             "t.subaward_code = ?";
+
+    private static final String SUBAWARDS_LESS_THAN_SEQ = "select t.DOCUMENT_NUMBER, t.sequence_number from subaward t where " +
+            "sequence_number < ? and subaward_code = ? order by t.SEQUENCE_NUMBER desc";
 
     private static final String KEW_DOC_STATUS = "select DOC_HDR_STAT_CD from KREW_DOC_HDR_T where DOC_HDR_ID = ?";
 
     private static final String UPDATE_SINGLE_SEQ = "update subaward set SUBAWARD_SEQUENCE_STATUS = ? where sequence_number = ? and subaward_code = ?";
-    private static final String UPDATE_LESS_THAN_SEQ = "update subaward set SUBAWARD_SEQUENCE_STATUS = ? where sequence_number < ? and subaward_code = ?";
 
     private static final String UPDATE_SINGLE_SEQ_VH = "update VERSION_HISTORY set VERSION_STATUS = ? where SEQ_OWNER_SEQ_NUMBER = ? and SEQ_OWNER_VERSION_NAME_VALUE = ? and SEQ_OWNER_CLASS_NAME = 'org.kuali.kra.subaward.bo.SubAward'";
-    private static final String UPDATE_LESS_THAN_SEQ_VH = "update VERSION_HISTORY set VERSION_STATUS = ? where SEQ_OWNER_SEQ_NUMBER < ? and SEQ_OWNER_VERSION_NAME_VALUE = ? and SEQ_OWNER_CLASS_NAME = 'org.kuali.kra.subaward.bo.SubAward'";
+
+    private static final String FINAL_CD = "F";
+    private static final String PROCESSED_CD = "P";
+    private static final String DISAPPROVED_CD = "D";
+    private static final String CANCELED_CD = "X";
+    private static final String CANCELED_DISAPPROVED_CD = "C";
+    private static final String ACTIVE = "ACTIVE";
+    private static final String CANCELED = "CANCELED";
+    private static final String PENDING = "PENDING";
+    private static final String ARCHIVED = "ARCHIVED";
 
     private ConnectionDaoService connectionDaoService;
 
@@ -63,26 +74,17 @@ public class SubawardStatusDaoImpl implements SubawardStatusDao {
                      if (highestResult.next()) {
                          final String documentNumber = highestResult.getString(1);
                          final int sequenceNumber = highestResult.getInt(2);
-                         final String currentStatus = highestResult.getString(3);
-                         final String kewStatus = getKewStatus(documentNumber);
 
-                         if ("F".equals(kewStatus) || "P".equals(kewStatus) || kewStatus == null) {
-                             if (!"ACTIVE".equals(currentStatus)) {
-                                 updateSingleSeq(subawardCode, sequenceNumber, "ACTIVE");
-                             }
-                             updateLessThanSeq(subawardCode, sequenceNumber, "ARCHIVED");
-                         } else if ("D".equals(kewStatus) || "X".equals(kewStatus) || "C".equals(kewStatus)) {
-                             if (!"CANCELED".equals(currentStatus)) {
-                                 updateSingleSeq(subawardCode, sequenceNumber, "CANCELED");
-                             }
-                             updateSingleSeq(subawardCode, sequenceNumber - 1, "ACTIVE");
-                             updateLessThanSeq(subawardCode, sequenceNumber - 1, "ARCHIVED");
+                         final String kewStatus = getKewStatus(documentNumber);
+                         if (FINAL_CD.equals(kewStatus) || PROCESSED_CD.equals(kewStatus) || kewStatus == null) {
+                             updateSingleSeq(subawardCode, sequenceNumber, ACTIVE);
+                             updateLessThanSeq(subawardCode, sequenceNumber, false);
+                         } else if (DISAPPROVED_CD.equals(kewStatus) || CANCELED_CD.equals(kewStatus) || CANCELED_DISAPPROVED_CD.equals(kewStatus)) {
+                             updateSingleSeq(subawardCode, sequenceNumber, CANCELED);
+                             updateLessThanSeq(subawardCode, sequenceNumber, true);
                          } else {
-                             if (!"PENDING".equals(currentStatus)) {
-                                 updateSingleSeq(subawardCode, sequenceNumber, "PENDING");
-                             }
-                             updateSingleSeq(subawardCode, sequenceNumber - 1, "ACTIVE");
-                             updateLessThanSeq(subawardCode, sequenceNumber - 1, "ARCHIVED");
+                             updateSingleSeq(subawardCode, sequenceNumber, PENDING);
+                             updateLessThanSeq(subawardCode, sequenceNumber, true);
                          }
 
                      }
@@ -94,17 +96,9 @@ public class SubawardStatusDaoImpl implements SubawardStatusDao {
     }
 
     private void updateSingleSeq(String subawardCode, int sequenceNumber, String status) {
-        updateSeq(subawardCode, sequenceNumber, status, UPDATE_SINGLE_SEQ, UPDATE_SINGLE_SEQ_VH);
-    }
-
-    private void updateLessThanSeq(String subawardCode, int sequenceNumber, String status) {
-        updateSeq(subawardCode, sequenceNumber, status, UPDATE_LESS_THAN_SEQ, UPDATE_LESS_THAN_SEQ_VH);
-    }
-
-    private void updateSeq(String subawardCode, int sequenceNumber, String status, String query, String vhQuery) {
         final Connection connection = connectionDaoService.getCoeusConnection();
-        try (PreparedStatement statement = connection.prepareStatement(query);
-             PreparedStatement vhStatement = connection.prepareStatement(vhQuery)) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_SINGLE_SEQ);
+             PreparedStatement vhStatement = connection.prepareStatement(UPDATE_SINGLE_SEQ_VH)) {
             statement.setString(1, status);
             statement.setInt(2, sequenceNumber);
             statement.setString(3, subawardCode);
@@ -114,6 +108,29 @@ public class SubawardStatusDaoImpl implements SubawardStatusDao {
             vhStatement.setInt(2, sequenceNumber);
             vhStatement.setString(3, subawardCode);
             vhStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void updateLessThanSeq(String subawardCode, int sequenceNumber, boolean findActive) {
+        final Connection connection = connectionDaoService.getCoeusConnection();
+        try (PreparedStatement statement = setString(2, subawardCode, setInt(1, sequenceNumber, connection.prepareStatement(SUBAWARDS_LESS_THAN_SEQ)));
+            ResultSet result = statement.executeQuery()) {
+            boolean activeFound = false;
+            while(result.next()) {
+                final String currentDocumentNumber = result.getString(1);
+                final int currentSequenceNumber = result.getInt(2);
+                final String kewStatus = getKewStatus(currentDocumentNumber);
+                if ((FINAL_CD.equals(kewStatus) || PROCESSED_CD.equals(kewStatus) || kewStatus == null) && (findActive && !activeFound)) {
+                    updateSingleSeq(subawardCode, currentSequenceNumber, ACTIVE);
+                    activeFound = true;
+                } else if (DISAPPROVED_CD.equals(kewStatus) || CANCELED_CD.equals(kewStatus) || CANCELED_DISAPPROVED_CD.equals(kewStatus)) {
+                    updateSingleSeq(subawardCode, currentSequenceNumber, CANCELED);
+                } else {
+                    updateSingleSeq(subawardCode, currentSequenceNumber, ARCHIVED);
+                }
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
