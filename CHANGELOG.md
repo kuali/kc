@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Fix hierarchy child creation error. (#2032)
+
+  * Gayathri Athreya on Mon, 17 Oct 2016 10:40:48 -0700 [View Commit](../../commit/69ec5efd4640af8ca8e9c5fb336f57f2c936f14e)
+
+##coeus-1610.0017
 * KCCOI-974: Add descriptions for training and module. (#2025)
 
   * Gayathri Athreya on Fri, 14 Oct 2016 11:43:11 -0700 [View Commit](../../commit/ec367c9e4f18895563a810995e7180912f00f0b8)
