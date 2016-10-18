@@ -1,6 +1,20 @@
 
 
 ##CURRENT
+* RESKC-1586: Integration Test and fix. (#2018)
+
+  * In a Proposal Hierarchy, If a non-lead child proposal has a PI which is different from the Parent PI, and that person has only one unit associated, then after linking to the hierarchy, syncing all from the parent and then running the data validations
+  * Bug: The Data Validation is deleting that person's unit.
+  * Turn Validation off and the unit is still not appearing. The unit is not deleted from the child proposal.
+  * Workaround - user can manually re-add the unit at the parent and then the unit stays associated even after data validation is turned on.
+  * Requirement
+  * Hierarchy Proposal Investigator Units	The system shall display all of the units listed in any of the child proposals as associated with the Co-Investigators. - the parent proposal should update (even with sync) to show all co-I units from all child proposals
+  * The proposal hierarchy summary should show the parent as updating with additional units from personnel on child proposals.
+  * Technical Details:
+  * ProposalDevelopmentKeyPersonsRule.processSaveKeyPersonBusinessRules() removes the lead unit from non-PIs. The validation shouldn't be causing a side-effect, but it is. What it's checking for is whether or not the person is listed as a PI. If they are not the PI, then it checks to see if any of the unit are listed as the lead unit and removes them. This covers the case when a PI is down-graded to a Co-I and should follow the new PI. However, this breaks on hierarchy sync because the PIs from the non-primary children become Co-Is on the parent. When we sync the people in the hierarchy, we should also be setting leadUnit = false on all of their associated units.
+  * RESKC-1586: Add feature flag.  * Gayathri Athreya on Tue, 18 Oct 2016 14:01:22 -0700 [View Commit](../../commit/2246400be97a2bbeb522dd76819cba23a8fd878a)
+
+##coeus-1610.0020
 * No Changes
 
 
