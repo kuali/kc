@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1610.0019
 * RESKC-1726: opening the subaward amount released maintenance document from doc search causes numerous NullPointerExceptions
   * Travis Schneeberger on Thu, 29 Sep 2016 16:19:07 -0400 [View Commit](../../commit/d2abab295a050145e9c39919110fbc55691b9b27)
 * RESKC-1726: on save only setting subaward to pending status if the subaward is new
