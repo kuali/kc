@@ -183,4 +183,11 @@ public interface ProposalHierarchyService {
 
     void reinstateDegreeInfo(DevelopmentProposal proposal);
 
-}
+    void linkChild(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, String hierarchyBudgetTypeCode, boolean syncPersonnelAttachments)
+            throws ProposalHierarchyException;
+
+    boolean synchronizeAllChildProposals(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException;
+
+    void synchronizeAll(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException;
+
+    }
