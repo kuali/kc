@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+* RESKC-1757: Added elements to the sponsor. (#2035)
+
+  * Added the following data elements so that they are available in the award posts endpoint:
+  * Sponsor Name
+  * Sponsor Type
+  * Sponsor Contact Name
+  * Sponsor Contact Title
+  * Sponsor Contact Phone
+  * Sponsor Contact Email
+  * Sponsor Contact Address  * Gayathri Athreya on Wed, 19 Oct 2016 11:39:49 -0700 [View Commit](../../commit/d1bf59710bddacf5d8f739bb328f8850cc1e1d40)
+
+##coeus-1610.0021
 * RESKC-1586: Integration Test and fix. (#2018)
 
   * In a Proposal Hierarchy, If a non-lead child proposal has a PI which is different from the Parent PI, and that person has only one unit associated, then after linking to the hierarchy, syncing all from the parent and then running the data validations
