@@ -117,11 +117,12 @@ public class AwardController extends AwardControllerBase implements Initializing
     @ResponseBody
     AwardDto getAward(@PathVariable Long awardId, @RequestParam(value = "includeBudgets", required = false) boolean includeBudgets) {
         Award award = getAwardDao().getAward(awardId);
-        AwardDocument awardDocument = (AwardDocument) commonApiService.getDocumentFromDocId(Long.parseLong(award.getAwardDocument().getDocumentNumber()));
-
         if(award == null) {
             throw new ResourceNotFoundException("Award with award id " + awardId + " not found.");
         }
+
+        AwardDocument awardDocument = (AwardDocument) commonApiService.getDocumentFromDocId(Long.parseLong(award.getAwardDocument().getDocumentNumber()));
+
 
         AwardDto awardDto = commonApiService.convertAwardToDto(award);
         if (!includeBudgets) {
