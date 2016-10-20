@@ -2157,7 +2157,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return KcServiceLocator.getService(ProtocolCopyService.class);
     }
     
-    private ProtocolAmendRenewService getProtocolAmendRenewService() {
+    public ProtocolAmendRenewService getProtocolAmendRenewService() {
         return KcServiceLocator.getService(ProtocolAmendRenewService.class);
     }
     

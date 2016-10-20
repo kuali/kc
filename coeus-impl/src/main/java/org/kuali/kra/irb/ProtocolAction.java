@@ -36,6 +36,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.IrbProtocolActionRequestService;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBeanBase;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
@@ -97,6 +98,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
     public static final String SEQUENCE_NUMBER = "sequenceNumber";
 
     private transient ProjectRetrievalService projectRetrievalService;
+    private transient ProtocolAmendRenewService protocolAmendRenewService;
 
     protected ProtocolSubmissionBeanBase getSubmissionBean(ActionForm form, String submissionActionType) {
         ProtocolSubmissionBeanBase submissionBean = null;
@@ -133,7 +135,8 @@ public abstract class ProtocolAction extends ProtocolActionBase {
         ProtocolForm protocolForm = (ProtocolForm) form;
         String command = protocolForm.getCommand();
         String detailId;
-       
+
+
         if (command.startsWith(KewApiConstants.DOCSEARCH_COMMAND+"detailId")) {
             detailId = command.substring((KewApiConstants.DOCSEARCH_COMMAND+"detailId").length());
             protocolForm.setDetailId(detailId);
@@ -162,7 +165,13 @@ public abstract class ProtocolAction extends ProtocolActionBase {
         } else {
             protocolForm.initialize();
         }
-        
+
+        String protocolNumber = protocolForm.getProtocolDocument().getProtocol().getProtocolNumber();
+        if (protocolNumber != null) {
+            getProtocolAmendRenewService().refreshCacheForProtocol(protocolNumber);
+        }
+
+
         if (Constants.MAPPING_PROTOCOL_ACTIONS.equals(command)) {
             forward = protocolActions(mapping, protocolForm, request, response);
         }
@@ -433,5 +442,17 @@ public abstract class ProtocolAction extends ProtocolActionBase {
 
     public void setProjectRetrievalService(ProjectRetrievalService projectRetrievalService) {
         this.projectRetrievalService = projectRetrievalService;
+    }
+
+    public ProtocolAmendRenewService getProtocolAmendRenewService() {
+        if (protocolAmendRenewService == null) {
+            protocolAmendRenewService = KcServiceLocator.getService("protocolAmendRenewService");
+        }
+
+        return protocolAmendRenewService;
+    }
+
+    public void setProtocolAmendRenewService(ProtocolAmendRenewService protocolAmendRenewService) {
+        this.protocolAmendRenewService = protocolAmendRenewService;
     }
 }
