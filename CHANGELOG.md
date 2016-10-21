@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1598:All amount infos should only contain the same or previous version (#2039)
+
+  * Amount Infos were displaying inapproriately in previous subawards because the customizer used to build that list was grabbing all previous and future subawards causing the indexing of amount infos to become incorrect. This made it difficult to determine which was the most recent change.  * Douglas Pace on Thu, 20 Oct 2016 18:26:43 -0700 [View Commit](../../commit/a554474a6404390567efce448fe2ccb79cf5a1f7)
+
+##coeus-1610.0023
 * No Changes
 
 
