@@ -97,9 +97,14 @@ Kc.Questionnaire.Answer = Kc.Questionnaire.Answer || {};
 
         $(questionnairePanel).find("div[data-kc-question-parentid='"+parentQuestionId+"']").each(function() {
     		var condition = eval($(this).data('kc-question-condition'));
-    		if ($(questionWrapper).is(':visible') && namespace.isConditionMatchAnswers(answer, condition)) {
+    		if ($(questionWrapper).is(':visible') 
+    				&& ($(questionWrapper).data('kc-question-displayed') === undefined
+    					|| $(questionWrapper).data('kc-question-displayed') === 'true') 
+    				&& namespace.isConditionMatchAnswers(answer, condition)) {
+    			$(this).data('kc-question-displayed', 'true');
     			$(this).slideDown(500);
     		} else {
+    			$(this).data('kc-question-displayed', 'false');
     			$(this).slideUp(500);
     			namespace.emptyAnswerForHiddenQuestion(this);
     		}
