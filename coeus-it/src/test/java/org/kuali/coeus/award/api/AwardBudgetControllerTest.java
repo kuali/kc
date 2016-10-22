@@ -31,15 +31,19 @@ import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonCreditSplit;
 import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplit;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 import javax.validation.constraints.AssertTrue;
@@ -162,8 +166,32 @@ public class AwardBudgetControllerTest extends KcIntegrationTestBase {
 
         getAwardBudgetController().routeAwardBudget(createdBudget.getBudgetId());
 
+        AwardBudgetExt awardBudgetExt = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, createdBudget.getBudgetId());
+        Document awardBudgetDocument = getDocumentService().getByDocumentHeaderId(awardBudgetExt.getDocumentNumber());
+        getDocumentService().blanketApproveDocument(awardBudgetDocument, "", new ArrayList<>());
+        AwardBudgetActionDto actionDto = mapper.readValue(getBudgetActionString(), AwardBudgetActionDto.class);
+        getAwardBudgetController().changeBudgetStatus(createdBudget.getBudgetId(), actionDto);
+        AwardBudgetExtDto awardBudget = getAwardBudgetController().getAwardBudget(createdBudget.getBudgetId().toString());
+        Assert.assertTrue(awardBudget.getAwardBudgetStatusCode().equalsIgnoreCase(getPostedStatusCode()));
     }
 
+    private String getPostedStatusCode() {
+        return CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_POSTED);
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return KcServiceLocator.getService(BusinessObjectService.class);
+    }
+
+    public DocumentService getDocumentService() {
+        return KcServiceLocator.getService(DocumentService.class);
+    }
+
+    public String getBudgetActionString() {
+        return "{\n" +
+                "   \"actionToTake\" : \"post\"\n" +
+                "  }";
+    }
     public java.sql.Date getDate(int year, int month, int day) {
         Calendar cal = Calendar.getInstance();
         cal.set( cal.YEAR, year );

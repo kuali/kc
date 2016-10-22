@@ -49,9 +49,12 @@
     
     <bean id="fiscalYearMonthService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="fiscalYearMonthService" />
-    </bean>     
+    </bean>
 
-	<!-- temporary fix while finishing budget refactoring -->
+    <bean id="budgetAdjustmentClient" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="budgetAdjustmentClient" />
+    </bean>
+
 	<bean id="budgetService" parent="awardBudgetService"/>
     <bean id="awardBudgetService"  class="org.kuali.kra.award.budget.AwardBudgetServiceImpl">
         <property name="parameterService" ref="parameterService" />
@@ -64,6 +67,7 @@
         <property name="dataObjectService" ref="dataObjectService"/>
         <property name="legacyDataAdapter" ref="legacyDataAdapter"/>
         <property name="budgetRatesService" ref="budgetRatesService" />
+        <property name="budgetAdjustmentClient" ref="budgetAdjustmentClient" />
     </bean>
     
     <bean id="awardBudgetCalculationService" class="org.kuali.kra.award.budget.calculator.AwardBudgetCalculationServiceImpl">

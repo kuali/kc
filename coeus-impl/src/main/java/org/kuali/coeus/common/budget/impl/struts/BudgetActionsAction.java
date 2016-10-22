@@ -24,22 +24,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
-import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardFiles;
-import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
-import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
-import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardsEvent;
-import org.kuali.coeus.sys.framework.validation.AuditHelper;
-import org.kuali.coeus.sys.framework.validation.AuditHelper.ValidationState;
-import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.award.budget.AwardBudgetForm;
-import org.kuali.kra.award.budget.AwardBudgetLimit;
-import org.kuali.kra.award.budget.AwardBudgetService;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.Award;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetException;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
@@ -47,20 +31,29 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationS
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationWrapper;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.external.budget.BudgetAdjustmentClient;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.coeus.common.budget.framework.print.BudgetPrintService;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
-import org.kuali.coeus.common.budget.framework.print.BudgetPrintService;
-import org.kuali.coeus.propdev.impl.budget.subaward.PropDevBudgetSubAwardService;
+import org.kuali.coeus.propdev.impl.budget.subaward.*;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper.ValidationState;
+import org.kuali.kra.award.budget.AwardBudgetForm;
+import org.kuali.kra.award.budget.AwardBudgetService;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -68,7 +61,6 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -88,7 +80,6 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     private BudgetJustificationService budgetJustificationService;
     private PropDevBudgetSubAwardService propDevBudgetSubAwardService;
     private static final Log LOG = LogFactory.getLog(BudgetActionsAction.class);
-    private BudgetAdjustmentClient budgetAdjustmentClient = null;
     private KcBusinessRulesEngine kcBusinessRulesEngine;
     private AwardBudgetService awardBudgetService;
 
@@ -524,59 +515,14 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     public ActionForward postAwardBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm) form).getAwardBudgetDocument();
    
-        if (isFinancialIntegrationOn(awardBudgetDocument)) {
-            if (isValidForPostingToFinancialSystem(awardBudgetDocument)) {
-                BudgetAdjustmentClient client = getBudgetAdjustmentClient();
-                client.createBudgetAdjustmentDocument(awardBudgetDocument);
-                if (!isValidForPostingToFinancialSystem(awardBudgetDocument)) {
-                    getAwardBudgetService().post(awardBudgetDocument);
-                    String docNumber = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();
-                    KNSGlobalVariables.getMessageList().add(KeyConstants.BUDGET_POSTED, docNumber);
-                }
-            } else {
-                String budgetAdjustmentDocNbr = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.BUDGET_ADJUSTMENT_DOC_EXISTS, budgetAdjustmentDocNbr);
-                LOG.info("Cannot post budget. There is already a budget adjustment document linked to this budget.");
-            }
+        if (getAwardBudgetService().isFinancialIntegrationOn()) {
+            getAwardBudgetService().postWithFinancialIntegration(awardBudgetDocument);
             return mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);           
         } else {
             getAwardBudgetService().post(awardBudgetDocument);   
         }
         setupDocumentExit();
         return returnToSender(request, mapping, (AwardBudgetForm) form);
-    }
-  
-    protected BudgetAdjustmentClient getBudgetAdjustmentClient() {
-        if (budgetAdjustmentClient == null) {
-            budgetAdjustmentClient = KcServiceLocator.getService("budgetAdjustmentClient");
-        }
-        return budgetAdjustmentClient;
-    }
-
-    /**
-     * This method checks if the budget adjustment document has alredy been created and if the integration parameters is on.
-     * @param awardBudgetDocument
-     * @return
-     */
-    protected boolean isValidForPostingToFinancialSystem(AwardBudgetDocument awardBudgetDocument) {
-        //check if budget adjustment doc nbr has been created here, if so do not post
-        String budgetAdjustmentDocumentNumber = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();
-        // Need to check empty string also because of KCINFR-363. MySQL treats '' and null different and awardBudget documents 
-        // initially seem to store the BA doc nbr as ''.
-        if (ObjectUtils.isNull(budgetAdjustmentDocumentNumber) || StringUtils.isEmpty(budgetAdjustmentDocumentNumber)) {
-            return true;
-        }
-        
-        return false;
-    }
-    
-    protected boolean isFinancialIntegrationOn(AwardBudgetDocument awardBudgetDocument) {
-        String parameterValue = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD, 
-                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
-        if (StringUtils.containsIgnoreCase(parameterValue, Constants.FIN_SYSTEM_INTEGRATION_ON)) {
-            return true;
-        }
-        return false;
     }
     
     public ActionForward toggleAwardBudgetStatus(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

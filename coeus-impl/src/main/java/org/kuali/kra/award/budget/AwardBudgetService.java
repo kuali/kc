@@ -37,19 +37,18 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
 
 
     void processSubmision(AwardBudgetDocument awardBudgetDocument);
-    
 
     void processApproval(AwardBudgetDocument awardBudgetDocument);
-    
 
     void processDisapproval(AwardBudgetDocument awardBudgetDocument);
-    
+
+    boolean isFinancialIntegrationOn();
 
     void post(AwardBudgetDocument awardBudgetDocument);
 
+    void postWithFinancialIntegration(AwardBudgetDocument awardBudgetDocument) throws Exception;
 
     void toggleStatus(AwardBudgetDocument awardBudgetDocument);
- 
 
     AwardBudgetDocument rebudget(AwardDocument awardDocument,String documentDescription) throws WorkflowException;
 

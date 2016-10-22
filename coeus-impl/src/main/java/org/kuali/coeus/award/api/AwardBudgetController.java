@@ -39,6 +39,7 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.rest.NotImplementedException;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
@@ -75,6 +76,7 @@ import java.util.stream.Collectors;
 @Controller("awardBudgetController")
 public class AwardBudgetController extends RestController {
 
+    public static final String POST_ACTION = "post";
     @Autowired
     @Qualifier("awardDao")
     private AwardDao awardDao;
@@ -213,6 +215,39 @@ public class AwardBudgetController extends RestController {
                     throw new UnprocessableEntityException("Award budget with " + budgetId + " is not in a state to be cancelled.");
                 }
             }
+        }
+    }
+
+    @RequestMapping(method= RequestMethod.PUT, value="/award-budgets/{budgetId}/status",
+            consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseBody
+    public void changeBudgetStatus(@PathVariable Long budgetId, @RequestBody AwardBudgetActionDto actionDto) throws Exception {
+        commonApiService.clearErrors();
+        Budget budget = businessObjectService.findBySinglePrimaryKey(Budget.class, budgetId);
+        if (budget != null) {
+            AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) commonApiService.getDocumentFromDocId(Long.parseLong(budget.getDocumentNumber()));
+            String actionToTake = actionDto.getActionToTake();
+            if(actionToTake.equalsIgnoreCase(POST_ACTION)) {
+                takePostAction(budgetId, awardBudgetDocument);
+            } else {
+                throw new NotImplementedException("The action of " + actionToTake + "has not yet been implemented.");
+            }
+
+        } else {
+            throw new ResourceNotFoundException("Budget with budget id " + budgetId + " not found.");
+        }
+    }
+
+    public void takePostAction(Long budgetId, AwardBudgetDocument awardBudgetDocument) throws Exception {
+        if(!(awardBudgetDocument.getDocumentHeader().getWorkflowDocument().isFinal() ||
+                awardBudgetDocument.getDocumentHeader().getWorkflowDocument().isProcessed())) {
+            throw new UnprocessableEntityException("The budget " +  budgetId + " is not in final status and cannot be posted.");
+        }
+        if (awardBudgetService.isFinancialIntegrationOn()) {
+            awardBudgetService.postWithFinancialIntegration(awardBudgetDocument);
+        } else {
+            awardBudgetService.post(awardBudgetDocument);
         }
     }
 

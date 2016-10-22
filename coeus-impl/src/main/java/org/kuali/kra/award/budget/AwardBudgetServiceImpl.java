@@ -23,13 +23,35 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.api.rate.RateClassType;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.query.QueryList;
+import org.kuali.coeus.common.budget.framework.query.operator.And;
+import org.kuali.coeus.common.budget.framework.query.operator.Equals;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
+import org.kuali.coeus.common.budget.framework.rate.RateType;
+import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
+import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionRule;
+import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
@@ -38,34 +60,14 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
-import org.kuali.coeus.common.budget.framework.query.QueryList;
-import org.kuali.coeus.common.budget.api.rate.RateClassType;
-import org.kuali.coeus.common.budget.framework.query.operator.And;
-import org.kuali.coeus.common.budget.framework.query.operator.Equals;
-import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
-import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
-import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
-import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
-import org.kuali.coeus.common.budget.framework.rate.RateType;
-import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
-import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionRule;
-import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
+import org.kuali.kra.external.budget.BudgetAdjustmentClient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -129,11 +131,54 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     private DataObjectService dataObjectService;
     private LegacyDataAdapter legacyDataAdapter;
     private BudgetRatesService budgetRatesService;
-    
+    private BudgetAdjustmentClient budgetAdjustmentClient;
+
     @Override
     public void post(AwardBudgetDocument awardBudgetDocument) {
         processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_POSTED);
         saveDocument(awardBudgetDocument);
+    }
+
+    public void postWithFinancialIntegration(AwardBudgetDocument awardBudgetDocument) throws Exception {
+        if (isValidForPostingToFinancialSystem(awardBudgetDocument)) {
+            BudgetAdjustmentClient client = getBudgetAdjustmentClient();
+            client.createBudgetAdjustmentDocument(awardBudgetDocument);
+            if (!isValidForPostingToFinancialSystem(awardBudgetDocument)) {
+                post(awardBudgetDocument);
+                String docNumber = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();
+                KNSGlobalVariables.getMessageList().add(KeyConstants.BUDGET_POSTED, docNumber);
+            }
+        } else {
+            String budgetAdjustmentDocNbr = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.BUDGET_ADJUSTMENT_DOC_EXISTS, budgetAdjustmentDocNbr);
+            LOG.info("Cannot post budget. There is already a budget adjustment document linked to this budget.");
+        }
+    }
+
+    public boolean isFinancialIntegrationOn() {
+        String parameterValue = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
+        if (StringUtils.containsIgnoreCase(parameterValue, Constants.FIN_SYSTEM_INTEGRATION_ON)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * This method checks if the budget adjustment document has alredy been created and if the integration parameters is on.
+     * @param awardBudgetDocument
+     * @return
+     */
+    protected boolean isValidForPostingToFinancialSystem(AwardBudgetDocument awardBudgetDocument) {
+        //check if budget adjustment doc nbr has been created here, if so do not post
+        String budgetAdjustmentDocumentNumber = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();
+        // Need to check empty string also because of KCINFR-363. MySQL treats '' and null different and awardBudget documents
+        // initially seem to store the BA doc nbr as ''.
+        if (org.kuali.rice.krad.util.ObjectUtils.isNull(budgetAdjustmentDocumentNumber) || StringUtils.isEmpty(budgetAdjustmentDocumentNumber)) {
+            return true;
+        }
+
+        return false;
     }
 
     public AwardBudgetDocument copyBudgetVersion(AwardBudgetDocument budgetDocument, boolean onlyOnePeriod) throws WorkflowException {
@@ -1367,4 +1412,12 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 	public void setBudgetRatesService(BudgetRatesService budgetRatesService) {
 		this.budgetRatesService = budgetRatesService;
 	}
+
+    public BudgetAdjustmentClient getBudgetAdjustmentClient() {
+        return budgetAdjustmentClient;
+    }
+
+    public void setBudgetAdjustmentClient(BudgetAdjustmentClient budgetAdjustmentClient) {
+        this.budgetAdjustmentClient = budgetAdjustmentClient;
+    }
 }
