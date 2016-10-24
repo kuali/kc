@@ -27,6 +27,8 @@ public class DisclosureProjectStatus {
     String status;
     @Pattern(regexp = "[a-zA-Z ]+")
     String disposition;
+    @Pattern(regexp = "[a-zA-Z ]+")
+    String annualDisclosureStatus;
 
     public String getStatus() {
         return status;
@@ -50,5 +52,13 @@ public class DisclosureProjectStatus {
 
     public void setDisposition(String disposition) {
         this.disposition = disposition;
+    }
+
+    public String getAnnualDisclosureStatus() {
+        return annualDisclosureStatus;
+    }
+
+    public void setAnnualDisclosureStatus(String annualDisclosureStatus) {
+        this.annualDisclosureStatus = annualDisclosureStatus;
     }
 }

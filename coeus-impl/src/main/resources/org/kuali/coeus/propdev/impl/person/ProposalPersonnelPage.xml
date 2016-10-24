@@ -318,15 +318,21 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-MessageField"
-                                              p:messageText="@{#ViewHelper.isCoiDisclosureStatusEnabled() ? 'Disclosure Status: ' +
-                                              #ViewHelper.getDisclosureStatusForPerson(#line) : ''}"
+                                              p:messageText="@{#ViewHelper.isCoiDisclosureStatusEnabled() and
+                                              #ViewHelper.isDisplayCoiProjectStatus() ? 'Project Status: ' +
+                                              #ViewHelper.getProjectStatusForPerson(#line) : ''}"
                                               p:readOnly="true" p:order="5"
-                                                />
+                                              />
+                                        <bean parent="Uif-MessageField"
+                                              p:messageText="@{#ViewHelper.isCoiDisclosureStatusEnabled() ? 'Annual Disclosure Status: ' +
+                                              #ViewHelper.getDisclosureStatusForPerson(#line) : ''}"
+                                              p:readOnly="true" p:order="6"
+                                              />
                                         <bean parent="Uif-MessageField"
                                               p:messageText="@{#ViewHelper.canViewDispositionStatus(#line) ? 'Disposition Status: ' +
                                               #ViewHelper.getDispositionStatusForPerson(#line) : ''}"
-                                              p:readOnly="true" p:order="6"
-                                                />
+                                              p:readOnly="true" p:order="7"
+                                              />
                                     </list>
                                 </property>
                             </bean>

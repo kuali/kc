@@ -22,6 +22,7 @@
 <c:set var="displayCoiDisclosureStatus" value="${KualiForm.displayCoiDisclosureStatus}" />
 <c:set var="coiDisclosureStatuses" value="${KualiForm.disclosureProjectStatuses}" />
 <c:set var="coiDispositionViewEnabled" value="${KualiForm.coiDispositionViewEnabled}" />
+<c:set var="projectStatusEnabled" value="${KualiForm.displayCoiProjectStatus}" />
 
 <div id="workarea">
 <c:forEach items="${KualiForm.document.protocolList[0].protocolPersons}" var="person" varStatus="status">
@@ -43,7 +44,12 @@
             <c:forEach items="${coiDisclosureStatuses}" var="projectStatus">
                 <c:choose>
                     <c:when test="${KualiForm.document.protocolList[0].protocolPersons[personIndex].genericId eq projectStatus.userId}">
-                        <c:set var="descri" value="${descri}<br><b>COI Disclosure Status:</b>${projectStatus.status}" />
+                        <c:set var="descri" value="${descri}<br><b><font color=\"#999999\">COI Annual Disclosure Status: </font></b>${projectStatus.annualDisclosureStatus}" />
+                        <c:choose>
+                            <c:when test="${projectStatusEnabled}">
+                                <c:set var="descri" value="${descri}<br><b><font color=\"#999999\">COI Project Status: </font></b>${projectStatus.status}" />
+                            </c:when>
+                        </c:choose>
                     </c:when>
                 </c:choose>
             </c:forEach>
@@ -55,7 +61,7 @@
             <c:forEach items="${coiDisclosureStatuses}" var="projectStatus">
                 <c:choose>
                     <c:when test="${KualiForm.document.protocolList[0].protocolPersons[personIndex].genericId eq projectStatus.userId}">
-                        <c:set var="descri" value="${descri}<br><b>COI Disposition Status:</b>${projectStatus.disposition}" />
+                        <c:set var="descri" value="${descri}<br><b><font color=\"#999999\">COI Disposition Status: </font></b>${projectStatus.disposition}" />
                     </c:when>
                 </c:choose>
             </c:forEach>

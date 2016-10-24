@@ -527,6 +527,11 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_DISPOSITION_STATUS_FROM_COI_MODULE);
     }
 
+    public boolean getDisplayCoiProjectStatus() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SYSTEM,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PROJECT_STATUS_FEATURE_FLAG);
+    }
+
     private String getProtocolNumberForDisclosures() {
         String protocolNumber = getProtocolDocument().getProtocol().getProtocolNumber();
 

@@ -797,9 +797,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         return state != null ? state.getDescription() : "";
     }
 
-   public String getDisclosureStatusForPerson(ProposalPerson person) {
+   public String getProjectStatusForPerson(ProposalPerson person) {
         DisclosureProjectStatus projectStatus = getCoiStatusForPerson(person);
         return projectStatus.getStatus() == null ? "" : projectStatus.getStatus();
+    }
+
+    public String getDisclosureStatusForPerson(ProposalPerson person) {
+        DisclosureProjectStatus projectStatus = getCoiStatusForPerson(person);
+        return projectStatus.getAnnualDisclosureStatus() == null ? "" : projectStatus.getAnnualDisclosureStatus();
     }
 
     public String getDispositionStatusForPerson(ProposalPerson person) {
@@ -820,6 +825,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                 Constants.PARAMETER_COMPONENT_DOCUMENT,
                 Constants.ENABLE_DISCLOSURE_STATUS_FROM_COI_MODULE);
+    }
+
+    public boolean isDisplayCoiProjectStatus() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SYSTEM,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PROJECT_STATUS_FEATURE_FLAG);
     }
 
     public boolean isCoiDisclosureDispositionStatusEnabled() {

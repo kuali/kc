@@ -1649,6 +1649,11 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_STATUS_FROM_COI_MODULE);
     }
 
+    public boolean getDisplayCoiProjectStatus() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SYSTEM,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PROJECT_STATUS_FEATURE_FLAG);
+    }
+
     public boolean isCoiDispositionViewEnabled() {
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_AWARD,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_DISPOSITION_STATUS_FROM_COI_MODULE);

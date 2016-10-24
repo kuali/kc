@@ -202,6 +202,7 @@
                 <c:set var="displayCoiDisclosureStatus" value="${KualiForm.displayCoiDisclosureStatus}" />
                 <c:set var="coiDisclosureStatuses" value="${KualiForm.disclosureProjectStatuses}" />
                 <c:set var="coiDispositionViewEnabled" value="${KualiForm.coiDispositionViewEnabled}" />
+                <c:set var="projectStatusEnabled" value="${KualiForm.displayCoiProjectStatus}" />
 
                 <c:forEach var="awardContact" items="${KualiForm.document.awardList[0].projectPersons}" varStatus="awardContactRowStatus">
     				<tr>
@@ -277,19 +278,32 @@
     						</div>
     	                </td>
     	            </tr>
+
                     <c:choose>
                         <c:when test="${displayCoiDisclosureStatus}">
                             <c:forEach items="${coiDisclosureStatuses}" var="projectStatus">
                                 <c:choose>
                                     <c:when test="${awardContact.genericId eq projectStatus.userId}">
                                         <tr>
-                                            <td colspan="1" nowrap class="tab-subhead">
-                                                COI Disclosure Status:
+                                            <td colspan="1" nowrap>
+                                                <font color="#999999"><b>COI Annual Disclosure Status:</b></font>
                                             </td>
-                                            <td colspan="5" nowrap class="tab-subhead">
-                                                ${projectStatus.status}
+                                            <td colspan="5" nowrap>
+                                                    ${projectStatus.annualDisclosureStatus}
                                             </td>
                                         </tr>
+                                        <c:choose>
+                                            <c:when test="${projectStatusEnabled}">
+                                                <tr>
+                                                    <td colspan="1" nowrap>
+                                                        <font color="#999999"><b>COI Project Status:</b></font>
+                                                    </td>
+                                                    <td colspan="5" nowrap>
+                                                        ${projectStatus.status}
+                                                    </td>
+                                                </tr>
+                                            </c:when>
+                                        </c:choose>
                                     </c:when>
                                 </c:choose>
                             </c:forEach>
