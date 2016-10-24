@@ -22,4 +22,5 @@
 \. ./kc/bootstrap/V1610_003__RESKC-1480.sql
 \. ./kc/bootstrap/V1610_004__RESKC-1746.sql
 \. ./kc/bootstrap/V1610_006__unit_sync_parameter.sql
+\. ./kc/bootstrap/V1610_007__project_status_feature_flag.sql
 commit;

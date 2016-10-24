@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Rescoi 1079 disclosure (#2042)
+
+* Display project status and disclosure status.
+  * 
+* Adding project status.
+  * Gayathri Athreya on Mon, 24 Oct 2016 10:30:44 -0700 [View Commit](../../commit/c622f84efd28eee86bebde6f2ce6924e0f53c1de)
+
+##coeus-1610.0026
 * RESKC-1755: Created endpoint to post award budget. (#2033)
 
   * Gayathri Athreya on Fri, 21 Oct 2016 18:10:41 -0700 [View Commit](../../commit/0edeb6c3db2d71f5f3ab7cbe6fa13a4add95c856)
