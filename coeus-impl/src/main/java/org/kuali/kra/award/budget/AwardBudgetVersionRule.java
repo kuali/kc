@@ -18,12 +18,11 @@
  */
 package org.kuali.kra.award.budget;
 
+import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionRule;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionRule;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -38,6 +37,7 @@ import java.util.Map;
 
 public class AwardBudgetVersionRule extends BudgetVersionRule {
 
+    public static final String ROOT_AWARD_NUMBER = "rootAwardNumber";
     BusinessObjectService businessObjectService;
     DocumentService documentService;
     ParameterService parameterService;
@@ -65,50 +65,24 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
                     KeyConstants.ERROR_AWARD_BUDGET_END_DATE_MISSING);
             success &= false;
         }
-        
-        Map<String, Long> fieldValues = new HashMap<String, Long>();
-        fieldValues.put("awardId", award.getAwardId());
-        List<Award> awards = (List<Award>)getBusinessObjectService().findMatchingOrderBy(Award.class, fieldValues, "awardId", true);
-        boolean anyAwardVersionFinal = false;
-        boolean anyTimeAndMoneyDocumentsFinal = false;
-        //test for a "Final" Award version.
-        for(Award testAward : awards) {
-            Award wfAward = 
-                ((AwardDocument) getDocumentService().getByDocumentHeaderId(award.getAwardDocument().getDocumentHeader().getDocumentNumber())).getAward();
-            if (wfAward.getAwardDocument().getDocumentHeader().hasWorkflowDocument()) {
-                if (wfAward.getAwardDocument().getDocumentHeader().getWorkflowDocument().isFinal()) {
-                    anyAwardVersionFinal = true;
-                    break;
-                }
-            }
-        }
-        //get latest award version to test that there is a "Final" Time And Money document.
-        Award testTandMAward = awards.get(awards.size() - 1);
-        String timeAndMoneyDocumentNumber = null;
-        //get the first T&M document created for this award version to test that it is final.  If this one is not final, then there
-        //cannot be a final T&M document.
-        for(AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()) {
-            if (!(awardAmountInfo.getTimeAndMoneyDocumentNumber() == null)) {
-                timeAndMoneyDocumentNumber = awardAmountInfo.getTimeAndMoneyDocumentNumber();
-                break;
-            }
-        }
-        
-        Map<String, Object> fieldValues1 = new HashMap<String, Object>();
-        String rootAwardNumber = award.getAwardNumber();
-        fieldValues1.put("rootAwardNumber", rootAwardNumber);
 
+        boolean anyAwardVersionFinal = false;
+        final AwardDocument awardDocument = (AwardDocument) getDocumentService().getByDocumentHeaderId(award.getAwardDocument().getDocumentHeader().getDocumentNumber());
+        anyAwardVersionFinal = awardDocument.getDocumentHeader().hasWorkflowDocument() &&
+                awardDocument.getDocumentHeader().getWorkflowDocument().isFinal();
+        
+        Map<String, Object> fieldValues1 = new HashMap<>();
+        fieldValues1.put(ROOT_AWARD_NUMBER, award.getAwardNumber());
         List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
             (List<TimeAndMoneyDocument>)getBusinessObjectService().findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, "documentNumber", true);
-        
+
+        boolean anyTimeAndMoneyDocumentsFinal = false;
         if(!timeAndMoneyDocuments.isEmpty()) {
             TimeAndMoneyDocument timeAndMoneyDocument = 
                 (TimeAndMoneyDocument)getDocumentService().getByDocumentHeaderId(timeAndMoneyDocuments.get(0).getDocumentHeader().getDocumentNumber());
-            if(timeAndMoneyDocument.getDocumentHeader().hasWorkflowDocument()) {
-                if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
-                    anyTimeAndMoneyDocumentsFinal = true;
-                }
-            }
+
+            anyTimeAndMoneyDocumentsFinal = timeAndMoneyDocument.getDocumentHeader().hasWorkflowDocument() &&
+                    timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isFinal();
         }
 
         if(!anyAwardVersionFinal && !anyTimeAndMoneyDocumentsFinal) {
