@@ -498,7 +498,9 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
             if (CollectionUtils.isNotEmpty(review.getCommitteeScheduleMinutes())) {
                 for (CommitteeScheduleMinuteBase comment : review.getCommitteeScheduleMinutes()) {
                     comment.setProtocolIdFk(review.getProtocolId());
-                    comment.setScheduleIdFk(newSubmission.getScheduleIdFk());
+                    if(newSubmission.getScheduleIdFk() != null) {
+                        comment.setScheduleIdFk(newSubmission.getScheduleIdFk());
+                    }
                 }
             }
             newSubmission.getProtocolOnlineReviews().add(review);
