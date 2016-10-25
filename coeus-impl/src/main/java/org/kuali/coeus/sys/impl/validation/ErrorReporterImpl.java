@@ -121,7 +121,7 @@ public class ErrorReporterImpl implements ErrorReporter {
     public void reportWarning(String propertyName, String errorKey, String... errorParams) {
         GlobalVariables.getMessageMap().putWarning(propertyName, errorKey, errorParams);
         if (LOG.isDebugEnabled()) {
-            LOG.debug(String.format("rule warning at ", ErrorReporterImpl.getMethodPath(1, 2)));
+            LOG.debug(String.format("rule warning at %s", ErrorReporterImpl.getMethodPath(1, 2)));
         }
     }
 

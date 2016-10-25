@@ -115,7 +115,7 @@ public class UndoLastActionBean extends ProtocolActionBean implements org.kuali.
         ProtocolAction action = getLastPerformedAction();
         if(action != null){
             // filter out protocol merged from renewal/amendment
-            if (StringUtils.isBlank(action.getComments()) || !((action.getProtocolActionTypeCode().equals(ProtocolActionType.APPROVED) || action.getProtocolActionTypeCode().equals(ProtocolActionType.APPROVED))
+            if (StringUtils.isBlank(action.getComments()) || !(action.getProtocolActionTypeCode().equals(ProtocolActionType.APPROVED)
                     && (action.getComments().startsWith(ProtocolSpecialVersion.RENEWAL.getDescription() + "-") || action.getComments().startsWith(ProtocolSpecialVersion.AMENDMENT.getDescription() + "-") || action.getComments().startsWith(ProtocolSpecialVersion.FYI.getDescription() + "-")))) {
                 return isActionUndoable(action.getProtocolActionTypeCode()) || isActionProtocolApproval(action, action.getProtocolNumber()) || isProtocolDeleted(getProtocol());
             }

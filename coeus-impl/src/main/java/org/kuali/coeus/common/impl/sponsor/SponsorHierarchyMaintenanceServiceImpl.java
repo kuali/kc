@@ -78,9 +78,9 @@ public class SponsorHierarchyMaintenanceServiceImpl implements SponsorHierarchyM
                 levels[i] = newLevels[i];
             }
         }
-        public void setSortIds(Integer[] sortIds) {
-            for (int i = 0; i < sortIds.length && i < sortIds.length; i++) {
-                this.sortIds[i] = sortIds[i];
+        public void setSortIds(Integer[] newSortIds) {
+            for (int i = 0; i < sortIds.length && i < newSortIds.length; i++) {
+                this.sortIds[i] = newSortIds[i];
             }
         }
     }

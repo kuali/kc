@@ -75,7 +75,7 @@ public class MembershipRoleDocumentRule extends KcMaintenanceDocumentRuleBase {
     private boolean checkExistence(MembershipRole role) {
 
         boolean valid = true;
-        if (StringUtils.isNotBlank(role.getCommitteeTypeCode()) && StringUtils.isNotBlank(role.getCommitteeTypeCode())) {
+        if (StringUtils.isNotBlank(role.getCommitteeTypeCode())) {
             Map<String, String> pkMap = new HashMap<String, String>();
             pkMap.put("committeeTypeCode", role.getCommitteeTypeCode());
             CommitteeType committeeType = (CommitteeType) getBusinessObjectService().findByPrimaryKey(CommitteeType.class, pkMap);

@@ -110,7 +110,7 @@ public abstract class ProtocolReviewerBeanBase extends BusinessObjectBase {
     public boolean isProtocolReviewerBeanForCommitteeMembership( CommitteeMembershipBase membership ) {
         boolean result = ( membership.getPersonId()==null && membership.getRolodexId()!=null && StringUtils.equals(this.getPersonId(), membership.getRolodexId().toString() ))
                          ||
-                         ( membership.getPersonId()!=null && membership.getPersonId()!=null && StringUtils.equals(membership.getPersonId(), this.getPersonId()));
+                         ( membership.getPersonId()!=null && StringUtils.equals(membership.getPersonId(), this.getPersonId()));
         return result;
     }   
     

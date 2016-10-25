@@ -680,10 +680,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     public String s2sFederalIdRule(DevelopmentProposal developmentProposal) {
         if (developmentProposal.getS2sOpportunity() != null) {
             String renewalType = getProposalTypeService().getRenewProposalTypeCode();
-            if (StringUtils.equals(developmentProposal.getProposalTypeCode(), renewalType)
-                    || StringUtils.equals(developmentProposal.getProposalTypeCode(), renewalType)
-                    || StringUtils.equals(developmentProposal.getProposalTypeCode(), renewalType)
-                    || StringUtils.equals(developmentProposal.getProposalTypeCode(), renewalType)) {
+            if (StringUtils.equals(developmentProposal.getProposalTypeCode(), renewalType)) {
                 if (StringUtils.isBlank(developmentProposal.getSponsorProposalNumber())
                         || !developmentProposal.getSponsorProposalNumber().matches("[a-zA-Z]{2}\\d{6}")) {
                     return FALSE;
