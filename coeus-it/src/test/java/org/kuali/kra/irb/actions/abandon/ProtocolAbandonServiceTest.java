@@ -25,12 +25,11 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.org.jmock.lib.legacy.ClassImposteriser;
+import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.test.ProtocolFactory;
@@ -54,7 +53,6 @@ public class ProtocolAbandonServiceTest  extends KcIntegrationTestBase {
     private ProtocolAbandonServiceImpl service;
     
     private Mockery context = new JUnit4Mockery() {{
-        setImposteriser(ClassImposteriser.INSTANCE);
         setThreadingPolicy(new Synchroniser());
     }};
     

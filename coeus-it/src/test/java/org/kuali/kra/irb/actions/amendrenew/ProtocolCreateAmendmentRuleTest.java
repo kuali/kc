@@ -41,14 +41,12 @@ public class ProtocolCreateAmendmentRuleTest extends ProtocolRuleTestBase {
     
     @Test
     public void testOK() {
-        //new TemplateRuleTest<CreateAmendmentEvent<CreateAmendmentRule>, CreateAmendmentRule> () {
         new TemplateRuleTest<CreateAmendmentEvent, CreateAmendmentRule> () {
 
             @Override
             protected void prerequisite() {
                 ProtocolAmendmentBean bean = getMockProtocolAmendmentBean(SUMMARY, true);
-                
-                //event = new CreateAmendmentEvent<CreateAmendmentRule>(null, PROPERTY_KEY, bean);
+
                 event = new CreateAmendmentEvent(null, PROPERTY_KEY, bean);
                 rule = new CreateAmendmentRule();
                 expectedReturnValue = true;
@@ -59,14 +57,12 @@ public class ProtocolCreateAmendmentRuleTest extends ProtocolRuleTestBase {
     
     @Test
     public void testSummary() {
-        //new TemplateRuleTest<CreateAmendmentEvent<CreateAmendmentRule>, CreateAmendmentRule> () {
         new TemplateRuleTest<CreateAmendmentEvent, CreateAmendmentRule> () {
 
             @Override
             protected void prerequisite() {
                 ProtocolAmendmentBean bean = getMockProtocolAmendmentBean(Constants.EMPTY_STRING, true);
-                
-                //event = new CreateAmendmentEvent<CreateAmendmentRule>(null, PROPERTY_KEY, bean);
+
                 event = new CreateAmendmentEvent(null, PROPERTY_KEY, bean);
                 rule = new CreateAmendmentRule();
                 expectedReturnValue = false;
@@ -82,14 +78,12 @@ public class ProtocolCreateAmendmentRuleTest extends ProtocolRuleTestBase {
     
     @Test
     public void testSelection() {
-        //new TemplateRuleTest<CreateAmendmentEvent<CreateAmendmentRule>, CreateAmendmentRule> () {
         new TemplateRuleTest<CreateAmendmentEvent, CreateAmendmentRule> () {
 
             @Override
             protected void prerequisite() {
                 ProtocolAmendmentBean bean = getMockProtocolAmendmentBean(SUMMARY, false);
-                
-                //event = new CreateAmendmentEvent<CreateAmendmentRule>(null, PROPERTY_KEY, bean);
+
                 event = new CreateAmendmentEvent(null, PROPERTY_KEY, bean);
                 rule = new CreateAmendmentRule();
                 expectedReturnValue = false;

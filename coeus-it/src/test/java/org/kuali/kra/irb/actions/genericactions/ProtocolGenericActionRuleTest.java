@@ -23,11 +23,11 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Test;
-import org.kuali.coeus.org.jmock.lib.legacy.ClassImposteriser;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.kra.rules.TemplateRuleTest;
+import  org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 
 import java.sql.Date;
 
@@ -42,7 +42,6 @@ public class ProtocolGenericActionRuleTest extends ProtocolRuleTestBase {
     private static final String ACTION_DATE_FIELD = "actionDate";
     
     private Mockery context = new JUnit4Mockery() {{
-        setImposteriser(ClassImposteriser.INSTANCE);
         setThreadingPolicy(new Synchroniser());
     }};
 

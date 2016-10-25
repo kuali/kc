@@ -25,12 +25,11 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.org.jmock.lib.legacy.ClassImposteriser;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
-import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -45,14 +44,12 @@ import static org.junit.Assert.assertFalse;
  */
 public class ProtocolDeleteServiceTest extends KcIntegrationTestBase {
 
-    private static final String REASON = "my test reason";
     private static final String SUMMARY = "summary";
     
     private ProtocolDeleteService service;
     private ProtocolAmendRenewService protocolAmendRenewService;
     
     private Mockery context = new JUnit4Mockery() {{
-        setImposteriser(ClassImposteriser.INSTANCE);
         setThreadingPolicy(new Synchroniser());
     }};
     
@@ -95,17 +92,6 @@ public class ProtocolDeleteServiceTest extends KcIntegrationTestBase {
         
         modules = protocolAmendRenewService.getAvailableModules(protocolDocument.getProtocol().getProtocolNumber());
         assertEquals(12, modules.size());
-    }
-    
-    private ProtocolDeleteBean getMockProtocolDeleteBean() {
-        final ProtocolDeleteBean bean = context.mock(ProtocolDeleteBean.class);
-        
-        context.checking(new Expectations() {{
-            allowing(bean).getReason();
-            will(returnValue(REASON));
-        }});
-        
-        return bean;
     }
     
     private ProtocolAmendmentBean getMockProtocolAmendmentBean() {

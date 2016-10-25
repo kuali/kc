@@ -26,7 +26,6 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.org.jmock.lib.legacy.ClassImposteriser;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.dao.KraLookupDao;
 import org.kuali.kra.irb.Protocol;
@@ -42,6 +41,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 
 import java.util.List;
 
@@ -57,7 +57,6 @@ public class ProtocolAmendRenewServiceTest extends KcIntegrationTestBase {
     private ProtocolAmendRenewServiceImpl service;
     
     private Mockery context = new JUnit4Mockery() {{
-        setImposteriser(ClassImposteriser.INSTANCE);
         setThreadingPolicy(new Synchroniser());
     }};
     
