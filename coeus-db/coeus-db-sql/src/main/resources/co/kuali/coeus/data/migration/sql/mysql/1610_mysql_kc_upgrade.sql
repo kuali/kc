@@ -23,4 +23,5 @@
 \. ./kc/bootstrap/V1610_004__RESKC-1746.sql
 \. ./kc/bootstrap/V1610_006__unit_sync_parameter.sql
 \. ./kc/bootstrap/V1610_007__project_status_feature_flag.sql
+\. ./kc/bootstrap/V1610_008__nsf_1.6_funding_mechanism.sql
 commit;

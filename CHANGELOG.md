@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* Fix rule so that the workflow document is not null. (#2046)
+
+  * Gayathri Athreya on Tue, 25 Oct 2016 12:36:31 -0700 [View Commit](../../commit/e42b14c1e9b690e5b28c25592674c2ee110a8b0d)
+* RESKC-1784: Fix missing/broken NSF1.6 Funding Mechanisms
+  * Terry Durkin on Tue, 25 Oct 2016 14:30:55 -0400 [View Commit](../../commit/a40e380914a11b2b44b0a0fd47cc4d25c65c6c50)
+
+##coeus-1610.0029
 * No Changes
 
 
