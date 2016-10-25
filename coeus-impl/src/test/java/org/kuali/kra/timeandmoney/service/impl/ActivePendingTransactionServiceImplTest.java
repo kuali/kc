@@ -89,7 +89,7 @@ public class ActivePendingTransactionServiceImplTest {
         
         emptyAwardAnswer = new Answer<Award>() {
     		public Award answer(InvocationOnMock invocation) {
-    			return getEmptyAward(invocation.getArgumentAt(0, String.class));
+    			return getEmptyAward(invocation.getArgument(0));
     		}
     	};
     }

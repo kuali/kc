@@ -24,7 +24,6 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
-import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.committee.impl.bo.ScheduleStatus;
@@ -75,7 +74,7 @@ public class CommitteeScheduleServiceImplTest  {
     @Before
     public void setUp() throws Exception {
        context  = new JUnit4Mockery() {{
-            setImposteriser(ClassImposteriser.INSTANCE);
+
            setThreadingPolicy(new Synchroniser());
         }};
        boService = context.mock(BusinessObjectService.class);       
