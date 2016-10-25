@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Fix null FK error in amendments. (#2048)
+
+  * Gayathri Athreya on Tue, 25 Oct 2016 14:43:21 -0700 [View Commit](../../commit/c7c6dee6d26f0d712e08e06ee0555c4b8034ba22)
+
+##coeus-1610.0031
 * Fix rule so that the workflow document is not null. (#2046)
 
   * Gayathri Athreya on Tue, 25 Oct 2016 12:36:31 -0700 [View Commit](../../commit/e42b14c1e9b690e5b28c25592674c2ee110a8b0d)
