@@ -85,6 +85,9 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
                 }
             });
 
+    public void refreshCacheForProtocol(String protocolNumber) {
+        amendmentAndRenewalsCache.refresh(protocolNumber);
+    }
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }

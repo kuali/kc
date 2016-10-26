@@ -108,5 +108,6 @@ public interface ProtocolAmendRenewService {
      * This method is to get the actual protocol number when it is amendment or renewal.
      */
     public String getAmendedOrRenewalProtocolNumber(String protocolNumber);
-    
+
+    public void refreshCacheForProtocol(String protocolNumber);
 }
