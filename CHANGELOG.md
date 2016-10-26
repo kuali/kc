@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1580: adding narrative mapping for Research & Related Budget 10 version 1.4
+  * Travis Schneeberger on Wed, 26 Oct 2016 10:33:49 -0400 [View Commit](../../commit/3de2536d10462d29a716dbe123defc9795ba059c)
+* RESKC-1604: supporting RR Subaward Budget 10 10 version 1.4. Fixing version 1.2 and 1.3 of the RR Subaward Budget 10 10 forms' stylesheets when there is no equipment present. Adding tests for all versions of the RR Subaward Budget 10 10 form.
+  * Travis Schneeberger on Tue, 25 Oct 2016 17:33:13 -0400 [View Commit](../../commit/d2ed514b3f6e211c2423d3c0268105c0939df191)
+
+##coeus-1610.0032
 * Fix null FK error in amendments. (#2048)
 
   * Gayathri Athreya on Tue, 25 Oct 2016 14:43:21 -0700 [View Commit](../../commit/c7c6dee6d26f0d712e08e06ee0555c4b8034ba22)

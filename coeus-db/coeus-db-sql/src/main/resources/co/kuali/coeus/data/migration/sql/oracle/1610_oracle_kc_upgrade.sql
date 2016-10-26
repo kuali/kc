@@ -27,4 +27,5 @@ spool 1610_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1610_006__unit_sync_parameter.sql
 @./kc/bootstrap/V1610_007__project_status_feature_flag.sql
 @./kc/bootstrap/V1610_008__nsf_1.6_funding_mechanism.sql
+@./kc/bootstrap/V1610_009__add_narrative_budget_form.sql
 commit;
