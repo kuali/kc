@@ -292,6 +292,7 @@
         <property name="driverProperties">
             <props>
                 <prop key="brokerURL">vm://localhost</prop>
+                <prop key="trustAllPackages">true</prop>
             </props>
         </property>
     </bean>
