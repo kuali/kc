@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1693: refresh amendment renewal cache when navigating
+  * Joe Williams on Thu, 20 Oct 2016 11:52:12 -0500 [View Commit](../../commit/fc84a9878b2289649d58bebccf0957840e10d96b)
+
+##coeus-1610.0033
 * RESKC-1580: adding narrative mapping for Research & Related Budget 10 version 1.4
   * Travis Schneeberger on Wed, 26 Oct 2016 10:33:49 -0400 [View Commit](../../commit/3de2536d10462d29a716dbe123defc9795ba059c)
 * RESKC-1604: supporting RR Subaward Budget 10 10 version 1.4. Fixing version 1.2 and 1.3 of the RR Subaward Budget 10 10 forms' stylesheets when there is no equipment present. Adding tests for all versions of the RR Subaward Budget 10 10 form.
