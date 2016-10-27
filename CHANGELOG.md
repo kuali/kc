@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1753: Locally cache subaward via transient variable to improve performance on rendering the Maint doc
+  * Terry Durkin on Wed, 26 Oct 2016 16:48:58 -0400 [View Commit](../../commit/21680586d0830c6080b325ca93b7da31997a7b4a)
+* RESKC-1787: implementing whitelist of allowed activemq message packages rather than allowing all packages
+  * Travis Schneeberger on Wed, 26 Oct 2016 13:46:10 -0400 [View Commit](../../commit/bc2bf8cb195c1da938a06328363e7aed8de6d2c9)
+
+##coeus-1610.0034
 * RESKC-1693: refresh amendment renewal cache when navigating
   * Joe Williams on Thu, 20 Oct 2016 11:52:12 -0500 [View Commit](../../commit/fc84a9878b2289649d58bebccf0957840e10d96b)
 
