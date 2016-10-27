@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1541: Move Rice SQL to proper folder
+  * Terry Durkin on Thu, 27 Oct 2016 12:59:22 -0400 [View Commit](../../commit/5d48871696cb11c30d3e2a6fd4b4ac77f4056a1e)
+
+##coeus-1610.0035
 * RESKC-1753: Locally cache subaward via transient variable to improve performance on rendering the Maint doc
   * Terry Durkin on Wed, 26 Oct 2016 16:48:58 -0400 [View Commit](../../commit/21680586d0830c6080b325ca93b7da31997a7b4a)
 * RESKC-1787: implementing whitelist of allowed activemq message packages rather than allowing all packages
