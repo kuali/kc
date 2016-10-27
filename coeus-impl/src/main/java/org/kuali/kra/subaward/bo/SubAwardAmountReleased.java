@@ -49,6 +49,7 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcFile
     private String invoiceStatus;
     private transient FormFile newFile;
     private transient SubAwardService subAwardService;
+    private transient SubAward subaward;
 
     public Integer getSubAwardAmtReleasedId() {
         return subAwardAmtReleasedId;
@@ -198,11 +199,10 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcFile
 
     @Override
     public SubAward getSubAward() {
-        if (getSubAwardId() != null) {
-            return getSubAwardService().getActiveSubAward(getSubAwardId());
-        } else {
-            return null;
+        if (subaward == null && getSubAwardId() != null) {
+            subaward = getSubAwardService().getActiveSubAward(getSubAwardId());
         }
+        return subaward;
     }
 
     public SubAwardService getSubAwardService() {
