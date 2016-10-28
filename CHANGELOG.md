@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+* Added endpoint to retrieve a person training by person id… (#2038)
+
+* Added endpoint to retrieve a person training by person id and module code.
+  * 
+* Changed endpoint version.
+  * 
+* Endpoint name change.
+  * Gayathri Athreya on Fri, 28 Oct 2016 09:31:31 -0700 [View Commit](../../commit/0f3f68093e7b9baf11c633ffe2acaf51cb297f36)
+
+##coeus-1610.0038
 * RESKC-1541: Move Rice SQL to proper folder
   * Terry Durkin on Fri, 28 Oct 2016 09:55:51 -0400 [View Commit](../../commit/c7044887a580a7695fc21ad46f36803caae8937b)
 
