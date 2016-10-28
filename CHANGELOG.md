@@ -2,6 +2,10 @@
 
 ##CURRENT
 * RESKC-1541: Move Rice SQL to proper folder
+  * Terry Durkin on Fri, 28 Oct 2016 09:55:51 -0400 [View Commit](../../commit/c7044887a580a7695fc21ad46f36803caae8937b)
+
+##coeus-1610.0037
+* RESKC-1541: Move Rice SQL to proper folder
   * Terry Durkin on Thu, 27 Oct 2016 12:59:22 -0400 [View Commit](../../commit/5d48871696cb11c30d3e2a6fd4b4ac77f4056a1e)
 
 ##coeus-1610.0035
