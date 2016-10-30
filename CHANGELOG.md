@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1801: supporting the distinct flag for lookups. When distinct is true, lookup results will not return multiples of the same BO.
+  * Travis Schneeberger on Fri, 28 Oct 2016 18:27:16 -0400 [View Commit](../../commit/6d403506c3b90af19d337b529a848cf6b4f68182)
+
+##coeus-1610.0040
 * Added endpoint to retrieve a person training by person id… (#2038)
 
 * Added endpoint to retrieve a person training by person id and module code.
