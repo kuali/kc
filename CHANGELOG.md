@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1602: supporting RR FedNonFed Budget 1.2
+  * Travis Schneeberger on Thu, 3 Nov 2016 11:23:21 -0400 [View Commit](../../commit/efa70f59122bf0802324fcb29182c51e471f69e0)
+
+##coeus-1611.0002
 * No Changes
 
 
