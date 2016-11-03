@@ -4,6 +4,10 @@
 * No Changes
 
 
+##coeus-1611.0001
+* No Changes
+
+
 ##coeus-1610.0041
 * RESKC-1801: supporting the distinct flag for lookups. When distinct is true, lookup results will not return multiples of the same BO.
   * Travis Schneeberger on Fri, 28 Oct 2016 18:27:16 -0400 [View Commit](../../commit/6d403506c3b90af19d337b529a848cf6b4f68182)
