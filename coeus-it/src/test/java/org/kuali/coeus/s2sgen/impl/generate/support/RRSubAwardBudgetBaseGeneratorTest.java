@@ -33,9 +33,11 @@ import java.util.List;
 
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
-public abstract class RRSubAwardBudget10BaseGeneratorTest extends S2SModularBudgetTestBase {
+public abstract class RRSubAwardBudgetBaseGeneratorTest extends S2SModularBudgetTestBase {
 
     protected abstract String getBudgetFormGeneratorName();
+
+    protected abstract String getBudgetJustificationNarrativeType();
 
     @Override
     protected void prepareData(ProposalDevelopmentDocument document)
@@ -175,13 +177,13 @@ public abstract class RRSubAwardBudget10BaseGeneratorTest extends S2SModularBudg
         List<Narrative> narrativeList = new ArrayList<>();
         narrative.setDevelopmentProposal(document.getDevelopmentProposal());
         NarrativeType narrativeType = new NarrativeType();
-        narrativeType.setCode("132");
+        narrativeType.setCode(getBudgetJustificationNarrativeType());
         narrativeType.setAllowMultiple(true);
         narrativeType.setSystemGenerated(false);
         narrativeType.setDescription("Testing for Attachments Attachment");
         getService(DataObjectService.class).save(narrativeType);
         narrative.setNarrativeType(narrativeType);
-        narrative.setNarrativeTypeCode("132");
+        narrative.setNarrativeTypeCode(getBudgetJustificationNarrativeType());
         narrative.setNarrativeAttachment(narrativeAttachment);
         narrative.setModuleTitle("Allows Multiple Description");
         narrativeList.add(narrative);
