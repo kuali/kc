@@ -1280,28 +1280,24 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     @Override
     public void createAndSaveActionNarrative(String reason, String title, MultipartFile file, String narrativeTypeCode, ProposalDevelopmentDocument pDoc) {
-        try {
-            if (file != null && file.getBytes().length > 0) {
-                Narrative narrative = new Narrative();
-                narrative.setName(file.getOriginalFilename());
-                narrative.setComments(reason);
-                try {
-                    narrative.init(file);
-                } catch (Exception e) {
-                    throw new RuntimeException("Error Initializing narrative attachment file", e);
-                }
-                narrative.setNarrativeTypeCode(narrativeTypeCode);
-                narrative.setModuleStatusCode(COMPLETE);
-                narrative.setModuleTitle(title);
-                narrative.setContactName(globalVariableService.getUserSession().getPrincipalName());
-                narrative.setPhoneNumber(globalVariableService.getUserSession().getPerson().getPhoneNumber());
-                narrative.setEmailAddress(globalVariableService.getUserSession().getPerson().getEmailAddress());
-                getLegacyNarrativeService().prepareNarrative(pDoc, narrative);
-                pDoc.getDevelopmentProposal().getInstituteAttachments().add(narrative);
-                dataObjectService.save(pDoc);
+        if (file != null && !file.isEmpty()) {
+            Narrative narrative = new Narrative();
+            narrative.setName(file.getOriginalFilename());
+            narrative.setComments(reason);
+            try {
+                narrative.init(file);
+            } catch (Exception e) {
+                throw new RuntimeException("Error Initializing narrative attachment file", e);
             }
-        } catch (IOException e) {
-            throw new RuntimeException("Error reading narrative attachment file", e);
+            narrative.setNarrativeTypeCode(narrativeTypeCode);
+            narrative.setModuleStatusCode(COMPLETE);
+            narrative.setModuleTitle(title);
+            narrative.setContactName(globalVariableService.getUserSession().getPrincipalName());
+            narrative.setPhoneNumber(globalVariableService.getUserSession().getPerson().getPhoneNumber());
+            narrative.setEmailAddress(globalVariableService.getUserSession().getPerson().getEmailAddress());
+            getLegacyNarrativeService().prepareNarrative(pDoc, narrative);
+            pDoc.getDevelopmentProposal().getInstituteAttachments().add(narrative);
+            dataObjectService.save(pDoc);
         }
     }
 

@@ -180,12 +180,6 @@
                 <bean parent="Uif-MessageField" p:messageText="Are you sure you want to approve this document?" p:order="10"/>
                 <bean parent="Uif-InputField" p:propertyName="actionReason" p:order="20"
                       p:fieldLabel.labelText="Approval Reason" p:required="false"/>
-                <bean parent="Uif-InputField" p:propertyName="actionFile" p:order="30"
-                      p:fieldLabel.labelText="Attachment">
-                    <property name="control">
-                        <bean parent="Uif-FileControl"/>
-                    </property>
-                </bean>
             </list>
         </property>
         <property name="footer.items">
