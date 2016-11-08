@@ -100,7 +100,6 @@ public class ProposalDevelopmentSubmitController extends
     public static final String PROPOSAL_NUMBER = "proposalNumber";
     public static final String PROPOSAL_STATE = "proposalState";
     private static final String ENABLE_PD_WORKFLOW_APPROVAL_COMMENTS = "ENABLE_PD_WORKFLOW_APPROVAL_COMMENTS";
-    private static final String PROPOSAL_APPROVAL_ATTACHMENT = "Proposal approval attachment.";
 
     private final Logger LOGGER = Logger.getLogger(ProposalDevelopmentSubmitController.class);
 
@@ -708,9 +707,6 @@ public class ProposalDevelopmentSubmitController extends
             return getModelAndViewService().getModelAndView(form);
         }
 
-        List<NotificationTypeRecipient> recipients = getRelatedApproversFromActionRequest(form.getProposalDevelopmentDocument().getDocumentNumber(), getGlobalVariableService().getUserSession().getPrincipalId()).stream()
-    			.map(this::createRecipientFromPerson).collect(toList());
-
         final boolean approvalComments = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, ENABLE_PD_WORKFLOW_APPROVAL_COMMENTS);
         if (approvalComments) {
             final DialogResponse approveDialogResponse = form.getDialogResponse("PropDev-SubmitPage-ApproveDialog");
@@ -723,14 +719,10 @@ public class ProposalDevelopmentSubmitController extends
             }
         }
 
-        getTransactionalDocumentControllerService().performWorkflowAction(form, UifConstants.WorkflowAction.APPROVE);
+        List<NotificationTypeRecipient> recipients = getRelatedApproversFromActionRequest(form.getProposalDevelopmentDocument().getDocumentNumber(), getGlobalVariableService().getUserSession().getPrincipalId()).stream()
+                .map(this::createRecipientFromPerson).collect(toList());
 
-        if (approvalComments) {
-            final String narrativeTypeCode = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.APPROVE_NARRATIVE_TYPE_CODE_PARAM);
-            final DevelopmentProposal pbo = getProposalHierarchyService().getDevelopmentProposal(form.getDevelopmentProposal().getProposalNumber());
-            final ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(pbo.getProposalDocument().getDocumentNumber());
-            getProposalHierarchyService().createAndSaveActionNarrative(form.getProposalDevelopmentApprovalBean().getActionReason(), PROPOSAL_APPROVAL_ATTACHMENT, form.getProposalDevelopmentApprovalBean().getActionFile(), narrativeTypeCode, pDoc);
-        }
+        getTransactionalDocumentControllerService().performWorkflowAction(form, UifConstants.WorkflowAction.APPROVE);
 
         if (recipients.size() != 0) {
             sendAnotherUserApprovedNotification(form, recipients);
