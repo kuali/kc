@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-1586: Fix Lead Unit indicator on hierarchy children PI sync
+  * Terry Durkin on Tue, 8 Nov 2016 10:19:56 -0500 [View Commit](../../commit/4c2fabec09d9bac0500ebc6fd4f3153070cdadf4)
+* RESKC-1602: supporting Subaward Budget 1.4, adding tests for older forms
+  * Travis Schneeberger on Mon, 7 Nov 2016 08:32:32 -0500 [View Commit](../../commit/cf38102d459f698d99776df31e523d127a25488f)
+* RESKC-1561: removing attachment support.  Large attachments that can't be completely stored in memory are not working consistently
+  * Travis Schneeberger on Mon, 7 Nov 2016 17:25:40 -0500 [View Commit](../../commit/1e9fea6f6053184388cbd29f05f8b4d09fefb227)
+
+##coeus-1611.0003
 * RESKC-1602: supporting RR FedNonFed Budget 1.2
   * Travis Schneeberger on Thu, 3 Nov 2016 11:23:21 -0400 [View Commit](../../commit/efa70f59122bf0802324fcb29182c51e471f69e0)
 
