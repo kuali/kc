@@ -532,7 +532,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             
             synchronizeKeywords(hierarchyProposal, childProposal);
             synchronizeSpecialReviews(hierarchyProposal, childProposal);
-            synchronizePersons(hierarchyProposal, childProposal, principalInvestigator);
+            synchronizePersons(hierarchyProposal, childProposal, principalInvestigator, false);
             synchronizeNarratives(hierarchyProposal, childProposal);
             // we deleted all internal at the beginning so just add now.
             addInternalAttachments(hierarchyProposal, childProposal);
@@ -909,16 +909,15 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     protected void synchronizePersonsAndAggregate(DevelopmentProposal hierarchyProposal, DevelopmentProposal primaryChildProposal, 
             ProposalPerson principalInvestigator) {
         
-        synchronizePersons(hierarchyProposal, primaryChildProposal, principalInvestigator);
-        getHierarchyChildren(hierarchyProposal.getProposalNumber()).stream()
-                .filter(childProposal -> !StringUtils.equals(primaryChildProposal.getProposalNumber(), childProposal.getProposalNumber()))
-                .forEach(childProposal -> synchronizePersons(hierarchyProposal, childProposal, principalInvestigator));
+        synchronizePersons(hierarchyProposal, primaryChildProposal, principalInvestigator, true);
+        getHierarchyChildren(hierarchyProposal.getProposalNumber()).
+                forEach(childProposal -> synchronizePersons(hierarchyProposal, childProposal, principalInvestigator, false));
     }
 
     /**
      * Synchronizes the proposal persons from the child proposal to the parent proposal.
      */
-    protected void synchronizePersons(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, ProposalPerson principalInvestigator) {
+    protected void synchronizePersons(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, ProposalPerson principalInvestigator, boolean primaryChild) {
         for (ProposalPerson person : childProposal.getProposalPersons()) {
 
             int firstIndex = hierarchyProposal.getProposalPersons().indexOf(person);
@@ -936,6 +935,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 for (ProposalPersonUnit unit : newPerson.getUnits()) {
                     for(ProposalUnitCreditSplit creditSplit : unit.getCreditSplits()) {
                         creditSplit.setCredit(new ScaleTwoDecimal(0));
+                    }
+                    if (!primaryChild) {
+                        unit.setLeadUnit(false);
                     }
                 }
 
