@@ -26,30 +26,31 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 import org.kuali.coeus.s2sgen.impl.validate.S2SValidatorService;
 import org.kuali.coeus.s2sgen.api.core.AuditError;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.DocumentService;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
+
 
 
 public abstract class S2SModularBudgetTestBase extends S2STestBase {
 	private S2SBaseFormGenerator generatorObject;
 
 	@Test
+	@Override
 	public void testValidateForm() throws Exception {
 		ProposalDevelopmentDocument document = initializeApp();
 		prepareData(document);
-		ArrayList<AuditError> errors = new ArrayList<AuditError>();
+		ArrayList<AuditError> errors = new ArrayList<>();
 		generatorObject.setAuditErrors(errors);
-		generatorObject.setAttachments(new ArrayList<AttachmentData>());
+		generatorObject.setAttachments(new ArrayList<>());
 		XmlObject object = generatorObject.getFormObject(document);
-		getService(S2SValidatorService.class).validate(object, errors, generatorObject.getFormName());
+		KcServiceLocator.getService(S2SValidatorService.class).validate(object, errors, generatorObject.getFormName());
 		for (AuditError auditError : errors) {
 			assertNull(
 					auditError.getMessageKey() + ":" + auditError.getErrorKey(),
@@ -67,15 +68,14 @@ public abstract class S2SModularBudgetTestBase extends S2STestBase {
 		String docNumber = docHeader.getDocumentNumber();
 		assertNotNull(docNumber);
 		assertNotNull(pd.getDevelopmentProposal());
-		KRADServiceLocatorWeb.getDocumentService().saveDocument(pd);
+		KcServiceLocator.getService(DocumentService.class).saveDocument(pd);
 	}
 
 	private ProposalDevelopmentDocument initializeDocument() throws Exception {
-		ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) KRADServiceLocatorWeb
-				.getDocumentService().getNewDocument(
+		ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument)  KcServiceLocator.getService(DocumentService.class).getNewDocument(
 						"ProposalDevelopmentDocument");
 		Assert.assertNotNull(pd.getDocumentHeader().getWorkflowDocument());
-		ProposalDevelopmentService pdService = getService(ProposalDevelopmentService.class);
+		ProposalDevelopmentService pdService = KcServiceLocator.getService(ProposalDevelopmentService.class);
 		pdService.initializeUnitOrganizationLocation(pd);
 		pdService.initializeProposalSiteNumbers(pd);
 		return pd;
@@ -109,14 +109,13 @@ public abstract class S2SModularBudgetTestBase extends S2STestBase {
 
 	private ProposalDevelopmentDocument initializeApp() throws Exception {
 
-		generatorObject = (S2SBaseFormGenerator) KcServiceLocator.getService(getFormGeneratorName());
-				;
+		generatorObject = KcServiceLocator.getService(getFormGeneratorName());
+
 		ProposalDevelopmentDocument document = initializeDocument();
 		initializeDevelopmentProposal(document);
 		Assert.assertNotNull(document.getDocumentHeader().getWorkflowDocument());
 		saveProposalDocument(document);
-		document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb
-				.getDocumentService().getByDocumentHeaderId(
+		document = (ProposalDevelopmentDocument) KcServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(
 						document.getDocumentHeader().getDocumentNumber());
 		assertNotNull(document.getDevelopmentProposal());
 		return document;

@@ -19,7 +19,7 @@
 package org.kuali.coeus.s2sgen.impl.generate.support;
 
 
-public class RRSubAwardBudget10_30_1_3V1_3GeneratorTest extends RRSubAwardBudget10BaseGeneratorTest {
+public class RRSubAwardBudget10_30_1_3V1_3GeneratorTest extends RRSubAwardBudgetBaseGeneratorTest {
 
 	@Override
 	protected String getFormGeneratorName() {
@@ -30,4 +30,11 @@ public class RRSubAwardBudget10_30_1_3V1_3GeneratorTest extends RRSubAwardBudget
 	protected String getBudgetFormGeneratorName() {
 		return RRBudget10V1_3Generator.class.getSimpleName();
 	}
+
+	@Override
+	protected String getBudgetJustificationNarrativeType() {
+		return "132";
+	}
+
+
 }
