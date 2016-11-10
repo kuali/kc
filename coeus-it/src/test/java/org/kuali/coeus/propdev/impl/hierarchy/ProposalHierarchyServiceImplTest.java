@@ -25,6 +25,7 @@ import static org.junit.Assert.assertTrue;
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -519,6 +520,44 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
             Assert.assertTrue(changedChildProposal2.getPrincipalInvestigator().getUnits().size() == 2);
         }
     }
+
+
+    @Test
+    public void test_pi_lead_unit_sync() throws Exception {
+        ProposalDevelopmentDocument pdDocument = initializeProposalDevelopmentDocument();
+        DevelopmentProposal childProposal = getChildProposal(pdDocument.getDevelopmentProposal());
+        childProposal.setProposalPersons(new ArrayList<>());
+        createEmpProposalPerson(childProposal, Constants.PRINCIPAL_INVESTIGATOR_ROLE, "first", "last", 1, "10000000001");
+        KeyPersonnelService keyPersonnelService = getKeyPersonnelService();
+
+        ProposalPerson pi = childProposal.getProposalPersons().get(0);
+        keyPersonnelService.addUnitToPerson(pi, keyPersonnelService.createProposalPersonUnit(BL_IIDC, pi));
+        pi.getUnit(BL_IIDC).setLeadUnit(true);
+
+        DevelopmentProposal changedChildProposal = dataObjectService.save(childProposal);
+        String userId = PERSON_ID;
+        String parentProposalNumber = getProposalHierarchyService().createHierarchy(changedChildProposal, userId);
+        DevelopmentProposal parentProposal = getDevelopmentProposal(parentProposalNumber);
+        Assert.assertTrue(changedChildProposal.getPrincipalInvestigator().getUnits().size() == 1);
+        Assert.assertTrue(changedChildProposal.getPrincipalInvestigator().getUnit(BL_IIDC).isLeadUnit());
+
+        ProposalDevelopmentDocument pdDocument2 = initializeProposalDevelopmentDocument();
+        DevelopmentProposal childProposal2 = getChildProposal(pdDocument2.getDevelopmentProposal());
+        childProposal2.setProposalPersons(new ArrayList<>());
+        createEmpProposalPerson(childProposal2, Constants.PRINCIPAL_INVESTIGATOR_ROLE, "ba", "barackus", 1, "10000000011");
+
+        ProposalPerson pi2 = childProposal2.getProposalPersons().get(0);
+        keyPersonnelService.addUnitToPerson(pi2, keyPersonnelService.createProposalPersonUnit(UNIVERSITY, pi2));
+        pi2.getUnit(UNIVERSITY).setLeadUnit(true);
+
+        DevelopmentProposal changedChildProposal2 = dataObjectService.save(childProposal2);
+        Assert.assertTrue(changedChildProposal.getPrincipalInvestigator().getUnits().size() == 1);
+        getProposalHierarchyService().linkToHierarchy(parentProposal, changedChildProposal2, "");
+        parentProposal = getDevelopmentProposal(parentProposalNumber);
+        List<ProposalPerson> ppuList = parentProposal.getProposalPersons().stream().filter(person -> person.getPersonId().equalsIgnoreCase("10000000011")).collect(Collectors.toList());
+        assertTrue(!ppuList.get(0).getUnit(UNIVERSITY).isLeadUnit());
+    }
+
 
     private void addEmpPersonBios(DevelopmentProposal proposal, String description, String name, String personId, int bioPositionNumber, Integer proposalPersonNumber, String documentTypeCode) throws Exception {
         ProposalPersonBiography proposalPersonBiography = createProposalPersonBiography(proposal, description, name, bioPositionNumber, proposalPersonNumber, documentTypeCode);

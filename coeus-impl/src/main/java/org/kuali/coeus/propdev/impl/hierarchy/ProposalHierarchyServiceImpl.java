@@ -532,7 +532,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             
             synchronizeKeywords(hierarchyProposal, childProposal);
             synchronizeSpecialReviews(hierarchyProposal, childProposal);
-            synchronizePersons(hierarchyProposal, childProposal, principalInvestigator, false);
+            synchronizePersons(hierarchyProposal, childProposal, principalInvestigator);
             synchronizeNarratives(hierarchyProposal, childProposal);
             // we deleted all internal at the beginning so just add now.
             addInternalAttachments(hierarchyProposal, childProposal);
@@ -909,15 +909,16 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     protected void synchronizePersonsAndAggregate(DevelopmentProposal hierarchyProposal, DevelopmentProposal primaryChildProposal, 
             ProposalPerson principalInvestigator) {
         
-        synchronizePersons(hierarchyProposal, primaryChildProposal, principalInvestigator, true);
+        synchronizePersons(hierarchyProposal, primaryChildProposal, principalInvestigator);
         getHierarchyChildren(hierarchyProposal.getProposalNumber()).
-                forEach(childProposal -> synchronizePersons(hierarchyProposal, childProposal, principalInvestigator, false));
+                forEach(childProposal -> synchronizePersons(hierarchyProposal, childProposal, principalInvestigator));
+
     }
 
     /**
      * Synchronizes the proposal persons from the child proposal to the parent proposal.
      */
-    protected void synchronizePersons(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, ProposalPerson principalInvestigator, boolean primaryChild) {
+    protected void synchronizePersons(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, ProposalPerson principalInvestigator) {
         for (ProposalPerson person : childProposal.getProposalPersons()) {
 
             int firstIndex = hierarchyProposal.getProposalPersons().indexOf(person);
@@ -936,7 +937,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     for(ProposalUnitCreditSplit creditSplit : unit.getCreditSplits()) {
                         creditSplit.setCredit(new ScaleTwoDecimal(0));
                     }
-                    if (!primaryChild) {
+                    if (!childProposal.getHierarchyParentProposalNumber().equals(childProposal.getProposalNumber())) {
                         unit.setLeadUnit(false);
                     }
                 }
@@ -959,6 +960,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
         }
         removeDeletedPersonnelFromParent(hierarchyProposal, childProposal);
+
     }
 
     protected void syncDegreeInfo(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) {
@@ -1031,11 +1033,19 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
     
     protected void setInitialPi(DevelopmentProposal hierarchy, DevelopmentProposal child) {
-        ProposalPerson pi = child.getPrincipalInvestigator();
-        if (pi != null) {
-            int index = hierarchy.getProposalPersons().indexOf(pi);
+        ProposalPerson childPi = child.getPrincipalInvestigator();
+        final Optional<ProposalPersonUnit> childPiLeadUnit = childPi.getUnits().stream().filter(unit -> unit.isLeadUnit()).findFirst();
+        if (childPi != null) {
+            int index = hierarchy.getProposalPersons().indexOf(childPi);
             if (index > -1) {
-                hierarchy.getProposalPerson(index).setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+                ProposalPerson hierarchyPi = hierarchy.getProposalPerson(index);
+                hierarchyPi.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+                if (childPiLeadUnit.isPresent()) {
+                    Optional <ProposalPersonUnit> hierarchyPiLeadUnit = hierarchyPi.getUnits().stream().filter(unit -> unit.getUnitNumber().equals(childPiLeadUnit.get().getUnitNumber())).findFirst();
+                    if (hierarchyPiLeadUnit.isPresent()) {
+                        hierarchyPiLeadUnit.get().setLeadUnit(true);
+                    }
+                }
             }
         }
     }
