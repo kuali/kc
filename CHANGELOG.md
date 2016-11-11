@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1606: Added test. (#2065)
+
+  * Gayathri Athreya on Fri, 11 Nov 2016 10:52:25 -0700 [View Commit](../../commit/32ffdd3b0dd2c89a08eda22b72f1d8e2d224ca62)
+
+##coeus-1611.0007
 * No Changes
 
 
