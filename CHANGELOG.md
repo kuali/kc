@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* split api docs to separate page by module (#2068)
+
+  * Douglas Pace on Fri, 11 Nov 2016 12:32:53 -0800 [View Commit](../../commit/9c63fd026dcd461a527a897f18758efc17fa5311)
+
+##coeus-1611.0008
 * RESKC-1606: Added test. (#2065)
 
   * Gayathri Athreya on Fri, 11 Nov 2016 10:52:25 -0700 [View Commit](../../commit/32ffdd3b0dd2c89a08eda22b72f1d8e2d224ca62)
