@@ -1,7 +1,7 @@
 {
   "name": "kualico-research-js",
   "version": "1.0.0",
-  "description": "KualiCo Research JS Dependencies",
+  "description": "Kuali Research JS Dependencies",
   "author": "kualico",
   "license": "AGPL",
   "scripts": {

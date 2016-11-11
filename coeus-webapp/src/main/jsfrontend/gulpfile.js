@@ -32,6 +32,8 @@ gulp.task('docs', function () {
   gulp.src('apidocs/*.md')
     .pipe(aglio({ template: 'default', themeFullWidth: true, includePath : process.cwd() + '/apidocs/' }))
     .pipe(gulp.dest(dest + '/apidocs'));
+  gulp.src('apidocs/index.html')
+    .pipe(gulp.dest(dest + '/apidocs'));
 });
 
 gulp.task('webpack', function (callback) {
