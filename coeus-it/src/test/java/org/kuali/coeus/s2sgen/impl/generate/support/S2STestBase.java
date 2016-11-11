@@ -218,6 +218,7 @@ public abstract class S2STestBase extends KcIntegrationTestBase {
         opportunity.setDevelopmentProposal(document.getDevelopmentProposal());
         opportunity.setProviderCode("1");
         opportunity.setOpportunity("An opportunity");
+        opportunity.setOpportunityTitle("A title");
 
         List<S2sOppForms> forms = new ArrayList<>();
 
@@ -243,7 +244,7 @@ public abstract class S2STestBase extends KcIntegrationTestBase {
                 return info.getNameSpace();
             }
         }
-        return null;
+        throw new RuntimeException("cannot find binding for : " + getFormGeneratorName() + " from the available bindings: " + ms.getBindings());
     }
 
     protected void selectForm(ProposalDevelopmentDocument document) {
