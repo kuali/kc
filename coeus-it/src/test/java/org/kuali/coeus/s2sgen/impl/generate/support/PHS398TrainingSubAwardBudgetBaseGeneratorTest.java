@@ -83,7 +83,7 @@ public abstract class PHS398TrainingSubAwardBudgetBaseGeneratorTest extends S2ST
 
 
 
-    private DevelopmentProposal initializeDevelopmentProposal(
+    public DevelopmentProposal initializeDevelopmentProposal(
             ProposalDevelopmentDocument pd) {
         DevelopmentProposal developmentProposal = pd.getDevelopmentProposal();
 

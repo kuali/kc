@@ -91,6 +91,7 @@ public abstract class S2STestBase extends KcIntegrationTestBase {
         ((FormPrintServiceImpl) formPrintService).setS2SFormGeneratorService(new S2SFormGeneratorRetrievalService() {
             @Override
             public S2SFormGenerator getS2SGenerator(String proposalNumber, String nameSpace) throws S2SException {
+                generatorObject = (S2SBaseFormGenerator) KcServiceLocator.getService(getFormGeneratorName());
                 return generatorObject;
             }
 
@@ -151,7 +152,7 @@ public abstract class S2STestBase extends KcIntegrationTestBase {
         }
     }
 
-    private void saveProposalDocument(ProposalDevelopmentDocument pd) throws Exception {
+    public void saveProposalDocument(ProposalDevelopmentDocument pd) throws Exception {
         pd.setUpdateUser("quickst");
         pd.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
         DocumentHeader docHeader = pd.getDocumentHeader();
@@ -162,7 +163,7 @@ public abstract class S2STestBase extends KcIntegrationTestBase {
         KRADServiceLocatorWeb.getDocumentService().saveDocument(pd);
     }
 
-    private ProposalDevelopmentDocument initializeDocument() throws Exception {
+    public ProposalDevelopmentDocument initializeDocument() throws Exception {
         ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument("ProposalDevelopmentDocument");
         Assert.assertNotNull(pd.getDocumentHeader().getWorkflowDocument());
         ProposalDevelopmentService pdService = getService(ProposalDevelopmentService.class);
@@ -171,7 +172,7 @@ public abstract class S2STestBase extends KcIntegrationTestBase {
         return pd;
     }
 
-    private DevelopmentProposal initializeDevelopmentProposal(ProposalDevelopmentDocument pd) {
+    public DevelopmentProposal initializeDevelopmentProposal(ProposalDevelopmentDocument pd) {
         DevelopmentProposal developmentProposal = pd.getDevelopmentProposal();
         developmentProposal.setPrimeSponsorCode("000120");
         developmentProposal.setActivityTypeCode("1");
@@ -201,7 +202,7 @@ public abstract class S2STestBase extends KcIntegrationTestBase {
         getService(DataObjectService.class).save(bo);
     }
 
-    private ProposalDevelopmentDocument initializeApp() throws Exception {
+    public ProposalDevelopmentDocument initializeApp() throws Exception {
         generatorObject = KcServiceLocator.getService(getFormGeneratorName());
         ProposalDevelopmentDocument document = initializeDocument();
         initializeDevelopmentProposal(document);

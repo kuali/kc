@@ -106,7 +106,7 @@ public abstract class RRSubAwardBudgetBaseGeneratorTest extends S2SModularBudget
         document.getDevelopmentProposal().setFinalBudget(proposalDevelopmentBudgetExt);
     }
 
-    private ProposalDevelopmentDocument initializeDocument() throws Exception {
+    public ProposalDevelopmentDocument initializeDocument() throws Exception {
         ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) KRADServiceLocatorWeb
                 .getDocumentService().getNewDocument(
                         "ProposalDevelopmentDocument");
@@ -117,7 +117,7 @@ public abstract class RRSubAwardBudgetBaseGeneratorTest extends S2SModularBudget
         return pd;
     }
 
-    private DevelopmentProposal initializeDevelopmentProposal(
+    public DevelopmentProposal initializeDevelopmentProposal(
             ProposalDevelopmentDocument pd) {
         DevelopmentProposal developmentProposal = pd.getDevelopmentProposal();
         developmentProposal.setPrimeSponsorCode("000120");

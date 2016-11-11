@@ -56,6 +56,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component("propDevBudgetSubAwardService")
 public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSubAwardService {
@@ -66,6 +67,8 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     private static final String BUDGET_YEAR_XPATH = "//*[local-name(.) = 'BudgetYear']";
     private static final String RR_FED_NON_FED_BUDGET = "RR_FedNonFedBudget";
     private static final String BUDGET_PERIOD = "BudgetPeriod";
+    private static final List<String> FED_NON_FED_FORMS = Stream.of("http://apply.grants.gov/forms/RR_FedNonFedBudget10-V1.1",
+                                                                            "http://apply.grants.gov/forms/RR_FedNonFedBudget_1_2-V1.2").collect(Collectors.toList());
 
     @Autowired
     @Qualifier("parameterService")
@@ -595,15 +598,14 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         removeAllEmptyNodes(document,xpathEmptyNodes,0);
         changeDataTypeForNumberOfOtherPersons(document);
         
-        List<String> fedNonFedSubAwardForms=getFedNonFedSubawardForms();
         NodeList budgetYearList =  XPathAPI.selectNodeList(document, BUDGET_YEAR_XPATH);
         for(int i=0;i<budgetYearList.getLength();i++){
             Node bgtYearNode = budgetYearList.item(i);
             String period = getValue(XPathAPI.selectSingleNode(bgtYearNode, BUDGET_PERIOD));
-            if(fedNonFedSubAwardForms.contains(namespace)){
+            if(FED_NON_FED_FORMS.contains(namespace)){
                 Element newBudgetYearElement = copyElementToName((Element)bgtYearNode,bgtYearNode.getNodeName());
                 bgtYearNode.getParentNode().replaceChild(newBudgetYearElement,bgtYearNode);
-            }else{
+            } else {
                 Element newBudgetYearElement = copyElementToName((Element)bgtYearNode,bgtYearNode.getNodeName()+period);
                 bgtYearNode.getParentNode().replaceChild(newBudgetYearElement,bgtYearNode);
             }
@@ -765,11 +767,6 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
              }
         }
         return textValue.trim();
-    }
-    private  List<String> getFedNonFedSubawardForms(){
-        List<String> forms=new ArrayList<>();
-        forms.add("http://apply.grants.gov/forms/RR_FedNonFedBudget10-V1.1");
-        return forms;
     }
 
     protected ParameterService getParameterService() {

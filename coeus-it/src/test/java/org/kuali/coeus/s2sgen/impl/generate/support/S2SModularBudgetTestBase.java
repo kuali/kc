@@ -21,15 +21,16 @@ package org.kuali.coeus.s2sgen.impl.generate.support;
 import org.apache.xmlbeans.XmlObject;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.s2sgen.impl.validate.S2SValidatorService;
 import org.kuali.coeus.s2sgen.api.core.AuditError;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -58,7 +59,7 @@ public abstract class S2SModularBudgetTestBase extends S2STestBase {
 		}
 	}
 
-	private void saveProposalDocument(ProposalDevelopmentDocument pd)
+	public void saveProposalDocument(ProposalDevelopmentDocument pd)
 			throws Exception {
 		pd.setUpdateUser("quickst");
 		pd.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance()
@@ -71,8 +72,9 @@ public abstract class S2SModularBudgetTestBase extends S2STestBase {
 		KcServiceLocator.getService(DocumentService.class).saveDocument(pd);
 	}
 
-	private ProposalDevelopmentDocument initializeDocument() throws Exception {
-		ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument)  KcServiceLocator.getService(DocumentService.class).getNewDocument(
+	public ProposalDevelopmentDocument initializeDocument() throws Exception {
+		ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) KRADServiceLocatorWeb
+				.getDocumentService().getNewDocument(
 						"ProposalDevelopmentDocument");
 		Assert.assertNotNull(pd.getDocumentHeader().getWorkflowDocument());
 		ProposalDevelopmentService pdService = KcServiceLocator.getService(ProposalDevelopmentService.class);
@@ -81,7 +83,7 @@ public abstract class S2SModularBudgetTestBase extends S2STestBase {
 		return pd;
 	}
 
-	private DevelopmentProposal initializeDevelopmentProposal(
+	public DevelopmentProposal initializeDevelopmentProposal(
 			ProposalDevelopmentDocument pd) {
 		DevelopmentProposal developmentProposal = pd.getDevelopmentProposal();
 		developmentProposal.setPrimeSponsorCode("000120");
@@ -107,7 +109,7 @@ public abstract class S2SModularBudgetTestBase extends S2STestBase {
 		return developmentProposal;
 	}
 
-	private ProposalDevelopmentDocument initializeApp() throws Exception {
+	public ProposalDevelopmentDocument initializeApp() throws Exception {
 
 		generatorObject = KcServiceLocator.getService(getFormGeneratorName());
 
