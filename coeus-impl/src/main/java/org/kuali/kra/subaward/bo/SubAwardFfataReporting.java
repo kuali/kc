@@ -148,7 +148,7 @@ public class SubAwardFfataReporting extends KcPersistableBusinessObjectBase impl
         byte[] newFileData;
         try {
             newFileData = newFile.getFileData();
-            fileData = new SoftReference<>(newFileData);
+            setFileData(newFileData);
             if (newFileData.length > 0) {
                 setFileName(newFile.getFileName());
                 setMimeType(newFile.getContentType());
@@ -170,16 +170,24 @@ public class SubAwardFfataReporting extends KcPersistableBusinessObjectBase impl
     }
 
     public byte[] getFileData() {
-        if (fileData != null) {
-            byte[] existingData = fileData.get();
-            if (existingData != null) {
-                return existingData;
+        if (fileDataId != null) {
+            if (fileData != null) {
+                byte[] existingData = fileData.get();
+                if (existingData != null) {
+                    return existingData;
+                }
             }
+            //if we didn't have a softreference, grab the data from the db
+            byte[] newData = getKcAttachmentDataDao().getData(fileDataId);
+            fileData = new SoftReference<>(newData);
+            return newData;
         }
-        //if we didn't have a softreference, grab the data from the db
-        byte[] newData = getKcAttachmentDataDao().getData(fileDataId);
-        fileData = new SoftReference<>(newData);
-        return newData;
+        return null;
+    }
+
+    public void setFileData(byte[] fileData) {
+        setFileDataId(getKcAttachmentDataDao().saveData(fileData, null));
+        this.fileData = new SoftReference<>(fileData);
     }
 
     @Override
