@@ -126,7 +126,7 @@ public class SubAwardDocument extends KcTransactionalDocumentBase implements  Co
         boolean isComplete = false;
 
         if (getDocumentHeader().hasWorkflowDocument()) {
-            /**
+            /*
              * per KRACOEUS-5394 changing from getDocumentHeader().getWorkflowDocument().isFinal().  This way
              * we route back to the award document more appropriately from holding page.
              */
@@ -155,6 +155,7 @@ public class SubAwardDocument extends KcTransactionalDocumentBase implements  Co
         managedLists.add(subAward.getSubAwardCloseoutList());
         managedLists.add(subAward.getSubAwardAttachments());
         managedLists.add(subAward.getSubAwardReportList());
+        managedLists.add(subAward.getSubAwardFfataReporting());
         return managedLists;
     }
 
