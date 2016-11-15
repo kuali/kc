@@ -84,7 +84,7 @@ public class KcAttachmentDataDaoImpl implements KcAttachmentDataDao {
     @Override
     public String saveData(byte[] attachmentData, String id) {
         if (ArrayUtils.isEmpty(attachmentData)) {
-            throw new IllegalArgumentException("attachmentData is null");
+            throw new IllegalArgumentException("attachmentData is null or empty");
         }
 
         if (LOG.isDebugEnabled()) {

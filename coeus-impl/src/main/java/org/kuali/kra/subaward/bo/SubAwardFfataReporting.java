@@ -19,6 +19,7 @@
 package org.kuali.kra.subaward.bo;
 
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
@@ -186,8 +187,10 @@ public class SubAwardFfataReporting extends KcPersistableBusinessObjectBase impl
     }
 
     public void setFileData(byte[] fileData) {
-        setFileDataId(getKcAttachmentDataDao().saveData(fileData, null));
-        this.fileData = new SoftReference<>(fileData);
+        if (ArrayUtils.isNotEmpty(fileData)) {
+            setFileDataId(getKcAttachmentDataDao().saveData(fileData, null));
+            this.fileData = new SoftReference<>(fileData);
+        }
     }
 
     @Override
