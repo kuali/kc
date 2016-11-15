@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+* RESKC-1819: allowing the SubAwardAmountInfoTransactionValuesFinder to return Transactions from previous versions of a subaward
+  * Travis Schneeberger on Tue, 15 Nov 2016 17:17:49 -0500 [View Commit](../../commit/ab822f2b0a4bf73f1ad7339ef866f31909ac9eb5)
+* RESKC-1820: fixing attachment persistence for ffata
+  * Travis Schneeberger on Tue, 15 Nov 2016 17:10:04 -0500 [View Commit](../../commit/67bfbe9571d3e48b4a72c38ad66b3c50439dafde)
+* RESKC-1821: fixing attachment persistence for ffata
+  * Travis Schneeberger on Tue, 15 Nov 2016 16:56:25 -0500 [View Commit](../../commit/f9ef8223e4b00dee5a736867d6f61c9d5b851ce7)
+* RESKC-1821: allowing delete operations to persist to the database for ffata reporting
+  * Travis Schneeberger on Tue, 15 Nov 2016 16:13:18 -0500 [View Commit](../../commit/a9c2169a3d06029016e8d849ad8159fecbe66dd9)
+
+##coeus-1611.0012
 * No Changes
 
 
