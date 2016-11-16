@@ -50,7 +50,7 @@ import java.util.List;
  */
 class ProtocolDaoImpl extends ProtocolDaoOjbBase<Protocol> implements OjbCollectionAware, ProtocolDao {
 
-    public static final String QUERY = "select protocol_id, protocol_number, sequence_number, submission_number from protocol_submission where protocol_number in (select PROTO_AMEND_REN_NUMBER from proto_amend_renewal where proto_amend_renewal_id in (select distinct PROTO_AMEND_RENEWAL_ID from proto_amend_renew_modules)) and protocol_number like ? and submission_number = ? order by protocol_id asc;";
+    public static final String QUERY = "select protocol_id, protocol_number, sequence_number, submission_number from protocol_submission where protocol_number in (select PROTO_AMEND_REN_NUMBER from proto_amend_renewal where proto_amend_renewal_id in (select distinct PROTO_AMEND_RENEWAL_ID from proto_amend_renew_modules)) and protocol_number like ? and submission_number = ? order by protocol_id asc";
     private DataSource dataSource;
 
     /**
