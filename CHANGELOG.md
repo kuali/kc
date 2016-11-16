@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1818: Fix Oracle error opening Protocol Actions
+  * Terry Durkin on Mon, 14 Nov 2016 10:45:34 -0800 [View Commit](../../commit/d37692d2c0aea5ab7d2d737ce7199228898f5853)
+
+##coeus-1611.0014
 * RESKC-1819: allowing the SubAwardAmountInfoTransactionValuesFinder to return Transactions from previous versions of a subaward
   * Travis Schneeberger on Tue, 15 Nov 2016 17:17:49 -0500 [View Commit](../../commit/ab822f2b0a4bf73f1ad7339ef866f31909ac9eb5)
 * RESKC-1820: fixing attachment persistence for ffata
