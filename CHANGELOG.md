@@ -4,6 +4,10 @@
 * No Changes
 
 
+##coeus-1611.0017
+* No Changes
+
+
 ##coeus-1611.0016
 * RESKC-1819:  SubAwardAmountInfoTransactionValuesFinder should filter on effective date not modification effective date
   * Travis Schneeberger on Mon, 21 Nov 2016 09:09:59 -0500 [View Commit](../../commit/a6fd6291d5ebb2ee05149c767a8a3d79d725a1b8)
