@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1819:  SubAwardAmountInfoTransactionValuesFinder should filter on effective date not modification effective date
+  * Travis Schneeberger on Mon, 21 Nov 2016 09:09:59 -0500 [View Commit](../../commit/a6fd6291d5ebb2ee05149c767a8a3d79d725a1b8)
+
+##coeus-1611.0015
 * RESKC-1818: Fix Oracle error opening Protocol Actions
   * Terry Durkin on Mon, 14 Nov 2016 10:45:34 -0800 [View Commit](../../commit/d37692d2c0aea5ab7d2d737ce7199228898f5853)
 
