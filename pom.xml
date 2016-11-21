@@ -148,7 +148,7 @@
         <jspc-maven-plugin.version>2.0.2</jspc-maven-plugin.version>
         <license-maven-plugin.version>1.6.3</license-maven-plugin.version>
         <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
-        <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
         <maven-failsafe-plugin.version>2.19.1</maven-failsafe-plugin.version>
@@ -2409,9 +2409,9 @@
             </activation>
 
             <properties>
-                <error_prone_core.version>2.0.13</error_prone_core.version>
-                <plexus-compiler-javac.version>2.7</plexus-compiler-javac.version>
-                <plexus-compiler-javac-errorprone.version>2.7</plexus-compiler-javac-errorprone.version>
+                <error_prone_core.version>2.0.14</error_prone_core.version>
+                <plexus-compiler-javac.version>2.8.1</plexus-compiler-javac.version>
+                <plexus-compiler-javac-errorprone.version>2.8.1</plexus-compiler-javac-errorprone.version>
             </properties>
             <build>
                 <pluginManagement>
@@ -2492,7 +2492,7 @@
         <profile>
         	<id>dev</id>
             <properties>
-                <p6spy.version>2.1.4</p6spy.version>
+                <p6spy.version>3.0.0</p6spy.version>
             </properties>
             <dependencyManagement>
                 <dependencies>
