@@ -22,6 +22,6 @@ public class RROtherProjectInfo_1_3V1_3GeneratorTest extends RROtherProjectInfoB
 
     @Override
     protected String getFormGeneratorName() {
-        return RROtherProjectInfo_1_3V1_0Generator.class.getSimpleName();
+        return RROtherProjectInfo_1_3V1_3Generator.class.getSimpleName();
     }
 }
