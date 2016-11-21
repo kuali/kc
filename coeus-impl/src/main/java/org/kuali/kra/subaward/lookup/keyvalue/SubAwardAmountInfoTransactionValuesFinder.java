@@ -40,7 +40,7 @@ public class SubAwardAmountInfoTransactionValuesFinder extends FormViewAwareUifK
                 ((SubAwardDocument) getDocument()).getSubAward().getAllSubAwardAmountInfos()
                 .stream()
                 .filter(info -> StringUtils.isNotEmpty(info.getModificationTypeCode()))
-                .filter(info -> info.getModificationEffectiveDate() != null)
+                .filter(info -> info.getEffectiveDate() != null)
                 .peek(info -> {
                     if (info.getModificationType() == null) {
                         info.refreshReferenceObject("modificationType");
