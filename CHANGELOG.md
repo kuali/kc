@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1808: Adding test and upgrading pom (#2082)
+
+  * Gayathri Athreya on Tue, 22 Nov 2016 12:24:45 -0700 [View Commit](../../commit/2c75cd72e211a55e5e7c67de1cab3fd294cb8c9c)
+
+##coeus-1611.0018
 * No Changes
 
 
