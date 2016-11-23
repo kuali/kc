@@ -22,4 +22,5 @@ set sqlblanklines on
 
 spool 1611_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1611_001__lookup_distinct.sql
+@./rice/bootstrap/V1611_003__version_history_sort.sql
 commit;

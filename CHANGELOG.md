@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1585: Fixing t&m versin history order. (#2086)
+
+  * Gayathri Athreya on Wed, 23 Nov 2016 16:05:42 -0700 [View Commit](../../commit/89ff9f7cec648407a7318e90cb670b775406b4b4)
+
+##coeus-1611.0022
 * No Changes
 
 

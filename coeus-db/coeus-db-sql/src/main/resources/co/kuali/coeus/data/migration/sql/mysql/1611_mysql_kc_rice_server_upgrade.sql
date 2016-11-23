@@ -19,4 +19,5 @@
 
 
 \. ./rice/bootstrap/V1611_001__lookup_distinct.sql
+\. ./rice/bootstrap/V1611_003__version_history_sort.sql
 commit;
