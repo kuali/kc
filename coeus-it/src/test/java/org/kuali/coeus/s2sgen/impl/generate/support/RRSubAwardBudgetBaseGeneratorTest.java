@@ -4,6 +4,9 @@ import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.junit.Assert;
+import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
+import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
@@ -49,7 +52,7 @@ public abstract class RRSubAwardBudgetBaseGeneratorTest extends S2SModularBudget
         proposalDevelopmentBudgetExt.setBudgetStatus("1");
         proposalDevelopmentBudgetExt.setBudgetId(1L);
         proposalDevelopmentBudgetExt
-                .setName("test Document Description");
+                .setName("test Document Description1");
         proposalDevelopmentBudgetExt.setOnOffCampusFlag("Y");
         proposalDevelopmentBudgetExt.setStartDate(new Date(new Long(
                 "1183316613046")));
@@ -106,6 +109,7 @@ public abstract class RRSubAwardBudgetBaseGeneratorTest extends S2SModularBudget
         document.getDevelopmentProposal().setFinalBudget(proposalDevelopmentBudgetExt);
     }
 
+    @Override
     public ProposalDevelopmentDocument initializeDocument() throws Exception {
         ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) KRADServiceLocatorWeb
                 .getDocumentService().getNewDocument(
@@ -117,6 +121,7 @@ public abstract class RRSubAwardBudgetBaseGeneratorTest extends S2SModularBudget
         return pd;
     }
 
+    @Override
     public DevelopmentProposal initializeDevelopmentProposal(
             ProposalDevelopmentDocument pd) {
         DevelopmentProposal developmentProposal = pd.getDevelopmentProposal();
@@ -205,7 +210,7 @@ public abstract class RRSubAwardBudgetBaseGeneratorTest extends S2SModularBudget
         proposalDevelopmentBudgetExt.setBudgetStatus("1");
         proposalDevelopmentBudgetExt.setBudgetId(1L);
         proposalDevelopmentBudgetExt
-                .setName("test Document Description");
+                .setName("test Document Description2");
         proposalDevelopmentBudgetExt.setOnOffCampusFlag("Y");
         proposalDevelopmentBudgetExt.setStartDate(new Date(new Long(
                 "1183316613046")));
@@ -223,6 +228,32 @@ public abstract class RRSubAwardBudgetBaseGeneratorTest extends S2SModularBudget
         budgetPeriod.setEndDate(new Date(new Long("1214852613046")));
         budgetPeriod.setBudgetPeriod(1);
         budgetPeriod.setBudget(proposalDevelopmentBudgetExt);
+
+        BudgetLineItem equipment = new BudgetLineItem();
+        equipment.setBudget(proposalDevelopmentBudgetExt);
+        equipment.setBudgetLineItemId(1L);
+        equipment.setBudgetPeriodBO(budgetPeriod);
+        equipment.setBudgetPeriod(1);
+        equipment.setBudgetCategoryCode("20");
+        equipment.setLineItemDescription("A bulldozer");
+
+        BudgetCategoryType categoryType = new BudgetCategoryType();
+        categoryType.setCode("E");
+        categoryType.setDescription("Equipment");
+
+        BudgetCategory category = new BudgetCategory();
+        category.setBudgetCategoryType(categoryType);
+        category.setBudgetCategoryTypeCode("E");
+        category.setCode("20");
+        category.setDescription("Purchased Equipment");
+
+        equipment.setBudgetCategory(category);
+
+        List<BudgetLineItem> items = new ArrayList<>();
+        items.add(equipment);
+
+        budgetPeriod.setBudgetLineItems(items);
+
         budgetPeriods.add(budgetPeriod);
         proposalDevelopmentBudgetExt.setBudgetPeriods(budgetPeriods);
 
