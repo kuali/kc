@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1816: Prop Dev type of Budget SOW caused STE when generating an IP
+  * Terry Durkin on Wed, 23 Nov 2016 10:38:36 -0500 [View Commit](../../commit/4a9d96339349a21b0d6c65e9db08aec0b321a2b8)
+* RESKC-1608: support Research & Related Subaward Budget (Total Fed + Non-Fed) Attachment(s) Form V1.3.  Added tests for older forms.
+  * Travis Schneeberger on Wed, 23 Nov 2016 10:17:13 -0500 [View Commit](../../commit/bebdef8518e72ba26580cf126f3122bd2822a7f9)
+
+##coeus-1611.0019
 * RESKC-1808: Adding test and upgrading pom (#2082)
 
   * Gayathri Athreya on Tue, 22 Nov 2016 12:24:45 -0700 [View Commit](../../commit/2c75cd72e211a55e5e7c67de1cab3fd294cb8c9c)
