@@ -18,11 +18,18 @@
  */
 package org.kuali.kra.timeandmoney;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.kra.timeandmoney.history.TransactionType;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A collection of this class is maintained on Time And Money Document.  There will be one entry for each Time And
@@ -32,12 +39,14 @@ public class TimeAndMoneyDocumentHistory implements Serializable{
 
 
     private static final long serialVersionUID = 786405622918877359L;
-    
+    public static final String SORT_TIME_AND_MONEY_TRANSACTIONS_DESCENDING = "SORT_TIME_AND_MONEY_TRANSACTIONS_DESCENDING";
+
     private String documentUrl;
     private String timeAndMoneyDocumentDescriptionLine;
     private List<AwardAmountInfoHistory> validAwardAmountInfoHistoryList;
     private TimeAndMoneyDocument timeAndMoneyDocument;
-    
+    private transient ParameterService parameterService;
+
     public TimeAndMoneyDocumentHistory () {
         validAwardAmountInfoHistoryList = new ArrayList<AwardAmountInfoHistory>();
     }
@@ -90,6 +99,14 @@ public class TimeAndMoneyDocumentHistory implements Serializable{
      * @return Returns the validAwardAmountInfoHistoryList.
      */
     public List<AwardAmountInfoHistory> getValidAwardAmountInfoHistoryList() {
+        if(isParameterOn(SORT_TIME_AND_MONEY_TRANSACTIONS_DESCENDING, Constants.MODULE_NAMESPACE_AWARD, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE)) {
+            AwardAmountInfoHistory initialTransaction = validAwardAmountInfoHistoryList.stream().filter(
+                    validAwardAmountInfoHistoryItem -> validAwardAmountInfoHistoryItem.getTransactionType().equalsIgnoreCase(TransactionType.INITIAL.toString())
+            ).findFirst().get();
+            validAwardAmountInfoHistoryList.remove(initialTransaction);
+            Collections.reverse(validAwardAmountInfoHistoryList);
+            validAwardAmountInfoHistoryList.add(initialTransaction);
+        }
         return validAwardAmountInfoHistoryList;
     }
 
@@ -120,9 +137,17 @@ public class TimeAndMoneyDocumentHistory implements Serializable{
     public void setTimeAndMoneyDocument(TimeAndMoneyDocument timeAndMoneyDocument) {
         this.timeAndMoneyDocument = timeAndMoneyDocument;
     }
-    
-    
-    
-    
+
+    public boolean isParameterOn(String sortTimeAndMoneyTransactionsDescending, String moduleNamespaceAward, String kcAllParameterDetailTypeCode) {
+        return getParameterService().getParameterValueAsBoolean(moduleNamespaceAward,
+                kcAllParameterDetailTypeCode, sortTimeAndMoneyTransactionsDescending);
+    }
+
+    public ParameterService getParameterService() {
+        if(parameterService == null) {
+            parameterService = KcServiceLocator.getService(ParameterService.class);
+        }
+        return parameterService;
+    }
 
 }

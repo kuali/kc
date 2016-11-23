@@ -39,7 +39,7 @@ public class AwardVersionHistory implements Serializable{
     private Award awardParent;
     
     public AwardVersionHistory(Award parent) {
-        timeAndMoneyDocumentHistoryList = new ArrayList<TimeAndMoneyDocumentHistory>();
+        timeAndMoneyDocumentHistoryList = new ArrayList<>();
         awardParent = parent;
     }
     
