@@ -489,8 +489,6 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             return  Integer.parseInt(getProposalTypeService().getContinuationProposalTypeCode());
         } else if(StringUtils.equals(developmentProposalTypeCode,getProposalTypeService().getRenewalChangedOrCorrectedProposalTypeCode())) {
             return Integer.parseInt(getProposalTypeService().getRenewProposalTypeCode());
-        } else if(StringUtils.equals(developmentProposalTypeCode,getProposalTypeService().getBudgetSowUpdateProposalTypeCode())) {
-            return institutionalProposalProposalTypeCode;
         } else {
             return Integer.parseInt(developmentProposalTypeCode);
         }
