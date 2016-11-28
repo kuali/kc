@@ -18,10 +18,10 @@
  */
 package org.kuali.coeus.s2sgen.impl.generate.support;
 
-public class AttachmentsV1_1GeneratorTest extends AttachmentsBaseGeneratorTest {
+public class Attachments_1_2V1_1GeneratorTest extends AttachmentsBaseGeneratorTest {
 
     @Override
     protected String getFormGeneratorName() {
-        return AttachmentsV1_1Generator.class.getSimpleName();
+        return Attachments_1_2V1_2Generator.class.getSimpleName();
     }
 }
