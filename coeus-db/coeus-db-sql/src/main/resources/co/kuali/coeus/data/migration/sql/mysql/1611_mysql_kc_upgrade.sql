@@ -19,4 +19,5 @@
 
 
 \. ./kc/bootstrap/V1611_002__add_narrative_budget_form.sql
+\. ./kc/bootstrap/V1611_004__attachment_form.sql
 commit;
