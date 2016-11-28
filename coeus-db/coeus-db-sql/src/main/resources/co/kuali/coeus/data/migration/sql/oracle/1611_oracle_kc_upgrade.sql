@@ -23,4 +23,5 @@ set sqlblanklines on
 spool 1611_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1611_002__add_narrative_budget_form.sql
 @./kc/bootstrap/V1611_004__attachment_form.sql
+@./kc/bootstrap/V1611_005__fdp_form_update.sql
 commit;
