@@ -179,7 +179,7 @@
             <list>
                 <bean parent="Uif-MessageField" p:messageText="Are you sure you want to approve this document?" p:order="10"/>
                 <bean parent="Uif-InputField" p:propertyName="actionReason" p:order="20"
-                      p:fieldLabel.labelText="Approval Reason" p:required="false"/>
+                      p:fieldLabel.labelText="Approval Comment" p:required="false"/>
             </list>
         </property>
         <property name="footer.items">
