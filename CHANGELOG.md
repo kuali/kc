@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-1838: Fix hierarchy line item group conflict. (#2095)
+
+  * When viewing personnel item Details & Rates, when the Default or Custom Group includes entries from multiple children, the Details & Rates only reflects the amounts from the child budget that created the parent. The info from the other personnel items are not reflected. (This seems to be happening in all hierarchy proposals - not just the ones with LA and non-LA units)
+  * (Only if each child budget has separate Custom Group(s) they used for entering each of their shared person cost element types, then it shows correctly in the details & rates. Or, if there is a Default or Custom group (g/l or cost element) that contains only salaries from one child, and there are no personnel from the other children in that cost element/category, then it displays correctly.)  * Gayathri Athreya on Tue, 29 Nov 2016 14:05:59 -0700 [View Commit](../../commit/8031d630c496f35bd36bfcabfb427578284d9c29)
+* RESKC-1575: more oracle fixes for unit hierarchy maint screen
+  * Terry Durkin on Mon, 28 Nov 2016 16:27:43 -0500 [View Commit](../../commit/a2aabd273cddf9d24ba138c644e2be6446a0c436)
+
+##coeus-1611.0030
 * No Changes
 
 
