@@ -162,7 +162,7 @@ public class BudgetPersonnelRule {
         // not an error - ProposalHierarchy parents are allowed to have duplicate BudgetPersons
         BudgetParent budgetParent = event.getBudget().getBudgetParent().getDocument().getBudgetParent();
         if (budgetParent instanceof DevelopmentProposal && ((DevelopmentProposal)budgetParent).isParent()) {
-            KcEventResult result =  isNotDuplicateBudgetPersons(budgetPersons);
+            KcEventResult result =  ((DevelopmentProposal) budgetParent).isParent() ? new KcEventResult() : isNotDuplicateBudgetPersons(budgetPersons);
             GlobalVariables.getMessageMap().merge(result.getMessageMap());
         }
         return valid;

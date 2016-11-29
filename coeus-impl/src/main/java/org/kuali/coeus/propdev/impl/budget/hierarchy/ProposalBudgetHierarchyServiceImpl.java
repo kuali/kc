@@ -203,31 +203,7 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
                 }
             }
 
-            for (BudgetUnrecoveredFandA unrecoveredFandA : childBudget.getBudgetUnrecoveredFandAs()) {
-                if (StringUtils.isNotEmpty(unrecoveredFandA.getSourceAccount())) {
-                    final Optional<BudgetUnrecoveredFandA> matchedUnrecoveredFandA = parentBudget.getBudgetUnrecoveredFandAs().stream().filter(parentUnrecoveredFandA ->
-                        parentUnrecoveredFandA.getFiscalYear().equals(unrecoveredFandA.getFiscalYear()) &&
-                                parentUnrecoveredFandA.getApplicableRate().equals(unrecoveredFandA.getApplicableRate()) &&
-                                parentUnrecoveredFandA.getOnCampusFlag().equals(unrecoveredFandA.getOnCampusFlag()) &&
-                                parentUnrecoveredFandA.getSourceAccount().equals(unrecoveredFandA.getSourceAccount())
-                    ).findFirst();
-
-                    if (matchedUnrecoveredFandA.isPresent()) {
-                        final BudgetUnrecoveredFandA parentUnrecoveredFandA = matchedUnrecoveredFandA.get();
-                        parentUnrecoveredFandA.setAmount(parentUnrecoveredFandA.getAmount().add(unrecoveredFandA.getAmount()));
-                    } else {
-                        final BudgetUnrecoveredFandA newUnrecoveredFandA = (BudgetUnrecoveredFandA) deepCopy(unrecoveredFandA);
-                        newUnrecoveredFandA.setBudget(parentBudget);
-                        newUnrecoveredFandA.setBudgetId(budgetId);
-                        newUnrecoveredFandA.setDocumentComponentId(parentBudget.getNextValue(newUnrecoveredFandA.getDocumentComponentIdKey()));
-                        newUnrecoveredFandA.setObjectId(null);
-                        newUnrecoveredFandA.setVersionNumber(null);
-                        newUnrecoveredFandA.setHierarchyProposalNumber(childProposalNumber);
-                        newUnrecoveredFandA.setHiddenInHierarchy(true);
-                        parentBudget.add(newUnrecoveredFandA);
-                    }
-                }
-            }
+            syncUnrecoveredFandA(childBudget, childProposalNumber, parentBudget, budgetId);
 
             for (BudgetPeriod childPeriod1 : childPeriods) {
                 childPeriod = childPeriod1;
@@ -240,6 +216,8 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
                 if (StringUtils.equals(hierarchyBudgetTypeCode, HierarchyBudgetTypeConstants.SubBudget.code())) {
                     for (BudgetLineItem childLineItem : childPeriod.getBudgetLineItems()) {
                         parentLineItem = (BudgetLineItem) deepCopy(childLineItem);
+                        parentLineItem.setGroupName(StringUtils.isNotBlank(childLineItem.getGroupName()) ? childLineItem.getGroupName() : ""
+                                                   + "Proposal # " + childProposalNumber);
                         lineItemNumber = parentBudget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER);
 
                         parentLineItem.setHierarchyProposalNumber(childProposalNumber);
@@ -378,7 +356,35 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
         childProposal.setLastSyncedBudget(childBudget);
         childBudget.setHierarchyLastSyncHashCode(computeHierarchyHashCode(childBudget));
     }
-    
+
+    private void syncUnrecoveredFandA(ProposalDevelopmentBudgetExt childBudget, String childProposalNumber, ProposalDevelopmentBudgetExt parentBudget, Long budgetId) {
+        for (BudgetUnrecoveredFandA unrecoveredFandA : childBudget.getBudgetUnrecoveredFandAs()) {
+            if (StringUtils.isNotEmpty(unrecoveredFandA.getSourceAccount())) {
+                final Optional<BudgetUnrecoveredFandA> matchedUnrecoveredFandA = parentBudget.getBudgetUnrecoveredFandAs().stream().filter(parentUnrecoveredFandA ->
+                    parentUnrecoveredFandA.getFiscalYear().equals(unrecoveredFandA.getFiscalYear()) &&
+                            parentUnrecoveredFandA.getApplicableRate().equals(unrecoveredFandA.getApplicableRate()) &&
+                            parentUnrecoveredFandA.getOnCampusFlag().equals(unrecoveredFandA.getOnCampusFlag()) &&
+                            parentUnrecoveredFandA.getSourceAccount().equals(unrecoveredFandA.getSourceAccount())
+                ).findFirst();
+
+                if (matchedUnrecoveredFandA.isPresent()) {
+                    final BudgetUnrecoveredFandA parentUnrecoveredFandA = matchedUnrecoveredFandA.get();
+                    parentUnrecoveredFandA.setAmount(parentUnrecoveredFandA.getAmount().add(unrecoveredFandA.getAmount()));
+                } else {
+                    final BudgetUnrecoveredFandA newUnrecoveredFandA = (BudgetUnrecoveredFandA) deepCopy(unrecoveredFandA);
+                    newUnrecoveredFandA.setBudget(parentBudget);
+                    newUnrecoveredFandA.setBudgetId(budgetId);
+                    newUnrecoveredFandA.setDocumentComponentId(parentBudget.getNextValue(newUnrecoveredFandA.getDocumentComponentIdKey()));
+                    newUnrecoveredFandA.setObjectId(null);
+                    newUnrecoveredFandA.setVersionNumber(null);
+                    newUnrecoveredFandA.setHierarchyProposalNumber(childProposalNumber);
+                    newUnrecoveredFandA.setHiddenInHierarchy(true);
+                    parentBudget.add(newUnrecoveredFandA);
+                }
+            }
+        }
+    }
+
     protected void synchBudgetPeriods(ProposalDevelopmentBudgetExt childBudget, ProposalDevelopmentBudgetExt parentBudget) {
          List<BudgetPeriod> periodsToDelete = new ArrayList<>();
          parentBudget.getBudgetPeriods().forEach(parentBudgetPeriod -> {
