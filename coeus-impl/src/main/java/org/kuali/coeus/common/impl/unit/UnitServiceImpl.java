@@ -81,7 +81,7 @@ public class UnitServiceImpl implements UnitService {
     }
 
     private final Supplier<List<Unit>> allUnitsCache = Suppliers.memoizeWithExpiration(
-            () -> new ArrayList<>(getBusinessObjectService().findAll(Unit.class)), 1, TimeUnit.MINUTES);
+            () -> new ArrayList<>(getBusinessObjectService().findAllOrderBy(Unit.class, "unitNumber", true)), 1, TimeUnit.MINUTES);
 
     @Override
     public Unit getUnit(String unitNumber) {
@@ -108,7 +108,7 @@ public class UnitServiceImpl implements UnitService {
         Map<String, Object> fieldValues = new HashMap<>();
         fieldValues.put(ACTIVE, ACTIVE_YES);
         fieldValues.put(PARENT_UNIT_NUMBER, unitNumber);
-        units.addAll(getBusinessObjectService().findMatching(Unit.class, fieldValues));
+        units.addAll(getBusinessObjectService().findMatchingOrderBy(Unit.class, fieldValues, "unitNumber", true));
         return units;
     }
 
@@ -169,7 +169,7 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public Unit getTopUnit() {
-    	return getUnitLookupDao().getTopUnit();
+        return getUnitLookupDao().getTopUnit();
     }
 
     /**
@@ -186,8 +186,8 @@ public class UnitServiceImpl implements UnitService {
         final List<Unit> sortedTruncatedUnits = sortUnits(truncate(getUnits(), depth));
 
         return sortedTruncatedUnits.stream()
-               .map(unit -> (StringUtils.isNotBlank(unit.getParentUnitNumber()) ? unit.getParentUnitNumber() + DASH : "") + unit.getUnitNumber() + KRADConstants.BLANK_SPACE + COLUMN + KRADConstants.BLANK_SPACE + unit.getUnitName())
-               .collect(Collectors.joining(SEPARATOR));
+                .map(unit -> (StringUtils.isNotBlank(unit.getParentUnitNumber()) ? unit.getParentUnitNumber() + DASH : "") + unit.getUnitNumber() + KRADConstants.BLANK_SPACE + COLUMN + KRADConstants.BLANK_SPACE + unit.getUnitName())
+                .collect(Collectors.joining(SEPARATOR));
     }
 
     protected List<Unit> sortUnits(List<Unit> units) {
@@ -196,6 +196,7 @@ public class UnitServiceImpl implements UnitService {
         final Queue<Unit> processQueue = new LinkedList<>();
         processQueue.addAll(unsortedUnits.stream()
                 .filter(unit -> StringUtils.isBlank(unit.getParentUnitNumber()))
+                .sorted(Comparator.comparing(Unit::getUnitNumber))
                 .collect(Collectors.toList()));
 
         while(!processQueue.isEmpty()) {
@@ -204,6 +205,7 @@ public class UnitServiceImpl implements UnitService {
             sortedUnits.add(toProcess);
             processQueue.addAll(unsortedUnits.stream()
                     .filter(unit -> unit.getParentUnitNumber().equals(toProcess.getUnitNumber()))
+                    .sorted(Comparator.comparing(Unit::getUnitNumber))
                     .collect(Collectors.toList()));
         }
         return sortedUnits;
