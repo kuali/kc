@@ -1,6 +1,124 @@
 
 
 ##CURRENT
+* RESKC-1836:PD Hierarchy Parent Budget Print: 'Allocated Lab Expense' and
+  * 'Calculation Methodology' are missing from multiple Budget Reports (when
+  * parent created from proposal in unit with no LA rates, and a proposal in
+  * unit with LA rates is linked to the parent)
+
+  * For PD Hierarchy, when the Parent proposal is created from a proposal in
+  * a Unit that does NOT have LA rates and then a proposal in a unit with LA
+  * rates is linked to the Parent Proposal, the line for "Allocated Lab
+  * Expense" that should appear under Other Direct Costs is not included in
+  * the the following Budget Print Reports:
+  * 1 Budget Costshare Summary Report
+  * 2 Budget Cumulative Report
+  * 4 Budget Summary Report
+  * 7 Industrial Budget Report
+  * Also, Lab Allocation is not being included in the Calculation
+  * Methodology section on the following Budget Print Reports: (For the
+  * parent budget, LA expenses should be listed appropriately as exclusions
+  * from the IDC base. There should also be a separate Calculation
+  * Methodology included for the Lab Allocation base itself.)
+  * 2 Budget Cumulative Report
+  * 4 Budget Summary Report
+  * 7 Industrial Budget Report
+  * These same PD Budget Print Reports had previously been fixed for the
+same issue on non-hierarchy parent budget prints. The Jira's for those
+  * fixes are linked below.
+  * This is not a problem on the individual child LA-unit proposals in the
+  * hierarchy when printed, only at the parent level.
+  * Steps to reproduce in res-demo1:
+  * A.	Create Child Proposal 1 and Parent Proposal:
+  * In the Create Proposal screen enter/select:
+  * Proposal Type: New
+  * Lead Unit: IN-PED – Pediatrics (this is a Unit that does not have Lab
+  * Allocation rates)
+  * Activity Type: Research
+  * Project Dates: 11/01/2016 – 10/31/2017
+  * Project Title: <any>
+  * Sponsor: NIH
+  * Click the [Save and Continue] button
+  * In the Key Personnel > Personnel section, add a PI to the Proposal
+  * In the Budget section:
+  * Add a Budget Version
+  * In the Budget:
+  * o	Personnel Costs > Project Personnel section, add Base Salary for the
+  * PI
+  * o	Personnel Costs > Assign Personnel to Periods section, click the
+  * [Assign Personnel …] button and complete as follows:
+  * 	Person: <PI>
+  * 	Object Code: Faculty Salaries Tenured – On
+  * 	Effort %: 10
+  * 	Charged %: 10
+  * 	Click [Assign to Period 1] 
+  * 	Click the Details & Rate link for the Faculty Salaries Tenured – On
+  * Object Code and review Rate Tab (you should see amounts for Employee
+  * Benefits – Research Rate, and MTDC)
+  * o	Save your budget and click the [Return to proposal] button
+  * Back in the Proposal, click the Hierarchy link located in the Toolbar.
+  * In the Hierarchy window:
+  * Hierarchy Budget Type: Sub-Budget
+  * Click the [Create Hierarchy] button. The Parent proposal will be created
+  * – note the parent proposal number
+  * Close out of the Proposal
+  * B.	Create Child Proposal 2 and Link it to Parent Proposal created in A:
+  * In the Create Proposal screen enter/select:
+  * Proposal Type: New
+  * Lead Unit: IN-CARD – Cardiology (this is a Unit that has Lab Allocation
+  * rates)
+  * Activity Type: Research
+  * Project Dates: 11/01/2016 – 10/31/2017
+  * Project Title: <any>
+  * Sponsor: NIH
+  * Click the [Save and Continue] button
+  * In the Key Personnel > Personnel section, add a PI to the Proposal
+  * In the Budget section:
+  * Add a Budget Version
+  * In the Budget:
+  * o	Personnel Costs > Project Personnel section, add Base Salary for the
+  * PI
+  * o	Personnel Costs > Assign Personnel to Periods section, click the
+  * [Assign Personnel …] button and complete as follows:
+  * 	Person: <PI>
+  * 	Object Code: Summer Faculty – On
+  * 	Effort %: 10
+  * 	Charged %: 10
+  * 	Click [Assign to Period 1] 
+  * 	Click the Details & Rate link for the Faculty Salaries Tenured – On
+  * Object Code and review Rate Tab (you should see amounts for Employee
+  * Benefits – Research Rate, EB on LA, LA-M&S, LA-Salaries, LA-Utilities,
+  * Vaca on LA, and MTDC)
+  * 	Click the Budget Versions link and select Print from the Actions:
+  * •	Select the checkbox for the Budget Summary Report and click the
+  * [Print] button. The PDF will generated. Note the following: 
+  * o	‘Allocated Lab Expense’ line under Other Direct Cost
+  * o	Calculation Methodology 
+  * o	Save your budget and click the [Return to proposal] button
+  * Back in the Proposal, click the Hierarchy link located in the Toolbar.
+  * In the Hierarchy window:
+  * Link Proposal: <enter Parent Proposal Number created in A>
+  * Hierarchy Budget Type: Sub-Budget
+  * Click the [Link this Child to a Parent] button.
+  * Close out of the Child 2 Proposal
+  * C.	Open the Parent Proposal and navigate to the Budget:
+  * In the Personnel Costs > Assign Personnel to Periods section, click the
+  * Details & Rate link for the Faculty Salaries Tenured – On Object Code
+  * (this is from Child 1 Budget). In the Rates tab, you will notice that
+  * all the amounts have synced from Child 1 Proposal
+  * In the Personnel Costs > Assign Personnel to Periods section, click the
+  * Details & Rate link for the Summer Faculty – On Object Code (this is
+  * from Child 2 Budget). In the Rates tab, you will notice that all the
+  * amounts have synced from Child 2 Proposal
+  * Click the Budget Versions link and select Print from the Actions:
+  * o	Select the checkbox for the Budget Summary Report and click the
+  * [Print] button. The PDF will generated. The PDF will generated. Note the
+  * following: 
+  * 	‘Allocated Lab Expense’ line under Other Direct Cost is MISSING
+  * 	Calculation Methodology is MISSNG the Exclusions seen in the Child 2
+  * Print out  * vineeth on Wed, 30 Nov 2016 15:39:14 -0500 [View Commit](../../commit/73f9927e04ab2d0b04eb576cdcafa9ed24b65fae)
+
+##coeus-1611.0032
 * No Changes
 
 
