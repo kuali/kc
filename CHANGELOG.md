@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1611.0031
 * RESKC-1838: Fix hierarchy line item group conflict. (#2095)
 
   * When viewing personnel item Details & Rates, when the Default or Custom Group includes entries from multiple children, the Details & Rates only reflects the amounts from the child budget that created the parent. The info from the other personnel items are not reflected. (This seems to be happening in all hierarchy proposals - not just the ones with LA and non-LA units)
