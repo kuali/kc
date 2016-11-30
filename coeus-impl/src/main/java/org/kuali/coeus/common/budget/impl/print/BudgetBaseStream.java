@@ -30,7 +30,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.budget.framework.rate.InstituteLaRate;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.calculator.ValidCalcType;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -57,7 +56,6 @@ public abstract class BudgetBaseStream implements XmlStream {
     public static final String RATE_CLASS_TYPE = "rateClassType";
 	private static final String DEPENDENT_RATE_CLASS_TYPE = "dependentRateClassType";
 	private static final String RATE_CLASS_CODE = "rateClassCode";
-	private static final String UNIT_NUMBER = "unitNumber";
 	private static final String GET_METHOD_PREFIX = "get";
 	private static final String RATE_TYPE_CODE = "rateTypeCode";
 	private static final String CLOSE_BRACES = ")";
@@ -394,14 +392,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 		}
 		return liEbOnLaRateTypeCode;
 	}
-
-    protected int getUnitNumber() {
-	    String lsOwnedByUnit = budgetPeriod.getBudget().getBudgetParent().getOwnedByUnitNumber();
-        Map<String, String> lsOwnedByUnitMap = new HashMap<String, String>();
-        lsOwnedByUnitMap.put(UNIT_NUMBER, lsOwnedByUnit);
-        int liCount = businessObjectService.findMatching(InstituteLaRate.class, lsOwnedByUnitMap).size();
-        return liCount;
-    }
 
 	protected String getRateTypeDesc(String rateClassCode, String rateTypeCode) {
 		Map<String, String> rateTypeCodeMap = new HashMap<>();

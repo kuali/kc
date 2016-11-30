@@ -333,28 +333,21 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
 		List<ReportType> reportTypeList = new ArrayList<ReportType>();
 		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
-		if (getUnitNumber() > 0) {
-			String categoryDesc = OTHER_DIRECT_COSTS;
-			String costElementDesc = ALLOCATED_LAB_EXPENSE;
-			for (BudgetLineItem budgetLineItem : budgetPeriod
-					.getBudgetLineItems()) {
-				calculatedCost = calculatedCost
-						.add(getTotalCalculatedCostByRateClassTypeFromLineItem(
-								RateClassType.LAB_ALLOCATION.getRateClassType(),
-								budgetLineItem));
+		String categoryDesc = OTHER_DIRECT_COSTS;
+		String costElementDesc = ALLOCATED_LAB_EXPENSE;
+		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+			calculatedCost = calculatedCost.add(getTotalCalculatedCostByRateClassTypeFromLineItem(
+					RateClassType.LAB_ALLOCATION.getRateClassType(), budgetLineItem));
 
-			}
-			ReportType reportType = getReportTypeForNonPersonnel(categoryDesc,
-					costElementDesc, calculatedCost, null);
-			if(calculatedCost.doubleValue()>0.0d){
-				reportTypeList.add(reportType);
-			}
+		}
+		ReportType reportType = getReportTypeForNonPersonnel(categoryDesc, costElementDesc, calculatedCost, null);
+		if (calculatedCost.doubleValue() > 0.0d) {
+			reportTypeList.add(reportType);
 		}
 		setReportTypeForIndustrialBudgetNonPersonnel(reportTypeList);
 		Collections.sort(reportTypeList, new Comparator<ReportType>() {
 			public int compare(ReportType reportType1, ReportType reportType2) {
-				return reportType1.getBudgetCategoryDescription().compareTo(
-						reportType2.getBudgetCategoryDescription());
+				return reportType1.getBudgetCategoryDescription().compareTo(reportType2.getBudgetCategoryDescription());
 			}
 		});
 		subReportType.setGroupArray(getGroupsType(reportTypeList, category));

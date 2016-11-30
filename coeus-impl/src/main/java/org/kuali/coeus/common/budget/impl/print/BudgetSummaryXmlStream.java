@@ -210,23 +210,23 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 		List<ReportType> reportTypeList = new ArrayList<ReportType>();
 		ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
 		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
-		if (getUnitNumber() > 0) {
-			String categoryDesc = OTHER_DIRECT_COSTS;
-			String costElementDesc = ALLOCATED_LAB_EXPENSE;
-			for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-				calculatedCost = calculatedCost.add(getTotalCalculatedCostByRateClassTypeFromLineItem(RateClassType.LAB_ALLOCATION.getRateClassType(), budgetLineItem));
-				costSharingAmount = costSharingAmount.add(getTotalCostSharingAmountByRateClassTypeFromLineItem(budgetLineItem, RateClassType.LAB_ALLOCATION.getRateClassType()));
-			}
-			ReportType reportType = getReportTypeForNonPersonnel(categoryDesc, costElementDesc, calculatedCost, costSharingAmount);
-			 if(calculatedCost.doubleValue()>0.0d){
-				 reportTypeList.add(reportType);
-			 }
+		String categoryDesc = OTHER_DIRECT_COSTS;
+		String costElementDesc = ALLOCATED_LAB_EXPENSE;
+		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+			calculatedCost = calculatedCost.add(getTotalCalculatedCostByRateClassTypeFromLineItem(
+					RateClassType.LAB_ALLOCATION.getRateClassType(), budgetLineItem));
+			costSharingAmount = costSharingAmount.add(getTotalCostSharingAmountByRateClassTypeFromLineItem(
+					budgetLineItem, RateClassType.LAB_ALLOCATION.getRateClassType()));
+		}
+		ReportType reportType = getReportTypeForNonPersonnel(categoryDesc, costElementDesc, calculatedCost,
+				costSharingAmount);
+		if (calculatedCost.doubleValue() > 0.0d) {
+			reportTypeList.add(reportType);
 		}
 		setReportTypeForBudgetSummaryNonPersonnel(reportTypeList);
 		Collections.sort(reportTypeList, new Comparator<ReportType>() {
 			public int compare(ReportType reportType1, ReportType reportType2) {
-				return reportType1.getBudgetCategoryDescription().compareTo(
-						reportType2.getBudgetCategoryDescription());
+				return reportType1.getBudgetCategoryDescription().compareTo(reportType2.getBudgetCategoryDescription());
 			}
 		});
 		subReportType.setGroupArray(getGroupsType(reportTypeList, category));
