@@ -64,12 +64,12 @@
         <activemq.version>5.14.1</activemq.version>
         <aopalliance.version>1.0</aopalliance.version>
         <avalon-framework.version>4.3.1</avalon-framework.version>
-        <bouncycastle.version>1.53</bouncycastle.version>
+        <bouncycastle.version>1.55</bouncycastle.version>
         <cas-client-core.version>3.3.3</cas-client-core.version>
         <cglib.version>3.1</cglib.version>
         <coeus-api-all.version>1609.0002</coeus-api-all.version>
         <coeus-s2sgen.version>1612.0008</coeus-s2sgen.version>
-        <commons-beanutils.version>1.8.3-kuali-4</commons-beanutils.version>
+        <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <commons-codec.version>1.10</commons-codec.version>
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-collections4.version>4.1</commons-collections4.version>
@@ -82,7 +82,7 @@
         <commons-net.version>3.3</commons-net.version>
         <commons-pool.version>1.6</commons-pool.version>
         <commons-validator.version>1.4.1</commons-validator.version>
-        <cxf.version>2.7.12</cxf.version>
+        <cxf.version>2.7.18</cxf.version>
         <db-ojb.version>1.0.4-patch9</db-ojb.version>
         <displaytag.version>1.2</displaytag.version>
         <drools.version>6.3.0.Final</drools.version>
@@ -97,7 +97,7 @@
         <itext.version>2.1.7</itext.version>
         <jackson.version>1.9.13</jackson.version>
         <javamelody-core.version>1.62.0</javamelody-core.version>
-        <javax.mail.version>1.5.2</javax.mail.version>
+        <javax.mail.version>1.5.6</javax.mail.version>
         <javax.persistence.version>2.1.0</javax.persistence.version>
         <jaxb-impl.version>2.2.6</jaxb-impl.version>
         <jmock.version>2.8.2</jmock.version>
@@ -112,7 +112,7 @@
         <moo-mvel.version>2.0</moo-mvel.version>
         <mysql.groupId>mysql</mysql.groupId>
         <mysql.artifactId>mysql-connector-java</mysql.artifactId>
-        <mysql.version>5.1.38</mysql.version>
+        <mysql.version>5.1.40</mysql.version>
         <mvel.version>2.2.4.Final</mvel.version>
         <objenesis.version>2.4</objenesis.version>
         <opensaml.version>2.6.1</opensaml.version>
@@ -124,13 +124,13 @@
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
         <schemaspy.version>1508.0162</schemaspy.version>
-        <rice.version>2.5.3.1610.0003-kualico</rice.version>
+        <rice.version>2.5.3.1611.0002-kualico</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.13</slf4j.version>
         <spring.version>3.2.13.RELEASE</spring.version>
         <spring-security.version>3.2.7.RELEASE</spring-security.version>
         <spring-modules-ojb.version>0.8a</spring-modules-ojb.version>
-        <struts.version>1.3.10</struts.version>
+        <struts.version>1.3.11-kuali-1</struts.version>
         <tomcat.version>7.0.65</tomcat.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <velocity.version>1.7</velocity.version>
@@ -453,7 +453,7 @@
                         <quiet>true</quiet>
                     </configuration>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.kuali.maven.plugins</groupId>
                     <artifactId>license-maven-plugin</artifactId>
@@ -609,6 +609,18 @@
             </dependency>
 
             <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${commons-beanutils.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>commons-logging</artifactId>
+                        <groupId>commons-logging</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
                 <version>${commons-codec.version}</version>
@@ -696,11 +708,6 @@
                         <groupId>commons-digester</groupId>
                         <artifactId>commons-digester</artifactId>
                     </exclusion>
-
-                    <exclusion>
-                        <artifactId>commons-beanutils</artifactId>
-                        <groupId>commons-beanutils</groupId>
-                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -724,10 +731,6 @@
                     <exclusion>
                         <groupId>itext</groupId>
                         <artifactId>itext</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>commons-beanutils</artifactId>
-                        <groupId>commons-beanutils</groupId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -982,10 +985,6 @@
                     <exclusion>
                         <artifactId>antlr</artifactId>
                         <groupId>antlr</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>commons-beanutils</artifactId>
-                        <groupId>commons-beanutils</groupId>
                     </exclusion>
                     <exclusion>
                         <groupId>commons-digester</groupId>
@@ -1429,17 +1428,6 @@
                 <scope>runtime</scope>
             </dependency>
 
-            <dependency>
-                <groupId>org.kuali.commons</groupId>
-                <artifactId>commons-beanutils</artifactId>
-                <version>${commons-beanutils.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>commons-logging</artifactId>
-                        <groupId>commons-logging</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
 
             <dependency>
                 <groupId>org.kuali.db.ojb</groupId>
@@ -1465,10 +1453,6 @@
                     <exclusion>
                         <artifactId>commons-logging</artifactId>
                         <groupId>commons-logging</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>commons-beanutils</artifactId>
-                        <groupId>commons-beanutils</groupId>
                     </exclusion>
                     <exclusion>
                         <artifactId>asm</artifactId>
@@ -1611,10 +1595,6 @@
                         <groupId>commons-logging</groupId>
                     </exclusion>
                     <exclusion>
-                        <groupId>com.thoughtworks.xstream</groupId>
-                        <artifactId>xstream</artifactId>
-                    </exclusion>
-                    <exclusion>
                         <groupId>org.springframework</groupId>
                         <artifactId>spring-expression</artifactId>
                     </exclusion>
@@ -1637,10 +1617,6 @@
                     <exclusion>
                         <groupId>cglib</groupId>
                         <artifactId>cglib-nodep</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.httpcomponents</groupId>
-                        <artifactId>httpclient</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -1845,28 +1821,28 @@
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring.version}</version>
             </dependency>
-            
+
             <dependency>
-            	<groupId>org.springframework</groupId>
-            	<artifactId>spring-expression</artifactId>
-            	<version>${spring.version}</version>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-expression</artifactId>
+                <version>${spring.version}</version>
             </dependency>
 
-			<dependency>
-			       <groupId>org.springframework.security</groupId>
-			       <artifactId>spring-security-core</artifactId>
-			       <version>${spring-security.version}</version>
-			</dependency>            
-			<dependency>
-			       <groupId>org.springframework.security</groupId>
-			       <artifactId>spring-security-web</artifactId>
-			       <version>${spring-security.version}</version>
-			</dependency>
-			<dependency>
-			        <groupId>org.springframework.security</groupId>
-			        <artifactId>spring-security-config</artifactId>
-			        <version>${spring-security.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-core</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.springmodules</groupId>
@@ -2153,13 +2129,16 @@
                                             <DependencyConvergence />
                                             <reactorModuleConvergence />
 
-                                             <enforceBytecodeVersion>
+                                            <enforceBytecodeVersion>
                                                 <maxJdkVersion>${enforcer.max.jdk.version}</maxJdkVersion>
-                                             </enforceBytecodeVersion>
+                                            </enforceBytecodeVersion>
 
 
                                             <bannedDependencies>
                                                 <excludes>
+                                                    <exclude>org.kuali.commons</exclude>
+                                                    <exclude>org.apache.struts</exclude>
+
                                                     <!--
                                                        excluding all versions because of https://issues.apache.org/jira/browse/COLLECTIONS-580
                                                        including specific fixed version below
@@ -2279,13 +2258,6 @@
                                                     <exclude>geronimo-spec:geronimo-spec-saaj</exclude>
                                                     <exclude>org.apache.servicemix.specs:org.apache.servicemix.specs.saaj-api-1.3</exclude>
 
-                                                    <!--
-                                                      excluding standard release - we are using a patches kuali version
-                                                      because of
-                                                      http://bugs.sun.com/view_bug.do?bug_id=6528714
-                                                      https://issues.apache.org/jira/browse/BEANUTILS-340
-                                                    -->
-                                                    <exclude>commons-beanutils:commons-beanutils</exclude>
                                                     <exclude>org.apache.commons:commons-beanutils</exclude>
 
                                                     <!-- exclude eh cache in general - only allow at a specific scope -->
@@ -2329,6 +2301,8 @@
                                                     <include>org.apache.ws.security:wss4j:${wss4j.version}</include>
 
                                                     <include>commons-collections:commons-collections:${commons-collections.version}</include>
+
+                                                    <include>org.apache.struts:*:${struts.version}</include>
                                                 </includes>
                                             </bannedDependencies>
                                         </rules>
@@ -2490,18 +2464,18 @@
         </profile>
 
         <profile>
-        	<id>dev</id>
+            <id>dev</id>
             <properties>
                 <p6spy.version>3.0.0</p6spy.version>
             </properties>
             <dependencyManagement>
                 <dependencies>
-    				<dependency>
-    					<groupId>p6spy</groupId>
-    					<artifactId>p6spy</artifactId>
-    					<version>${p6spy.version}</version>
-    				</dependency>
-            	</dependencies>
+                    <dependency>
+                        <groupId>p6spy</groupId>
+                        <artifactId>p6spy</artifactId>
+                        <version>${p6spy.version}</version>
+                    </dependency>
+                </dependencies>
             </dependencyManagement>
         </profile>
     </profiles>
@@ -2539,7 +2513,7 @@
         <developerConnection>${scm.developerConnection}</developerConnection>
         <url>${scm.url}</url>
         <tag>coeus-1603.25</tag>
-  </scm>
+    </scm>
 
     <distributionManagement>
         <snapshotRepository>
