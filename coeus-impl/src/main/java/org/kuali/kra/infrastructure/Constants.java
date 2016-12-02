@@ -181,6 +181,7 @@ public interface Constants {
     String PERSON_CERTIFICATE = "proposalPersonCertificate";
     String PERSON_COMMENT = "personComment";
     int ERA_COMMONS_USERNAME_MIN_LENGTH = 6;
+    String ENABLE_OPT_IN_PERSONNEL_CREDIT_SPLIT_FUNCTIONALITY = "ENABLE_OPT_IN_PERSONNEL_CREDIT_SPLIT_FUNCTIONALITY";
     
     /*Proposal notification constants*/
     String DATA_OVERRIDE_NOTIFICATION_ACTION = "102";

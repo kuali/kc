@@ -23,11 +23,14 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
@@ -53,7 +56,8 @@ public class CreditSplitValidator {
     private static final String INV_VALIDATION_MESSAGE = "Investigator validation passed ";
     private static final String AUDIT_ADDITION_MESSAGE_1 = "Adding " ;
     private static final String AUDIT_ADDITION_MESSAGE_2 = " audit error.";
-        
+    private ParameterService parameterService;
+
     /**
      * Validates the credit splits of an entire document by traversing it. If the Investigator is instead a Principal Investigator,
      * the units should all add up to 100.0.
@@ -68,14 +72,31 @@ public class CreditSplitValidator {
         for (InvestigatorCreditType creditType : creditTypes) {
             LOG.info(VALIDATING_CT_MESSAGE + creditType.getDescription());
             if (creditType.addsToHundred()) {
-                retval &= validate(document.getDevelopmentProposal().getInvestigators(), creditType);
+                if(isPersonnelCreditSplitOptInFeatureEnabled()) {
+                    List<ProposalPerson> investigators = document.getDevelopmentProposal().getProposalPersons().stream().
+                            filter(ProposalPerson::getAddCreditSplit).collect(Collectors.toList());
+                    retval &= validate(investigators, creditType);
+                } else {
+                    retval &= validate(document.getDevelopmentProposal().getInvestigators(), creditType);
+                }
             }
         }
 
 
         return retval;
     }
-    
+
+    public boolean isPersonnelCreditSplitOptInFeatureEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                Constants.ENABLE_OPT_IN_PERSONNEL_CREDIT_SPLIT_FUNCTIONALITY);
+    }
+
+    public ParameterService getParameterService() {
+        if(parameterService == null) {
+            parameterService = getService(ParameterService.class);
+        }
+        return parameterService;
+    }
     /**
      * Validates credit splits of all investigators in a <code>{@link ProposalDevelopmentDocument}</code>. Takes a 
      * <code>{@link Collection}</code> of investigators for a given credit type, and validates credit splits 

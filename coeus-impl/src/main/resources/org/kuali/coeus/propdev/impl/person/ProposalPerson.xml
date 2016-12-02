@@ -336,6 +336,15 @@
     </property>
   </bean>
 
+    <bean id="ProposalPerson-addCreditSplit" parent="ProposalPerson-addCreditSplit-parentBean"/>
+    <bean id="ProposalPerson-addCreditSplit-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="addCreditSplit" />
+        <property name="label" value="Add Credit Split" />
+        <property name="shortLabel" value="Add Credit Split" />
+        <property name="summary" value="Add Credit Split for person" />
+        <property name="description" value="Add Credit Split for person" />
+    </bean>
+
   <bean id="ProposalPerson-fedrDebrFlag" parent="ProposalPerson-fedrDebrFlag-parentBean"/>
   <bean id="ProposalPerson-fedrDebrFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="fedrDebrFlag" />

@@ -586,6 +586,11 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return investigators;
     }
 
+    public List<ProposalPerson> getPersonsSelectedForCreditSplit() {
+        return getProposalPersons().stream().
+                filter(ProposalPerson::getAddCreditSplit).collect(Collectors.toList());
+    }
+
     public void setProposalPersons(List<ProposalPerson> argProposalPersons) {
         this.proposalPersons = argProposalPersons;
     }

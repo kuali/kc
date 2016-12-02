@@ -55,7 +55,9 @@ public class CreditSplitCustomColumnsCollection extends CollectionGroupBase {
 
         ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) model;
         ((ProposalDevelopmentViewHelperServiceImpl) pdForm.getViewHelperService()).setInvestigatorCreditTypes(pdForm);
-        List<ProposalPerson> investigators = ((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal().getInvestigators();
+        List<ProposalPerson> investigators = ((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal().getProposalPersons().stream().
+                        filter(ProposalPerson::getAddCreditSplit).collect(Collectors.toList());
+
         if (CollectionUtils.isNotEmpty(investigators)) {
         List<InvestigatorCreditType> columnCollection = ObjectPropertyUtils.getPropertyValue(model,
                 getColumnBindingInfo().getBindingPath());
