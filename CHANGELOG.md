@@ -1,6 +1,19 @@
 
 
 ##CURRENT
+* fix build (#2105)
+
+  * Gayathri Athreya on Fri, 2 Dec 2016 10:37:06 -0700 [View Commit](../../commit/68f2fc6da2cc903362c02c5ce71eeee00864bdbd)
+* Reskc 1441 credit split (#2103)
+
+* RESKC-1441: Adding feature flag and making it to anyone can be opten in or out for credit split.
+  * 
+* RESKC-1441: Add SQL for feature flag.
+  * 
+* RESKC-1441: Review comments fixes.
+  * Gayathri Athreya on Thu, 1 Dec 2016 17:45:14 -0700 [View Commit](../../commit/160e76e398d5fa1b22e4483e75ab933719114796)
+
+##coeus-1612.0001
 * No Changes
 
 
