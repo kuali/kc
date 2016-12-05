@@ -24,6 +24,8 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 
 public class MedusaBean implements Serializable{
 
@@ -31,21 +33,31 @@ public class MedusaBean implements Serializable{
     private static final long serialVersionUID = -8727199559530816767L;
     private String medusaViewRadio;
     private String moduleName;
+    private String complianceModulesCheckbox;
     private Long moduleIdentifier;
     private List<MedusaNode> parentNodes;
     private MedusaNode currentNode;
-    
+
+    ParameterService parameterService = CoreFrameworkServiceLocator.getParameterService();
+    String complianceModuleCheckboxDefault = parameterService.getParameterValueAsString("KC-GEN","Document","KC_MEDUSA_COMPLIANCE_MODULE_CHECKBOX_DEFAULT");
+
     public MedusaBean() {
         setMedusaViewRadio("0");
+        if (StringUtils.equalsIgnoreCase(complianceModuleCheckboxDefault, "N")) {
+            setComplianceModulesCheckbox("");
+        }
+        else {
+            setComplianceModulesCheckbox("includeComplianceModules");
+        }
     }
-    
+
     public void init(String moduleName, Long moduleIdentifier) {
         setMedusaViewRadio("0");
         setModuleName(moduleName);
         setModuleIdentifier(moduleIdentifier);
         generateParentNodes();
     }
-    
+
     /**
      * Gets the medudaViewRadio attribute. 
      * @return Returns the medudaViewRadio.
@@ -61,6 +73,17 @@ public class MedusaBean implements Serializable{
     public void setMedusaViewRadio(String medusaViewRadio) {
         if (!StringUtils.equals(this.medusaViewRadio, medusaViewRadio)) {
             this.medusaViewRadio = medusaViewRadio;
+            generateParentNodes();
+        }
+    }
+
+    public String getComplianceModulesCheckbox() {
+        return this.complianceModulesCheckbox;
+    }
+
+    public void setComplianceModulesCheckbox(String complianceModulesCheckbox) {
+        if (!StringUtils.equals(this.complianceModulesCheckbox, complianceModulesCheckbox)) {
+            this.complianceModulesCheckbox = complianceModulesCheckbox;
             generateParentNodes();
         }
     }
@@ -96,19 +119,20 @@ public class MedusaBean implements Serializable{
     public void setModuleIdentifier(Long moduleIdentifier) {
         this.moduleIdentifier = moduleIdentifier;
     }
-    
+
 
     private MedusaService getMedusaService() {
         return KcServiceLocator.getService(MedusaService.class);
     }
-    
+
     public void generateParentNodes() {
+        boolean includeComplianceModules = StringUtils.equals("includeComplianceModules", getComplianceModulesCheckbox());
         if(StringUtils.equalsIgnoreCase("0", getMedusaViewRadio())){
-            setParentNodes(getMedusaService().getMedusaByProposal(getModuleName(), getModuleIdentifier()));    
+            setParentNodes(getMedusaService().getMedusaByProposal(getModuleName(), getModuleIdentifier(), includeComplianceModules));
         }else if(StringUtils.equalsIgnoreCase("1", getMedusaViewRadio())){
-            setParentNodes(getMedusaService().getMedusaByAward(getModuleName(), getModuleIdentifier()));    
+            setParentNodes(getMedusaService().getMedusaByAward(getModuleName(), getModuleIdentifier(), includeComplianceModules));
         }
-        sortNodes(parentNodes);        
+        sortNodes(parentNodes);
     }
 
 
@@ -118,12 +142,12 @@ public class MedusaBean implements Serializable{
         }
         return parentNodes;
     }
-    
+
     private void sortNodes(List<MedusaNode> nodes){
         Collections.sort(nodes, new MedusaNodeComparator());
         for(MedusaNode mNode: nodes){
             if(!mNode.getChildNodes().isEmpty()){
-            	sortNodes((List<MedusaNode>) mNode.getChildNodes());
+                sortNodes((List<MedusaNode>) mNode.getChildNodes());
             }
         }
     }
@@ -131,13 +155,13 @@ public class MedusaBean implements Serializable{
     public void setParentNodes(List<MedusaNode> parentNodes) {
         this.parentNodes = parentNodes;
     }
-    
+
     public MedusaNode getCurrentNode() {
         return currentNode;
     }
-    
+
     public void setCurrentNode(MedusaNode currentNode) {
         this.currentNode = currentNode;
     }
-    
+
 }

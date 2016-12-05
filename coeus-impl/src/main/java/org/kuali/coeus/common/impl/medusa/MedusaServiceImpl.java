@@ -142,15 +142,15 @@ public class MedusaServiceImpl implements MedusaService {
     }
     
     @Override
-    public List<MedusaNode> getMedusaByProposal(String moduleName, Long moduleIdentifier) {
+    public List<MedusaNode> getMedusaByProposal(String moduleName, Long moduleIdentifier, boolean includeComplianceModules) {
         String preferredModule = Constants.INSTITUTIONAL_PROPOSAL_MODULE;
-        return getMedusaTree(moduleName, moduleIdentifier, preferredModule);
+        return getMedusaTree(moduleName, moduleIdentifier, preferredModule, includeComplianceModules);
     }
     
     @Override
-    public List<MedusaNode> getMedusaByAward(String moduleName, Long moduleIdentifier) {
+    public List<MedusaNode> getMedusaByAward(String moduleName, Long moduleIdentifier, boolean includeComplianceModules) {
         String preferredModule = Constants.AWARD_MODULE;
-        return getMedusaTree(moduleName, moduleIdentifier, preferredModule);
+        return getMedusaTree(moduleName, moduleIdentifier, preferredModule, includeComplianceModules);
     }
     
     /**
@@ -161,50 +161,50 @@ public class MedusaServiceImpl implements MedusaService {
      * @param preferredModule defines the object type that should be placed at the top level when possible
      * @return
      */
-    protected List<MedusaNode> getMedusaTree(String moduleName, Long moduleIdentifier, String preferredModule) {
+    protected List<MedusaNode> getMedusaTree(String moduleName, Long moduleIdentifier, String preferredModule, boolean includeComplianceModules) {
         List<MedusaNode> nodes = new ArrayList<MedusaNode>();
         HashMap<Object, List<Object>> graph = new HashMap<Object, List<Object>>();
         if (StringUtils.equals(moduleName, Constants.AWARD_MODULE)) {
             Award award = getAward(moduleIdentifier);
             addVertex(graph, award);
-            buildGraph(graph, award);
+            buildGraph(graph, award, includeComplianceModules);
             nodes = getParentNodes(graph, new String[]{preferredModule, Constants.AWARD_MODULE});
         } else if (StringUtils.equals(moduleName, Constants.INSTITUTIONAL_PROPOSAL_MODULE)) {
             InstitutionalProposal proposal = getInstitutionalProposal(moduleIdentifier);
             addVertex(graph, proposal);
-            buildGraph(graph, proposal);
+            buildGraph(graph, proposal, includeComplianceModules);
             nodes = getParentNodes(graph, new String[]{preferredModule, Constants.INSTITUTIONAL_PROPOSAL_MODULE});
         } else if (StringUtils.equals(moduleName, Constants.DEVELOPMENT_PROPOSAL_MODULE)) {
             DevelopmentProposal proposal = getDevelopmentProposal(moduleIdentifier.toString());
             addVertex(graph, proposal);
-            buildGraph(graph, proposal);
+            buildGraph(graph, proposal, includeComplianceModules);
             nodes = getParentNodes(graph, new String[]{preferredModule, Constants.DEVELOPMENT_PROPOSAL_MODULE});
         } else if (StringUtils.equals(moduleName, Constants.NEGOTIATION_MODULE)) {
             Negotiation negotiation = getNegotiation(moduleIdentifier);
             if (negotiation != null) {
                 addVertex(graph, negotiation);
-                buildGraph(graph, negotiation);
+                buildGraph(graph, negotiation, includeComplianceModules);
                 nodes = getParentNodes(graph, new String[]{preferredModule, Constants.NEGOTIATION_MODULE});
             }
         } else if (StringUtils.equals(moduleName, Constants.SUBAWARD_MODULE)) {
             SubAward subAward = getSubAward(moduleIdentifier);
             if (subAward != null) {
                 addVertex(graph, subAward);
-                buildGraph(graph, subAward);
+                buildGraph(graph, subAward, includeComplianceModules);
                 nodes = getParentNodes(graph, new String[]{preferredModule, Constants.SUBAWARD_MODULE});
             }
         } else if (StringUtils.equals(moduleName, Constants.IRB_MODULE)) {
             Protocol protocol = getProtocol(moduleIdentifier);
             if (protocol != null) {
                 addVertex(graph, protocol);
-                buildGraph(graph, protocol);
+                buildGraph(graph, protocol, includeComplianceModules);
                 nodes = getParentNodes(graph, new String[]{preferredModule, Constants.IRB_MODULE});
             }
         } else if (StringUtils.equals(moduleName, Constants.IACUC_MODULE)) {
             IacucProtocol protocol = getIacuc(moduleIdentifier);
             if (protocol != null) {
                 addVertex(graph, protocol);
-                buildGraph(graph, protocol);
+                buildGraph(graph, protocol, includeComplianceModules);
                 nodes = getParentNodes(graph, new String[]{preferredModule, Constants.IACUC_MODULE});
             }
         }
@@ -315,30 +315,42 @@ public class MedusaServiceImpl implements MedusaService {
         return false;
     }
     
-    protected void buildGraph(HashMap<Object, List<Object>> graph, SubAward subAward) {
+    protected void buildGraph(HashMap<Object, List<Object>> graph, SubAward subAward, boolean includeComplianceModules) {
         
         Collection<Award> awards = getAwards(subAward);
         for (Award award : awards) {
-            addToGraph(graph, award, subAward);
+            addToGraph(graph, award, subAward, includeComplianceModules);
         }
         Collection<Negotiation> negotiations = getNegotiations(subAward);
         for (Negotiation negotiation : negotiations) {
-            addToGraph(graph, negotiation, subAward);
+            addToGraph(graph, negotiation, subAward, includeComplianceModules);
         }        
     }
     
-    protected void buildGraph(HashMap<Object, List<Object>> graph, ProtocolBase protocol) {
+    protected void buildGraph(HashMap<Object, List<Object>> graph, ProtocolBase protocol, boolean includeComplianceModules) {
         for (ProtocolFundingSourceBase fundingSource : protocol.getProtocolFundingSources()) {
             if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.AWARD)) {
-                addToGraph(graph, getAward(fundingSource.getFundingSourceNumber()), protocol);
+                addToGraph(graph, getAward(fundingSource.getFundingSourceNumber()), protocol, includeComplianceModules);
             } else if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.INSTITUTIONAL_PROPOSAL)) {
-                addToGraph(graph, getInstitutionalProposal(fundingSource.getFundingSourceNumber()), protocol);
+                addToGraph(graph, getInstitutionalProposal(fundingSource.getFundingSourceNumber()), protocol, includeComplianceModules);
             } else if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.PROPOSAL_DEVELOPMENT)) {
-                addToGraph(graph, getDevelopmentProposal(fundingSource.getFundingSourceNumber()), protocol);
+                addToGraph(graph, getDevelopmentProposal(fundingSource.getFundingSourceNumber()), protocol, includeComplianceModules);
             }
         }       
-    }    
-    
+    }
+
+    protected void buildGraph(HashMap<Object, List<Object>> graph, IacucProtocol protocol, boolean includeComplianceModules) {
+        for (org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase fundingSource : protocol.getProtocolFundingSources()) {
+            if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.AWARD)) {
+                addToGraph(graph, getAward(fundingSource.getFundingSourceNumber()), protocol, includeComplianceModules);
+            } else if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.INSTITUTIONAL_PROPOSAL)) {
+                addToGraph(graph, getInstitutionalProposal(fundingSource.getFundingSourceNumber()), protocol, includeComplianceModules);
+            } else if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.PROPOSAL_DEVELOPMENT)) {
+                addToGraph(graph, getDevelopmentProposal(fundingSource.getFundingSourceNumber()), protocol, includeComplianceModules);
+            }
+        }
+    }
+
     protected void addSpecialReviewLinksToGraph(HashMap<Object, List<Object>> graph, List<? extends SpecialReview> specialReviews, Object existingBo) {
         Map<String, Boolean> specialReviewLinking = getSpecialReviewLinkingEnabled(existingBo);
         for (SpecialReview specialReview : specialReviews) {
@@ -347,14 +359,14 @@ public class MedusaServiceImpl implements MedusaService {
                     && !StringUtils.equals(specialReview.getApprovalTypeCode(), SpecialReviewApprovalType.NOT_YET_APPLIED)) {
                 Protocol protocol = getProtocol(specialReview.getProtocolNumber());
                 if (protocol != null) {
-                    addToGraph(graph, protocol, existingBo);
+                    addToGraph(graph, protocol, existingBo, true);
                 }
             } else if (StringUtils.equals(specialReview.getSpecialReviewTypeCode(), SpecialReviewType.ANIMAL_USAGE)
                     && specialReviewLinking.get(SpecialReviewType.ANIMAL_USAGE)
                     && !StringUtils.equals(specialReview.getApprovalTypeCode(), SpecialReviewApprovalType.NOT_YET_APPLIED)) {
                 IacucProtocol protocol = getIacuc(specialReview.getProtocolNumber());
                 if (protocol != null) {
-                    addToGraph(graph, protocol, existingBo);
+                    addToGraph(graph, protocol, existingBo, true);
                 }
             }
 
@@ -396,20 +408,22 @@ public class MedusaServiceImpl implements MedusaService {
      * @param graph
      * @param award
      */
-    protected void buildGraph(HashMap<Object, List<Object>> graph, Award award) {
+    protected void buildGraph(HashMap<Object, List<Object>> graph, Award award, boolean includeComplianceModules) {
         Collection<InstitutionalProposal> proposals = getProposals(award);
         for (InstitutionalProposal proposal : proposals) {
-            addToGraph(graph, proposal, award);
+            addToGraph(graph, proposal, award, includeComplianceModules);
         }
         Collection<Negotiation> negotiations = getNegotiations(award);
         for (Negotiation negotiation : negotiations) {
-            addToGraph(graph, negotiation, award);
+            addToGraph(graph, negotiation, award, includeComplianceModules);
         }
         Collection<SubAward> subAwards = getSubAwards(award);
         for (SubAward subAward : subAwards) {
-            addToGraph(graph, subAward, award);
+            addToGraph(graph, subAward, award, includeComplianceModules);
         }
-        addSpecialReviewLinksToGraph(graph, award.getSpecialReviews(), award);
+        if (includeComplianceModules) {
+            addSpecialReviewLinksToGraph(graph, award.getSpecialReviews(), award);
+        }
     }
     
     /**
@@ -418,20 +432,22 @@ public class MedusaServiceImpl implements MedusaService {
      * @param graph
      * @param proposal
      */
-    protected void buildGraph(HashMap<Object, List<Object>> graph, InstitutionalProposal proposal) {
+    protected void buildGraph(HashMap<Object, List<Object>> graph, InstitutionalProposal proposal, boolean includeComplianceModules) {
         Collection<Award> awards = getAwards(proposal);
         for (Award award : awards) {
-            addToGraph(graph, award, proposal);
+            addToGraph(graph, award, proposal, includeComplianceModules);
         }
         Collection<DevelopmentProposal> proposals = getDevelopmentProposals(proposal);
         for (DevelopmentProposal devProp : proposals) {
-            addToGraph(graph, devProp, proposal);
+            addToGraph(graph, devProp, proposal, includeComplianceModules);
         }
         Collection<Negotiation> negotiations = getNegotiations(proposal);
         for (Negotiation negotiation : negotiations) {
-            addToGraph(graph, negotiation, proposal);
+            addToGraph(graph, negotiation, proposal, includeComplianceModules);
         }
-        addSpecialReviewLinksToGraph(graph, proposal.getSpecialReviews(), proposal);
+        if (includeComplianceModules) {
+            addSpecialReviewLinksToGraph(graph, proposal.getSpecialReviews(), proposal);
+        }
     }
     
     /**
@@ -440,41 +456,41 @@ public class MedusaServiceImpl implements MedusaService {
      * @param graph
      * @param devProp
      */
-    protected void buildGraph(HashMap<Object, List<Object>> graph, DevelopmentProposal devProp) {
+    protected void buildGraph(HashMap<Object, List<Object>> graph, DevelopmentProposal devProp, boolean includeComplianceModules) {
         Collection<InstitutionalProposal> proposals = getProposals(devProp);
         for (InstitutionalProposal proposal : proposals) {
-            addToGraph(graph, proposal, devProp);
+            addToGraph(graph, proposal, devProp, includeComplianceModules);
         } 
         addSpecialReviewLinksToGraph(graph, devProp.getPropSpecialReviews(), devProp);
     }
     
-    protected void buildGraph(HashMap<Object, List<Object>> graph, Negotiation negotiation) {
+    protected void buildGraph(HashMap<Object, List<Object>> graph, Negotiation negotiation, boolean includeComplianceModules) {
     	Object bo = getNegotiationService().getAssociatedObject(negotiation);
         if (bo instanceof Award || bo instanceof InstitutionalProposal || bo instanceof SubAward) {
-            addToGraph(graph, bo, negotiation);
+            addToGraph(graph, bo, negotiation, includeComplianceModules);
         }
     }
     
-    protected void addToGraph(HashMap<Object, List<Object>> graph, Object newBo, Object existingBo) {
+    protected void addToGraph(HashMap<Object, List<Object>> graph, Object newBo, Object existingBo, boolean includeComplianceModules) {
         if (newBo == null || existingBo == null) {
             throw new RuntimeException("Inavlid or null Medusa link found");
         }
         if (findMatchingBo(graph.keySet(), newBo) == null) {
             addEdge(graph, existingBo, newBo);
             if (newBo instanceof Award) {
-                buildGraph(graph, (Award)newBo);
+                buildGraph(graph, (Award)newBo, includeComplianceModules);
             } else if (newBo instanceof InstitutionalProposal) {
-                buildGraph(graph, (InstitutionalProposal) newBo);
+                buildGraph(graph, (InstitutionalProposal) newBo, includeComplianceModules);
             } else if (newBo instanceof DevelopmentProposal) {
-                buildGraph(graph, (DevelopmentProposal) newBo);
+                buildGraph(graph, (DevelopmentProposal) newBo, includeComplianceModules);
             } else if (newBo instanceof Negotiation) {
-                buildGraph(graph, (Negotiation) newBo);
+                buildGraph(graph, (Negotiation) newBo, includeComplianceModules);
             } else if (newBo instanceof SubAward) {
-                buildGraph(graph, (SubAward) newBo);
+                buildGraph(graph, (SubAward) newBo, includeComplianceModules);
             } else if (newBo instanceof Protocol) {
-                buildGraph(graph, (Protocol) newBo);
+                buildGraph(graph, (Protocol) newBo, includeComplianceModules);
             } else if (newBo instanceof IacucProtocol) {
-                buildGraph(graph, (IacucProtocol) newBo);
+                buildGraph(graph, (IacucProtocol) newBo, includeComplianceModules);
             }
         } else {
             addEdge(graph, existingBo, newBo);            

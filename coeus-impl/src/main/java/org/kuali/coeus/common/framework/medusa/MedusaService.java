@@ -20,6 +20,7 @@ package org.kuali.coeus.common.framework.medusa;
 
 import java.util.List;
 
+
 /**
  * 
  * Medusa Service provides the methods for displaying the tree-like view and summary of
@@ -36,7 +37,7 @@ public interface MedusaService {
      * @param moduleIdentifier the primary key of the object to be looked up in the specified module
      * @return
      */
-    public List<MedusaNode> getMedusaByAward(String moduleName, Long moduleIdentifier);
+    public List<MedusaNode> getMedusaByAward(String moduleName, Long moduleIdentifier, boolean includeComplianceModules);
     
     /**
      * 
@@ -47,8 +48,8 @@ public interface MedusaService {
      * @param moduleIdentifier the primary key of the object to be looked up in the specified module
      * @return
      */
-    public List<MedusaNode> getMedusaByProposal(String moduleName, Long moduleIdentifier);
-    
+    public List<MedusaNode> getMedusaByProposal(String moduleName, Long moduleIdentifier, boolean includeComplianceModules);
+
     /**
      * 
      * Returns a single MedusaNode that can be used to render the lazy-loaded summary for the
