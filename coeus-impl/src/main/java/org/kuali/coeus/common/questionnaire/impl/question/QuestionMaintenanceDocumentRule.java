@@ -18,7 +18,6 @@
  */
 package org.kuali.coeus.common.questionnaire.impl.question;
 
-import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,6 +40,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * This class contains the business rules that are specific to Question.
@@ -54,8 +55,9 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
         super();
     }
 
+    @Override
     protected Collection<Class<?>> relationshipDeleteVerificationIgnores() {
-        return Lists.<Class<?>>newArrayList(QuestionMultiChoice.class, QuestionExplanation.class);
+        return Stream.of(QuestionMultiChoice.class, QuestionExplanation.class).collect(Collectors.toList());
     }
 
     /**

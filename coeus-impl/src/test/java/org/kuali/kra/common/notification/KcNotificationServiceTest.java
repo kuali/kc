@@ -49,11 +49,11 @@ import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-import com.google.common.collect.Lists;
-
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -103,7 +103,7 @@ public class KcNotificationServiceTest {
         	}
         	@Override
         	protected Collection<String> getRoleMemberPrincipalIds(String roleNamespace, String roleName, final Map<String, String> roleQualifiers) {
-        		return Lists.<String>newArrayList(PRINCIPAL_ID_VALUE_CHEW, PRINCIPAL_ID_VALUE_QUICKSTART);
+        		return Stream.of(PRINCIPAL_ID_VALUE_CHEW, PRINCIPAL_ID_VALUE_QUICKSTART).collect(Collectors.toList());
         	}
         	@Override
         	protected String getPersonUserName(String personId) {
