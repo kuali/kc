@@ -110,6 +110,7 @@
                 <ref bean="Award-latestAwardAmountInfo.amountObligatedToDate"/>
                 <ref bean="Award-documentStatus" />
                 <ref bean="Award-documentStatusResult" />
+                <ref bean="Award-fundingProposals.proposal.proposalNumber" />
             </list>
         </property>
       	<property name="relationships">
@@ -1463,6 +1464,20 @@
         <property name="description" value="Document Status" />
     </bean>
 
+    <bean id="Award-fundingProposals.proposal.proposalNumber" parent="Award-fundingProposals.proposal.proposalNumber-parentBean" />
+    <bean id="Award-fundingProposals.proposal.proposalNumber-parentBean" parent="AttributeDefinition">
+        <property name="name" value="fundingProposals.proposal.proposalNumber" />
+        <property name="label" value="Institutional Proposal ID" />
+        <property name="shortLabel" value="Institutional Proposal ID" />
+        <property name="required" value="false" />
+        <property name="maxLength" value="200" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="20" />
+        </property>
+        <property name="summary" value="Institutional Proposal ID" />
+        <property name="description" value="Institutional Proposal ID" />
+    </bean>
 
     <!-- Business Object Inquiry Definition -->
     <bean id="Award-inquiryDefinition" parent="Award-inquiryDefinition-parentBean"/>
@@ -1542,6 +1557,7 @@
                 <bean p:attributeName="awardNumber" parent="FieldDefinition"/>
                 <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition"/>
                 <bean p:attributeName="accountNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="fundingProposals.proposal.proposalNumber" p:noDirectInquiry="true" parent="FieldDefinition" />
                 <bean p:attributeName="statusCode" parent="FieldDefinition"/>
                 <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
                 <bean p:attributeName="title" parent="FieldDefinition"/>
@@ -1588,6 +1604,7 @@
                 <bean p:propertyName="awardNumber" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="sponsorAwardNumber" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="accountNumber" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="fundingProposals.proposal.proposalNumber" p:enableAutoDirectInquiry="false" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="statusCode" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
