@@ -26,9 +26,6 @@ import org.kuali.rice.core.api.util.KeyValue;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class tests NsfCodeValuesFinder.
- */
 public class NarrativeStatusValuesFinderTest extends ValuesFinderTestBase {
 
     @Override

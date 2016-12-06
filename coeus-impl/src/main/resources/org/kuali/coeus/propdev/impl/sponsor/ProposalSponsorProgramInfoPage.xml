@@ -63,7 +63,7 @@
 					  p:maxLength="50"
 					  p:minLength="0"
 					  p:order="90"/>
-				<bean parent="Uif-InputField" p:propertyName="nsfCode"
+				<bean parent="Uif-InputField" p:propertyName="nsfSequenceNumber"
 				p:order="100" />
 				<bean parent="Uif-InputField" p:propertyName="anticipatedAwardTypeCode" p:enableAutoQuickfinder="false"
 				p:order="110" />

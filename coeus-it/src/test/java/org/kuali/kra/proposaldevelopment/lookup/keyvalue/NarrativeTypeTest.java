@@ -31,9 +31,7 @@ import java.util.Collection;
 
 import static org.junit.Assert.*;
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
-/**
- * This class tests NsfCodeValuesFinder.
- */
+
 public class NarrativeTypeTest extends KcIntegrationTestBase {
 
     @Test public void testGetKeyValues() throws Exception {

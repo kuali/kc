@@ -44,7 +44,7 @@
                 "projectEndDate": "2016-06-30",
                 "costSharingIndicator": "N",
                 "indirectCostIndicator": "Y",
-                "nsfCode": null,
+                "nsfSequenceNumber": null,
                 "paymentScheduleIndicator": "N",
                 "scienceCodeIndicator": "N",
                 "specialReviewIndicator": "N",

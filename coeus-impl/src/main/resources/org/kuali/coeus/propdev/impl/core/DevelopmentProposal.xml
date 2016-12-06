@@ -46,7 +46,7 @@
 				<ref bean="DevelopmentProposal-deadlineTime" />
 				<ref bean="DevelopmentProposal-deadlineType" />
 				<ref bean="DevelopmentProposal-primeSponsorCode" />
-				<ref bean="DevelopmentProposal-nsfCode" />
+				<ref bean="DevelopmentProposal-nsfSequenceNumber" />
 				<ref bean="DevelopmentProposal-agencyDivisionCode" />
 				<ref bean="DevelopmentProposal-programAnnouncementTitle" />
 				<ref bean="DevelopmentProposal-noticeOfOpportunityCode" />
@@ -510,28 +510,20 @@
     <property name="description" value="The sponsor that provides the original source of project funding."/>
 	</bean>
 
-	<bean id="DevelopmentProposal-nsfCode" parent="DevelopmentProposal-nsfCode-parentBean" />
-  <bean id="DevelopmentProposal-nsfCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="nsfCode" />
-		<property name="forceUppercase" value="false" />
+	<bean id="DevelopmentProposal-nsfSequenceNumber" parent="DevelopmentProposal-nsfSequenceNumber-parentBean" />
+  <bean id="DevelopmentProposal-nsfSequenceNumber-parentBean" abstract="true" parent="NsfCode-nsfSequenceNumber">
+		<property name="name" value="nsfSequenceNumber" />
 		<property name="label" value="NSF Science Code" />
 		<property name="shortLabel" value="NSF Science Code" />
-		<property name="maxLength" value="15" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint"/>
-    </property>
 		<property name="required" value="false" />
 		<property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.NsfCode" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="nsfCode" p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.NsfCode" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="nsfSequenceNumber" p:labelAttribute="description"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
         <property name="businessObjectClass" value="org.kuali.kra.bo.NsfCode"/>
         <property name="includeKeyInDescription" value="false"/>
-        <property name="keyAttributeName" value="nsfCode"/>
+        <property name="keyAttributeName" value="nsfSequenceNumber"/>
         <property name="labelAttributeName" value="description"/>
       </bean>
     </property>

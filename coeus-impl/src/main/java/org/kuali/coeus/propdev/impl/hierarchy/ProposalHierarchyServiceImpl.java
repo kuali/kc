@@ -82,7 +82,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -399,6 +398,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return getProposalHierarchyDao().getProposalState(proposalNumber);
     }
 
+    @Override
     public void synchronizeAll(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
         synchronizeAllChildProposals(hierarchyProposal);
     }
@@ -417,6 +417,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return getHierarchy(childProposal.getHierarchyParentProposalNumber());
     }
 
+    @Override
     public void linkChild(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, String hierarchyBudgetTypeCode, boolean syncPersonnelAttachments)
             throws ProposalHierarchyException {
         // set child to child status
@@ -451,7 +452,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         hierarchyProposal.setNoticeOfOpportunityCode(srcProposal.getNoticeOfOpportunityCode());
         hierarchyProposal.setCfdaNumber(srcProposal.getCfdaNumber());
         hierarchyProposal.setPrimeSponsorCode(srcProposal.getPrimeSponsorCode());
-        hierarchyProposal.setNsfCode(srcProposal.getNsfCode());
+        hierarchyProposal.setNsfSequenceNumber(srcProposal.getNsfSequenceNumber());
         hierarchyProposal.setSponsorProposalNumber(srcProposal.getSponsorProposalNumber());
         hierarchyProposal.setAgencyDivisionCode(srcProposal.getAgencyDivisionCode());
         hierarchyProposal.setAgencyProgramCode(srcProposal.getAgencyProgramCode());
@@ -512,6 +513,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     /**
      * Synchronizes all child proposals to the parent.
      */
+    @Override
     public boolean synchronizeAllChildProposals(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
         boolean changed = false;
 
@@ -808,8 +810,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return bios.stream()
                 .filter(bio -> (StringUtils.isNotBlank(srcPropPersonBio.getPersonId()) && srcPropPersonBio.getPersonId().equals(bio.getPersonId())
                                                     || srcPropPersonBio.getRolodexId() != null && srcPropPersonBio.getRolodexId().equals(bio.getRolodexId())))
-                .filter(bio -> bio.getDocumentTypeCode().equals(srcPropPersonBio.getDocumentTypeCode()))
-                .findAny().isPresent();
+                .anyMatch(bio -> bio.getDocumentTypeCode().equals(srcPropPersonBio.getDocumentTypeCode()));
     }
 
     protected ProposalPersonBiography getNewPropPersonBio(ProposalPersonBiography srcPropPersonBio, DevelopmentProposal hierarchyProposal) {
@@ -1034,7 +1035,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
     protected void setInitialPi(DevelopmentProposal hierarchy, DevelopmentProposal child) {
         ProposalPerson childPi = child.getPrincipalInvestigator();
-        final Optional<ProposalPersonUnit> childPiLeadUnit = childPi.getUnits().stream().filter(unit -> unit.isLeadUnit()).findFirst();
+        final Optional<ProposalPersonUnit> childPiLeadUnit = childPi.getUnits().stream().filter(ProposalPersonUnit::isLeadUnit).findFirst();
         if (childPi != null) {
             int index = hierarchy.getProposalPersons().indexOf(childPi);
             if (index > -1) {
@@ -1042,9 +1043,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 hierarchyPi.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
                 if (childPiLeadUnit.isPresent()) {
                     Optional <ProposalPersonUnit> hierarchyPiLeadUnit = hierarchyPi.getUnits().stream().filter(unit -> unit.getUnitNumber().equals(childPiLeadUnit.get().getUnitNumber())).findFirst();
-                    if (hierarchyPiLeadUnit.isPresent()) {
-                        hierarchyPiLeadUnit.get().setLeadUnit(true);
-                    }
+                    hierarchyPiLeadUnit.ifPresent(proposalPersonUnit -> proposalPersonUnit.setLeadUnit(true));
                 }
             }
         }

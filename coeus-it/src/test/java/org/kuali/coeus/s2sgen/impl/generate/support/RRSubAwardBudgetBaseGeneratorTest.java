@@ -144,7 +144,7 @@ public abstract class RRSubAwardBudgetBaseGeneratorTest extends S2SModularBudget
         developmentProposal.setDeadlineType("P");
         developmentProposal.setDeadlineDate(new Date(Calendar
                 .getInstance().getTimeInMillis()));
-        developmentProposal.setNsfCode("J.05");
+        developmentProposal.setNsfSequenceNumber(1);
         return developmentProposal;
     }
 

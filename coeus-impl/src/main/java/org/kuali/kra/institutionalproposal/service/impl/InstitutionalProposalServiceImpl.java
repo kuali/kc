@@ -141,6 +141,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * @return String The new institutional proposal
      * @see org.kuali.kra.institutionalproposal.service.InstitutionalProposalService#createInstitutionalProposal(DevelopmentProposal, Budget)
      */
+    @Override
     public InstitutionalProposal createInstitutionalProposal(DevelopmentProposal developmentProposal, Budget budget) {
         
         try {
@@ -173,6 +174,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * @return String The new version number
      * @see org.kuali.kra.institutionalproposal.service.InstitutionalProposalService#createInstitutionalProposalVersion(String, DevelopmentProposal, Budget)
      */
+    @Override
     public InstitutionalProposal createInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal, Budget budget) {
         
         try {
@@ -199,6 +201,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * @return InstitutionalProposal, or null if none is found.
      * @see org.kuali.kra.institutionalproposal.service.InstitutionalProposalService#getInstitutionalProposal(String)
      */
+    @Override
     public InstitutionalProposal getInstitutionalProposal(String proposalId) {
         Map<String, String> criteria = new HashMap<>();
         criteria.put(InstitutionalProposal.PROPOSAL_ID_PROPERTY_STRING, proposalId);
@@ -216,6 +219,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * @return InstitutionalProposal, or null if a PENDING version is not found.
      * @see org.kuali.coeus.common.framework.version.VersionStatus
      */
+    @Override
     public InstitutionalProposal getPendingInstitutionalProposalVersion(String proposalNumber) {
         return institutionalProposalVersioningService.getPendingInstitutionalProposalVersion(proposalNumber);
     }
@@ -228,6 +232,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * @return InstitutionalProposal, or null if a ACTIVE version is not found.
      * @see org.kuali.coeus.common.framework.version.VersionStatus
      */
+    @Override
     public InstitutionalProposal getActiveInstitutionalProposalVersion(String proposalNumber) {
         return institutionalProposalVersioningService.getActiveInstitutionalProposalVersion(proposalNumber);
     }
@@ -243,6 +248,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * @param proposalNumbers The proposals to update.
      * @return List&lt;InstitutionalProposal&gt; The new Funded versions.
      */
+    @Override
     public List<InstitutionalProposal> fundInstitutionalProposals(Set<String> proposalNumbers) {
 
         List<InstitutionalProposal> updatedProposals = new ArrayList<>();
@@ -302,6 +308,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * @param awardSequence The sequence number of the Award.
      * @return List&lt;InstitutionalProposal&gt; The new Pending versions.
      */
+    @Override
     public List<InstitutionalProposal> defundInstitutionalProposals(Set<String> proposalNumbers, String awardNumber, Integer awardSequence) {
 
         List<InstitutionalProposal> updatedProposals = new ArrayList<>();
@@ -346,6 +353,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         }
     }
 
+    @Override
     public List<InstitutionalProposal> getProposalsForProposalNumber(String proposalNumber) {
         return new ArrayList<>(businessObjectService.findMatchingOrderBy(InstitutionalProposal.class,
                 Collections.singletonMap(PROPOSAL_NUMBER, proposalNumber),
@@ -366,7 +374,8 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         }
         return result;
     }
-    
+
+    @Override
     public String getNextInstitutionalProposalNumber() {
         Long nextProposalNumber = sequenceAccessorService.getNextAvailableSequenceNumber(Constants.INSTITUTIONAL_PROPSAL_PROPSAL_NUMBER_SEQUENCE, InstitutionalProposal.class);
         DecimalFormat formatter = new DecimalFormat(DECIMAL_FORMAT);
@@ -468,7 +477,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         institutionalProposal.setCfdaNumber(developmentProposal.getCfdaNumber());
         institutionalProposal.setNewDescription(developmentProposal.getNewDescription());
         institutionalProposal.setNoticeOfOpportunityCode(developmentProposal.getNoticeOfOpportunityCode());
-        institutionalProposal.setNsfCode(developmentProposal.getNsfCode());
+        institutionalProposal.setNsfSequenceNumber(developmentProposal.getNsfSequenceNumber());
         institutionalProposal.setSponsorProposalNumber(developmentProposal.getSponsorProposalNumber());
         institutionalProposal.setOpportunity(developmentProposal.getProgramAnnouncementNumber());
         institutionalProposal.setCfdaNumber(developmentProposal.getCfdaNumber());

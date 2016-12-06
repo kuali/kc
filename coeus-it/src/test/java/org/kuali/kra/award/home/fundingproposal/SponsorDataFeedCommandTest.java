@@ -27,6 +27,7 @@ public class SponsorDataFeedCommandTest extends BaseDataFeedCommandTest {
     private ProposalDataFeedCommandBase command;
 
     @Before
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         initializeProposal();
@@ -58,6 +59,6 @@ public class SponsorDataFeedCommandTest extends BaseDataFeedCommandTest {
         proposal.refreshReferenceObject("sponsor");
         proposal.refreshReferenceObject("primeSponsor");
         proposal.setCfdaNumber("abc.123");
-        proposal.setNsfCode("abc");
+        proposal.setNsfSequenceNumber(1);
     }
 }

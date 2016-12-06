@@ -59,6 +59,7 @@ public abstract class S2SModularBudgetTestBase extends S2STestBase {
 		}
 	}
 
+	@Override
 	public void saveProposalDocument(ProposalDevelopmentDocument pd)
 			throws Exception {
 		pd.setUpdateUser("quickst");
@@ -72,6 +73,7 @@ public abstract class S2SModularBudgetTestBase extends S2STestBase {
 		KcServiceLocator.getService(DocumentService.class).saveDocument(pd);
 	}
 
+	@Override
 	public ProposalDevelopmentDocument initializeDocument() throws Exception {
 		ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) KRADServiceLocatorWeb
 				.getDocumentService().getNewDocument(
@@ -83,6 +85,7 @@ public abstract class S2SModularBudgetTestBase extends S2STestBase {
 		return pd;
 	}
 
+	@Override
 	public DevelopmentProposal initializeDevelopmentProposal(
 			ProposalDevelopmentDocument pd) {
 		DevelopmentProposal developmentProposal = pd.getDevelopmentProposal();
@@ -105,10 +108,11 @@ public abstract class S2SModularBudgetTestBase extends S2STestBase {
 		developmentProposal.setDeadlineType("P");
 		developmentProposal.setDeadlineDate(new java.sql.Date(Calendar
 				.getInstance().getTimeInMillis()));
-		developmentProposal.setNsfCode("J.05");
+		developmentProposal.setNsfSequenceNumber(1);
 		return developmentProposal;
 	}
 
+	@Override
 	public ProposalDevelopmentDocument initializeApp() throws Exception {
 
 		generatorObject = KcServiceLocator.getService(getFormGeneratorName());

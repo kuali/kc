@@ -38,7 +38,7 @@ class SponsorDataFeedCommand extends ProposalDataFeedCommandBase {
             award.setPrimeSponsor(proposal.getPrimeSponsor());
             award.setPrimeSponsorCode(proposal.getPrimeSponsorCode());
             award.setCfdaNumber(proposal.getCfdaNumber());
-            award.setNsfCode(proposal.getNsfCode());
+            award.setNsfSequenceNumber(proposal.getNsfSequenceNumber());
         }
     }
 

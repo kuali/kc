@@ -186,10 +186,6 @@ public class AwardPrintingServiceImplTest {
 	}
 	
 	private class TestableAwardNoticePrintStream extends AwardNoticeXmlStream {
-		@Override
-		public String getNSFDescription(String nsfCode) {
-			return "";
-		}
 		
 		@Override
 		protected AwardType getAward() {

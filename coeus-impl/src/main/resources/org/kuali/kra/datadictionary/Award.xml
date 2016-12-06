@@ -58,7 +58,7 @@
                 <ref bean="Award-statusDescription"/>
                 <ref bean="Award-sponsorCode"/>
                 <ref bean="Award-primeSponsorCode"/>
-                <ref bean="Award-nsfCode"/>
+                <ref bean="Award-nsfSequenceNumber"/>
                 <ref bean="Award-awardNumber"/>
                 <ref bean="Award-sponsorName"/>
                 <ref bean="Award-awardId"/>
@@ -648,24 +648,16 @@
         <property name="description" value="Pre-defined Sponsor Template to sync"/>
     </bean>
 
-    <bean id="Award-nsfCode" parent="Award-nsfCode-parentBean"/>
-    <bean id="Award-nsfCode-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="nsfCode"/>
-        <property name="forceUppercase" value="false"/>
+    <bean id="Award-nsfSequenceNumber" parent="Award-nsfSequenceNumber-parentBean"/>
+    <bean id="Award-nsfSequenceNumber-parentBean" abstract="true" parent="NsfCode-nsfSequenceNumber">
+        <property name="name" value="nsfSequenceNumber"/>
         <property name="label" value="NSF Science Code"/>
         <property name="shortLabel" value="NSF Science Code"/>
-        <property name="maxLength" value="15"/>
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern"/>
-        </property>
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint"/>
-        </property>
         <property name="required" value="false"/>
         <property name="control">
             <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.NsfCode"
                   p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-                  p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="nsfCode"
+                  p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="nsfSequenceNumber"
                   p:labelAttribute="description"/>
         </property>
         <property name="optionsFinder">
@@ -673,14 +665,14 @@
                 <property name="businessObjectClass" value="org.kuali.kra.bo.NsfCode"/>
                 <property name="includeKeyInDescription" value="false"/>
                 <property name="includeBlankRow" value="false"/>
-                <property name="keyAttributeName" value="nsfCode"/>
+                <property name="keyAttributeName" value="nsfSequenceNumber"/>
                 <property name="labelAttributeName" value="description"/>
             </bean>
         </property>
         <property name="controlField">
             <bean parent="Uif-DropdownControl"/>
         </property>
-        <property name="summary" value="The NSF Science Code for this Proposal."/>
+        <property name="summary" value="The NSF Science Code for this Award."/>
         <property name="description"
                   value="A number used to indicate the type of research activity as defined by the National Science Foundation. NSF codes are not specific for NSF proposals and/or awards."/>
     </bean>

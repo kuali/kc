@@ -18,7 +18,6 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -61,17 +60,17 @@ public class AwardFundingProposalBeanTest extends KcIntegrationTestBase {
         instProp.setTitle("Test Title");
         instProp.setActivityTypeCode("RES");
         instProp.setCfdaNumber("11.111a");
-        instProp.setNsfCode("0A");        
+        instProp.setNsfSequenceNumber(2);
         instProp.setActivityType(new ActivityType());
         instProp.setSponsor(testSponsor);
         instProp.setPrimeSponsor(testSponsor);
         instProp.setNsfCodeBo(new NsfCode());
         
         bean = new AwardFundingProposalBean() {
-            Award getAward() {
+            @Override Award getAward() {
                 return award3;
             }
-            public AwardService getAwardService() {
+            @Override public AwardService getAwardService() {
                 return awardService;
             }
         };        
@@ -87,7 +86,7 @@ public class AwardFundingProposalBeanTest extends KcIntegrationTestBase {
 
     @Test
     public void testGettingAllAwardsForAwardNumber_OneFound() {
-        List<Award> results = new ArrayList<Award>();
+        List<Award> results = new ArrayList<>();
         results.add(award2);
         awardService.setResults(results);
         
@@ -96,7 +95,7 @@ public class AwardFundingProposalBeanTest extends KcIntegrationTestBase {
     
     @Test
     public void testGettingAllAwardsForAwardNumber_twoFound() {
-        List<Award> cannedResults = new ArrayList<Award>();
+        List<Award> cannedResults = new ArrayList<>();
         cannedResults.add(award3);
         cannedResults.add(award1);
         
@@ -124,7 +123,7 @@ public class AwardFundingProposalBeanTest extends KcIntegrationTestBase {
         assertEquals(instProp.getSponsorCode(), award3.getSponsorCode());
         assertEquals(instProp.getPrimeSponsorCode(), award3.getPrimeSponsorCode());
         assertEquals(instProp.getCfdaNumber(), award3.getCfdaNumber());
-        assertEquals(instProp.getNsfCode(), award3.getNsfCode());
+        assertEquals(instProp.getNsfSequenceNumber(), award3.getNsfSequenceNumber());
     }
     
     @Test
@@ -133,12 +132,12 @@ public class AwardFundingProposalBeanTest extends KcIntegrationTestBase {
         //hack to avoid trying to build custom data
         award3.getAwardCustomDataList().add(new AwardCustomData());
         bean.performDataFeeds(award3, instProp);
-        assertFalse(StringUtils.equals(instProp.getTitle(), award3.getTitle()));
-        assertFalse(StringUtils.equals(instProp.getActivityTypeCode(), award3.getActivityTypeCode()));
-        assertFalse(StringUtils.equals(instProp.getSponsorCode(), award3.getSponsorCode()));
-        assertFalse(StringUtils.equals(instProp.getPrimeSponsorCode(), award3.getPrimeSponsorCode()));
-        assertFalse(StringUtils.equals(instProp.getCfdaNumber(), award3.getCfdaNumber()));
-        assertFalse(StringUtils.equals(instProp.getNsfCode(), award3.getNsfCode()));
+        assertNotEquals(instProp.getTitle(), award3.getTitle());
+        assertNotEquals(instProp.getActivityTypeCode(), award3.getActivityTypeCode());
+        assertNotEquals(instProp.getSponsorCode(), award3.getSponsorCode());
+        assertNotEquals(instProp.getPrimeSponsorCode(), award3.getPrimeSponsorCode());
+        assertNotEquals(instProp.getCfdaNumber(), award3.getCfdaNumber());
+        assertNotEquals(instProp.getNsfSequenceNumber(), award3.getNsfSequenceNumber());
     }
     
     
@@ -154,17 +153,12 @@ public class AwardFundingProposalBeanTest extends KcIntegrationTestBase {
         private List<Award> results;
         
         public void setResults(List<Award> results) { this.results = results; }
-        
-        public List<Award> findAwardsForAwardNumber(String awardNumber) {
-            Set<Award> orderedSet = new TreeSet<Award>(new Comparator<Award>() {
-                public int compare(Award a1, Award a2) {
-                    return a1.getSequenceNumber().compareTo(a2.getSequenceNumber());
-                }
-                
-            });
+
+        @Override public List<Award> findAwardsForAwardNumber(String awardNumber) {
+            Set<Award> orderedSet = new TreeSet<>(Comparator.comparing(Award::getSequenceNumber));
             orderedSet.addAll(results);
-            return new ArrayList<Award>(orderedSet);
+            return new ArrayList<>(orderedSet);
         }
         
-    };
+    }
 }

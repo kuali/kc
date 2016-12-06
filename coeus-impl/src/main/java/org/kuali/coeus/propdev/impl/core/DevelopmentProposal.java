@@ -179,8 +179,8 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Column(name = "SPONSOR_PROPOSAL_NUMBER")
     private String sponsorProposalNumber;
 
-    @Column(name = "NSF_CODE")
-    private String nsfCode;
+    @Column(name = "NSF_SEQUENCE_NUMBER")
+    private Integer nsfSequenceNumber;
 
     @Column(name = "SUBCONTRACT_FLAG")
     @Convert(converter = BooleanYNConverter.class)
@@ -366,8 +366,9 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @OneToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
     private ProposalDevelopmentDocument proposalDocument;
-    
-	@Transient
+
+    @ManyToOne(targetEntity = NsfCode.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "NSF_SEQUENCE_NUMBER", referencedColumnName = "NSF_SEQUENCE_NUMBER", insertable = false, updatable = false)
     private NsfCode nsfCodeBo;
 
     @Transient
@@ -595,6 +596,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.proposalPersons = argProposalPersons;
     }
 
+    @Override
     public String getActivityTypeCode() {
         return activityTypeCode;
     }
@@ -650,10 +652,12 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.requestedStartDateInitial = requestedStartDateInitial;
     }
 
+    @Override
     public String getSponsorCode() {
         return sponsorCode;
     }
 
+    @Override
     public void setSponsorCode(String sponsorCode) {
         this.sponsorCode = sponsorCode;
     }
@@ -766,13 +770,21 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     @Override
     public String getNsfCode() {
-        return nsfCode;
+        if (getNsfCodeBo() != null) {
+            return getNsfCodeBo().getNsfCode();
+        }
+        return null;
     }
 
-    public void setNsfCode(String nsfCode) {
-        this.nsfCode = nsfCode;
+    public Integer getNsfSequenceNumber() {
+        return nsfSequenceNumber;
     }
 
+    public void setNsfSequenceNumber(Integer nsfSequenceNumber) {
+        this.nsfSequenceNumber = nsfSequenceNumber;
+    }
+
+    @Override
     public String getPrimeSponsorCode() {
         return primeSponsorCode;
     }
@@ -1197,6 +1209,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return managedLists;
     }
 
+    @Override
     public Sponsor getSponsor() {
         if (outOfSync(sponsorCode, sponsor)) {
             this.refreshReferenceObject(SPONSOR);
@@ -1262,7 +1275,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return getProposalPersons().get(index);
     }
 
-
+    @Override
     public List<Narrative> getNarratives() {
         return narratives;
     }
@@ -1271,6 +1284,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.narratives = narratives;
     }
 
+    @Override
     public List<ProposalAbstract> getProposalAbstracts() {
         return proposalAbstracts;
     }
@@ -1279,6 +1293,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.proposalAbstracts = proposalAbstracts;
     }
 
+    @Override
     public List<Narrative> getInstituteAttachments() {
         return instituteAttachments;
     }
@@ -1287,6 +1302,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.instituteAttachments = instituteAttachments;
     }
 
+    @Override
     public List<ProposalPersonBiography> getPropPersonBios() {
         return propPersonBios;
     }
@@ -1295,6 +1311,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.propPersonBios = propPersonBios;
     }
 
+    @Override
     public Unit getOwnedByUnit() {
         return ownedByUnit;
     }
@@ -1355,6 +1372,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return investigatorCreditTypes;
     }
 
+    @Override
     public List<ProposalYnq> getProposalYnqs() {
         Collections.sort(proposalYnqs);
         return proposalYnqs;
@@ -1432,10 +1450,12 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return getYnqGroupNames().get(index);
     }
 
+    @Override
     public String getBudgetStatus() {
         return budgetStatus;
     }
 
+    @Override
     public void setBudgetStatus(String budgetStatus) {
         this.budgetStatus = budgetStatus;
     }
@@ -1449,6 +1469,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return "";
     }
 
+    @Override
     public List<S2sOppForms> getS2sOppForms() {
         if (s2sOpportunity != null) {
             return getS2sOpportunity().getS2sOppForms();
@@ -1470,10 +1491,12 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.s2sOpportunity = s2sOpportunity;
     }
 
+    @Override
     public S2sOpportunity getS2sOpportunity() {
         return s2sOpportunity;
     }
 
+    @Override
     public ProposalPerson getProposalEmployee(String personId) {
         for (ProposalPerson proposalPerson : getProposalPersons()) {
             if (personId.equals(proposalPerson.getPersonId())) {
@@ -1483,6 +1506,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return null;
     }
 
+    @Override
     public ProposalPerson getProposalNonEmployee(Integer rolodexId) {
         for (ProposalPerson proposalPerson : getProposalPersons()) {
             if (rolodexId.equals(proposalPerson.getRolodexId())) {
@@ -1492,6 +1516,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return null;
     }
 
+    @Override
     public ContactRole getProposalEmployeeRole(String personId) {
         ProposalPerson principalInvestigator = getPrincipalInvestigator();
         if (principalInvestigator != null && personId.equals(principalInvestigator.getPersonId())) {
@@ -1510,6 +1535,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return null;
     }
 
+    @Override
     public ContactRole getProposalNonEmployeeRole(Integer rolodexId) {
         ProposalPerson principalInvestigator = getPrincipalInvestigator();
         if (principalInvestigator != null && rolodexId.equals(principalInvestigator.getRolodexId())) {
@@ -1528,6 +1554,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return null;
     }
 
+    @Override
     public String getCreationStatusCode() {
         return creationStatusCode;
     }
@@ -1536,6 +1563,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.creationStatusCode = creationStatusCode;
     }
 
+    @Override
     public final ActivityType getActivityType() {
         return activityType;
     }
@@ -1566,6 +1594,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return retval;
     }
 
+    @Override
     public List<S2sAppSubmission> getS2sAppSubmission() {
         return s2sAppSubmission;
     }
@@ -1580,7 +1609,8 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         }
         return null;
     }
-    
+
+    @Override
     public List<ProposalChangedData> getProposalChangedDataList() {
         return proposalChangedDataList;
     }
@@ -1601,10 +1631,12 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.submitFlag = submitFlag;
     }
 
+    @Override
     public Boolean getSubmitFlag() {
         return this.submitFlag;
     }
 
+    @Override
     public Boolean getGrantsGovSelectFlag() {
         return grantsGovSelectFlag;
     }
@@ -1621,6 +1653,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.proposalStateTypeCode = proposalStateTypeCode;
     }
 
+    @Override
     public ProposalState getProposalState() {
         return proposalState;
     }
@@ -1653,9 +1686,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         // Arranging Proposal Change History   
         if (CollectionUtils.isNotEmpty(this.getProposalChangedDataList())) {
             for (ProposalChangedData proposalChangedData : this.getProposalChangedDataList()) {
-                if (this.getProposalChangeHistory().get(proposalChangedData.getEditableColumn().getColumnLabel()) == null) {
-                    this.getProposalChangeHistory().put(proposalChangedData.getEditableColumn().getColumnLabel(), new ArrayList<>());
-                }
+                this.getProposalChangeHistory().computeIfAbsent(proposalChangedData.getEditableColumn().getColumnLabel(), k -> new ArrayList<>());
                 this.getProposalChangeHistory().get(proposalChangedData.getEditableColumn().getColumnLabel()).add(proposalChangedData);
             }
         }
@@ -1665,6 +1696,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.proposalType = proposalType;
     }
 
+    @Override
     public ProposalType getProposalType() {
         return proposalType;
     }
@@ -1675,6 +1707,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      * 
      * @see org.kuali.coeus.common.budget.framework.core.BudgetParent#getPersonRolodexList()
      */
+    @Override
     public List<PersonRolodex> getPersonRolodexList() {
         ArrayList<PersonRolodex> filtered = new ArrayList<>();
         for (ProposalPerson person : getProposalPersons()) {
@@ -1690,10 +1723,12 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return filtered;
     }
 
+    @Override
     public Unit getUnit() {
         return getOwnedByUnit();
     }
 
+    @Override
     public String getUnitNumber() {
         return getOwnedByUnitNumber();
     }
@@ -1710,14 +1745,17 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         }
     }
 
+    @Override
     public String getDefaultBudgetStatusParameter() {
         return Constants.BUDGET_STATUS_INCOMPLETE_CODE;
     }
 
+    @Override
     public boolean isParentInHierarchyComplete() {
         return isParentProposalComplete();
     }
 
+    @Override
     public NoticeOfOpportunity getNoticeOfOpportunity() {
         return noticeOfOpportunity;
     }
@@ -1749,7 +1787,8 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     }
 
     // Note: following the pattern of Sponsor, this getter indirectly calls a service.   
-    // Is there a better way?   
+    // Is there a better way?
+    @Override
     public Sponsor getPrimeSponsor() {
         if (outOfSync(primeSponsorCode, primeSponsor)) {
             this.refreshReferenceObject(PRIME_SPONSOR);
@@ -1782,10 +1821,12 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.primeSponsorCode = primeSponsor != null ? primeSponsor.getSponsorCode() : null;
     }
 
+    @Override
     public String getParentNumber() {
         return this.getProposalNumber();
     }
 
+    @Override
     public String getParentPIName() {
         String proposalInvestigatorName = null;
         for (ProposalPerson pPerson : this.getProposalPersons()) {
@@ -1802,10 +1843,12 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return ownedByUnitNumber;
     }
 
+    @Override
     public String getParentTitle() {
         return this.getTitle();
     }
 
+    @Override
     public Integer getParentInvestigatorFlag(String personId, Integer flag) {
         for (ProposalPerson pPerson : this.getProposalPersons()) {
             if (pPerson.getPersonId() != null && pPerson.getPersonId().equals(personId) ||
@@ -1820,6 +1863,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return flag;
     }
 
+    @Override
     public String getParentTypeName() {
         return PROPOSAL;
     }
@@ -1852,9 +1896,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         // Arranging Budget Change History   
         if (CollectionUtils.isNotEmpty(this.getBudgetChangedDataList())) {
             for (BudgetChangedData budgetChangedData : this.getBudgetChangedDataList()) {
-                if (this.getBudgetChangeHistory().get(budgetChangedData.getEditableColumn().getColumnLabel()) == null) {
-                    this.getBudgetChangeHistory().put(budgetChangedData.getEditableColumn().getColumnLabel(), new ArrayList<>());
-                }
+                this.getBudgetChangeHistory().computeIfAbsent(budgetChangedData.getEditableColumn().getColumnLabel(), k -> new ArrayList<>());
                 this.getBudgetChangeHistory().get(budgetChangedData.getEditableColumn().getColumnLabel()).add(budgetChangedData);
             }
         }
@@ -1864,15 +1906,17 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.budgetChangedDataList = budgetChangedDataList;
     }
 
+    @Override
     public List<BudgetChangedData> getBudgetChangedDataList() {
         return budgetChangedDataList;
     }
 
+    @Override
     public KrmsRulesContext getKrmsRulesContext() {
         return getProposalDocument();
     }
 
-
+    @Override
     public String getAgencyRoutingIdentifier() {
         return agencyRoutingIdentifier;
     }
@@ -1882,6 +1926,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.agencyRoutingIdentifier = agencyRoutingIdentifier;
     }
 
+    @Override
     public String getPrevGrantsGovTrackingID() {
         return prevGrantsGovTrackingID;
     }
@@ -1912,6 +1957,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
         private static final String NARRATIVES = "narratives";
 
+        @Override
         public void customize(ClassDescriptor descriptor) throws Exception {
             final String value = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
             ForeignReferenceMapping frMapping = (ForeignReferenceMapping) descriptor.getMappingForAttributeName(NARRATIVES);
@@ -1931,6 +1977,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
         private static final String INSTITUTE_ATTACHMENTS = "instituteAttachments";
 
+        @Override
         public void customize(ClassDescriptor descriptor) throws Exception {
             final String value = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.INSTITUTE_NARRATIVE_TYPE_GROUP);
             ForeignReferenceMapping frMapping = (ForeignReferenceMapping) descriptor.getMappingForAttributeName(INSTITUTE_ATTACHMENTS);
@@ -1962,6 +2009,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         }
     }
 
+    @Override
     public List<S2sUserAttachedForm> getS2sUserAttachedForms() {
         return s2sUserAttachedForms;
     }
@@ -1999,6 +2047,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 		this.budgets = budgetVersionOverviews;
 	}
 
+    @Override
 	public List<ProposalDevelopmentBudgetExt> getBudgets() {
 		return budgets;
 	}

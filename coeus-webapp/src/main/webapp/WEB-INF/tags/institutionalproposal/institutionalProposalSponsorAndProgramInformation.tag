@@ -24,7 +24,7 @@
 <c:set var="canViewCfdaLookup" value="${KualiForm.cfdaLookupRequired}" scope="request" />
 
 <kul:tab tabTitle="Sponsor & Program Information" defaultOpen="false" 
-	tabErrorKey="document.institutionalProposal.noticeOfOpportunityCode,document.institutionalProposal.programAnnouncementNumber,document.institutionalProposal.sponsorProposalNumber,document.institutionalProposal.nsfCode,document.institutionalProposal.cfdaNumber,document.institutionalProposal.sponsorCode,document.institutionalProposalList[0].sponsorCode,document.institutionalProposal.deadlineTime, document.institutionalProposalList[0].deadlineTime,document.institutionalProposal.primeSponsorCode,document.institutionalProposalList[0].opportunity,document.institutionalProposalList[0].primeSponsorCode"
+	tabErrorKey="document.institutionalProposal.noticeOfOpportunityCode,document.institutionalProposal.programAnnouncementNumber,document.institutionalProposal.sponsorProposalNumber,document.institutionalProposal.nsfSequenceNumber,document.institutionalProposal.cfdaNumber,document.institutionalProposal.sponsorCode,document.institutionalProposalList[0].sponsorCode,document.institutionalProposal.deadlineTime, document.institutionalProposalList[0].deadlineTime,document.institutionalProposal.primeSponsorCode,document.institutionalProposalList[0].opportunity,document.institutionalProposalList[0].primeSponsorCode"
 	auditCluster="sponsorProgramInformationAuditErrors,sponsorProgramInformationAuditWarnings" 
 	tabAuditKey="document.institutionalProposal.cfdaNumber,document.institutionalProposal.sponsorProposalNumber" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -65,9 +65,9 @@
                 		${KualiForm.document.institutionalProposalList[0].primeSponsor.sponsorName}&nbsp;
 					</div>
                 </td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.nsfCode}" /></div></th>
+           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.nsfSequenceNumber}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.institutionalProposal.nsfCode" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.nsfCode}" styleClass="fixed-size-200-select" />
+           			<kul:htmlControlAttribute property="document.institutionalProposal.nsfSequenceNumber" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.nsfSequenceNumber}" styleClass="fixed-size-200-select" />
            		</td>
         	</tr>
         	<tr>

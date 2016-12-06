@@ -142,7 +142,7 @@
 		<field-descriptor name="specialReviewIndicator" column="SPECIAL_REVIEW_INDICATOR" jdbc-type="VARCHAR" />
 		<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="scienceCodeIndicator" column="SCIENCE_CODE_INDICATOR" jdbc-type="VARCHAR" />
-		<field-descriptor name="nsfCode" column="NSF_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="nsfSequenceNumber" column="NSF_SEQUENCE_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor id="1" name="primeSponsorCode" column="PRIME_SPONSOR_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="initialContractAdmin" column="INITIAL_CONTRACT_ADMIN" jdbc-type="VARCHAR" />
 		<field-descriptor name="ipReviewActivityIndicator" column="IP_REVIEW_ACTIVITY_INDICATOR" jdbc-type="VARCHAR" />
@@ -184,6 +184,9 @@
         <reference-descriptor name="proposalStatus" class-ref="org.kuali.kra.institutionalproposal.ProposalStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="statusCode"/>
         </reference-descriptor>
+		<reference-descriptor name="nsfCodeBo" class-ref="org.kuali.kra.bo.NsfCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="nsfSequenceNumber"/>
+		</reference-descriptor>
         <collection-descriptor name="awardFundingProposals" element-class-ref="org.kuali.kra.award.home.fundingproposal.AwardFundingProposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>

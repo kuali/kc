@@ -20,13 +20,24 @@ package org.kuali.kra.bo;
 
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "NSF_CODES")
 public class NsfCode extends KcPersistableBusinessObjectBase {
 
+    @PortableSequenceGenerator(name = "SEQUENCE_NSF_CODES")
+    @GeneratedValue(generator = "SEQUENCE_NSF_CODES")
+    @Id
+    @Column(name = "NSF_SEQUENCE_NUMBER")
     private Integer nsfSequenceNumber;
 
+    @Column(name = "NSF_CODE")
     private String nsfCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     public Integer getNsfSequenceNumber() {
