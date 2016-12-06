@@ -98,7 +98,6 @@ public abstract class AwardBaseStream implements XmlStream {
     protected static final String OBLIGATED_DIRECT_INDIRECT_COST_CONSTANT = "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST";
 	private static final String ON_CAMPUS_FLAG_SET = "N";
 	private static final Log LOG = LogFactory.getLog(AwardBaseStream.class);
-	private static final String NSF_CODE_PARAMETER = "nsfCode";
 	private static final String STRING_SEPARATER = ",";
     protected static final String OTHER_DATA = "otherData";
 	protected static final String SIGNATURE_REQUIRED = "signatureRequired";
@@ -394,10 +393,10 @@ public abstract class AwardBaseStream implements XmlStream {
 			awardHeaderType
 					.setModificationNumber(award.getModificationNumber());			
 		}
-		if (award.getNsfCode() != null) {
-			awardHeaderType.setNSFCode(award.getNsfCode());
+		if (award.getNsfSequenceNumber() != null && award.getNsfCodeBo() != null) {
+			awardHeaderType.setNSFCode(award.getNsfCodeBo().getNsfCode());
 		}
-		String nsfDescription = getNSFDescription(award.getNsfCode());
+		String nsfDescription = award.getNsfCodeBo().getDescription();
 		if (nsfDescription != null) {
 			awardHeaderType.setNSFDescription(nsfDescription);
 		}
@@ -1344,28 +1343,6 @@ public abstract class AwardBaseStream implements XmlStream {
 			awardAmountInfoType.setAmountInfoArray(amountInfoTypes);
 		}
 		return awardAmountInfoType;
-	}
-
-	/**
-	 * 
-	 * This method will get the NSF description for the nsfCode.If the given
-	 * nsfCode found in NsfCode table returns description otherwise null
-	 * 
-	 * @param nsfCode
-	 *            is a code to find the NSF description
-	 * 
-	 * @return NSF Description if nsfCode found otherwise null
-	 */
-	protected String getNSFDescription(String nsfCode) {
-		String description = null;
-		Map<String, String> nsfCodeMap = new HashMap<>();
-		nsfCodeMap.put(NSF_CODE_PARAMETER, nsfCode);
-		List<NsfCode> nsfCodeList = (List<NsfCode>) businessObjectService
-				.findMatching(NsfCode.class, nsfCodeMap);
-		if (nsfCodeList != null && !nsfCodeList.isEmpty()) {
-			description = nsfCodeList.get(0).getDescription();
-		}
-		return description;
 	}
 
 	/*

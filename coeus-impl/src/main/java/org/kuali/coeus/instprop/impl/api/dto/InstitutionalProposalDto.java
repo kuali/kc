@@ -21,18 +21,14 @@ package org.kuali.coeus.instprop.impl.api.dto;
 
 import com.codiform.moo.annotation.CollectionProperty;
 import com.codiform.moo.annotation.Property;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.kuali.coeus.common.framework.noo.NoticeOfOpportunity;
 import org.kuali.coeus.instprop.impl.api.customSerializers.CustomSqlDateSerializer;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.bo.NsfCode;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 public class InstitutionalProposalDto {
     private Long proposalId;
@@ -81,7 +77,7 @@ public class InstitutionalProposalDto {
     private Integer statusCode;
     private String unitNumber;
     private String scienceCodeIndicator;
-    private String nsfCode;
+    private Integer nsfSequenceNumber;
     private String primeSponsorCode;
     private String initialContractAdmin;
     private String ipReviewActivityIndicator;
@@ -289,12 +285,12 @@ public class InstitutionalProposalDto {
         this.scienceCodeIndicator = scienceCodeIndicator;
     }
 
-    public String getNsfCode() {
-        return nsfCode;
+    public Integer getNsfSequenceNumber() {
+        return nsfSequenceNumber;
     }
 
-    public void setNsfCode(String nsfCode) {
-        this.nsfCode = nsfCode;
+    public void setNsfSequenceNumber(Integer nsfSequenceNumber) {
+        this.nsfSequenceNumber = nsfSequenceNumber;
     }
 
     public String getPrimeSponsorCode() {

@@ -265,10 +265,10 @@
         <td align="left" valign="middle">
             <kul:htmlControlAttribute property="document.awardList[0].modificationNumber" attributeEntry="${awardAttributes.modificationNumber}" />
         </td>
-        <th align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.nsfCode}" />
+		<th align="right"><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.nsfSequenceNumber}" /></div>
         </th>
         <td align="left" valign="middle">
-        	<kul:htmlControlAttribute property="document.awardList[0].nsfCode" attributeEntry="${awardAttributes.nsfCode}" styleClass="fixed-size-200-select" />
+        	<kul:htmlControlAttribute property="document.awardList[0].nsfSequenceNumber" attributeEntry="${awardAttributes.nsfSequenceNumber}" styleClass="fixed-size-200-select" />
         </td>
     </tr>
 	<tr>
@@ -278,7 +278,7 @@
 		<td align="left" valign="middle">
 			<kul:htmlControlAttribute property="document.awardList[0].fainId" attributeEntry="${awardAttributes.fainId}" />
 		</td>
-		<th align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.fedAwardYear}" />
+		<th align="right"><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.fedAwardYear}" /></div>
 		</th>
 		<td align="left" valign="middle">
 			<kul:htmlControlAttribute property="document.awardList[0].fedAwardYear" attributeEntry="${awardAttributes.fedAwardYear}" />

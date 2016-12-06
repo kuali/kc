@@ -74,7 +74,7 @@
 		<field-descriptor name="costSharingIndicator" column="COST_SHARING_INDICATOR" jdbc-type="VARCHAR"/>
 		<field-descriptor name="indirectCostIndicator" column="IDC_INDICATOR" jdbc-type="VARCHAR"/>
 		<field-descriptor name="modificationNumber" column="MODIFICATION_NUMBER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="nsfCode" column="NSF_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="nsfSequenceNumber" column="NSF_SEQUENCE_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="paymentScheduleIndicator" column="PAYMENT_SCHEDULE_INDICATOR" jdbc-type="VARCHAR"/>
 		<field-descriptor name="scienceCodeIndicator" column="SCIENCE_CODE_INDICATOR" jdbc-type="VARCHAR"/>
 		<field-descriptor name="specialReviewIndicator" column="SPECIAL_REVIEW_INDICATOR" jdbc-type="VARCHAR"/>
@@ -191,7 +191,10 @@
         <reference-descriptor name="awardStatus" class-ref="org.kuali.kra.award.home.AwardStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="statusCode"/>
 		</reference-descriptor>
-        <collection-descriptor name="awardUnitContacts" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardUnitContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<reference-descriptor name="nsfCodeBo" class-ref="org.kuali.kra.bo.NsfCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="nsfSequenceNumber"/>
+		</reference-descriptor>
+		<collection-descriptor name="awardUnitContacts" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardUnitContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>
         </collection-descriptor>
         <collection-descriptor name="sponsorContacts" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardSponsorContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -229,9 +232,6 @@
 		<reference-descriptor name="awardTransactionType" class-ref="org.kuali.kra.timeandmoney.transactions.AwardTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="awardTransactionTypeCode"/>
 		</reference-descriptor>
-		<!--<reference-descriptor name="cfdaNumber" class-ref="org.kuali.kra.award.home.CFDA" auto-retrieve="true" auto-update="none" auto-delete="none">
-        	<foreignkey field-ref="cfdaNumber" />
-    	</reference-descriptor>-->
         <reference-descriptor name="leadUnit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>

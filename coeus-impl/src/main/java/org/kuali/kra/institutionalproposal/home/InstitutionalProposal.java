@@ -138,7 +138,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     private Integer statusCode;
     private String unitNumber;
     private String scienceCodeIndicator;
-    private String nsfCode;
+    private Integer nsfSequenceNumber;
     private NsfCode nsfCodeBo;
     private String primeSponsorCode;
     private String initialContractAdmin;
@@ -484,6 +484,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.sponsorProposalNumber = sponsorProposalNumber;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -508,6 +509,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.currentAccountNumber = currentAccountNumber;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
@@ -516,10 +518,12 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.title = title;
     }
 
+    @Override
     public String getSponsorCode() {
         return sponsorCode;
     }
 
+    @Override
     public void setSponsorCode(String sponsorCode) {
         this.sponsorCode = sponsorCode;
     }
@@ -776,14 +780,15 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.scienceCodeIndicator = scienceCodeIndicator;
     }
 
-    public String getNsfCode() {
-        return nsfCode;
+    public Integer getNsfSequenceNumber() {
+        return nsfSequenceNumber;
     }
 
-    public void setNsfCode(String nsfCode) {
-        this.nsfCode = nsfCode;
+    public void setNsfSequenceNumber(Integer nsfSequenceNumber) {
+        this.nsfSequenceNumber = nsfSequenceNumber;
     }
 
+    @Override
     public String getPrimeSponsorCode() {
         return primeSponsorCode;
     }
@@ -919,6 +924,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.getProjectPersons().add(proposalPerson);
     }
 
+    @Override
     public String getSponsorName() {
         Sponsor tempSponsor = getSponsor();
         return tempSponsor != null ? tempSponsor.getSponsorName() : null;
@@ -983,7 +989,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.unitNumber = unitNumber;
     }
 
-
+    @Override
     public String getLeadUnitNumber() {
         return getUnitNumber();
     }
@@ -1015,14 +1021,14 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     public List<InstitutionalProposalPerson> getProjectPersons() {
     	if (CollectionUtils.isNotEmpty(projectPersons)) {
-    		Collections.sort(projectPersons, new ProjectPersonComparator());
+    		projectPersons.sort(new ProjectPersonComparator());
     	}
         return projectPersons; 
     }
     
     /**
      * @return project persons without first sorting. If getProjectPersons has already been called this list will still be in the previously sorted order
-     * @deprecated
+     * @deprecated do not use
      */
     @Deprecated
     public List<InstitutionalProposalPerson> getUnsortedProjectPersons() {
@@ -1031,6 +1037,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     static class ProjectPersonComparator implements Comparator<InstitutionalProposalPerson>
     {
+        @Override
         public int compare(InstitutionalProposalPerson ipp1, InstitutionalProposalPerson ipp2)
         {
             if (StringUtils.equals(ipp1.getContactRoleCode(), ipp2.getContactRoleCode())) {
@@ -1176,12 +1183,14 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.institutionalProposalScienceKeywords = institutionalProposalScienceKeywords;
     }
 
+    @Override
     public void addKeyword(ScienceKeyword scienceKeyword) {
         InstitutionalProposalScienceKeyword institutionalProposalScienceKeyword = new InstitutionalProposalScienceKeyword(this,
             scienceKeyword);
         getKeywords().add(institutionalProposalScienceKeyword);
     }
 
+    @Override
     public InstitutionalProposalScienceKeyword getKeyword(int index) {
         return getKeywords().get(index);
     }

@@ -43,7 +43,6 @@ import org.kuali.coeus.s2sgen.impl.generate.S2SFormGenerator;
 import org.kuali.coeus.s2sgen.impl.generate.S2SFormGeneratorRetrievalService;
 import org.kuali.coeus.s2sgen.impl.print.FormPrintServiceImpl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 import org.kuali.coeus.s2sgen.impl.validate.S2SValidatorService;
 import org.kuali.coeus.s2sgen.api.core.AuditError;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
@@ -190,7 +189,7 @@ public abstract class S2STestBase extends KcIntegrationTestBase {
         developmentProposal.setTitle("Test s2s service title");
         developmentProposal.setDeadlineType("P");
         developmentProposal.setDeadlineDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-        developmentProposal.setNsfCode("J.05");
+        developmentProposal.setNsfSequenceNumber(1);
         return developmentProposal;
     }
 

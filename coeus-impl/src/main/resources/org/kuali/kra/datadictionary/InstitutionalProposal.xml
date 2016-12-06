@@ -68,7 +68,7 @@
                 <ref bean="InstitutionalProposal-mailDescription"/>
                 <ref bean="InstitutionalProposal-subcontractFlag" />
                 <ref bean="InstitutionalProposal-statusCode" />
-                <ref bean="InstitutionalProposal-nsfCode" />
+                <ref bean="InstitutionalProposal-nsfSequenceNumber" />
                 <ref bean="InstitutionalProposal-primeSponsorCode" />
                 <ref bean="InstitutionalProposal-initialContractAdmin" />
                 <ref bean="InstitutionalProposal-ipReviewActivityIndicator" />
@@ -910,37 +910,29 @@
         <property name="description" value="Status Code" />
     </bean>
 
-    <bean id="InstitutionalProposal-nsfCode" parent="InstitutionalProposal-nsfCode-parentBean" />
-    <bean id="InstitutionalProposal-nsfCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="nsfCode" />
-        <property name="forceUppercase" value="false" />
+    <bean id="InstitutionalProposal-nsfSequenceNumber" parent="InstitutionalProposal-nsfSequenceNumber-parentBean" />
+    <bean id="InstitutionalProposal-nsfSequenceNumber-parentBean" abstract="true" parent="NsfCode-nsfSequenceNumber" >
+        <property name="name" value="nsfSequenceNumber" />
         <property name="label" value="NSF Science Code" />
-        <property name="shortLabel" value="NSF Code" />
-        <property name="maxLength" value="15"/>
-    	<property name="validationPattern">
-   			<bean parent="AnyCharacterValidationPattern"/>
-    	</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint"/>
-    </property>
+        <property name="shortLabel" value="NSF Science Code" />
     	<property name="required" value="false"/>
     	<property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.NsfCode" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="nsfCode" p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.NsfCode" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="nsfSequenceNumber" p:labelAttribute="description"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
         <property name="businessObjectClass" value="org.kuali.kra.bo.NsfCode"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="includeBlankRow" value="false"/>
-        <property name="keyAttributeName" value="nsfCode"/>
+        <property name="keyAttributeName" value="nsfSequenceNumber"/>
         <property name="labelAttributeName" value="description"/>
       </bean>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
     	</property>
-        <property name="summary" value="NSF Code" />
-        <property name="description" value="NSF Code" />
+        <property name="summary" value="NSF Science Code" />
+        <property name="description" value="NSF Science Code" />
     </bean>
 
     <bean id="InstitutionalProposal-primeSponsorCode" parent="InstitutionalProposal-primeSponsorCode-parentBean" />
@@ -1389,7 +1381,7 @@
               <bean parent="FieldDefinition" p:attributeName="specialReviewIndicator"/>
               <bean parent="FieldDefinition" p:attributeName="statusCode"/>
               <bean parent="FieldDefinition" p:attributeName="scienceCodeIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="nsfCode"/>
+              <bean parent="FieldDefinition" p:attributeName="nsfSequenceNumber"/>
               <bean parent="FieldDefinition" p:attributeName="primeSponsorCode"/>
               <bean parent="FieldDefinition" p:attributeName="initialContractAdmin"/>
               <bean parent="FieldDefinition" p:attributeName="ipReviewActivityIndicator"/>
@@ -1448,7 +1440,7 @@
               <bean p:propertyName="specialReviewIndicator" parent="Uif-DataField"/>
               <bean p:propertyName="statusCode" parent="Uif-DataField"/>
               <bean p:propertyName="scienceCodeIndicator" parent="Uif-DataField"/>
-              <bean p:propertyName="nsfCode" parent="Uif-DataField"/>
+              <bean p:propertyName="nsfSequenceNumber" parent="Uif-DataField"/>
               <bean p:propertyName="primeSponsorCode" parent="Uif-DataField"/>
               <bean p:propertyName="initialContractAdmin" parent="Uif-DataField"/>
               <bean p:propertyName="ipReviewActivityIndicator" parent="Uif-DataField"/>

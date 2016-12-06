@@ -19,7 +19,6 @@
 package org.kuali.coeus.award.dto;
 
 import com.codiform.moo.annotation.CollectionProperty;
-import com.codiform.moo.annotation.Ignore;
 import com.codiform.moo.annotation.Property;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
@@ -28,7 +27,6 @@ import org.kuali.coeus.common.framework.sponsor.SponsorDto;
 import org.kuali.coeus.instprop.impl.api.customSerializers.CustomSqlDateSerializer;
 import org.kuali.coeus.instprop.impl.api.customSerializers.ScaleTwoDecimalSerializer;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.home.*;
 
 import java.sql.Date;
@@ -60,7 +58,7 @@ public class AwardDto {
     private Date projectEndDate;
     private String costSharingIndicator;
     private String indirectCostIndicator;
-    private String nsfCode;
+    private Integer nsfSequenceNumber;
     private String paymentScheduleIndicator;
     private String scienceCodeIndicator;
     private String specialReviewIndicator;
@@ -290,12 +288,12 @@ public class AwardDto {
         this.indirectCostIndicator = indirectCostIndicator;
     }
 
-    public String getNsfCode() {
-        return nsfCode;
+    public Integer getNsfSequenceNumber() {
+        return nsfSequenceNumber;
     }
 
-    public void setNsfCode(String nsfCode) {
-        this.nsfCode = nsfCode;
+    public void setNsfSequenceNumber(Integer nsfSequenceNumber) {
+        this.nsfSequenceNumber = nsfSequenceNumber;
     }
 
     public String getPaymentScheduleIndicator() {

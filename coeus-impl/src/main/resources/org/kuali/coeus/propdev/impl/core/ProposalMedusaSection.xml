@@ -112,7 +112,7 @@
                 <bean parent="Proposal-ProposalDevelopment-Property" p:propertyName="requestedStartDateInitial" p:order="40"/>
                 <bean parent="Proposal-ProposalDevelopment-Property" p:propertyName="requestedEndDateInitial" p:order="50"/>
                 <bean parent="Proposal-ProposalDevelopment-Property" p:propertyName="title" p:order="60"/>
-                <bean parent="Proposal-ProposalDevelopment-Property" p:propertyName="nsfCode" p:order="70"/>
+                <bean parent="Proposal-ProposalDevelopment-Property" p:propertyName="nsfSequenceNumber" p:order="70"/>
                 <bean parent="Proposal-ProposalDevelopment-Property" p:propertyName="sponsorName" p:label="Sponsor Name" p:order="80"/>
                 <bean parent="Proposal-ProposalDevelopment-Property" p:propertyName="primeSponsor.sponsorName" p:label="Prime Sponsor Name" p:order="90"/>
                 <bean parent="Proposal-ProposalDevelopment-Property" p:propertyName="sponsorProposalNumber" p:order="100"/>

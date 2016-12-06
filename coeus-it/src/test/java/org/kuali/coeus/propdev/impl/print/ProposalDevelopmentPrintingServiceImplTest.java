@@ -181,7 +181,7 @@ public class ProposalDevelopmentPrintingServiceImplTest extends KcIntegrationTes
 		developmentProposal.setDeadlineType("P");
 		developmentProposal.setDeadlineDate(new java.sql.Date(Calendar
 				.getInstance().getTimeInMillis()));
-		developmentProposal.setNsfCode("J.05");
+		developmentProposal.setNsfSequenceNumber(1);
 		return developmentProposal;
 	}
 	

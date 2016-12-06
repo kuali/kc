@@ -929,7 +929,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		developmentProposal.setTitle("Test Proposal Hierarchy Service");
 		developmentProposal.setDeadlineType("P");
 		developmentProposal.setDeadlineDate(DateUtils.newDate(2015, Calendar.JULY, 10));
-		developmentProposal.setNsfCode("J.05");
+		developmentProposal.setNsfSequenceNumber(1);
 		developmentProposal.setHierarchyStatus(HierarchyStatusConstants.Parent.code());
 		developmentProposal.setMailBy("A");
 		developmentProposal.setMailType("A");
