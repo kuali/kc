@@ -313,6 +313,10 @@ public class TimeAndMoneyServiceImpl implements TimeAndMoneyService {
     */
     private boolean mustSetFandADistributions(List<AwardDirectFandADistribution> awardFandADistributions, List<AwardDirectFandADistribution> tAndMFandADistributions) {
         boolean needToSave = false;
+        if (awardFandADistributions.size() != tAndMFandADistributions.size()) {
+            needToSave = true;
+            return needToSave;
+        }
         for (AwardDirectFandADistribution awardDistribution: awardFandADistributions) {
             boolean found = false;
             for (AwardDirectFandADistribution tAndMDistribution: tAndMFandADistributions) {
