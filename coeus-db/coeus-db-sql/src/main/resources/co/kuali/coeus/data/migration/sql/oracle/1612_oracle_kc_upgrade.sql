@@ -22,4 +22,6 @@ set sqlblanklines on
 
 spool 1612_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1612_002__RESKC-1441_credit_split.sql
+@./kc/bootstrap/V1612_003__nsf_references.sql
+@./kc/bootstrap/V1612_004__add_nsf_codes.sql
 commit;

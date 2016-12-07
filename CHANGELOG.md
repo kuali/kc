@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-1417: adding year to NSF Code.  Making references to NSF Code year aware such that in non-read only mode only the configured year's NSF Codes are displayed.
+  * Travis Schneeberger on Wed, 7 Dec 2016 10:09:56 -0500 [View Commit](../../commit/14bc8dba79b046e9796ac514ad84f346edae9ac8)
+* RESKC-1417: changing Award, Proposal Development, and Institute Proposal to reference the Nsf Science Code primary key (sequence number) rather than the non-unique Nsf Science Code
+  * Travis Schneeberger on Tue, 6 Dec 2016 14:08:12 -0500 [View Commit](../../commit/5497b507a809270d32e3b870e60304937811ef47)
+* RESKC-1573: Direct/F&A Distribution not saving on T&M Docs
+  * Terry Durkin on Tue, 6 Dec 2016 13:05:59 -0500 [View Commit](../../commit/c94a758aba9fd362ea648e8e632437c28b7525f4)
+
+##coeus-1612.0010
 * No Changes
 
 
