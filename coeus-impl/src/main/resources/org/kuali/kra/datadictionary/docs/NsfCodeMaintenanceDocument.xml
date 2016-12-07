@@ -23,6 +23,7 @@
   <bean id="NsfCodeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.NsfCode"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+    <property name="businessRulesClass" value="org.kuali.kra.bo.rule.NsfCodeMaintenanceDocumentRule" />
     <property name="maintainableSections">
       <list>
         <ref bean="NsfCodeMaintenanceDocument-EditNSFCodes"/>
@@ -57,6 +58,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="nsfSequenceNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="nsfCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="year" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>

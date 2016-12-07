@@ -67,7 +67,16 @@
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.nsfSequenceNumber}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.institutionalProposal.nsfSequenceNumber" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.nsfSequenceNumber}" styleClass="fixed-size-200-select" />
+					<c:if test="${readOnly}">
+						<kul:htmlControlAttribute property="document.institutionalProposal.nsfSequenceNumber" attributeEntry="${institutionalProposalAttributes.nsfSequenceNumber}" styleClass="fixed-size-200-select" readOnly="true"/>
+					</c:if>
+
+					<c:if test="${!readOnly}">
+						<c:set var="finderClass" value="${fn:replace('org.kuali.kra.lookup.keyvalue.NsfCodeYearConstrainedFinder','.','|')}"/>
+						<html:select property="document.institutionalProposal.nsfSequenceNumber" styleClass="fixed-size-200-select">
+							<html:optionsCollection property="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}" label="value" value="key" />
+						</html:select>
+					</c:if>
            		</td>
         	</tr>
         	<tr>
