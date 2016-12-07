@@ -534,19 +534,10 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     @Override
     public List<ProposalCreditSplitListDto> createCreditSplitListItems(ProposalDevelopmentDocument document) {
         List<ProposalPerson> investigators = document.getDevelopmentProposal().getInvestigators();
-        if (isPersonnelCreditSplitOptInFeatureEnabled()) {
-            investigators = document.getDevelopmentProposal().getProposalPersons().stream().
-                    filter(ProposalPerson::getAddCreditSplit).collect(Collectors.toList());
-        }
         if(!hasBeenRoutedOrCanceled(document)) {
             handleNewCreditTypes(investigators, getInvestigatorCreditTypes());
         }
         return createCreditSplitListDtos(investigators);
-    }
-
-    public boolean isPersonnelCreditSplitOptInFeatureEnabled() {
-        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
-                    Constants.ENABLE_OPT_IN_PERSONNEL_CREDIT_SPLIT_FUNCTIONALITY);
     }
 
     public void handleNewCreditTypes(List<ProposalPerson> investigators, Collection<InvestigatorCreditType> creditTypes) {

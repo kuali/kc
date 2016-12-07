@@ -102,10 +102,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
     @Convert(converter = BooleanYNConverter.class)
     private Boolean fedrDelqFlag;
 
-    @Column(name = "ADD_CREDIT_SPLIT")
-    @Convert(converter = BooleanYNConverter.class)
-    private Boolean addCreditSplit = Boolean.TRUE;
-
     @Column(name = "ROLODEX_ID")
     private Integer rolodexId;
 
@@ -115,12 +111,15 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 
     @Column(name = "PROP_PERSON_ROLE_ID")
     private String proposalPersonRoleId;
-
+	
+	
 	@Column(name = "CERTIFIED_BY")
 	private String certifiedBy;
 
+
 	@Column(name = "LAST_NOTIFICATION")
 	private Timestamp lastNotification;
+    
 
 	@Column(name = "CERTIFIED_TIME")
 	private Timestamp certifiedTime;
@@ -1862,11 +1861,4 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 		this.certifiedTimeStamp = certifiedTimeStamp;
 	}
 
-    public Boolean getAddCreditSplit() {
-        return addCreditSplit;
-    }
-
-    public void setAddCreditSplit(Boolean addCreditSplit) {
-        this.addCreditSplit = addCreditSplit;
-    }
 }
