@@ -74,7 +74,7 @@
 		<field-descriptor name="costSharingIndicator" column="COST_SHARING_INDICATOR" jdbc-type="VARCHAR"/>
 		<field-descriptor name="indirectCostIndicator" column="IDC_INDICATOR" jdbc-type="VARCHAR"/>
 		<field-descriptor name="modificationNumber" column="MODIFICATION_NUMBER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="nsfSequenceNumber" column="NSF_SEQUENCE_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="nsfSequenceNumber" column="NSF_SEQUENCE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="paymentScheduleIndicator" column="PAYMENT_SCHEDULE_INDICATOR" jdbc-type="VARCHAR"/>
 		<field-descriptor name="scienceCodeIndicator" column="SCIENCE_CODE_INDICATOR" jdbc-type="VARCHAR"/>
 		<field-descriptor name="specialReviewIndicator" column="SPECIAL_REVIEW_INDICATOR" jdbc-type="VARCHAR"/>

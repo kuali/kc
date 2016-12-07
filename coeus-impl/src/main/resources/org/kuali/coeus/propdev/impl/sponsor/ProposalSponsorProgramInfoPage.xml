@@ -34,7 +34,7 @@
 			<bean parent="Uif-PageHeader"  />
 		</property>
 	</bean>
-		
+
 	<bean id="PropDev-SponsorProgramInfo-DefaultDetailsSection" parent="PropDev-SponsorProgramInfo-DefaultDetailsSection-parentBean" />
 	<bean id="PropDev-SponsorProgramInfo-DefaultDetailsSection-parentBean" abstract="true"
 		parent="Uif-CssGridSection-1FieldLabelColumn"
@@ -64,6 +64,7 @@
 					  p:minLength="0"
 					  p:order="90"/>
 				<bean parent="Uif-InputField" p:propertyName="nsfSequenceNumber"
+					  p:optionsFinderClass="@{#parent.readOnly ? T(org.kuali.kra.lookup.keyvalue.NsfCodeFinder) : T(org.kuali.kra.lookup.keyvalue.NsfCodeYearConstrainedFinder)}"
 				p:order="100" />
 				<bean parent="Uif-InputField" p:propertyName="anticipatedAwardTypeCode" p:enableAutoQuickfinder="false"
 				p:order="110" />

@@ -37,6 +37,9 @@ public class NsfCode extends KcPersistableBusinessObjectBase {
     @Column(name = "NSF_CODE")
     private String nsfCode;
 
+    @Column(name = "YEAR")
+    private Integer year;
+
     @Column(name = "DESCRIPTION")
     private String description;
 
@@ -62,5 +65,13 @@ public class NsfCode extends KcPersistableBusinessObjectBase {
 
     public void setNsfCode(String nsfCode) {
         this.nsfCode = nsfCode;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
     }
 }

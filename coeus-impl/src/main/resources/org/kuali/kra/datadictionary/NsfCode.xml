@@ -33,6 +33,7 @@
       <list>
         <ref bean="NsfCode-nsfSequenceNumber" />
         <ref bean="NsfCode-nsfCode" />
+        <ref bean="NsfCode-year" />
         <ref bean="NsfCode-description" />
         <ref bean="NsfCode-versionNumber" />
       </list>
@@ -89,6 +90,29 @@
     <property name="description" value="NSF Science Code" />
   </bean>
 
+  <bean id="NsfCode-year" parent="NsfCode-year-parentBean" />
+  <bean id="NsfCode-year-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="year" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Year" />
+    <property name="shortLabel" value="Year" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
+    </property>
+    <property name="summary" value="Year" />
+    <property name="description" value="Year" />
+  </bean>
+
   <bean id="NsfCode-description" parent="NsfCode-description-parentBean"/>
   <bean id="NsfCode-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>
   <bean id="NsfCode-versionNumber" parent="NsfCode-versionNumber-parentBean" />
@@ -106,6 +130,7 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition" p:attributeName="nsfCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="year" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="description"/>
             </list>
           </property>
@@ -125,6 +150,7 @@
           <property name="items">
             <list>
               <bean p:propertyName="nsfCode" parent="Uif-DataField"/>
+              <bean p:propertyName="year" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
             </list>
           </property>
@@ -143,12 +169,14 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition" p:attributeName="nsfCode"/>
+        <bean parent="FieldDefinition" p:attributeName="year"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="nsfCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="year" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
       </list>
     </property>
@@ -160,12 +188,14 @@
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="nsfCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="year" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
         <bean p:propertyName="nsfCode" parent="Uif-DataField"/>
+        <bean p:propertyName="year" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
       </list>
     </property>
