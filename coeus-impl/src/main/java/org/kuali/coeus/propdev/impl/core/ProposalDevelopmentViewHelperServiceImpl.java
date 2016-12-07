@@ -645,11 +645,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         return moreInfo.toString();
     }
 
-    public boolean isPersonnelCreditSplitOptInFeatureEnabled() {
-        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
-                Constants.ENABLE_OPT_IN_PERSONNEL_CREDIT_SPLIT_FUNCTIONALITY);
-    }
-
     public void populateCreditSplits(ProposalDevelopmentDocumentForm form) {
         getKeyPersonnelService().populateCreditSplit(form.getProposalDevelopmentDocument());
         form.setCreditSplitListItems(getKeyPersonnelService().createCreditSplitListItems(form.getProposalDevelopmentDocument()));

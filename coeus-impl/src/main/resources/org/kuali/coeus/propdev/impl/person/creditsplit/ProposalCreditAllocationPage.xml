@@ -51,9 +51,9 @@
         <property name="items">
             <list>
             <bean parent="PropDev-CreditAllocation-Collection"
-              p:render="@{!#emptyList(document.developmentProposal.getProposalPersons())}" p:order="10"/>
-            <bean parent="Uif-Message" p:messageText="There are no persons with credit split in this proposal."
-              p:render="@{#emptyList(document.developmentProposal.getPersonsSelectedForCreditSplit())}" p:order="20"/>
+              p:render="@{!#emptyList(document.developmentProposal.getInvestigators())}" p:order="10"/>
+            <bean parent="Uif-Message" p:messageText="There are no investigators for this proposal."
+              p:render="@{#emptyList(document.developmentProposal.getInvestigators())}" p:order="20"/>
             </list>
         </property>
     </bean>
@@ -79,7 +79,9 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="description" p:cssClasses="@{#line.lineType}" />
+                <bean parent="Uif-DataField" p:propertyName="description"
+                      p:cssClasses="@{#line.lineType}"
+                      />
             </list>
         </property>
         <property name="columnFieldPrototype">
