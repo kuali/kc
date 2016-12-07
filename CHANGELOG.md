@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1441: Revert "Reskc 1441 credit split (#2103)"
+
+  * This reverts commit 160e76e398d5fa1b22e4483e75ab933719114796.
+  * Travis Schneeberger on Wed, 7 Dec 2016 15:38:53 -0500 [View Commit](../../commit/87acdbeeecece4f0b63a956dccc5beed1b113058)
+
+##coeus-1612.0011
 * RESKC-1417: adding year to NSF Code.  Making references to NSF Code year aware such that in non-read only mode only the configured year's NSF Codes are displayed.
   * Travis Schneeberger on Wed, 7 Dec 2016 10:09:56 -0500 [View Commit](../../commit/14bc8dba79b046e9796ac514ad84f346edae9ac8)
 * RESKC-1417: changing Award, Proposal Development, and Institute Proposal to reference the Nsf Science Code primary key (sequence number) rather than the non-unique Nsf Science Code
