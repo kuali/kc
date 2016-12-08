@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1847: protocol derived role fix
+  * Terry Durkin on Thu, 8 Dec 2016 15:50:38 -0500 [View Commit](../../commit/3108953cfb902f8adfcc8d2dfc9f680d37f2263a)
+
+##coeus-1612.0015
 * No Changes
 
 
