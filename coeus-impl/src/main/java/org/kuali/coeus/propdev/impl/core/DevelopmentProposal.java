@@ -19,6 +19,7 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.persistence.annotations.Customizer;
 import org.eclipse.persistence.config.DescriptorCustomizer;
@@ -56,6 +57,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitConstants;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -585,6 +587,17 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
             }
         }
         return investigators;
+    }
+
+    public List<ProposalPerson> getPersonsSelectedForCreditSplit() {
+
+        final boolean optIn = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants
+                .KC_ALL_PARAMETER_DETAIL_TYPE_CODE, CreditSplitConstants.ENABLE_OPT_IN_PERSONNEL_CREDIT_SPLIT_FUNCTIONALITY);
+
+        return getProposalPersons().stream()
+                .filter(person -> (BooleanUtils.isTrue(person.getIncludeInCreditAllocation()) && optIn) || !optIn && person.isInvestigator())
+                .filter(person -> CollectionUtils.isNotEmpty(person.getUnits()))
+                .collect(Collectors.toList());
     }
 
     public void setProposalPersons(List<ProposalPerson> argProposalPersons) {

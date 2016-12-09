@@ -34,6 +34,7 @@ import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitConstants;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -48,6 +49,7 @@ import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireH
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.util.CollectionUtils;
@@ -59,6 +61,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -102,6 +105,10 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
     @Convert(converter = BooleanYNConverter.class)
     private Boolean fedrDelqFlag;
 
+    @Column(name = "ADD_CREDIT_SPLIT")
+    @Convert(converter = BooleanYNConverter.class)
+    private Boolean includeInCreditAllocation;
+
     @Column(name = "ROLODEX_ID")
     private Integer rolodexId;
 
@@ -111,15 +118,12 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 
     @Column(name = "PROP_PERSON_ROLE_ID")
     private String proposalPersonRoleId;
-	
-	
+
 	@Column(name = "CERTIFIED_BY")
 	private String certifiedBy;
 
-
 	@Column(name = "LAST_NOTIFICATION")
 	private Timestamp lastNotification;
-    
 
 	@Column(name = "CERTIFIED_TIME")
 	private Timestamp certifiedTime;
@@ -418,7 +422,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
     
     @Transient
     private transient PropAwardPersonRoleService propAwardPersonRoleService;
-    
+
     @Transient
     private transient String  certifiedPersonName;
     
@@ -427,6 +431,9 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 
     @Transient
     private Timestamp createTimestamp;
+
+    @Transient
+    private transient ParameterService parameterService;
 
     public boolean isMoveDownAllowed() {
         return moveDownAllowed;
@@ -1861,4 +1868,30 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 		this.certifiedTimeStamp = certifiedTimeStamp;
 	}
 
+    public Boolean getIncludeInCreditAllocation() {
+        if (includeInCreditAllocation == null) {
+            includeInCreditAllocation = defaultIncludeInCreditAllocation(proposalPersonRoleId);
+        }
+
+        return includeInCreditAllocation;
+    }
+
+    /* this method is here and not in the view helper service because KRAD will not allow certain expressions in the KRAD xml to determine whether a control is checked or not. */
+    public Boolean defaultIncludeInCreditAllocation(String proposalPersonRoleId) {
+        final Collection<String> roles = getParameterService().getParameterValuesAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, CreditSplitConstants.CREDIT_SPLIT_OPT_IN_DEFAULT_ROLES);
+
+        return StringUtils.isNotBlank(proposalPersonRoleId)
+                && roles.contains(proposalPersonRoleId);
+    }
+
+    public void setIncludeInCreditAllocation(Boolean includeInCreditAllocation) {
+        this.includeInCreditAllocation = includeInCreditAllocation;
+    }
+
+    public ParameterService getParameterService() {
+        if(parameterService == null) {
+            parameterService = KcServiceLocator.getService(ParameterService.class);
+        }
+        return parameterService;
+    }
 }

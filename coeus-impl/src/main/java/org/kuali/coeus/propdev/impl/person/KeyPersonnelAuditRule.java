@@ -19,15 +19,18 @@
 package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitConstants;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitValidator;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -56,6 +59,7 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
 
     private SponsorHierarchyService sponsorHierarchyService;
     private KeyPersonnelService keyPersonnelService;
+    private ParameterService parameterService;
 
     protected SponsorHierarchyService getSponsorHierarchyService(){
         if (sponsorHierarchyService == null)
@@ -66,6 +70,13 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
         if (keyPersonnelService == null)
             keyPersonnelService = KcServiceLocator.getService(KeyPersonnelService.class);
         return keyPersonnelService;
+    }
+
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
+        }
+        return this.parameterService;
     }
 
     @Override
@@ -81,6 +92,7 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
         retval &= new ProposalDevelopmentKeyPersonsRule().processCustomSaveDocumentBusinessRules(pd);
         
         boolean hasInvestigator = false;
+        boolean hasOptInPerson = false;
         int  personCount = 0;
         for (ProposalPerson person : pd.getDevelopmentProposal().getProposalPersons()) {
             retval &= validateInvestigator(person,personCount);
@@ -89,10 +101,15 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
             if (!hasInvestigator && isInvestigator(person)) {
                 hasInvestigator = true;
             }
+
+            if (BooleanUtils.isTrue(person.getIncludeInCreditAllocation())) {
+                hasOptInPerson = true;
+            }
             personCount++;
         }
-        
-        if (hasInvestigator) {
+
+        if (hasInvestigator || (hasOptInPerson && getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants
+                .KC_ALL_PARAMETER_DETAIL_TYPE_CODE, CreditSplitConstants.ENABLE_OPT_IN_PERSONNEL_CREDIT_SPLIT_FUNCTIONALITY))) {
             retval &= validateCreditSplit((ProposalDevelopmentDocument) document);
         }
         return retval;

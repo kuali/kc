@@ -22,9 +22,7 @@ package org.kuali.coeus.propdev.impl.person.creditsplit;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -37,13 +35,12 @@ import org.kuali.rice.krad.uif.lifecycle.ViewLifecycleRestriction;
 import org.kuali.rice.krad.uif.util.*;
 
 
-
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CreditSplitCustomColumnsCollection extends CollectionGroupBase {
-    private static final Logger LOG = Logger.getLogger(CreditSplitCustomColumnsCollection.class);
 
     private DataFieldBase columnFieldPrototype;
     private BindingInfo columnBindingInfo;
@@ -55,7 +52,7 @@ public class CreditSplitCustomColumnsCollection extends CollectionGroupBase {
 
         ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) model;
         ((ProposalDevelopmentViewHelperServiceImpl) pdForm.getViewHelperService()).setInvestigatorCreditTypes(pdForm);
-        List<ProposalPerson> investigators = ((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal().getInvestigators();
+        List<ProposalPerson> investigators = ((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal().getPersonsSelectedForCreditSplit();
         if (CollectionUtils.isNotEmpty(investigators)) {
         List<InvestigatorCreditType> columnCollection = ObjectPropertyUtils.getPropertyValue(model,
                 getColumnBindingInfo().getBindingPath());
@@ -81,8 +78,8 @@ public class CreditSplitCustomColumnsCollection extends CollectionGroupBase {
                 columnField.setPropertyName("creditSplits.credit");
                 columnField.setOrder(100 + index);
                 columns.add(columnField);
-            } catch (Exception e) {
-                LOG.error("Could not retrieve column label from column collection item",e);
+            } catch (IllegalAccessException|InvocationTargetException|NoSuchMethodException e) {
+                throw new RuntimeException(e);
             }
         index++;
         }

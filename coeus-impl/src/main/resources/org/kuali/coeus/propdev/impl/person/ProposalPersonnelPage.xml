@@ -243,8 +243,7 @@
                         <bean parent="Uif-VerticalRadioControl" />
                     </property>
                     <property name="optionsFinder">
-                        <bean
-                                class="org.kuali.coeus.propdev.impl.person.ProposalPersonRoleValuesFinder" />
+                        <bean class="org.kuali.coeus.propdev.impl.person.ProposalPersonRoleValuesFinder" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField"
@@ -414,6 +413,9 @@
                       p:order="70"/>
                 <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="eraCommonsUserName"
                       p:order="80"/>
+                <bean parent="Uif-CheckboxInputField" p:propertyName="includeInCreditAllocation" p:render="@{#ViewHelper.isPersonnelCreditSplitOptInFeatureEnabled()}"
+                      p:order="90">
+                </bean>
             </list>
         </property>
     </bean>

@@ -53,7 +53,7 @@ public class CreditSplitValidator {
     private static final String INV_VALIDATION_MESSAGE = "Investigator validation passed ";
     private static final String AUDIT_ADDITION_MESSAGE_1 = "Adding " ;
     private static final String AUDIT_ADDITION_MESSAGE_2 = " audit error.";
-        
+
     /**
      * Validates the credit splits of an entire document by traversing it. If the Investigator is instead a Principal Investigator,
      * the units should all add up to 100.0.
@@ -64,18 +64,21 @@ public class CreditSplitValidator {
     public boolean validate(ProposalDevelopmentDocument document) {
         Collection<InvestigatorCreditType> creditTypes = getKeyPersonnelService().getInvestigatorCreditTypes();
         boolean retval = true;
-        
-        for (InvestigatorCreditType creditType : creditTypes) {
-            LOG.info(VALIDATING_CT_MESSAGE + creditType.getDescription());
-            if (creditType.addsToHundred()) {
-                retval &= validate(document.getDevelopmentProposal().getInvestigators(), creditType);
+
+        final List<ProposalPerson> investigators = document.getDevelopmentProposal().getPersonsSelectedForCreditSplit();
+
+        if (!investigators.isEmpty()) {
+            for (InvestigatorCreditType creditType : creditTypes) {
+                LOG.info(VALIDATING_CT_MESSAGE + creditType.getDescription());
+                if (creditType.addsToHundred()) {
+                    retval &= validate(investigators, creditType);
+                }
             }
         }
 
-
         return retval;
     }
-    
+
     /**
      * Validates credit splits of all investigators in a <code>{@link ProposalDevelopmentDocument}</code>. Takes a 
      * <code>{@link Collection}</code> of investigators for a given credit type, and validates credit splits 
@@ -137,14 +140,14 @@ public class CreditSplitValidator {
              
         return retval & validateCreditSplitable(splitable_it, creditType, greaterCummulative);
     }
-    
+
     /**
      * Determines if the total credit split value for a {@link CreditSplitable} instance is valid or not. The upper and lower bounds for {@link CreditSplit} are 100.00 and 0.00.
      * 0.00 is used as the lower bound and is significant because this is where {@link org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit} is initiated. This is valid. 100.00 is the upper bound and represents an
-     * adequate split of credit. Anything other than these is not considered valid 
+     * adequate split of credit. Anything other than these is not considered valid
      *
      * @param total value of the credit split
-     * @return <code>false</code> if the credit split total is anything other than 100.00 or 0.00; otherwise, return <code>true</code> 
+     * @return <code>false</code> if the credit split total is anything other than 100.00 or 0.00; otherwise, return <code>true</code>
      */
     private boolean isCreditSplitTotalValid(ScaleTwoDecimal total) {
         return (CREDIT_UPBOUND.compareTo(total) == 0 || CREDIT_LOWBOUND.compareTo(total) > 0);

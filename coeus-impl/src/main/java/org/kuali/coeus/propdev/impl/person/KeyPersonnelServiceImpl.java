@@ -32,10 +32,7 @@ import org.kuali.coeus.common.framework.ynq.YnqService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment;
-import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit;
-import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
-import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
-import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
+import org.kuali.coeus.propdev.impl.person.creditsplit.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -533,7 +530,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
     @Override
     public List<ProposalCreditSplitListDto> createCreditSplitListItems(ProposalDevelopmentDocument document) {
-        List<ProposalPerson> investigators = document.getDevelopmentProposal().getInvestigators();
+        List<ProposalPerson> investigators = document.getDevelopmentProposal().getPersonsSelectedForCreditSplit();
+
         if(!hasBeenRoutedOrCanceled(document)) {
             handleNewCreditTypes(investigators, getInvestigatorCreditTypes());
         }

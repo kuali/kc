@@ -25,7 +25,6 @@ import java.util.*;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
-import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
@@ -55,13 +54,13 @@ import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.person.*;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitConstants;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sRevisionTypeConstants;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.controller.KcFileService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
@@ -645,6 +644,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         return moreInfo.toString();
     }
 
+    public boolean isPersonnelCreditSplitOptInFeatureEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                CreditSplitConstants.ENABLE_OPT_IN_PERSONNEL_CREDIT_SPLIT_FUNCTIONALITY);
+    }
+
     public void populateCreditSplits(ProposalDevelopmentDocumentForm form) {
         getKeyPersonnelService().populateCreditSplit(form.getProposalDevelopmentDocument());
         form.setCreditSplitListItems(getKeyPersonnelService().createCreditSplitListItems(form.getProposalDevelopmentDocument()));
@@ -906,6 +910,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         return returnValue != null && returnValue;
     }
 
+    @Override
     public boolean requiresResubmissionPrompt(DevelopmentProposal developmentProposal, String resubmissionOption) {
        if(isResubmissionPromptDialogEnabled()) {
            return getProposalDevelopmentService().isProposalReniewedOrChangeCorrected(developmentProposal)
@@ -915,6 +920,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
        }
     }
 
+    @Override
     public boolean isResubmissionPromptDialogEnabled() {
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentService.ENABLE_IP_GENERATION_PROMPT_DIALOG);
     }
