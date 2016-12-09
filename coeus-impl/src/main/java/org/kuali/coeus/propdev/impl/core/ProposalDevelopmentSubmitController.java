@@ -699,14 +699,17 @@ public class ProposalDevelopmentSubmitController extends
                 form.getWorkflowDocument().setDoNotReceiveFutureRequests();
             }
         }
+        
+		boolean auditActivate = form.getDialogResponse("PropDev-SubmitPage-ApproveDialog") == null ? true : false;
+		form.setAuditActivated(auditActivate);
 
-        form.setAuditActivated(true);
-
-        if (getValidationState(form).equals(AuditHelper.ValidationState.ERROR)) {
+        if (auditActivate && getValidationState(form).equals(AuditHelper.ValidationState.ERROR)) {
             getGlobalVariableService().getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION);
             return getModelAndViewService().getModelAndView(form);
         }
 
+		form.setAuditActivated(false);
+        
         final boolean approvalComments = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, ENABLE_PD_WORKFLOW_APPROVAL_COMMENTS);
         if (approvalComments) {
             final DialogResponse approveDialogResponse = form.getDialogResponse("PropDev-SubmitPage-ApproveDialog");
