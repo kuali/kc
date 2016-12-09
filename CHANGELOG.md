@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Fixes NSF keyword must be selected before printing.
+  * Terry Durkin on Fri, 9 Dec 2016 09:07:11 -0500 [View Commit](../../commit/0b08e2c78a5a54df22f42c3a76adceb60f604c9b)
+
+##coeus-1612.0016
 * RESKC-1847: protocol derived role fix
   * Terry Durkin on Thu, 8 Dec 2016 15:50:38 -0500 [View Commit](../../commit/3108953cfb902f8adfcc8d2dfc9f680d37f2263a)
 
