@@ -1,6 +1,9 @@
 
 
 ##CURRENT
+* fix validations running 2x and causing concurrency exceptions  * vineeth on Fri, 9 Dec 2016 14:46:53 -0500 [View Commit](../../commit/ee587b15e79cca50af23fe9d7003593eee5fbd2b)
+
+##coeus-1612.0017
 * Fixes NSF keyword must be selected before printing.
   * Terry Durkin on Fri, 9 Dec 2016 09:07:11 -0500 [View Commit](../../commit/0b08e2c78a5a54df22f42c3a76adceb60f604c9b)
 
