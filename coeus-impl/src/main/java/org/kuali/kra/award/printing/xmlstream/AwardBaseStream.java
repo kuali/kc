@@ -395,10 +395,10 @@ public abstract class AwardBaseStream implements XmlStream {
 		}
 		if (award.getNsfSequenceNumber() != null && award.getNsfCodeBo() != null) {
 			awardHeaderType.setNSFCode(award.getNsfCodeBo().getNsfCode());
-		}
-		String nsfDescription = award.getNsfCodeBo().getDescription();
-		if (nsfDescription != null) {
-			awardHeaderType.setNSFDescription(nsfDescription);
+			String nsfDescription = award.getNsfCodeBo().getDescription();
+			if (nsfDescription != null) {
+				awardHeaderType.setNSFDescription(nsfDescription);
+			}
 		}
 		if (award.getPrincipalInvestigatorName() != null) {
 			awardHeaderType.setPIName(award.getPrincipalInvestigatorName());
