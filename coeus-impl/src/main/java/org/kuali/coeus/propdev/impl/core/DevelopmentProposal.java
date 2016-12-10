@@ -366,7 +366,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     private S2sOpportunity s2sOpportunity;
 
     @OneToOne(cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER")
     private ProposalDevelopmentDocument proposalDocument;
 
     @ManyToOne(targetEntity = NsfCode.class, cascade = { CascadeType.REFRESH })
@@ -1159,15 +1159,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.propSpecialReviews = propSpecialReviews;
     }
 
-    /**
-     * Build an identifier map for the BOS lookup
-     */
-    protected Map<String, Object> getIdentifierMap(String identifierField, Object identifierValue) {
-        Map<String, Object> map = new HashMap<>();
-        map.put(identifierField, identifierValue);
-        return map;
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -1712,8 +1703,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     /**
      * In the case where a person is in the proposal twice (Investigator and Key Person),
      * this method's return list contains only the Investigator.
-     * 
-     * @see org.kuali.coeus.common.budget.framework.core.BudgetParent#getPersonRolodexList()
      */
     @Override
     public List<PersonRolodex> getPersonRolodexList() {
@@ -1739,18 +1728,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Override
     public String getUnitNumber() {
         return getOwnedByUnitNumber();
-    }
-
-    /**
-     * This method sets the proposal number on all sub-BOs that have a proposal number.
-     */
-    public void updateProposalNumbers() {
-        for (ProposalSite site : getProposalSites()) {
-        	site.setDevelopmentProposal(this);
-        }
-        if (s2sOpportunity != null) {
-            this.proposalNumberForGG = proposalNumber;
-        }
     }
 
     @Override
@@ -1894,20 +1871,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     public Map<String, List<BudgetChangedData>> getBudgetChangeHistory() {
         return budgetChangeHistory;
-    }
-
-    /*
-    This method will update the budget change data history
-    */
-    public void updateBudgetChangeHistory() {
-        budgetChangeHistory = new TreeMap<>();
-        // Arranging Budget Change History   
-        if (CollectionUtils.isNotEmpty(this.getBudgetChangedDataList())) {
-            for (BudgetChangedData budgetChangedData : this.getBudgetChangedDataList()) {
-                this.getBudgetChangeHistory().computeIfAbsent(budgetChangedData.getEditableColumn().getColumnLabel(), k -> new ArrayList<>());
-                this.getBudgetChangeHistory().get(budgetChangedData.getEditableColumn().getColumnLabel()).add(budgetChangedData);
-            }
-        }
     }
 
     public void setBudgetChangedDataList(List<BudgetChangedData> budgetChangedDataList) {

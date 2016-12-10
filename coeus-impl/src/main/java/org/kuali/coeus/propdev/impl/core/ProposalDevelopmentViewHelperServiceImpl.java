@@ -740,9 +740,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public void toggleAttachmentFile(ProposalDevelopmentDocumentForm form, String collectionPath, String index) {
         ProposalDevelopmentAttachmentHelper helper = form.getProposalDevelopmentAttachmentHelper();
         if (!isAttachmentFileEditable(helper, collectionPath, index)){
-            if (helper.getEditableFileLineAttachments().get(collectionPath) == null){
-                helper.getEditableFileLineAttachments().put(collectionPath, new ArrayList<>());
-            }
+            helper.getEditableFileLineAttachments().computeIfAbsent(collectionPath, k -> new ArrayList<>());
             helper.getEditableFileLineAttachments().get(collectionPath).add(index);
         }
         else{
@@ -820,9 +818,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         String id = person.getPersonId() == null? person.getRolodexId().toString() : person.getPersonId();
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm)ViewLifecycle.getModel();
         List<DisclosureProjectStatus> projectStatuses = form.getDisclosureProjectStatuses();
-        return projectStatuses.stream().filter(projectStatus -> {
-            return projectStatus.getUserId().equalsIgnoreCase(id);
-        }).findFirst().orElse(new DisclosureProjectStatus());
+        return projectStatuses.stream()
+                .filter(projectStatus -> projectStatus.getUserId().equalsIgnoreCase(id))
+                .findFirst()
+                .orElse(new DisclosureProjectStatus());
     }
 
     public boolean isCoiDisclosureStatusEnabled() {

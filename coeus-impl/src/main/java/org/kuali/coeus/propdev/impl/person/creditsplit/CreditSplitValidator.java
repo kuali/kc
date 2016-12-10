@@ -35,13 +35,6 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_CREDIT_SPLIT_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_TOTAL_CREDIT_SPLIT_UPBOUND;
 
-/**
- * Validates Credit Splits on a <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPerson}</code> and/or <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPersonUnit}</code> by
- * traversing the tree of <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPerson}</code> <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPersonUnit}</code> instances.
- *
- * @author $Author: gmcgrego $
- * @version $Revision: 1.11 $
- */
 public class CreditSplitValidator {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CreditSplitValidator.class);
     private static final ScaleTwoDecimal CREDIT_UPBOUND = new ScaleTwoDecimal(100.00);
@@ -57,9 +50,6 @@ public class CreditSplitValidator {
     /**
      * Validates the credit splits of an entire document by traversing it. If the Investigator is instead a Principal Investigator,
      * the units should all add up to 100.0.
-     *
-     * @param document The document to validate the credit splits of
-     * @return boolean
      */
     public boolean validate(ProposalDevelopmentDocument document) {
         Collection<InvestigatorCreditType> creditTypes = getKeyPersonnelService().getInvestigatorCreditTypes();
@@ -84,9 +74,7 @@ public class CreditSplitValidator {
      * <code>{@link Collection}</code> of investigators for a given credit type, and validates credit splits 
      * for each investigator as well as iterating and validating credit splits for each unit belonging to an 
      * investigator.
-     * 
-     * @param investigators
-     * @param creditType
+     *
      * @return true if the investigator collection is valid for the credit type, and false if it's invalid
      */
     public boolean validate(Collection<ProposalPerson> investigators, InvestigatorCreditType creditType) {
@@ -95,7 +83,7 @@ public class CreditSplitValidator {
         DecimalHolder investigatorCreditTotal = new DecimalHolder(ScaleTwoDecimal.ZERO);
 
         if (!validateCreditSplitable(investigators.iterator(), creditType, investigatorCreditTotal)) {
-            addAuditError(ERROR_TOTAL_CREDIT_SPLIT_UPBOUND, creditType.getDescription());                    
+            addAuditError(ERROR_TOTAL_CREDIT_SPLIT_UPBOUND, creditType.getDescription());
             retval = false;
         }
 
@@ -118,11 +106,6 @@ public class CreditSplitValidator {
 
     /**
      * Validates a collection of anything splitable. This implies that it contains <code>{@link org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit}</code> instances.
-     * 
-     * @param splitable_it
-     * @param creditType
-     * @param greaterCummulative
-     * @return boolean is valid?
      */
     public boolean validateCreditSplitable(Iterator<? extends CreditSplitable> splitable_it, InvestigatorCreditType creditType, DecimalHolder greaterCummulative) {
         if (!splitable_it.hasNext()) {
@@ -156,10 +139,7 @@ public class CreditSplitValidator {
 
     /**
      * Validates a collection of anything splits. Negative values and values exceeding 100.00 are not permissible. 
-     * 
-     * @param creditSplit_it
-     * @param creditType
-     * @param lesserCummulative
+     *
      * @return boolean <code>true</code> if it is a valid percentage (falls between 0.00 and 100.00)
      */
     public boolean validateCreditSplit(Iterator<? extends CreditSplit> creditSplit_it, InvestigatorCreditType creditType, DecimalHolder lesserCummulative) {
@@ -204,13 +184,13 @@ public class CreditSplitValidator {
      * @return List of AuditError instances
      */
     private List<AuditError> getAuditErrors() {
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        List<AuditError> auditErrors = new ArrayList<>();
         
         if (!GlobalVariables.getAuditErrorMap().containsKey(CREDIT_ALLOCATION_PAGE_NAME)) {
            GlobalVariables.getAuditErrorMap().put(CREDIT_ALLOCATION_PAGE_NAME, new AuditCluster(CREDIT_ALLOCATION_PAGE_NAME, auditErrors, AUDIT_ERRORS));
         }
         else {
-            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(CREDIT_ALLOCATION_PAGE_NAME)).getAuditErrorList();
+            auditErrors = GlobalVariables.getAuditErrorMap().get(CREDIT_ALLOCATION_PAGE_NAME).getAuditErrorList();
         }
         
         return auditErrors;
@@ -221,8 +201,7 @@ public class CreditSplitValidator {
      *
      * The <code>{@link AuditError}</code> that is added is.
      * <code>CREDIT_SPLIT_KEY, messageKey, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR</code>
-     * 
-     * @param messageKey
+     *
      */
     private void addAuditError(String messageKey, String ... params) {
         AuditError error = new CreditSplitAuditError(messageKey, params);
@@ -250,21 +229,11 @@ public class CreditSplitValidator {
      */
     final class DecimalHolder implements Comparable<DecimalHolder> {
         private ScaleTwoDecimal value;
-        
-        /**
-         * Create a <code>{@link DecimalHolder}</code> from a <code>{@link ScaleTwoDecimal}</code>.
-         * 
-         * @param val a <code>{@link ScaleTwoDecimal}</code> instance
-         */
+
         public DecimalHolder(ScaleTwoDecimal val) {
             value = val;
         }
 
-        /**
-         * Get the contained <code>{@link ScaleTwoDecimal}</code> instance.
-         * 
-         * @return ScaleTwoDecimal
-         */
         public ScaleTwoDecimal getValue() {
             return value;
         }
@@ -282,16 +251,12 @@ public class CreditSplitValidator {
             value = value.add(val.getValue());
         }
 
-        /**
-         * @see java.lang.Comparable#compareTo(java.lang.Object)
-         */
+        @Override
         public int compareTo(DecimalHolder obj) {
             return value.compareTo(obj.getValue());
         }
-        
-        /**
-         * @see java.lang.Object#toString()
-         */
+
+        @Override
         public String toString() {
             return value.toString();
         }
@@ -306,23 +271,13 @@ public class CreditSplitValidator {
         /**
          * 
          * @param messageKey to be delegated to <code>{@link AuditError}</code> superclass
-         */
-        public CreditSplitAuditError(String messageKey) {
-            this(messageKey, null);
-        }
-        
-        /**
-         * 
-         * @param messageKey to be delegated to <code>{@link AuditError}</code> superclass
          * @param params varargs array of parameters for the messagekey
          */
         public CreditSplitAuditError(String messageKey, String ... params) {
             super(CREDIT_ALLOCATION_PAGE_ID, messageKey, CREDIT_ALLOCATION_PAGE_ID, params);
         }
         
-        /**
-         * @see java.lang.Object#equals(java.lang.Object)
-         */
+        @Override
         public boolean equals(Object obj) {
             if (obj == null) {
                 return false;

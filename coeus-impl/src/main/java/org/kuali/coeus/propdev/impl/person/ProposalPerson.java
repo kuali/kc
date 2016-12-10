@@ -65,14 +65,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Class representation of the Proposal Person <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
- *
- * @see org.kuali.rice.krad.bo.BusinessObject
- * @see org.kuali.rice.krad.bo.PersistableBusinessObject
- * @author $Author: gmcgrego $
- * @version $Revision: 1.42 $
- */
 @Entity
 @Table(name = "EPS_PROP_PERSON")
 @IdClass(ProposalPerson.ProposalPersonId.class)
@@ -452,19 +444,16 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
     }
 
     public ProposalPerson() {
-        proposalPersonDegrees = new ArrayList<ProposalPersonDegree>();
-        setUnits(new ArrayList<ProposalPersonUnit>());
-        setCreditSplits(new ArrayList<ProposalPersonCreditSplit>());
-        setProposalPersonYnqs(new ArrayList<ProposalPersonYnq>());
+        proposalPersonDegrees = new ArrayList<>();
+        setUnits(new ArrayList<>());
+        setCreditSplits(new ArrayList<>());
+        setProposalPersonYnqs(new ArrayList<>());
         roleChanged = false;
         delete = false;
-        setFullName(new String());
+        setFullName("");
         questionnaireHelper = new ProposalPersonQuestionnaireHelper(this);
     }
 
-    /**
-     * set the <code>simpleName</code> &amp; the full name.
-     */
     @Override
     public void setFullName(String fullName) {
         this.fullName = fullName;
@@ -474,6 +463,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
         setSimpleName(StringUtils.remove(getSimpleName(), '.'));
     }
 
+    @Override
     public String getFullName() {
         return this.fullName;
     }
@@ -568,7 +558,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
      * 
      * This method returns the concatation of proposalNumber + "|" + proposalPersonNumber.
      * Those two fields are the combined primary key on the table.
-     * @return
      */
     public String getUniqueId() {
         return this.getDevelopmentProposal().getProposalNumber() + "|" + this.getProposalPersonNumber();
@@ -667,21 +656,10 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 		this.kcPersonService = kcPersonService;
 	}
 
-    /**
-     * Adds a new degree to the collection in the person
-     *
-     * @param d degree to add
-     */
     public void addDegree(ProposalPersonDegree d) {
         getProposalPersonDegrees().add(d);
     }
 
-    /**
-     * Gets index i from the degrees list.
-     * 
-     * @param index
-     * @return <code>{@link ProposalPersonDegree}</code> instance at index i
-     */
     public ProposalPersonDegree getProposalPersonDegree(int index) {
         while (getProposalPersonDegrees().size() <= index) {
             getProposalPersonDegrees().add(new ProposalPersonDegree());
@@ -689,21 +667,10 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
         return getProposalPersonDegrees().get(index);
     }
 
-    /**
-     * Adds a new unit to the collection in the person
-     *
-     * @param unit to add
-     */
     public void addUnit(ProposalPersonUnit unit) {
         getUnits().add(unit);
     }
 
-    /**
-     * Gets index i from the units list.
-     * 
-     * @param index
-     * @return <code>{@link ProposalPersonUnit}</code> instance at index i
-     */
     public ProposalPersonUnit getUnit(int index) {
         while (getUnits().size() <= index) {
             getUnits().add(new ProposalPersonUnit());
@@ -711,12 +678,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
         return getUnits().get(index);
     }
 
-    /**
-     * Gets unit with unitNumber from the units list.
-     * 
-     * @param unitNumber
-     * @return <code>{@link ProposalPersonUnit}</code> instance at index i
-     */
     public ProposalPersonUnit getUnit(String unitNumber) {
         if (unitNumber == null) {
             return null;
@@ -731,8 +692,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 
     /**
      * Read access to a flag that determines if this instance should be deleted from a list of other instances.
-     * 
-     * @return boolean
+     *
      */
     public boolean isDelete() {
         return delete;
@@ -740,8 +700,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 
     /**
      * Write access to a flag that determines if this instance should be deleted from a list of other instances.
-     * 
-     * @param delete 
+     *
      */
     public void setDelete(boolean delete) {
         this.delete = delete;
@@ -755,12 +714,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
         return unitdelete;
     }
 
-    /**
-     * Gets index i from the creditSplits list.
-     * 
-     * @param index
-     * @return Question at index i
-     */
     public ProposalPersonCreditSplit getCreditSplit(int index) {
         while (getCreditSplits().size() <= index) {
             getCreditSplits().add(new ProposalPersonCreditSplit());
@@ -777,12 +730,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
         this.proposalPersonYnqs = proposalPersonYnqs;
     }
 
-    /**
-     * Gets index i from the proposalPersonYnqs list.
-     * 
-     * @param index
-     * @return Question at index i
-     */
     public ProposalPersonYnq getProposalPersonYnq(int index) {
         while (getProposalPersonYnqs().size() <= index) {
             getProposalPersonYnqs().add(new ProposalPersonYnq());
@@ -832,30 +779,16 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
         return true;
     }
 
-    /**
-     * Determine if the <code>{@link ProposalPerson}</code> instance role has changed
-     * 
-     * @return boolean
-     */
+
     public boolean isRoleChanged() {
         return roleChanged;
     }
 
-    /**
-     * Trigger a role change
-     * 
-     * @param roleChanged
-     */
+
     public void setRoleChanged(boolean roleChanged) {
         this.roleChanged = roleChanged;
     }
 
-    /**
-     * Loops through units to determine if the person has a <code>{@link ProposalPersonUnit}</code> with the given number.
-     * 
-     * @param unitNumber
-     * @return if the unit exists
-     */
     public boolean containsUnit(String unitNumber) {
         if (unitNumber == null) {
             return false;
@@ -870,8 +803,8 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 
     /**
      * Gets the simpleName attribute. <code>simpleName</code> is used for mapping credit split totals by person. They are mapped
-     * to the simpleName instead of a fullName because simpleName doesn't have any funny characters. 
-     * 
+     * to the simpleName instead of a fullName because simpleName doesn't have any funny characters.
+     *
      * @return Returns the simpleName.
      */
     public String getSimpleName() {
@@ -1631,7 +1564,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
      * 
      * This method determines if any of this person's YNQs have been answered.  If so, return yes.
      * Otherwise return no.
-     * @return
      */
     public boolean getAnyYNQsAnswered() {
         for (ProposalPersonYnq ynq : this.getProposalPersonYnqs()) {

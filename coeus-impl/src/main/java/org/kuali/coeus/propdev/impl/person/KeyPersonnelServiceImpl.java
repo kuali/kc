@@ -21,7 +21,6 @@ package org.kuali.coeus.propdev.impl.person;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.attr.PersonBiosketch;
@@ -48,13 +47,6 @@ import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-/**
- * A Service implementation for persisted modifications of Key Personnel related business objects
- *
- * @see org.kuali.coeus.propdev.impl.person.ProposalPerson
- * @author $Author: gmcgrego $
- * @version $Revision: 1.34 $
- */
 @Component("keyPersonnelService")
 public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
@@ -82,9 +74,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
-    @Autowired
-    @Qualifier("sponsorHierarchyService")
-    private SponsorHierarchyService sponsorHierarchyService;
     
     @Autowired
     @Qualifier("personEditableService")
@@ -98,11 +87,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         this.proposalPersonService = proposalPersonService;
     }
 
-    /**
-     * Populates Key Personnel into a <code>{@link ProposalDevelopmentDocument}</code>
-     * 
-     * @param document
-     */
+    @Override
     public void populateDocument(ProposalDevelopmentDocument document) {
         populateCreditSplit(document);
 
@@ -112,10 +97,11 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         }
     }
 
+    @Override
     public void populateCreditSplit(ProposalDevelopmentDocument document) {
         if(hasBeenRoutedOrCanceled(document)){
             Collection<InvestigatorCreditType> availableCreditTypes=getAllInvestigatorCreditTypes();
-            Set<InvestigatorCreditType> usedCreditTypes = new HashSet<InvestigatorCreditType>();
+            Set<InvestigatorCreditType> usedCreditTypes = new HashSet<>();
             for (ProposalPerson person : document.getDevelopmentProposal().getInvestigators()) {
                 for(ProposalPersonCreditSplit creditSplit : person.getCreditSplits()){
                     for(InvestigatorCreditType currentCreditType : availableCreditTypes){
@@ -137,12 +123,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         }
     }
 
-    /**
-     * It populates the Active credit type in the proposalpersoncreditsplit and unitcreditsplit
-     *
-     * @param document
-     * @return true or false
-     */
     public void populateActiveCredittypesPerson(ProposalDevelopmentDocument document){
         Collection<InvestigatorCreditType> invcrdttype=getInvestigatorCreditTypes();
         for (ProposalPerson person : document.getDevelopmentProposal().getInvestigators()) {
@@ -176,6 +156,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         }
     }
 
+    @Override
     public void addProposalPerson(ProposalPerson proposalPerson, ProposalDevelopmentDocument document) {
     	getPersonEditableService().populateContactFields(proposalPerson);
         document.getDevelopmentProposal().addProposalPerson(proposalPerson);
@@ -203,7 +184,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         if (proposalPerson.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)  ||
             proposalPerson.getProposalPersonRoleId().equals(MULTI_PI_ROLE) ||
             proposalPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)) {
-            if (isNotBlank(proposalPerson.getHomeUnit()) && isValidHomeUnit(proposalPerson, proposalPerson.getHomeUnit())){
+            if (isNotBlank(proposalPerson.getHomeUnit()) && isValidHomeUnit(proposalPerson.getHomeUnit())){
                 addUnitToPerson(proposalPerson, createProposalPersonUnit(proposalPerson.getHomeUnit(), proposalPerson));
             }
         }
@@ -212,20 +193,10 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         }
         populateProposalPerson(proposalPerson, document);
     }
-    
-    /**
-     * Determines whether the person has valid unit
-     * 
-     * @param person
-     * @return boolean
-     */
-    @SuppressWarnings("unchecked")
-    public boolean isValidHomeUnit(ProposalPerson person, String unitId){
-        Map valueMap = new HashMap();
-        valueMap.put("unitNumber", unitId);
-        Collection<Unit> units = getBusinessObjectService().findMatching(Unit.class, valueMap);
-        
-        return CollectionUtils.isNotEmpty(units);
+
+
+    public boolean isValidHomeUnit(String unitId){
+        return getBusinessObjectService().countMatching(Unit.class, Collections.singletonMap("unitNumber", unitId)) > 0;
     }
 
     @Override
@@ -283,47 +254,29 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                 }
             }
         } catch (IllegalArgumentException e) {
+            LOG.warn(e);
             //catching the possibility that person.getPerson can not
             //find a EntityContract for this person id.
         }
     }
 
-    /**
-     * Initializes credit splits for new investigators
-     * 
-     * @param person
-     */
     protected void populateCreditTypes(ProposalPerson person) {
         if (!person.getCreditSplits().isEmpty()) {
             return;
         }
 
-        for (InvestigatorCreditType creditType : (Collection<InvestigatorCreditType>) getInvestigatorCreditTypes()) {
+        for (InvestigatorCreditType creditType : getInvestigatorCreditTypes()) {
             ProposalPersonCreditSplit creditSplit = getProposalPersonCreditSplit(person, creditType.getCode());
             person.getCreditSplits().add(creditSplit);
         }
 
     }
 
-    /**
-     * Queries persistent storage for a <code>{@link Collection}</code> of <code>{@link InvestigatorCreditType}</code>
-     * instances.
-     * 
-     * @return Collection&lt;InvestigatorCreditType&gt; of active credit types
-     */
+    @Override
     public Collection<InvestigatorCreditType> getInvestigatorCreditTypes() {
-        Map<String,String> valueMap = new HashMap<String, String>();
-        BusinessObjectService bos =getBusinessObjectService();
-        valueMap.put("active", "true");
-        return bos.findMatching(InvestigatorCreditType.class, valueMap);
+        return getBusinessObjectService().findMatching(InvestigatorCreditType.class, Collections.singletonMap("active", "true"));
     }
 
-    /**
-     * Queries persistent storage for a <code>{@link Collection}</code> of <code>{@link InvestigatorCreditType}</code>
-     * instances.
-     * 
-     * @return Collection&lt;InvestigatorCreditType&gt; of all credit types
-     */
     public Collection<InvestigatorCreditType> getAllInvestigatorCreditTypes() {
         return getBusinessObjectService().findAll(InvestigatorCreditType.class);
     }
@@ -332,10 +285,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     /**
      * Everytime something changes that will effect credit split values, this gets called to generate a graph of the
      * new data.
-     *
-     * @param document
-     * @return Map
      */
+    @Override
     public Map calculateCreditSplitTotals(ProposalDevelopmentDocument document) {
         Map<String, Map<String,ScaleTwoDecimal>> retval = new HashMap<String,Map<String,ScaleTwoDecimal>>();
 
@@ -351,16 +302,16 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             Map<String,ScaleTwoDecimal> investigatorCreditTypeTotals = retval.get(PROPOSAL_PERSON_INVESTIGATOR);
 
             if (creditTypeTotals == null) {
-                creditTypeTotals = new HashMap<String,ScaleTwoDecimal>();
+                creditTypeTotals = new HashMap<>();
                 retval.put(investigator.getProposalPersonNumber().toString(), creditTypeTotals);
             }
             if (investigatorCreditTypeTotals == null) {
-                investigatorCreditTypeTotals = new HashMap<String,ScaleTwoDecimal>();
+                investigatorCreditTypeTotals = new HashMap<>();
                 retval.put(PROPOSAL_PERSON_INVESTIGATOR, investigatorCreditTypeTotals);
             }
 
             // Initialize everything to zero
-            for (InvestigatorCreditType creditType : creditTypes) {                
+            for (InvestigatorCreditType creditType : creditTypes) {
                 ScaleTwoDecimal totalCredit = creditTypeTotals.get(creditType.getCode());
 
                 if (totalCredit == null) {
@@ -397,20 +348,12 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         return retval;
     }
 
-    /**
-     * Retrieve the injected <code>{@link BusinessObjectService}</code>
-     * 
-     * @return businessObjectService
-     */
+
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
-    /**
-     * assign the <code>{@link BusinessObjectService}</code> to use.
-     * 
-     * @param boservice <code>{@link BusinessObjectService}</code> instance to assign
-     */
+
     public void setBusinessObjectService(BusinessObjectService boservice) {
         businessObjectService = boservice;
     }
@@ -432,6 +375,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     /**
      * Assigns the lead unit of the proposal to the given principal investigator
      */
+    @Override
     public void assignLeadUnit(ProposalPerson person, String unitNumber) {
         if (person.containsUnit(unitNumber)) {
             person.getUnit(unitNumber).setLeadUnit(true);
@@ -443,18 +387,11 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         addUnitToPerson(person, unit);
     }
 
-    /**
-     * Uses a <code>{@link Unit}</code> obtained from the <code>{@link Unit}</code> lookup
-     * to create a <code>{@link ProposalPersonUnit}</code> instance.
-     *
-     * @param unitId
-     * @return ProposalPersonUnit
-     */
+    @Override
     public ProposalPersonUnit createProposalPersonUnit(String unitId, ProposalPerson person) {
         ProposalPersonUnit retval = new ProposalPersonUnit();
-        Map valueMap = new HashMap();
-        valueMap.put("unitNumber", unitId);
-        Collection<Unit> units = getBusinessObjectService().findMatching(Unit.class, valueMap);
+
+        Collection<Unit> units = getBusinessObjectService().findMatching(Unit.class, Collections.singletonMap("unitNumber", unitId));
 
         for (Unit found : units) {
             retval.setUnitNumber(found.getUnitNumber());
@@ -465,18 +402,15 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         return retval;        
     }
 
+    @Override
     public List<ProposalUnitCreditSplit> createCreditSplits(ProposalPersonUnit unit) {
-        List<ProposalUnitCreditSplit> retVal = new ArrayList<ProposalUnitCreditSplit>();
+        List<ProposalUnitCreditSplit> retVal = new ArrayList<>();
         for (InvestigatorCreditType creditType : getInvestigatorCreditTypes()) {
             retVal.add(getProposalUnitCreditSplit(unit, creditType.getCode()));
         }
         return retVal;
     }
-    /**
-     * Accessor method for dependency injection
-     * 
-     * @param ynqService
-     */
+
     public void setYnqService(YnqService ynqService) {
         this.ynqService = ynqService;
     }
@@ -485,11 +419,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         return ynqService;
     }
 
-    /**
-     * Uses the {@link ParameterService} to determine if the application-level configuration parameter is enabled
-     *
-     * @see KeyPersonnelService#isCreditSplitEnabled()
-     */
+    @Override
     public boolean isCreditSplitEnabled() {
         return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME);
     }
@@ -498,27 +428,18 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         return getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, PROPOSAL_PERSON_BIOGRAPHY_DEFAULT_DOC_TYPE);
     }
 
-    /**
-     * Sets the ParameterService.
-     * @param parameterService the parameter service.
-     */
+
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
     protected ParameterService getParameterService (){return parameterService;}
 
-    protected SponsorHierarchyService getSponsorHierarchyService() {
-        return sponsorHierarchyService;
-    }
     
     protected boolean hasBeenRoutedOrCanceled(ProposalDevelopmentDocument document) {
         WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
         return !workflowDoc.isInitiated() && !workflowDoc.isSaved();
     }
     
-    public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
-        this.sponsorHierarchyService = sponsorHierarchyService;
-    }
 	protected PersonEditableService getPersonEditableService() {
 		return personEditableService;
 	}
@@ -539,23 +460,22 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     public void handleNewCreditTypes(List<ProposalPerson> investigators, Collection<InvestigatorCreditType> creditTypes) {
-        investigators.stream().forEach(person -> {
-            List<InvestigatorCreditType> newCreditTypes = creditTypes.stream().filter(creditType -> {
-                return person.getCreditSplits().stream().noneMatch(creditSplit -> creditSplit.getInvCreditTypeCode().equals(creditType.getCode()));
-            }).collect(Collectors.toList());
+        investigators.forEach(person -> {
+            List<InvestigatorCreditType> newCreditTypes = creditTypes.stream()
+                    .filter(creditType -> person.getCreditSplits().stream()
+                            .noneMatch(creditSplit -> creditSplit.getInvCreditTypeCode().equals(creditType.getCode()))
+            ).collect(Collectors.toList());
 
-            newCreditTypes.stream().forEach(newCreditType -> {
-                person.getCreditSplits().add(getProposalPersonCreditSplit(person, newCreditType.getCode()));
-            });
+            newCreditTypes.forEach(newCreditType -> person.getCreditSplits().add(getProposalPersonCreditSplit(person, newCreditType.getCode())));
 
-            person.getUnits().stream().forEach(unit -> {
-                List<InvestigatorCreditType> newUnitCreditTypes = creditTypes.stream().filter(creditType -> {
-                    return unit.getCreditSplits().stream().noneMatch(creditSplit -> creditSplit.getInvCreditTypeCode().equals(creditType.getCode()));
-                }).collect(Collectors.toList());
+            person.getUnits().forEach(unit -> {
+                List<InvestigatorCreditType> newUnitCreditTypes = creditTypes.stream().filter(creditType ->
+                    unit.getCreditSplits().stream().noneMatch(creditSplit -> creditSplit.getInvCreditTypeCode().equals(creditType.getCode()))
+                ).collect(Collectors.toList());
 
-                newUnitCreditTypes.stream().forEach(newUnitCreditType -> {
-                    unit.getCreditSplits().add(getProposalUnitCreditSplit(unit, newUnitCreditType.getCode()));
-                });
+                newUnitCreditTypes.forEach(newUnitCreditType ->
+                    unit.getCreditSplits().add(getProposalUnitCreditSplit(unit, newUnitCreditType.getCode()))
+                );
             });
         });
     }
@@ -577,7 +497,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     public List<ProposalCreditSplitListDto> createCreditSplitListDtos(List<ProposalPerson> investigators) {
-        List<ProposalCreditSplitListDto> creditSplitListItems = new ArrayList<ProposalCreditSplitListDto>();
+        List<ProposalCreditSplitListDto> creditSplitListItems = new ArrayList<>();
         Map<String,CreditSplit> totalInvestigatorSplits = new HashMap<>();
         for (ProposalPerson investigator : investigators) {
             populateInvestigatorLineItems(creditSplitListItems, totalInvestigatorSplits, investigator);
@@ -638,7 +558,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         ProposalCreditSplitListDto proposalCreditSplitListDto = new ProposalCreditSplitListDto();
         proposalCreditSplitListDto.setDescription(description);
         proposalCreditSplitListDto.setLineType(lineType);
-        Collections.sort(creditSplits, new CreditSplitComparator());
+        creditSplits.sort(new CreditSplitComparator());
         proposalCreditSplitListDto.getCreditSplits().addAll(creditSplits);
         return proposalCreditSplitListDto;
     }

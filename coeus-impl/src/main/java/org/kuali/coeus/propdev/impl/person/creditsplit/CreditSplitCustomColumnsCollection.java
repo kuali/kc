@@ -58,7 +58,7 @@ public class CreditSplitCustomColumnsCollection extends CollectionGroupBase {
                 getColumnBindingInfo().getBindingPath());
 
 
-        List<Component> columns = new ArrayList<Component>();
+        List<Component> columns = new ArrayList<>();
         for (Component component : this.getItems()) {
             if (component.isRender() || component.isHidden()) {
                 columns.add(component);
@@ -93,13 +93,12 @@ public class CreditSplitCustomColumnsCollection extends CollectionGroupBase {
             return columnCollection;
         }
 
-        return columnCollection.stream().filter(column -> {
-            return investigators.stream().anyMatch(investigator -> {
-                return investigator.getCreditSplits().stream().anyMatch(proposalPersonCreditSplit ->  {
-                    return proposalPersonCreditSplit.getInvCreditTypeCode().equals(column.getCode());
-                });
-            });
-        }).collect(Collectors.toList());
+        return columnCollection.stream()
+                .filter(column -> investigators.stream()
+                        .anyMatch(investigator -> investigator.getCreditSplits().stream()
+                                .anyMatch(proposalPersonCreditSplit ->  {
+            return proposalPersonCreditSplit.getInvCreditTypeCode().equals(column.getCode());
+        }))).collect(Collectors.toList());
 
     }
 

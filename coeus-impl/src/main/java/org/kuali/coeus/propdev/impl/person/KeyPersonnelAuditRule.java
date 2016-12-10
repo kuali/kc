@@ -37,7 +37,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -47,12 +46,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
 import static org.kuali.kra.infrastructure.KeyConstants.*;
 
-
-
-
-/**
- * Rules that invoke audit mode for KeyPersonnel
- */
 public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelAuditRule.class);
     public static final String SPONSOR_GROUPS = "Sponsor Groups";
@@ -145,12 +138,6 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
         return retval;
     }
 
-   /**
-    *
-    * @param person <code>{@link ProposalPerson}</code> instance that is also an investigator to validate
-    * @boolean investigator is valid
-    * @Wsee #validateInvestigatorUnits(ProposalPerson)
-    */
    protected boolean validateInvestigator(ProposalPerson person,int personCount) {
        boolean retval = true;
        
@@ -162,16 +149,10 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
        
        return retval;
    }
-   
-   /**
-    *
-    * @param person <code>{@link ProposalPerson}</code> instance who's units we want to validate
-    * @return boolean Investigator Units are valid
-    */
+
    protected boolean validateInvestigatorUnits(ProposalPerson person,int personCount) {
        boolean retval = true;
-       
-       List<AuditError> auditErrors = new ArrayList<AuditError>();
+
        LOG.info("validating units for " + person.getPersonId() + " " + person.getFullName());
        
        if (person.getUnits().size() < 1) {
@@ -191,12 +172,6 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
        return retval;
    }
 
-   /**
-    * Checks to makes sure that the unit is valid. Usually called as a result of a <code>{@link ProposalPersonUnit}</code> being added to a <code>{@link ProposalPerson}</code>.
-    * 
-    * @param source
-    * @return boolean pass or fail
-    */
    private boolean validateUnit(ProposalPersonUnit source) {
        boolean retval = true;
        
@@ -219,15 +194,8 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
        return retval;
    }
 
-   /**
-    * Convenience method for creating a <code>{@link SimpleEntry}</code> out of a key/value pair
-    * 
-    * @param key
-    * @param value
-    * @return SimpleImmutableEntry
-    */
    private Entry<String, String> keyValue(String key, String value) {
-       return new DefaultMapEntry(key, value);
+       return new DefaultMapEntry<>(key, value);
    }
 
     private boolean isInvestigator(ProposalPerson person) {
@@ -238,33 +206,20 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
         return document.getDevelopmentProposal().getPrincipalInvestigator() != null;
     }
 
-    /**
-     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List&lt;AuditError&gt;}</code>
-     * to the auditErrorMap.
-     *
-     * @return List of AuditError instances
-     */
+
     private List<AuditError> getAuditErrors(String sectionName, String severity) {
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        List<AuditError> auditErrors = new ArrayList<>();
         String clusterKey = PERSONNEL_PAGE_NAME + "." + sectionName;
         if (!GlobalVariables.getAuditErrorMap().containsKey(clusterKey)) {
            GlobalVariables.getAuditErrorMap().put(clusterKey, new AuditCluster(clusterKey, auditErrors, severity));
         }
         else {
-            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(clusterKey)).getAuditErrorList();
+            auditErrors = GlobalVariables.getAuditErrorMap().get(clusterKey).getAuditErrorList();
         }
 
         return auditErrors;
     }
 
-    /**
-     * Check if credit split totals validate
-     *
-     * @param document <code>{@link ProposalDevelopmentDocument}</code> instance to validate
-     * credit splits of
-     * @boolean is the credit split valid?
-     * @see org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitValidator#validate(ProposalDevelopmentDocument)
-     */
     protected boolean validateCreditSplit(ProposalDevelopmentDocument document) {
         boolean retval = true;
         
