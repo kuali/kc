@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1612.0018
 * fix validations running 2x and causing concurrency exceptions  * vineeth on Fri, 9 Dec 2016 14:46:53 -0500 [View Commit](../../commit/ee587b15e79cca50af23fe9d7003593eee5fbd2b)
 
 ##coeus-1612.0017
