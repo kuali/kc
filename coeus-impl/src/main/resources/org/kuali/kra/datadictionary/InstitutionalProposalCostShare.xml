@@ -69,24 +69,6 @@
         <property name="description" value="Proposal Cost Share Id" />
     </bean>
 
-<!--    <bean id="InstitutionalProposalCostShare-proposalId" parent="InstitutionalProposalCostShare-proposalId-parentBean" />-->
-<!--    <bean id="InstitutionalProposalCostShare-proposalId-parentBean" abstract="true" parent="AttributeDefinition" >-->
-<!--        <property name="name" value="proposalId" />-->
-<!--        <property name="forceUppercase" value="false" />-->
-<!--        <property name="label" value="Proposal Id" />-->
-<!--        <property name="shortLabel" value="Proposal Id" />-->
-<!--        <property name="maxLength" value="22" />-->
-<!--        <property name="validationPattern" >-->
-<!--            <bean parent="NumericValidationPattern" />-->
-<!--        </property>-->
-<!--        <property name="control" >-->
-<!--            <bean parent="TextControlDefinition"-->
-<!--                p:size="10" />-->
-<!--        </property>-->
-<!--        <property name="summary" value="Proposal Id" />-->
-<!--        <property name="description" value="Proposal Id" />-->
-<!--    </bean>-->
-
     <bean id="InstitutionalProposalCostShare-proposalNumber" parent="InstitutionalProposalCostShare-proposalNumber-parentBean" />
     <bean id="InstitutionalProposalCostShare-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalNumber" />

@@ -40,7 +40,6 @@
 				
 				<th>
 					* ${KualiForm.costShareFormHelper.projectPeriodLabel }
-					<%--<kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.projectPeriod}" useShortLabel="true" noColon="true"/>--%>
 				</th>
 				
 				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.source}" useShortLabel="true" noColon="true"/></th>

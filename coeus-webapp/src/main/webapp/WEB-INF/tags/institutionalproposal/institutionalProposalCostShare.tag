@@ -43,7 +43,6 @@
 				<th scope="row">&nbsp;</th>
 				<th>
 					* ${KualiForm.institutionalProposalCostShareBean.projectPeriodLabel }
-					<%--<kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.projectPeriod}" useShortLabel="true" noColon="true" />--%>
 				</th>
 				
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.costShareTypeCode}" useShortLabel="true" noColon="true" /></th>

@@ -77,8 +77,8 @@ public class AwardVersioningTest extends KcIntegrationTestBase {
     @Before
     public void setUp() throws Exception {
        GlobalVariables.setUserSession(new UserSession("quickstart"));
-       savedDocuments = new ArrayList<AwardDocument>();
-       awards = new ArrayList<Award>();
+       savedDocuments = new ArrayList<>();
+       awards = new ArrayList<>();
        locateServices();
        initializeAward();
        AwardDocument originalDocument = initializeNewDocument(awards.get(0));       
@@ -101,7 +101,7 @@ public class AwardVersioningTest extends KcIntegrationTestBase {
         addSomeAwardSubawardsAndVerifyBaseline(awardVersion2);
         addSomeAwardSpecialReviewsAndVerifyBaseline(awardVersion2);
         
-        Award awardVersion3 = (Award) versioningService.createNewVersion(awardVersion2);
+        Award awardVersion3 = versioningService.createNewVersion(awardVersion2);
         assertEquals(2, awardVersion2.getApprovedEquipmentItemCount());
         assertEquals(2, awardVersion3.getApprovedEquipmentItemCount());
         
@@ -276,9 +276,9 @@ public class AwardVersioningTest extends KcIntegrationTestBase {
 
     private void saveAndVerifySequenceAssociateValues(Award award, List<? extends SequenceAssociate> items) {
         bos.save(award);
-        Map<String,Object> keys = new HashMap<String, Object>();
+        Map<String,Object> keys = new HashMap<>();
         keys.put("awardId", award.getAwardId());
-        award = (Award) bos.findByPrimaryKey(Award.class, keys);
+        award = bos.findByPrimaryKey(Award.class, keys);
         for(SequenceAssociate sequenceAssociate: items) {
             assertEquals(award.getSequenceNumber(), sequenceAssociate.getSequenceNumber());
             assertEquals(award.getAwardId(), ((Award) sequenceAssociate.getSequenceOwner()).getAwardId());
@@ -312,13 +312,13 @@ public class AwardVersioningTest extends KcIntegrationTestBase {
         for(int index = 0; index < sequenceAssociatesBeforeVersioning.size(); index++) {
             SequenceAssociate associateBeforeVersioning = sequenceAssociatesBeforeVersioning.get(index);
             SequenceAssociate associateAfterVersioning = sequenceAssociatesAfterVersioning.get(index);
-            assertEquals(associateBeforeVersioning.getSequenceNumber().intValue() + 1, associateAfterVersioning.getSequenceNumber().intValue());
+            assertEquals(associateBeforeVersioning.getSequenceNumber() + 1, associateAfterVersioning.getSequenceNumber().intValue());
         }
     }
 
     private Award versionAward(AwardDocument oldVersionDocument) throws VersionException, WorkflowException {
         Award oldVersion = oldVersionDocument.getAward();
-        Award newVersion = (Award) versioningService.createNewVersion(oldVersion);
+        Award newVersion = versioningService.createNewVersion(oldVersion);
         assertEquals(oldVersion.getSequenceNumber() + 1, newVersion.getSequenceNumber().intValue());
         assertNull(newVersion.getAwardId());
         AwardDocument newDocument = initializeNewDocument(newVersion);

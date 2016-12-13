@@ -74,9 +74,6 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * This class provides the default implementation of the InstitutionalProposalService.
- */
 @Transactional
 public class InstitutionalProposalServiceImpl implements InstitutionalProposalService {
     private static final Log LOG = LogFactory.getLog(InstitutionalProposalServiceImpl.class);
@@ -450,7 +447,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     }
     
     protected void doBaseFieldsDataFeed(InstitutionalProposal institutionalProposal, DevelopmentProposal developmentProposal) {
-        institutionalProposal.setProposalTypeCode(convertToInstitutionalProposalTypeCode(institutionalProposal.getProposalTypeCode(), developmentProposal.getProposalTypeCode()));
+        institutionalProposal.setProposalTypeCode(convertToInstitutionalProposalTypeCode(developmentProposal.getProposalTypeCode()));
         institutionalProposal.setActivityTypeCode(developmentProposal.getActivityTypeCode());
         if (developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isDisapproved()) {
             //if rejected set status code to WITHDRAWN
@@ -491,7 +488,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         }
     }
 
-    private int convertToInstitutionalProposalTypeCode(Integer institutionalProposalProposalTypeCode, String developmentProposalTypeCode) {
+    private int convertToInstitutionalProposalTypeCode(String developmentProposalTypeCode) {
         if(StringUtils.equals(developmentProposalTypeCode, getProposalTypeService().getNewChangedOrCorrectedProposalTypeCode())) {
             return Integer.parseInt(getProposalTypeService().getNewProposalTypeCode());
         } else if(StringUtils.equals(developmentProposalTypeCode,getProposalTypeService().getSupplementChangedOrCorrectedProposalTypeCode())) {

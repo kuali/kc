@@ -35,6 +35,7 @@ public class CostSharingDataFeedCommandTest extends BaseDataFeedCommandTest {
     private AwardCostShare awardCostShare1;
     
     @Before
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         costShareType = new CostShareType();

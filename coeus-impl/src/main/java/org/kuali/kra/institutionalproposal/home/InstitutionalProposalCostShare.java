@@ -92,6 +92,7 @@ public class InstitutionalProposalCostShare extends InstitutionalProposalAssocia
         this.sourceAccount = sourceAccount;
     }
 
+    @Override
     public ScaleTwoDecimal getAmount() {
         return amount;
     }
@@ -100,18 +101,10 @@ public class InstitutionalProposalCostShare extends InstitutionalProposalAssocia
         this.amount = amount;
     }
 
-    /**
-     * Gets the costShareType attribute. 
-     * @return Returns the costShareType.
-     */
     public CostShareType getCostShareType() {
         return costShareType;
     }
 
-    /**
-     * Sets the costShareType attribute value.
-     * @param costShareType The costShareType to set.
-     */
     public void setCostShareType(CostShareType costShareType) {
         this.costShareType = costShareType;
     }
