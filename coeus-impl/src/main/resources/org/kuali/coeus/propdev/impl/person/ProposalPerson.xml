@@ -336,6 +336,15 @@
     </property>
   </bean>
 
+    <bean id="ProposalPerson-includeInCreditAllocation" parent="ProposalPerson-includeInCreditAllocation-parentBean"/>
+    <bean id="ProposalPerson-includeInCreditAllocation-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="includeInCreditAllocation" />
+        <property name="label" value="Include in Credit Allocation" />
+        <property name="shortLabel" value="Include in Credit Allocation" />
+        <property name="summary" value="Include in Credit Allocation" />
+        <property name="description" value="Include in Credit Allocation" />
+    </bean>
+
   <bean id="ProposalPerson-fedrDebrFlag" parent="ProposalPerson-fedrDebrFlag-parentBean"/>
   <bean id="ProposalPerson-fedrDebrFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="fedrDebrFlag" />
