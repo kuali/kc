@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1846: Adding opt in credit split feature.  Also, allowing Key Person's to declare a credit split.
+  * Travis Schneeberger on Fri, 9 Dec 2016 18:15:57 -0500 [View Commit](../../commit/d126018424ac74f2a22a9a62ba51497608af3873)
+
+##coeus-1612.0019
 * No Changes
 
 
