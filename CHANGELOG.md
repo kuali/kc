@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-148: Adding unit to cost share for proposal developement budget, award, award budget, and institutional proposal
+  * Travis Schneeberger on Tue, 13 Dec 2016 15:50:49 -0500 [View Commit](../../commit/5ec4895789c37230bcbb8ea19902312be8979a1d)
+
+##coeus-1612.0020
 * RESKC-1846: Adding opt in credit split feature.  Also, allowing Key Person's to declare a credit split.
   * Travis Schneeberger on Fri, 9 Dec 2016 18:15:57 -0500 [View Commit](../../commit/d126018424ac74f2a22a9a62ba51497608af3873)
 
