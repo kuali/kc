@@ -646,6 +646,8 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             ipCostShare.setCostSharePercentage(new ScaleTwoDecimal(budgetCostShare.getSharePercentage().bigDecimalValue()));
             ipCostShare.setProjectPeriod(budgetCostShare.getProjectPeriod().toString());
             ipCostShare.setSourceAccount(budgetCostShare.getSourceAccount());
+            ipCostShare.setUnitNumber(budgetCostShare.getUnitNumber());
+            ipCostShare.setUnit(budgetCostShare.getUnit());
             institutionalProposal.add(ipCostShare);
         }
         if (!institutionalProposal.getInstitutionalProposalCostShares().isEmpty()) {

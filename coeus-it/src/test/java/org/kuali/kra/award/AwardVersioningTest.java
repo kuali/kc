@@ -216,6 +216,7 @@ public class AwardVersioningTest extends KcIntegrationTestBase {
         costShare.setSource(COST_SHARE_SOURCE);
         costShare.setDestination(destination);
         costShare.setCommitmentAmount(new ScaleTwoDecimal(COST_SHARE_COMMIT_AMT));
+        costShare.setUnitNumber("BL-BL");
         return costShare;
     }
 

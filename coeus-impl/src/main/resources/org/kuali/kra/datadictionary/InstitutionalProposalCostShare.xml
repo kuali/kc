@@ -40,6 +40,7 @@
                 <ref bean="InstitutionalProposalCostShare-sourceAccount" />
                 <ref bean="InstitutionalProposalCostShare-amount" />
                 <ref bean="InstitutionalProposalCostShare-versionNumber" />
+                <ref bean="InstitutionalProposalCostShare-unitNumber" />
             </list>
         </property>
     </bean>
@@ -248,6 +249,14 @@
 
     <bean id="InstitutionalProposalCostShare-versionNumber" parent="InstitutionalProposalCostShare-versionNumber-parentBean" />
   <bean id="InstitutionalProposalCostShare-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+
+    <bean id="InstitutionalProposalCostShare-unitNumber" parent="InstitutionalProposalCostShare-unitNumber-parentBean" />
+    <bean id="InstitutionalProposalCostShare-unitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
+        <property name="required" value="false" />
+        <property name="label" value="Unit" />
+        <property name="shortLabel" value="Unit" />
+    </bean>
+
     <!-- Business Object Inquiry Definition -->
     <bean id="InstitutionalProposalCostShare-inquiryDefinition" parent="InstitutionalProposalCostShare-inquiryDefinition-parentBean" />
   <bean id="InstitutionalProposalCostShare-InquiryView" parent="InstitutionalProposalCostShare-InquiryView-parentBean"/>

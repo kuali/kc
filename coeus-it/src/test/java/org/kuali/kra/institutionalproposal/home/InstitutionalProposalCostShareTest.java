@@ -30,7 +30,7 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
  */
 public class InstitutionalProposalCostShareTest extends KcIntegrationTestBase {
 
-private static final int IP_COST_SHARE_ATTRIBUTES_COUNT = 8;
+private static final int IP_COST_SHARE_ATTRIBUTES_COUNT = 10;
     
     private InstitutionalProposalCostShare institutionalProposalCostShareBo;
     private InstitutionalProposal institutionalProposal;

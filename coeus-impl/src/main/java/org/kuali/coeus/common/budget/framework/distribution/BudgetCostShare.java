@@ -20,12 +20,14 @@ package org.kuali.coeus.common.budget.framework.distribution;
 
 import javax.persistence.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.budget.api.distribution.BudgetCostShareContract;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -69,15 +71,19 @@ public class BudgetCostShare extends KcPersistableBusinessObjectBase implements 
     @Column(name = "SOURCE_ACCOUNT")
     private String sourceAccount;
 
-    @Transient
-    private String sourceUnit;
-
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
 
     @Column(name = "HIDE_IN_HIERARCHY")
     @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
+
+    @Column(name = "UNIT_NUMBER")
+    private String unitNumber;
+
+    @ManyToOne(targetEntity = Unit.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "UNIT_NUMBER", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
+    private Unit unit;
 
     public BudgetCostShare() {
         super();
@@ -185,14 +191,6 @@ public class BudgetCostShare extends KcPersistableBusinessObjectBase implements 
         this.sourceAccount = sourceAcocunt;
     }
 
-    public String getSourceUnit() {
-        return sourceUnit;
-    }
-
-    public void setSourceUnit(String sourceUnit) {
-        this.sourceUnit = sourceUnit;
-    }
-
     @Override
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
@@ -211,6 +209,31 @@ public class BudgetCostShare extends KcPersistableBusinessObjectBase implements 
     @Override
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
+    }
+
+    public String getUnitNumber() {
+        return unitNumber;
+    }
+
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
+    }
+
+    public Unit getUnit() {
+        if (unit == null && StringUtils.isNotBlank(getUnitNumber()) || (unit != null && !unit.getUnitNumber().equals(getUnitNumber()))) {
+            refreshReferenceObject("unit");
+        }
+
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public String getUnitName() {
+        Unit unit = getUnit();
+        return unit != null ? unit.getUnitName() : null;
     }
 
     public static final class BudgetCostShareId implements Serializable, Comparable<BudgetCostShareId> {

@@ -18,6 +18,8 @@
  */
 package org.kuali.kra.award.commitments;
 
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
@@ -52,6 +54,10 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     private String destination;
 
     private ScaleTwoDecimal commitmentAmount;
+
+    private String unitNumber;
+
+    private Unit unit;
 
     private CostShareType costShareType;
 
@@ -162,6 +168,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         result = prime * result + ((destination == null) ? 0 : destination.hashCode());
         result = prime * result + ((projectPeriod == null) ? 0 : projectPeriod.hashCode());
         result = prime * result + ((source == null) ? 0 : source.hashCode());
+        result = prime * result + ((unitNumber == null) ? 0 : unitNumber.hashCode());
         return result;
     }
 
@@ -198,6 +205,9 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         if (source == null) {
             if (other.source != null) return false;
         } else if (!source.equals(other.source)) return false;
+        if (unitNumber == null) {
+            if (other.unitNumber != null) return false;
+        } else if (!unitNumber.equals(other.unitNumber)) return false;
         return true;
     }
 
@@ -232,6 +242,31 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
      */
     public void setCostShareMet(ScaleTwoDecimal costShareMet) {
         this.costShareMet = costShareMet;
+    }
+
+    public String getUnitNumber() {
+        return unitNumber;
+    }
+
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
+    }
+
+    public Unit getUnit() {
+        if (unit == null && StringUtils.isNotBlank(getUnitNumber()) || (unit != null && !unit.getUnitNumber().equals(getUnitNumber()))) {
+            refreshReferenceObject("unit");
+        }
+
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public String getUnitName() {
+        Unit unit = getUnit();
+        return unit != null ? unit.getUnitName() : null;
     }
 
     @Override

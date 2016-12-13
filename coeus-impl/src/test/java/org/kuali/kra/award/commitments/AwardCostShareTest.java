@@ -29,7 +29,7 @@ import org.kuali.kra.award.home.Award;
  * This class tests methods in Award.java class
  */
 public class AwardCostShareTest { 
-    private static final int AWARD_COST_SHARE_ATTRIBUTES_COUNT = 11;
+    private static final int AWARD_COST_SHARE_ATTRIBUTES_COUNT = 13;
     
     private AwardCostShare awardCostShareBo;
     private Award award = new Award();

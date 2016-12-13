@@ -18,6 +18,8 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.kra.award.home.ValuableItem;
@@ -40,6 +42,10 @@ public class InstitutionalProposalCostShare extends InstitutionalProposalAssocia
     private String sourceAccount;
 
     private ScaleTwoDecimal amount;
+
+    private String unitNumber;
+
+    private Unit unit;
 
     private CostShareType costShareType;
 
@@ -108,6 +114,31 @@ public class InstitutionalProposalCostShare extends InstitutionalProposalAssocia
      */
     public void setCostShareType(CostShareType costShareType) {
         this.costShareType = costShareType;
+    }
+
+    public String getUnitNumber() {
+        return unitNumber;
+    }
+
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
+    }
+
+    public Unit getUnit() {
+        if (unit == null && StringUtils.isNotBlank(getUnitNumber()) || (unit != null && !unit.getUnitNumber().equals(getUnitNumber()))) {
+            refreshReferenceObject("unit");
+        }
+
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public String getUnitName() {
+        Unit unit = getUnit();
+        return unit != null ? unit.getUnitName() : null;
     }
 
     @Override
