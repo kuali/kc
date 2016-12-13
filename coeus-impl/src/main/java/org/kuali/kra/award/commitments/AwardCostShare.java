@@ -18,6 +18,8 @@
  */
 package org.kuali.kra.award.commitments;
 
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
@@ -28,9 +30,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.sql.Date;
 import java.util.Collection;
 
-/**
- * This class is business object representation of an Award Cost Share
- */
 public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     private static final long serialVersionUID = -839007857238262207L;
@@ -53,6 +52,10 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     private ScaleTwoDecimal commitmentAmount;
 
+    private String unitNumber;
+
+    private Unit unit;
+
     private CostShareType costShareType;
 
 
@@ -64,11 +67,9 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         return costShareType;
     }
 
-    @SuppressWarnings("unchecked")
     public void setCostShareTypeCode(Integer costShareTypeCode) {
         this.costShareTypeCode = costShareTypeCode;
-        BusinessObjectService costShareTypeService = getBusinessObjectService();
-        Collection<CostShareType> costShareTypes = (Collection<CostShareType>) costShareTypeService.findAll(CostShareType.class);
+        Collection<CostShareType> costShareTypes = getBusinessObjectService().findAll(CostShareType.class);
         for (CostShareType costShareType : costShareTypes) {
             if (costShareType.getCostShareTypeCode().equals(costShareTypeCode)) {
                 setCostShareType(costShareType);
@@ -76,10 +77,6 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         }
     }
 
-    /**
-     * This method returns the primary key of the Cost Share BO.
-     * @return
-     */
     public Integer getCostShareTypeCode() {
         if (costShareType == null) {
             return null;
@@ -149,7 +146,6 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         return getCommitmentAmount();
     }
 
-    //CHECKSTYLE_OFF: NPathComplexity|MethodLength|CyclomaticComplexity|LocalFinalVariableName|JavaNCSS|NeedBraces|RightCurly  
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -162,6 +158,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         result = prime * result + ((destination == null) ? 0 : destination.hashCode());
         result = prime * result + ((projectPeriod == null) ? 0 : projectPeriod.hashCode());
         result = prime * result + ((source == null) ? 0 : source.hashCode());
+        result = prime * result + ((unitNumber == null) ? 0 : unitNumber.hashCode());
         return result;
     }
 
@@ -198,40 +195,51 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         if (source == null) {
             if (other.source != null) return false;
         } else if (!source.equals(other.source)) return false;
+        if (unitNumber == null) {
+            if (other.unitNumber != null) return false;
+        } else if (!unitNumber.equals(other.unitNumber)) return false;
         return true;
     }
 
-    //CHECKSTYLE_ON: NPathComplexity|MethodLength|CyclomaticComplexity|LocalFinalVariableName|JavaNCSS|NeedBraces|RightCurly  
-    /**
-     * Gets the verificationDate attribute. 
-     * @return Returns the verificationDate.
-     */
     public Date getVerificationDate() {
         return verificationDate;
     }
 
-    /**
-     * Sets the verificationDate attribute value.
-     * @param verificationDate The verificationDate to set.
-     */
     public void setVerificationDate(Date verificationDate) {
         this.verificationDate = verificationDate;
     }
 
-    /**
-     * Gets the costShareMet attribute. 
-     * @return Returns the costShareMet.
-     */
     public ScaleTwoDecimal getCostShareMet() {
         return costShareMet;
     }
 
-    /**
-     * Sets the costShareMet attribute value.
-     * @param costShareMet The costShareMet to set.
-     */
     public void setCostShareMet(ScaleTwoDecimal costShareMet) {
         this.costShareMet = costShareMet;
+    }
+
+    public String getUnitNumber() {
+        return unitNumber;
+    }
+
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
+    }
+
+    public Unit getUnit() {
+        if (unit == null && StringUtils.isNotBlank(getUnitNumber()) || (unit != null && !unit.getUnitNumber().equals(getUnitNumber()))) {
+            refreshReferenceObject("unit");
+        }
+
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public String getUnitName() {
+        Unit unit = getUnit();
+        return unit != null ? unit.getUnitName() : null;
     }
 
     @Override

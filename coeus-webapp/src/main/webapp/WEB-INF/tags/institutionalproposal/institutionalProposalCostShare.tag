@@ -21,6 +21,7 @@
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 <c:set var="institutionalProposalCostShareAttributes" value="${DataDictionary.InstitutionalProposalCostShare.attributes}" />
 <c:set var="institutionalProposalCommentAttributes" value="${DataDictionary.InstitutionalProposalComment.attributes}" />
+<c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="action" value="institutionalProposalDistribution" />
 
@@ -42,13 +43,14 @@
 				<th scope="row">&nbsp;</th>
 				<th>
 					* ${KualiForm.institutionalProposalCostShareBean.projectPeriodLabel }
-					<%--<kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.projectPeriod}" useShortLabel="true" noColon="true" />--%>
 				</th>
 				
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.costShareTypeCode}" useShortLabel="true" noColon="true" /></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.costSharePercentage}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.sourceAccount}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.amount}" useShortLabel="true" noColon="true"/></th>
+				<th><kul:htmlAttributeLabel attributeEntry="${unitAttributes.unitName}" useShortLabel="true" noColon="true"/></th>
+				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalCostShareAttributes.unitNumber}" useShortLabel="true" noColon="true"/></th>
 				<c:if test="${!readOnly}"><th><div align="center">Actions</div></th></c:if>
 			</tr>
 			
@@ -79,6 +81,28 @@
             	   	 	<kul:htmlControlAttribute property="institutionalProposalCostShareBean.newInstitutionalProposalCostShare.amount" attributeEntry="${institutionalProposalCostShareAttributes.amount}" styleClass="amount"/>
             	  	</div>
 	            </td>
+				<td class="infoline">
+					<html:hidden property="institutionalProposalCostShareBean.newInstitutionalProposalCostShare.unitName" />
+					<div align="center">
+						<c:choose>
+							<c:when test="${empty KualiForm.institutionalProposalCostShareBean.newInstitutionalProposalCostShare.unitName}">
+								(select)
+							</c:when>
+							<c:otherwise>
+								${KualiForm.institutionalProposalCostShareBean.newInstitutionalProposalCostShare.unitName}
+							</c:otherwise>
+						</c:choose>
+						&nbsp; <kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit"
+										   fieldConversions="unitNumber:institutionalProposalCostShareBean.newInstitutionalProposalCostShare.unitNumber,unitName:institutionalProposalCostShareBean.newInstitutionalProposalCostShare.unitName" />
+						<kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="institutionalProposalCostShareBean.newInstitutionalProposalCostShare.unitNumber:unitNumber"
+										   anchor="${tabKey}" />
+					</div>
+				</td>
+				<td class="infoline">
+					<div align="center">
+						<kul:htmlControlAttribute property="institutionalProposalCostShareBean.newInstitutionalProposalCostShare.unitNumber" attributeEntry="${institutionalProposalCostShareAttributes.unitNumber}" />
+					</div>
+				</td>
 	            <c:if test="${!readOnly}">
 	               <td class="infoline">
 	            	  <div align=center>
@@ -90,7 +114,8 @@
           	</tr>
           	
          <c:forEach var="institutionalProposalCostShares" items="${KualiForm.document.institutionalProposal.institutionalProposalCostShares}" varStatus="status">
-	             <tr>
+			 <input type="hidden" name="proposal_cost_share_unit.identifier_${status.index}" value="${institutionalProposalCostShares.unitNumber}" />
+			 	<tr>
 					<th width="5%" class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>
@@ -119,6 +144,28 @@
 	                	<kul:htmlControlAttribute property="document.institutionalProposalList[0].institutionalProposalCostShares[${status.index}].amount" attributeEntry="${institutionalProposalCostShareAttributes.amount}" styleClass="amount"/>
 					</div>
 	                </td>
+					 <td valign="middle">
+						 <html:hidden property="document.institutionalProposalList[0].institutionalProposalCostShares[${status.index}].unitName" />
+						 <div align="center">
+							 <c:choose>
+								 <c:when test="${empty institutionalProposalCostShares.unitName}">
+									 (select)
+								 </c:when>
+								 <c:otherwise>
+									 ${institutionalProposalCostShares.unitName}
+								 </c:otherwise>
+							 </c:choose>
+							 &nbsp; <kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit"
+												fieldConversions="unitNumber:document.institutionalProposalList[0].institutionalProposalCostShares[${status.index}].unitNumber,unitName:document.institutionalProposalList[0].institutionalProposalCostShares[${status.index}].unitName" />
+							 <kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="proposal_cost_share_unit.identifier_${status.index}:unitNumber"
+												anchor="${tabKey}" />
+						 </div>
+					 </td>
+					 <td width="15%" valign="middle">
+						 <div align="center">
+							 <kul:htmlControlAttribute property="document.institutionalProposalList[0].institutionalProposalCostShares[${status.index}].unitNumber" attributeEntry="${institutionalProposalCostShareAttributes.unitNumber}" />
+						 </div>
+					 </td>
 	                <c:if test="${!readOnly}">
 					<td width="10%">
 					   <div align="center">&nbsp;

@@ -98,6 +98,7 @@
                 </bean>
                 <bean parent="Kc-InlineEdit-InputField" p:propertyName="sourceAccount" p:skipInTabOrder="false" p:order="30" />
                 <bean parent="Kc-InlineEdit-InputField" p:propertyName="shareAmount" p:skipInTabOrder="false" p:order="40" p:label="Amount" />
+                <bean parent="Kc-InlineEdit-InputField" p:propertyName="unitNumber" p:skipInTabOrder="false" p:order="50" />
             </list>
 		</property>
 

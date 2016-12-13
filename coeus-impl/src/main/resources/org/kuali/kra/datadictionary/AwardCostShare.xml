@@ -38,7 +38,8 @@
         <ref bean="AwardCostShare-destination" />
         <ref bean="AwardCostShare-commitmentAmount" /> 
         <ref bean="AwardCostShare-verificationDate" />
-        <ref bean="AwardCostShare-costShareMet" />   
+        <ref bean="AwardCostShare-costShareMet" />
+        <ref bean="AwardCostShare-unitNumber" />
       </list>
     </property>
   </bean>
@@ -261,5 +262,12 @@
     <property name="summary" value="Verification Date" />
     <property name="description" value="Verification Date" />
   </bean>
-  
+
+  <bean id="AwardCostShare-unitNumber" parent="AwardCostShare-unitNumber-parentBean" />
+  <bean id="AwardCostShare-unitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
+    <property name="required" value="false" />
+    <property name="label" value="Unit" />
+    <property name="shortLabel" value="Unit" />
+  </bean>
+
 </beans>

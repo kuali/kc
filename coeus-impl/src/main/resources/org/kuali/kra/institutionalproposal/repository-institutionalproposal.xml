@@ -325,7 +325,10 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		
+		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="unitNumber" />
+		</reference-descriptor>
 		<reference-descriptor name="costShareType" class-ref="org.kuali.kra.bo.CostShareType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="costShareTypeCode"/> 
 		</reference-descriptor>	

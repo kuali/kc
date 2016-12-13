@@ -24,21 +24,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
-/**
- * 
- * This class tests methods in InstitutionalProposalCostShare.java class
- */
 public class InstitutionalProposalCostShareTest extends KcIntegrationTestBase {
 
-private static final int IP_COST_SHARE_ATTRIBUTES_COUNT = 8;
+private static final int IP_COST_SHARE_ATTRIBUTES_COUNT = 10;
     
     private InstitutionalProposalCostShare institutionalProposalCostShareBo;
     private InstitutionalProposal institutionalProposal;
-    
-    /**
-     *
-     * @throws Exception
-     */
+
     @Before
     public void setUp() throws Exception {
         institutionalProposalCostShareBo = new InstitutionalProposalCostShare();
@@ -46,20 +38,11 @@ private static final int IP_COST_SHARE_ATTRIBUTES_COUNT = 8;
         institutionalProposalCostShareBo.setInstitutionalProposal(institutionalProposal);
     }
 
-    /**
-     *
-     * @throws Exception
-     */
     @After
     public void tearDown() throws Exception {
         institutionalProposalCostShareBo = null;
     }
-    
-    /**
-     *  
-     * This method tests that total attributes of Award Business Object 
-     * @throws Exception
-     */
+
     @Test
     public void testInstitutionalProposalCostShareBoAttributesCount() throws Exception {              
         Assert.assertEquals(IP_COST_SHARE_ATTRIBUTES_COUNT, institutionalProposalCostShareBo.getClass().getDeclaredFields().length);

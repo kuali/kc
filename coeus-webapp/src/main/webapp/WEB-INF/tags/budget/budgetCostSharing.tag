@@ -44,7 +44,9 @@
 							<th width="17%"><div align="center">${KualiForm.projectPeriodLabel}</div></th>
 							<th width="17%"><div align="center">Percentage</div></th>
 							<th width="29%"><div align="center">Source Account</div></th>
-							<th width="17%"><div align="center">Amount</div></th>					
+							<th width="17%"><div align="center">Amount</div></th>
+							<th width="17%"><div align="center">Unit Name</div></th>
+							<th width="17%"><div align="center">Unit</div></th>
 							<th width="15%"><div align="center">Actions</div></th>	
 						</tr>
 						
@@ -62,8 +64,27 @@
 			        		</div></td>
 			        		<td class="infoline"><div align="center">
 			        			<kul:htmlControlAttribute property="newBudgetCostShare.shareAmount" attributeEntry="${budgetCostShareAttributes.shareAmount}" styleClass="amount" />
-			        		</div></td>	        		
-			                <td class="infoline">
+			        		</div></td>
+							<td class="infoline">
+								<html:hidden property="newBudgetCostShare.unitName" />
+								<div align="center">
+									<c:choose>
+										<c:when test="${empty KualiForm.newBudgetCostShare.unitName}">
+											(select)
+										</c:when>
+										<c:otherwise>
+											${KualiForm.newBudgetCostShare.unitName}
+										</c:otherwise>
+									</c:choose>
+									&nbsp; <kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit"
+													   fieldConversions="unitNumber:newBudgetCostShare.unitNumber,unitName:newBudgetCostShare.unitName" />
+									<kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="newBudgetCostShare.unitNumber:unitNumber"
+													   anchor="${tabKey}" />
+								</div></td>
+							<td class="infoline"><div align="center">
+								<kul:htmlControlAttribute property="newBudgetCostShare.unitNumber" attributeEntry="${budgetCostShareAttributes.unitNumber}" />
+							</div></td>
+							<td class="infoline">
 			            		<div align=center>
 			            			<html:image property="methodToCall.addCostShare" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 								</div>
@@ -72,7 +93,8 @@
 			          	</kra:section>
 					          	
 			  			<c:forEach var="budgetCostShare" items="${KualiForm.document.budget.budgetCostShares}" varStatus="status">
-			          		<tr>
+							<input type="hidden" name="budget_cost_share_unit.identifier_${status.index}" value="${budgetCostShare.unitNumber}" />
+							<tr>
 			          			<th><div align="right">${status.index + 1}</div></th>		            		
 			            		<td><div align="center">
 									<kul:htmlControlAttribute property="document.budget.budgetCostShare[${status.index}].projectPeriod" attributeEntry="${budgetCostShareAttributes.projectPeriod}" />            				
@@ -89,7 +111,27 @@
 			            		<td><div align="center">
 			            			<kul:htmlControlAttribute property="document.budget.budgetCostShare[${status.index}].shareAmount" attributeEntry="${budgetCostShareAttributes.shareAmount}" styleClass="amount" />
 			        			</div></td>
-			        				        			
+
+								<td>
+									<html:hidden property="document.budget.budgetCostShare[${status.index}].unitName" />
+									<div align="center">
+										<c:choose>
+											<c:when test="${empty budgetCostShare.unitName}">
+												(select)
+											</c:when>
+											<c:otherwise>
+												${budgetCostShare.unitName}
+											</c:otherwise>
+										</c:choose>
+										&nbsp; <kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit"
+														   fieldConversions="unitNumber:document.budget.budgetCostShare[${status.index}].unitNumber,unitName:document.budget.budgetCostShare[${status.index}].unitName" />
+										<kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="budget_cost_share_unit.identifier_${status.index}:unitNumber"
+														   anchor="${tabKey}" />
+									</div></td>
+
+								<td><div align="center">
+									<kul:htmlControlAttribute property="document.budget.budgetCostShare[${status.index}].unitNumber" attributeEntry="${budgetCostShareAttributes.unitNumber}" />
+								</div></td>
 			            		<td>
 			            			<div align=center>
 			            				<c:if test="${!viewOnly and fn:length(KualiForm.document.budget.budgetCostShares) > 0}">

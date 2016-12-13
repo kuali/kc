@@ -33,6 +33,7 @@
         <ref bean="BudgetCostShare-shareAmount" />
         <ref bean="BudgetCostShare-sharePercentage" />
         <ref bean="BudgetCostShare-sourceAccount" />
+        <ref bean="BudgetCostShare-unitNumber" />
       </list>
     </property>
   </bean>
@@ -124,4 +125,11 @@
   </bean>
   
   <bean id="BudgetCostShare-sourceAccount" parent="KraAttributeReferenceDummy-sourceAccount"/>
+
+  <bean id="BudgetCostShare-unitNumber" parent="BudgetCostShare-unitNumber-parentBean" />
+  <bean id="BudgetCostShare-unitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
+    <property name="required" value="false" />
+    <property name="label" value="Unit" />
+    <property name="shortLabel" value="Unit" />
+  </bean>
 </beans>

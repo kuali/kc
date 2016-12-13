@@ -21,6 +21,7 @@
 <c:set var="awardAttributes" value="${DataDictionary.AwardDocument.attributes}" />
 <c:set var="awardCostShareAttributes" value="${DataDictionary.AwardCostShare.attributes}" />
 <c:set var="awardCostShareCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
+<c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
 <c:set var="action" value="awardTimeAndMoney" />
 
 
@@ -39,7 +40,6 @@
 				
 				<th>
 					* ${KualiForm.costShareFormHelper.projectPeriodLabel }
-					<%--<kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.projectPeriod}" useShortLabel="true" noColon="true"/>--%>
 				</th>
 				
 				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.source}" useShortLabel="true" noColon="true"/></th>
@@ -47,6 +47,8 @@
 				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.commitmentAmount}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.costShareMet}" useShortLabel="true" noColon="true"/></th>
                 <th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.verificationDate}" useShortLabel="true" noColon="true"/></th>
+				<th><kul:htmlAttributeLabel attributeEntry="${unitAttributes.unitName}" useShortLabel="true" noColon="true"/></th>
+				<th><kul:htmlAttributeLabel attributeEntry="${awardCostShareAttributes.unitNumber}" useShortLabel="true" noColon="true"/></th>
 				<th><div align="center">Actions</div></th>
 			</tr>
 			
@@ -94,6 +96,28 @@
                         <kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.verificationDate" attributeEntry="${awardCostShareAttributes.verificationDate}" />
                     </div>
                 </td>
+				<td class="infoline">
+					<html:hidden property="costShareFormHelper.newAwardCostShare.unitName" />
+					<div align="center">
+						<c:choose>
+							<c:when test="${empty KualiForm.costShareFormHelper.newAwardCostShare.unitName}">
+								(select)
+							</c:when>
+							<c:otherwise>
+								${KualiForm.costShareFormHelper.newAwardCostShare.unitName}
+							</c:otherwise>
+						</c:choose>
+						&nbsp; <kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit"
+										   fieldConversions="unitNumber:costShareFormHelper.newAwardCostShare.unitNumber,unitName:costShareFormHelper.newAwardCostShare.unitName" />
+						<kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="costShareFormHelper.newAwardCostShare.unitNumber:unitNumber"
+										   anchor="${tabKey}" />
+					</div>
+				</td>
+				<td class="infoline">
+					<div align="center">
+						<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.unitNumber" attributeEntry="${awardCostShareAttributes.unitNumber}" />
+					</div>
+				</td>
 	            <td class="infoline">
 	            	<div align=center>
 						<html:image property="methodToCall.addCostShare.anchor${tabKey}"
@@ -105,7 +129,8 @@
           	</c:if>
           	
          <c:forEach var="awardCostShares" items="${KualiForm.document.awardList[0].awardCostShares}" varStatus="status">
-	             <tr>
+			 <input type="hidden" name="award_cost_share_unit.identifier_${status.index}" value="${awardCostShares.unitNumber}" />
+			 <tr>
 					<th width="5%" class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>
@@ -149,6 +174,28 @@
                         <kul:htmlControlAttribute property="document.awardList[0].awardCostShares[${status.index}].verificationDate" attributeEntry="${awardCostShareAttributes.verificationDate}" />
                     </div>
                     </td>
+					 <td valign="middle">
+						 <html:hidden property="document.awardList[0].awardCostShares[${status.index}].unitName" />
+						 <div align="center">
+							 <c:choose>
+								 <c:when test="${empty awardCostShares.unitName}">
+									 (select)
+								 </c:when>
+								 <c:otherwise>
+									 ${awardCostShares.unitName}
+								 </c:otherwise>
+							 </c:choose>
+							 &nbsp; <kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit"
+												fieldConversions="unitNumber:document.awardList[0].awardCostShares[${status.index}].unitNumber,unitName:document.awardList[0].awardCostShares[${status.index}].unitName" />
+							 <kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="award_cost_share_unit.identifier_${status.index}:unitNumber"
+												anchor="${tabKey}" />
+						 </div>
+					 </td>
+					 <td width="15%" valign="middle">
+						 <div align="center">
+							 <kul:htmlControlAttribute property="document.awardList[0].awardCostShares[${status.index}].unitNumber" attributeEntry="${awardCostShareAttributes.unitNumber}" />
+						 </div>
+					 </td>
 					<td width="10%">
 					<div align="center">&nbsp;
 					   <c:if test="${!readOnly}">

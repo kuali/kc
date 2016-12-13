@@ -24,40 +24,23 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
 
-/**
- * 
- * This class tests methods in Award.java class
- */
 public class AwardCostShareTest { 
-    private static final int AWARD_COST_SHARE_ATTRIBUTES_COUNT = 11;
+    private static final int AWARD_COST_SHARE_ATTRIBUTES_COUNT = 13;
     
     private AwardCostShare awardCostShareBo;
     private Award award = new Award();
-    
-    /**
-     *
-     * @throws Exception
-     */
+
     @Before
     public void setUp() throws Exception {
         awardCostShareBo = new AwardCostShare();
         awardCostShareBo.setAward(award);
     }
 
-    /**
-     *
-     * @throws Exception
-     */
     @After
     public void tearDown() throws Exception {
         awardCostShareBo = null;
     }
-    
-    /**
-     * 
-     * This method tests that total attributes of Award Business Object 
-     * @throws Exception
-     */
+
     @Test
     public void testAwardCostShareBoAttributesCount() throws Exception {              
         Assert.assertEquals(AWARD_COST_SHARE_ATTRIBUTES_COUNT, awardCostShareBo.getClass().getDeclaredFields().length);

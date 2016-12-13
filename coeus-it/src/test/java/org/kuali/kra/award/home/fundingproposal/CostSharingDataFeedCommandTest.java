@@ -35,6 +35,7 @@ public class CostSharingDataFeedCommandTest extends BaseDataFeedCommandTest {
     private AwardCostShare awardCostShare1;
     
     @Before
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         costShareType = new CostShareType();
@@ -72,6 +73,7 @@ public class CostSharingDataFeedCommandTest extends BaseDataFeedCommandTest {
         retval.setCostShareType(costShareType);
         retval.setProjectPeriod(fiscalYear);
         retval.setSourceAccount("abc123");
+        retval.setUnitNumber("BL-BL");
         return retval;
     }
     
@@ -82,6 +84,7 @@ public class CostSharingDataFeedCommandTest extends BaseDataFeedCommandTest {
         retval.setCostShareType(costShareType);
         retval.setProjectPeriod(fiscalYear);
         retval.setSource("abc123");
+        retval.setUnitNumber("BL-BL");
         return retval;
     } 
     
@@ -89,7 +92,8 @@ public class CostSharingDataFeedCommandTest extends BaseDataFeedCommandTest {
         for (AwardCostShare awardCostShare : award.getAwardCostShares()) {
             if (StringUtils.equals(awardCostShare.getProjectPeriod(), ipCostShare.getProjectPeriod())
                     && StringUtils.equals(awardCostShare.getSource(), ipCostShare.getSourceAccount())
-                    && awardCostShare.getAmount().equals(ipCostShare.getAmount())) {
+                    && awardCostShare.getAmount().equals(ipCostShare.getAmount())
+                    && awardCostShare.getUnitNumber().equals(ipCostShare.getUnitNumber())) {
                 return true;
             }
         }

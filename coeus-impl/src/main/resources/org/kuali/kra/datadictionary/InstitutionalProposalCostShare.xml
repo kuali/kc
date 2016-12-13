@@ -40,6 +40,7 @@
                 <ref bean="InstitutionalProposalCostShare-sourceAccount" />
                 <ref bean="InstitutionalProposalCostShare-amount" />
                 <ref bean="InstitutionalProposalCostShare-versionNumber" />
+                <ref bean="InstitutionalProposalCostShare-unitNumber" />
             </list>
         </property>
     </bean>
@@ -67,24 +68,6 @@
         <property name="summary" value="Proposal Cost Share Id" />
         <property name="description" value="Proposal Cost Share Id" />
     </bean>
-
-<!--    <bean id="InstitutionalProposalCostShare-proposalId" parent="InstitutionalProposalCostShare-proposalId-parentBean" />-->
-<!--    <bean id="InstitutionalProposalCostShare-proposalId-parentBean" abstract="true" parent="AttributeDefinition" >-->
-<!--        <property name="name" value="proposalId" />-->
-<!--        <property name="forceUppercase" value="false" />-->
-<!--        <property name="label" value="Proposal Id" />-->
-<!--        <property name="shortLabel" value="Proposal Id" />-->
-<!--        <property name="maxLength" value="22" />-->
-<!--        <property name="validationPattern" >-->
-<!--            <bean parent="NumericValidationPattern" />-->
-<!--        </property>-->
-<!--        <property name="control" >-->
-<!--            <bean parent="TextControlDefinition"-->
-<!--                p:size="10" />-->
-<!--        </property>-->
-<!--        <property name="summary" value="Proposal Id" />-->
-<!--        <property name="description" value="Proposal Id" />-->
-<!--    </bean>-->
 
     <bean id="InstitutionalProposalCostShare-proposalNumber" parent="InstitutionalProposalCostShare-proposalNumber-parentBean" />
     <bean id="InstitutionalProposalCostShare-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -248,6 +231,14 @@
 
     <bean id="InstitutionalProposalCostShare-versionNumber" parent="InstitutionalProposalCostShare-versionNumber-parentBean" />
   <bean id="InstitutionalProposalCostShare-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+
+    <bean id="InstitutionalProposalCostShare-unitNumber" parent="InstitutionalProposalCostShare-unitNumber-parentBean" />
+    <bean id="InstitutionalProposalCostShare-unitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
+        <property name="required" value="false" />
+        <property name="label" value="Unit" />
+        <property name="shortLabel" value="Unit" />
+    </bean>
+
     <!-- Business Object Inquiry Definition -->
     <bean id="InstitutionalProposalCostShare-inquiryDefinition" parent="InstitutionalProposalCostShare-inquiryDefinition-parentBean" />
   <bean id="InstitutionalProposalCostShare-InquiryView" parent="InstitutionalProposalCostShare-InquiryView-parentBean"/>
