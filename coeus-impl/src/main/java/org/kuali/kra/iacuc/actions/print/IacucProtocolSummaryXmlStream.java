@@ -107,7 +107,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
     }
 
     public ProtocolType getProtocolSummary(KcPersistableBusinessObjectBase printableBusinessObject,
-            Map<String, Object> htData) {
+            Map<?, Object> htData) {
         IacucProtocol protocol = (IacucProtocol) printableBusinessObject;
         protocol.refreshNonUpdateableReferences();
         ProtocolType protocolType = ProtocolType.Factory.newInstance();
