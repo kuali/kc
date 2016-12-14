@@ -108,7 +108,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
         return printOption?"1":"0";
     }
     public ProtocolSummary getProtocolSummary(KcPersistableBusinessObjectBase printableBusinessObject,
-            Map<String, Object> htData) {
+            Map<?, Object> htData) {
         Protocol protocol = (Protocol) printableBusinessObject;
         ProtocolSummary protocolSummary = ProtocolSummary.Factory.newInstance();
         PrintRequirement  printRequirementType = protocolSummary.addNewPrintRequirement();

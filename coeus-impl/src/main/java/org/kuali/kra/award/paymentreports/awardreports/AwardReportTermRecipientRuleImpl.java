@@ -85,7 +85,7 @@ public class AwardReportTermRecipientRuleImpl extends KcTransactionalDocumentRul
         ArrayList<String> rolodexRecipientsWithNullContactId = new ArrayList<String>();
         for (AwardReportTermRecipient listItem : awardReportTermRecipientItems) {
             if (listItem != null) {
-                if(listItem.getContactId() == null && listItem.getRolodex() != null && !rolodexRecipientsWithNullContactId.contains(listItem.getRolodexId())){
+                if(listItem.getContactId() == null && listItem.getRolodex() != null && listItem.getRolodexId() != null && !rolodexRecipientsWithNullContactId.contains(listItem.getRolodexId().toString())){
                    rolodexRecipientsWithNullContactId.add(listItem.getRolodexId().toString()) ;
                 }
                 if (listItem.getContactId() != null) {
