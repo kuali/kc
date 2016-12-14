@@ -68,7 +68,7 @@
         <cas-client-core.version>3.3.3</cas-client-core.version>
         <cglib.version>3.1</cglib.version>
         <coeus-api-all.version>1609.0002</coeus-api-all.version>
-        <coeus-s2sgen.version>1612.0008</coeus-s2sgen.version>
+        <coeus-s2sgen.version>1612.0011</coeus-s2sgen.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <commons-codec.version>1.10</commons-codec.version>
         <commons-collections.version>3.2.2</commons-collections.version>
