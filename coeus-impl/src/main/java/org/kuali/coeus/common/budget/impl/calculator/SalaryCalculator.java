@@ -53,7 +53,7 @@ import java.util.stream.Collectors;
 public class SalaryCalculator {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SalaryCalculator.class);
     private static final String STRING_1 = "1";
-    private static final int DEFAULT_WORKING_MONTHS = 12;
+    private static final ScaleTwoDecimal DEFAULT_WORKING_MONTHS = new ScaleTwoDecimal(12);
     private static final String APPOINTMENT_TYPE = "appointmentType";
 
     private Budget budget;
@@ -480,7 +480,7 @@ public class SalaryCalculator {
      */
     public class SalaryDetails {
         private Boundary boundary;
-        private Integer workingMonths;
+        private ScaleTwoDecimal workingMonths;
         private ScaleTwoDecimal actualBaseSalary = ScaleTwoDecimal.ZERO;
         private ScaleTwoDecimal calculatedSalary = ScaleTwoDecimal.ZERO;
         private BudgetPerson altBudgetPerson;
@@ -490,8 +490,8 @@ public class SalaryCalculator {
          * @return Calculated Salary
          */
         public ScaleTwoDecimal calculateSalary() {
-            int paidMonths = (workingMonths == null) ? 12 : (workingMonths.intValue());
-            double perMonthSalary = this.getActualBaseSalary().doubleValue() / paidMonths;
+            ScaleTwoDecimal paidMonths = (workingMonths == null) ? DEFAULT_WORKING_MONTHS : workingMonths;
+            double perMonthSalary = this.getActualBaseSalary().doubleValue() / paidMonths.doubleValue();
             Calendar startDateCalendar = getDateTimeService().getCalendar(startDate);
             int startMonth = startDateCalendar.get(Calendar.MONTH);
             Calendar endDateCalendar = getDateTimeService().getCalendar(endDate);
@@ -514,9 +514,9 @@ public class SalaryCalculator {
                             startDateCalendar.set(Calendar.DAY_OF_MONTH, effdtCalendar.get(Calendar.DAY_OF_MONTH));
                         }
                         updateAltBudgetPerson();
-                        paidMonths = (altBudgetPerson.getAppointmentType().getDuration() == null) ? 12 : (altBudgetPerson
-                                .getAppointmentType().getDuration().intValue());
-                        perMonthSalary = this.getActualBaseSalary().doubleValue() / paidMonths;
+                        paidMonths = altBudgetPerson.getAppointmentType().getDuration() == null ? DEFAULT_WORKING_MONTHS : altBudgetPerson
+                                .getAppointmentType().getDuration();
+                        perMonthSalary = this.getActualBaseSalary().doubleValue() / paidMonths.doubleValue();
                         salaryReset = true;
                     }
                 }
@@ -574,6 +574,7 @@ public class SalaryCalculator {
             this.calculatedSalary = calculatedSalary;
         }
 
+        @Override
         public String toString() {
             StringBuffer strBffr = new StringBuffer("");
             strBffr.append("Actual Base Salary=>" + actualBaseSalary);
@@ -587,11 +588,11 @@ public class SalaryCalculator {
             return strBffr.toString();
         }
 
-        public Integer getWorkingMonths() {
+        public ScaleTwoDecimal getWorkingMonths() {
             return workingMonths;
         }
 
-        public void setWorkingMonths(Integer workingMonths) {
+        public void setWorkingMonths(ScaleTwoDecimal workingMonths) {
             this.workingMonths = workingMonths;
         }
 

@@ -18,19 +18,14 @@
  */
 package org.kuali.coeus.common.budget.framework.personnel;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.kuali.coeus.common.budget.api.personnel.AppointmentTypeContract;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 
-/**
- * Class representation of the Appointment Type Business Object
- *
- * AppointmentType.java
- */
+
 @Entity
 @Table(name = "APPOINTMENT_TYPE")
 public class AppointmentType extends KcPersistableBusinessObjectBase implements AppointmentTypeContract {
@@ -40,7 +35,8 @@ public class AppointmentType extends KcPersistableBusinessObjectBase implements 
     private String appointmentTypeCode;
 
     @Column(name = "DURATION")
-    private Integer duration;
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal duration;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -63,11 +59,11 @@ public class AppointmentType extends KcPersistableBusinessObjectBase implements 
     }
 
     @Override
-    public Integer getDuration() {
+    public ScaleTwoDecimal getDuration() {
         return duration;
     }
 
-    public void setDuration(Integer duration) {
+    public void setDuration(ScaleTwoDecimal duration) {
         this.duration = duration;
     }
 

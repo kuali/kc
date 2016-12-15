@@ -100,12 +100,12 @@ public class SalaryCalculatorTest {
         return budgetRate;
     }
 
-    public BudgetPerson createBudgetPerson(String personId, String effectiveDate, double calculationBase, int appointmentDuration, String anniversaryDate) throws Exception {
+    public BudgetPerson createBudgetPerson(String personId, String effectiveDate, double calculationBase, double appointmentDuration, String anniversaryDate) throws Exception {
         BudgetPerson budgetPerson = new BudgetPerson();
         budgetPerson.setPersonId(personId);
         budgetPerson.setEffectiveDate(createDateFromString(effectiveDate));
         budgetPerson.setCalculationBase(new ScaleTwoDecimal(calculationBase));
-        budgetPerson.setAppointmentType(createAppointmentType(appointmentDuration));
+        budgetPerson.setAppointmentType(createAppointmentType(new ScaleTwoDecimal(appointmentDuration)));
         budgetPerson.setPersonSequenceNumber(PERSON_SEQUENCE_NUMBER);
         if (anniversaryDate != null) {
             budgetPerson.setSalaryAnniversaryDate(createDateFromString(anniversaryDate));
@@ -113,7 +113,7 @@ public class SalaryCalculatorTest {
         return budgetPerson;
     }
 
-    public AppointmentType createAppointmentType(int duration) {
+    public AppointmentType createAppointmentType(ScaleTwoDecimal duration) {
         AppointmentType appointmentType = new AppointmentType();
         appointmentType.setDuration(duration);
         return appointmentType;
