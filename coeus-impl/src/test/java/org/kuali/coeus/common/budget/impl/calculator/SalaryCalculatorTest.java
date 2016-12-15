@@ -40,6 +40,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class SalaryCalculatorTest {
 
@@ -163,7 +164,7 @@ public class SalaryCalculatorTest {
         budgetLineItem.setEndDate(createDateFromString(endDate));
         budgetLineItem.setBudgetPersonnelDetailsList(Arrays.asList(details));
         budgetLineItem.setCostElementBO(createCostElement());
-        Arrays.asList(details).stream().forEach(budgetPersonnelDetail -> budgetPersonnelDetail.setBudgetLineItem(budgetLineItem));
+        Stream.of(details).forEach(budgetPersonnelDetail -> budgetPersonnelDetail.setBudgetLineItem(budgetLineItem));
         return budgetLineItem;
     }
 

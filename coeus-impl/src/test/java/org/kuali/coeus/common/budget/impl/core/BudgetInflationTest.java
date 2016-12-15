@@ -58,6 +58,10 @@ public class BudgetInflationTest {
             return inflationRates;
         }
 
+        @Override
+        protected QueryList<BudgetRate> filterInflationRates(CostElement costElement, boolean applyInflationRate) {
+            return super.filterInflationRates(costElement, applyInflationRate);
+        }
     }
 
 
