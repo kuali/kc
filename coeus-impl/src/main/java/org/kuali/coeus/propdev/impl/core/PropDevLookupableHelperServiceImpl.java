@@ -88,6 +88,11 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     private static final String ROLE_NAME = "roleName";
     private static final String PROPOSAL_DEVELOPMENT_DOCUMENT = "ProposalDevelopmentDocument";
 
+    public static final String OSP_ADMIN_USERNAME_PATH = "ownedByUnit.unitAdministrators.person.userName";
+    public static final String OSP_ADMIN_PERSON_ID_PATH = "ownedByUnit.unitAdministrators.personId";
+    public static final String OSP_ADMIN_TYPE_CODE_PATH = "ownedByUnit.unitAdministrators.unitAdministratorTypeCode";
+    public static final String OSP_ADMIN_TYPE_CODE_VALUE = "2";
+
 
 
     @Autowired
@@ -129,6 +134,16 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     @Override
     protected Collection<?> executeSearch(Map<String, String> adjustedSearchCriteria,
                                           List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
+
+        if (StringUtils.isNotEmpty(adjustedSearchCriteria.get(OSP_ADMIN_USERNAME_PATH))) {
+            Person person = personService.getPersonByPrincipalName(adjustedSearchCriteria.get(OSP_ADMIN_USERNAME_PATH));
+            if (person != null) {
+                adjustedSearchCriteria.put(OSP_ADMIN_PERSON_ID_PATH, person.getPrincipalId());
+                adjustedSearchCriteria.put(OSP_ADMIN_TYPE_CODE_PATH, OSP_ADMIN_TYPE_CODE_VALUE);
+            } else {
+                return Collections.emptyList();
+            }
+        }
 
         Map<String,String> modifiedSearchCriteria = new HashMap<>();
         modifiedSearchCriteria.putAll(adjustedSearchCriteria);
@@ -203,6 +218,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
         final List<DevelopmentProposal> proposals = getDataObjectService().findMatching(DevelopmentProposal.class, query.build()).getResults().stream()
                 .filter(statusCodePredicate)
+                .distinct()
                 .collect(Collectors.toList());
 
         boolean doNotFilter = false;

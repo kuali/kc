@@ -110,6 +110,7 @@
                 <ref bean="Award-latestAwardAmountInfo.amountObligatedToDate"/>
                 <ref bean="Award-documentStatus" />
                 <ref bean="Award-documentStatusResult" />
+                <ref bean="Award-primeSponsor.sponsorName" />
             </list>
         </property>
       	<property name="relationships">
@@ -1446,6 +1447,12 @@
         <property name="description" value="Document Status" />
     </bean>
 
+    <bean id="Award-primeSponsor.sponsorName" parent="Award-primeSponsor.sponsorName-parentBean"/>
+    <bean abstract="true" id="Award-primeSponsor.sponsorName-parentBean" parent="Sponsor-sponsorName">
+        <property name="name" value="primeSponsor.sponsorName"/>
+        <property name="label" value="Prime Sponsor Name"/>
+        <property name="shortLabel" value="Prime Sponsor Name"/>
+    </bean>
 
     <!-- Business Object Inquiry Definition -->
     <bean id="Award-inquiryDefinition" parent="Award-inquiryDefinition-parentBean"/>
