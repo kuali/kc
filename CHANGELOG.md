@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* support additional lookup criteria for Proposal Development and Award
+  * Travis Schneeberger on Fri, 16 Dec 2016 13:05:32 -0500 [View Commit](../../commit/d192febeedd0a5ef99eaeadb675f4c612c2ae1af)
+
+##coeus-1612.0026
 * RESKC-1729: supporting decimal duration for appointment type
   * Travis Schneeberger on Thu, 15 Dec 2016 17:15:18 -0500 [View Commit](../../commit/7bf34db5acbed7fe790ed9344a7a95dbe9609075)
 
