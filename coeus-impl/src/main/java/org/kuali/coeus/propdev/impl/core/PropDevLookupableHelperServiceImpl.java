@@ -46,7 +46,6 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.permission.Permission;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.service.impl.LookupCriteriaGenerator;
 import org.kuali.rice.krad.uif.element.Link;
 import org.kuali.rice.krad.uif.field.FieldGroup;
@@ -114,10 +113,6 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     @Autowired
     @Qualifier("lookupCriteriaGenerator")
     private LookupCriteriaGenerator lookupCriteriaGenerator;
-
-    @Autowired
-    @Qualifier("lookupService")
-    private LookupService lookupService;
 
     @Autowired
     @Qualifier("permissionService")
@@ -270,8 +265,8 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     }
 
     protected boolean hasPermissionWithNoUnit() {
-        return permissionService.isAuthorized(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,  PermissionConstants.MODIFY_PROPOSAL, Collections.<String, String>emptyMap())
-                || permissionService.isAuthorized(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,  PermissionConstants.VIEW_PROPOSAL, Collections.<String, String>emptyMap());
+        return permissionService.isAuthorized(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,  PermissionConstants.MODIFY_PROPOSAL, Collections.emptyMap())
+                || permissionService.isAuthorized(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,  PermissionConstants.VIEW_PROPOSAL, Collections.emptyMap());
     }
 
     protected boolean hasPermissionWithWildcardUnit() {
@@ -588,14 +583,6 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
     public void setLookupCriteriaGenerator(LookupCriteriaGenerator lookupCriteriaGenerator) {
         this.lookupCriteriaGenerator = lookupCriteriaGenerator;
-    }
-
-    public LookupService getLookupService() {
-        return lookupService;
-    }
-
-    public void setLookupService(LookupService lookupService) {
-        this.lookupService = lookupService;
     }
 
     public PermissionService getPermissionService() {
