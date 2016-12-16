@@ -40,6 +40,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class SalaryCalculatorTest {
 
@@ -100,12 +101,12 @@ public class SalaryCalculatorTest {
         return budgetRate;
     }
 
-    public BudgetPerson createBudgetPerson(String personId, String effectiveDate, double calculationBase, int appointmentDuration, String anniversaryDate) throws Exception {
+    public BudgetPerson createBudgetPerson(String personId, String effectiveDate, double calculationBase, double appointmentDuration, String anniversaryDate) throws Exception {
         BudgetPerson budgetPerson = new BudgetPerson();
         budgetPerson.setPersonId(personId);
         budgetPerson.setEffectiveDate(createDateFromString(effectiveDate));
         budgetPerson.setCalculationBase(new ScaleTwoDecimal(calculationBase));
-        budgetPerson.setAppointmentType(createAppointmentType(appointmentDuration));
+        budgetPerson.setAppointmentType(createAppointmentType(new ScaleTwoDecimal(appointmentDuration)));
         budgetPerson.setPersonSequenceNumber(PERSON_SEQUENCE_NUMBER);
         if (anniversaryDate != null) {
             budgetPerson.setSalaryAnniversaryDate(createDateFromString(anniversaryDate));
@@ -113,7 +114,7 @@ public class SalaryCalculatorTest {
         return budgetPerson;
     }
 
-    public AppointmentType createAppointmentType(int duration) {
+    public AppointmentType createAppointmentType(ScaleTwoDecimal duration) {
         AppointmentType appointmentType = new AppointmentType();
         appointmentType.setDuration(duration);
         return appointmentType;
@@ -163,7 +164,7 @@ public class SalaryCalculatorTest {
         budgetLineItem.setEndDate(createDateFromString(endDate));
         budgetLineItem.setBudgetPersonnelDetailsList(Arrays.asList(details));
         budgetLineItem.setCostElementBO(createCostElement());
-        Arrays.asList(details).stream().forEach(budgetPersonnelDetail -> budgetPersonnelDetail.setBudgetLineItem(budgetLineItem));
+        Stream.of(details).forEach(budgetPersonnelDetail -> budgetPersonnelDetail.setBudgetLineItem(budgetLineItem));
         return budgetLineItem;
     }
 
