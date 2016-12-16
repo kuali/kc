@@ -26,4 +26,5 @@ spool 1612_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1612_004__add_nsf_codes.sql
 @./kc/bootstrap/V1612_007__add_unit_cost_share.sql
 @./kc/bootstrap/V1612_008__fy_based_ip.sql
+@./kc/bootstrap/V1612_009__alter_duration.sql
 commit;
