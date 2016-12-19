@@ -700,27 +700,19 @@ public class ProposalDevelopmentSubmitController extends
             }
         }
         
-		boolean auditActivate = form.getDialogResponse("PropDev-SubmitPage-ApproveDialog") == null ? true : false;
-		form.setAuditActivated(auditActivate);
-
-        if (auditActivate && getValidationState(form).equals(AuditHelper.ValidationState.ERROR)) {
-            getGlobalVariableService().getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION);
-            return getModelAndViewService().getModelAndView(form);
-        }
+		if (getValidationState(form).equals(AuditHelper.ValidationState.ERROR)) {
+			getGlobalVariableService().getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION);
+			return getModelAndViewService().getModelAndView(form);
+		}
 
 		form.setAuditActivated(false);
         
         final boolean approvalComments = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, ENABLE_PD_WORKFLOW_APPROVAL_COMMENTS);
-        if (approvalComments) {
-            final DialogResponse approveDialogResponse = form.getDialogResponse("PropDev-SubmitPage-ApproveDialog");
-            if (approveDialogResponse == null) {
-                return getModelAndViewService().showDialog("PropDev-SubmitPage-ApproveDialog", false, form);
-            } else if (!approveDialogResponse.getResponseAsBoolean()) {
-                return getModelAndViewService().getModelAndView(form);
-            } else if (approveDialogResponse.getResponseAsBoolean()) {
-                form.setAnnotation(StringUtils.defaultString(form.getProposalDevelopmentApprovalBean().getActionReason()));
-            }
-        }
+		if (approvalComments) {
+			if (form.getMethodToCall().equals("approveCheck")) {
+				return getModelAndViewService().showDialog("PropDev-SubmitPage-ApproveDialog", false, form);
+			}
+		}
 
         List<NotificationTypeRecipient> recipients = getRelatedApproversFromActionRequest(form.getProposalDevelopmentDocument().getDocumentNumber(), getGlobalVariableService().getUserSession().getPrincipalId()).stream()
                 .map(this::createRecipientFromPerson).collect(toList());
@@ -742,6 +734,14 @@ public class ProposalDevelopmentSubmitController extends
         form.setEvaluateFlagsAndModes(true);
         return updateProposalState(form);
     }
+    
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=confirmApproval")
+	public ModelAndView confirmApproval(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+		if (form.getProposalDevelopmentApprovalBean().getActionReason() != null) {
+			form.setAnnotation(StringUtils.defaultString(form.getProposalDevelopmentApprovalBean().getActionReason()));
+		}
+		return approve(form);
+	}
 
     protected void sendAnotherUserApprovedNotification(ProposalDevelopmentDocumentForm form, List<NotificationTypeRecipient> recipients) {
         prepareNotification(form.getDevelopmentProposal());
