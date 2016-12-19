@@ -20,6 +20,7 @@
 
 <c:set var="awardCreateAccountAttributes" value="${DataDictionary.Award.attributes}" />
 <c:set var="accountInformationBean" value="${KualiForm.accountInformationBean}" />
+<c:set var="accountInformationBeanAttributes" value="${DataDictionary.AccountInformationBean.attributes}" />
 
 <kul:tab tabTitle="Create Account" defaultOpen="${param.command eq 'displayDocSearchView' ? true : false}" tabErrorKey="error.award.createAccount.*" >
 	<div class="tab-container" align="left">
@@ -80,7 +81,7 @@
                             <tr>
                                 <th>
                                     <div>
-                                        Budgeted:
+                                        <kul:htmlAttributeLabel attributeEntry="${accountInformationBeanAttributes.budgeted}" />
                                     </div>
 
                                 </th>
@@ -93,7 +94,7 @@
                             <tr>
                                 <th>
                                     <div>
-                                        Pending:
+                                        <kul:htmlAttributeLabel attributeEntry="${accountInformationBeanAttributes.pending}" />
                                     </div>
 
                                 </th>
@@ -106,7 +107,7 @@
                         <tr>
                             <th>
                                 <div>
-                                    Income:
+                                    <kul:htmlAttributeLabel attributeEntry="${accountInformationBeanAttributes.income}" />
                                 </div>
 
                             </th>
@@ -119,7 +120,7 @@
                         <tr>
                             <th>
                                 <div>
-                                    Expense:
+                                    <kul:htmlAttributeLabel attributeEntry="${accountInformationBeanAttributes.expense}" />
                                 </div>
 
                             </th>
@@ -132,7 +133,7 @@
                         <tr>
                             <th>
                                 <div>
-                                    Available:
+                                    <kul:htmlAttributeLabel attributeEntry="${accountInformationBeanAttributes.available}" />
                                 </div>
 
                             </th>
