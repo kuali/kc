@@ -90,6 +90,7 @@
                 <value>classpath:org/kuali/coeus/common/impl/custom/arg/ArgValueLookup.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/attachment/AttachmentFile.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/AttachmentsEntryType.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/AccountInformationBean.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Award.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/AwardAmountInfo.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/AwardAmountTransaction.xml</value>

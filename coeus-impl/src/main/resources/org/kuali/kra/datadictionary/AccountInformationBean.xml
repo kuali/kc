@@ -1,0 +1,90 @@
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2016 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AccountInformationBean" parent="AccountInformationBean-parentBean" />
+
+  <bean id="AccountInformationBean-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.coeus.award.AccountInformationBean" />
+    <property name="objectLabel" value="Award Account Information" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AccountInformationBean-status" />
+        <ref bean="AccountInformationBean-budgeted"/>
+        <ref bean="AccountInformationBean-pending" />
+        <ref bean="AccountInformationBean-income"/>
+        <ref bean="AccountInformationBean-expense" />
+        <ref bean="AccountInformationBean-available"/>
+      </list>
+    </property>
+  </bean>
+    
+    <bean id="AccountInformationBean-status" parent="AccountInformationBean-status-parentBean" />
+    <bean id="AccountInformationBean-status-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="name" value="status"/>
+      <property name="label" value="Status" />
+      <property name="shortLabel" value="Status" />
+      <property name="required" value="false"/>
+    </bean>
+
+  <bean id="AccountInformationBean-budgeted" parent="AccountInformationBean-budgeted-parentBean" />
+  <bean id="AccountInformationBean-budgeted-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgeted"/>
+    <property name="label" value="Budgeted" />
+    <property name="shortLabel" value="Budgeted" />
+    <property name="required" value="false"/>
+  </bean>
+
+    <bean id="AccountInformationBean-pending" parent="AccountInformationBean-pending-parentBean" />
+    <bean id="AccountInformationBean-pending-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="name" value="pending"/>
+      <property name="label" value="Pending" />
+      <property name="shortLabel" value="Pending" />
+      <property name="required" value="false"/>
+    </bean>
+
+    <bean id="AccountInformationBean-income" parent="AccountInformationBean-income-parentBean" />
+    <bean id="AccountInformationBean-income-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="name" value="income" />
+      <property name="label" value="Income" />
+      <property name="shortLabel" value="Income" />
+      <property name="required" value="false"/>
+    </bean>
+
+    <bean id="AccountInformationBean-expense" parent="AccountInformationBean-expense-parentBean" />
+    <bean id="AccountInformationBean-expense-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="name" value="expense"/>
+	  <property name="label" value="Expense" />
+      <property name="shortLabel" value="Expense" />
+      <property name="required" value="false"/>
+    </bean>
+
+    <bean id="AccountInformationBean-available" parent="AccountInformationBean-available-parentBean" />
+    <bean id="AccountInformationBean-available-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="name" value="available" />
+      <property name="label" value="Available" />
+      <property name="shortLabel" value="Available" />
+      <property name="required" value="false"/>
+    </bean>
+</beans>
+
