@@ -56,6 +56,7 @@
 				<entry key="bRetrieve" value="true" />
 				<entry key="bPaginate" value="false" />
 				<entry key="bInfo" value="false" />
+				<entry key="aaSorting" value="[[1,'asc']]" />
 			</map>
 		</property>
 		<property name="header.rightGroup">

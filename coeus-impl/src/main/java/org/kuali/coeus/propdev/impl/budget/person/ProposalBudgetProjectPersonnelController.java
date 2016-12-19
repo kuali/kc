@@ -22,6 +22,8 @@ package org.kuali.coeus.propdev.impl.budget.person;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.Interval;
@@ -95,7 +97,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	       for (TbnPerson person : form.getAddProjectPersonnelHelper().getTbnPersons()) {
 		       for (int index=0 ; index < person.getQuantity();  index++) {
 		    	   BudgetPerson newPerson = new BudgetPerson(person);
-                       newPerson.setPersonName(newPerson.getPersonName() + " - " + (index +1));
+                       newPerson.setPersonName(getNextTbnName(form.getBudget().getBudgetPersons(), newPerson));
                        newPerson.setTbnId(newPerson.getTbnId() + (index + 1));
 	    	       getBudgetPersonService().addBudgetPerson(form.getBudget(), newPerson);
 		       }
@@ -123,6 +125,40 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	   }
        form.getAddProjectPersonnelHelper().reset();
        return getModelAndViewService().getModelAndView(form);
+	}
+
+	private String getNextTbnName(List<BudgetPerson> current, BudgetPerson newPerson) {
+		final String tbnPrefix = newPerson.getPersonName() + " - ";
+
+		final List<Integer> sequences = current.stream()
+				.filter(person -> StringUtils.isNotBlank(person.getTbnId()))
+				.map(BudgetPerson::getPersonName)
+				.filter(StringUtils::isNotBlank)
+				.filter(personName -> personName.startsWith(newPerson.getPersonName()))
+				.map(personName -> personName.replace(tbnPrefix, ""))
+				.map(Integer::valueOf)
+				.sorted()
+				.collect(Collectors.toList());
+
+		//address the first element only
+		if (sequences.isEmpty() || !Integer.valueOf(1).equals(sequences.get(0))) {
+			return  tbnName(tbnPrefix, 1);
+		}
+
+		//address missing elements in the middle
+		for (Integer i : IntStream.range(1, sequences.size()).boxed().collect(Collectors.toList())) {
+			final int next = 1 + sequences.get(i - 1);
+			if (next < sequences.get(i)) {
+				return  tbnName(tbnPrefix, next);
+			}
+		}
+
+		//address elements at the end
+		return tbnName(tbnPrefix, (sequences.get(sequences.size() - 1) + 1));
+	}
+
+	private String tbnName(String prefix, int sequence) {
+		return prefix + sequence;
 	}
 
 	@Transactional @RequestMapping(params="methodToCall=editPersonDetails")
