@@ -551,7 +551,12 @@ public class BudgetPersonnelRule {
     }
     
     protected boolean isNewJobCodeValid(BudgetPerson budgetPerson, KcEventResult result) {
-    	JobCode jobCode = getJobCodeService().findJobCodeRef(budgetPerson.getJobCode());
+
+        if (!getParamService().getParameterValueAsBoolean("KC-B", "Document", "JOBCODE_VALIDATION_ENABLED")) {
+            return true;
+        }
+
+        JobCode jobCode = getJobCodeService().findJobCodeRef(budgetPerson.getJobCode());
     	if(jobCode == null) {
             result.getMessageMap().putError("jobCode", KeyConstants.ERROR_PERSON_INVALID_JOBCODE_VALUE);
     		result.setSuccess(false);
