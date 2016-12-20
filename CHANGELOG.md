@@ -1,6 +1,19 @@
 
 
 ##CURRENT
+* RESKC-1690: removing disabled expandedTextArea from the display only modification Id on the Subaward Financial tab
+  * Travis Schneeberger on Tue, 20 Dec 2016 10:03:34 -0500 [View Commit](../../commit/3368f017545ac39b04f09ba2c556eb1fd95b292c)
+* RESKC-1256: disabling job code validation in proposal budget when JOBCODE_VALIDATION_ENABLED is not on.
+  * Travis Schneeberger on Tue, 20 Dec 2016 09:34:48 -0500 [View Commit](../../commit/80c16f9860010cf77cc05d94fcc2debb860ea055)
+* Cancel button not closing approval comment dialog window.  * vineeth on Mon, 19 Dec 2016 17:56:28 -0500 [View Commit](../../commit/0ffa9779bbbef216980efeb5a829b118fe704403)
+* RESKC-1721: making sure tbn names are properly sequenced and when displayed sorted
+  * Travis Schneeberger on Mon, 19 Dec 2016 13:24:57 -0500 [View Commit](../../commit/26e7782e2486b4fd98689622a24e855ce1a5fb21)
+* ConcurrentModificationException in proposal approval
+  * vineeth on Fri, 16 Dec 2016 19:53:18 -0500 [View Commit](../../commit/ea0771b0e3f124a48856d135ee7e4a2178bcca9c)
+* Convert labels to DD attributes to allow for DD override
+  * Terry Durkin on Mon, 19 Dec 2016 11:33:51 -0500 [View Commit](../../commit/7f6743308118b2e40c40f9babcaca68bdb836daa)
+
+##coeus-1612.0028
 * No Changes
 
 
