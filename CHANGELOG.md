@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1612.0029
 * RESKC-1690: removing disabled expandedTextArea from the display only modification Id on the Subaward Financial tab
   * Travis Schneeberger on Tue, 20 Dec 2016 10:03:34 -0500 [View Commit](../../commit/3368f017545ac39b04f09ba2c556eb1fd95b292c)
 * RESKC-1256: disabling job code validation in proposal budget when JOBCODE_VALIDATION_ENABLED is not on.
