@@ -186,7 +186,7 @@
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:actionLabel="OK" p:methodToCall="confirmApproval" p:order="10"
                       p:dialogDismissOption="REQUEST"  p:successCallback="dismissDialog('PropDev-SubmitPage-ApproveDialog');" p:dialogResponse="true"/>
-                <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:actionLabel="Cancel" p:methodToCall="cancelApprove" p:order="20"
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:methodToCall="cancelApprove" p:order="20"
                       p:dialogDismissOption="REQUEST" p:successCallback="dismissDialog('PPropDev-SubmitPage-ApproveDialog');" p:dialogResponse="false"/>
             </list>
         </property>
