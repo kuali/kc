@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Revert "Cancel button not closing approval comment dialog window."
+  * Terry Durkin on Wed, 21 Dec 2016 15:14:42 -0500 [View Commit](../../commit/b912b55a467f7620cfd5ac8c11e02241b1fdab92)
+* missing oracle script
+  * Terry Durkin on Wed, 21 Dec 2016 13:10:24 -0500 [View Commit](../../commit/4be3765910e6beb07dcf688719d179b561123113)
+
+##coeus-1612.0030
 * No Changes
 
 
