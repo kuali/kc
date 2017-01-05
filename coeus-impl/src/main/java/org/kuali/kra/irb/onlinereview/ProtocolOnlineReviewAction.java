@@ -76,13 +76,9 @@ import org.kuali.rice.krad.util.KRADUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-/**
- * The set of actions for the Protocol Actions tab.
- */
+
 public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditModeAction {
 
     private static final Log LOG = LogFactory.getLog(ProtocolOnlineReviewAction.class);
@@ -103,6 +99,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     //Used for redirecting to/from the ProtocolOnlineReviewRedirect action.
     private static final String PROTOCOL_DOCUMENT_NUMBER="protocolDocumentNumber";
 
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
@@ -134,12 +131,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      * refreshed so that the available scheduled dates for that committee can be displayed in the drop-down menu for the scheduled
      * dates. Please see ProtocolSubmitAction.prepareView() for how the Submit for Review works on a refresh.
      * 
-     * @param mapping the mapping associated with this action.
-     * @param form the Protocol form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the name of the HTML page to display
-     * 
      */
     public ActionForward refreshPage(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -147,11 +138,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    
-    /**
-     * Get the Kuali Rule Service.
-     * @return the Kuali Rule Service
-     */
+
     @Override
     protected KualiRuleService getKualiRuleService() {
         return KcServiceLocator.getService(KualiRuleService.class);
@@ -181,18 +168,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
         return valid;        
     }
-    
-  
-    
-    /**
-     * 
-     * @param mapping the mapping associated with this action.
-     * @param form the Protocol form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the name of the HTML page to display
-     * 
-     */
+
     public ActionForward createOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -283,7 +259,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      * 
      * This method is to render protocol review page.  It is redirected to by the protocol online review redirect action
      * when the edit link is clicked on in the action list.
-     * @throws Exception
      */
     public ActionForward startProtocolOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -293,17 +268,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         ((ProtocolForm) form).initialize();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
-    
-    /**
-     * 
-     * @param mapping the mapping associated with this action.
-     * @param form the Protocol form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the name of the HTML page to display
-     * 
-     */
+
     public ActionForward approveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -407,15 +372,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
 
     }
 
-    /**
-     * 
-     * @param mapping the mapping associated with this action.
-     * @param form the Protocol form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the name of the HTML page to display
-     * 
-     */
     public ActionForward blanketApproveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
@@ -430,15 +386,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    /**
-     * 
-     * @param mapping the mapping associated with this action.
-     * @param form the Protocol form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the name of the HTML page to display
-     * 
-     */
     public ActionForward saveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
@@ -462,15 +409,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
     }
 
-    /**
-     * 
-     * @param mapping the mapping associated with this action.
-     * @param form the Protocol form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the name of the HTML page to display
-     * 
-     */
     public ActionForward rejectOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -520,20 +458,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }  
-        
-        
-        
-        
-    
-    /**
-     * 
-     * @param mapping the mapping associated with this action.
-     * @param form the Protocol form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the name of the HTML page to display
-     * @throws Exception if something bad happens
-     */
+
     public ActionForward deleteOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
          
@@ -613,16 +538,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
              }
         }
     }
-    
-    /**
-     * 
-     * @param mapping the mapping associated with this action.
-     * @param form the Protocol form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the name of the HTML page to display
-     * 
-     */
+
     public ActionForward cancelOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
@@ -640,8 +556,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             return this.performQuestionWithoutInput(mapping, form, request, response, KRADConstants.DOCUMENT_CANCEL_QUESTION, getKualiConfigurationService().getPropertyValueAsString("document.question.cancel.text"), KRADConstants.CONFIRMATION_QUESTION, callerString, "");
         }
         else {
-            Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
-            
             KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
             doProcessingAfterPost( kualiDocumentFormBase, request );
             getDocumentService().cancelDocument(prDoc, kualiDocumentFormBase.getAnnotation());
@@ -657,16 +571,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    
-    /**
-     * 
-     * @param mapping the mapping associated with this action.
-     * @param form the Protocol form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the name of the HTML page to display
-     * 
-     */
     public ActionForward addOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -728,15 +632,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }    
 
-    /**
-     * 
-     * @param mapping the mapping associated with this action.
-     * @param form the Protocol form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the name of the HTML page to display
-     * 
-     */
     public ActionForward moveUpOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -764,15 +659,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
 
-    /**
-     * 
-     * @param mapping the mapping associated with this action.
-     * @param form the Protocol form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the name of the HTML page to display
-     * 
-     */
     public ActionForward moveDownOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -800,15 +686,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
 
-    /**
-     * 
-     * @param mapping the mapping associated with this action.
-     * @param form the Protocol form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the name of the HTML page to display
-     * 
-     */
     public ActionForward deleteOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         

@@ -64,7 +64,6 @@ import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -144,7 +143,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     private DevelopmentProposal developmentProposal;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER")
     private List<CustomAttributeDocValue> customDataList;
 
     /* Currently this property is just used for UI display.
@@ -239,7 +238,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
 	protected DataDictionaryService getDataDictionaryService() {
 		if (dataDictionaryService == null){
-			dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
+			dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
 		}
 		return dataDictionaryService;
 	}

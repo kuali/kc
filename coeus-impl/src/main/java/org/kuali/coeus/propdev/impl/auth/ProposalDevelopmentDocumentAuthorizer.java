@@ -297,7 +297,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             }
         }
     }
-    
+
+    @Override
     public boolean canOpen(Document document, Person user) {
         ProposalDevelopmentDocument proposalDocument = (ProposalDevelopmentDocument) document;
         if (proposalDocument.getDevelopmentProposal().getProposalNumber() == null) {

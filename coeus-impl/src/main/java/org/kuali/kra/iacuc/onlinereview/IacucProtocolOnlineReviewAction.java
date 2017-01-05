@@ -71,9 +71,8 @@ import org.kuali.rice.krad.util.KRADUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
     private static final String PROTOCOL_DOCUMENT_NUMBER="protocolDocumentNumber";
@@ -127,7 +126,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
 
     public ActionForward startProtocolOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        Map<String, String> fieldValues = new HashMap<String, String>();
+
         String protocolDocumentNumber = request.getParameter(PROTOCOL_DOCUMENT_NUMBER);
         ((ProtocolFormBase) form).setDocument(getDocumentService().getByDocumentHeaderId(
                 protocolDocumentNumber));
@@ -172,7 +171,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
     protected String getOnlineReviewActionDocumentNumber(String parameterName, String actionMethodToCall) {
         
         String idxStr = null;
-        if (StringUtils.isBlank(parameterName)||parameterName.indexOf("."+actionMethodToCall+".") == -1) {
+        if (StringUtils.isBlank(parameterName)|| !parameterName.contains("." + actionMethodToCall + ".")) {
             throw new IllegalArgumentException(
                     String.format("getOnlineReviewActionIndex expects a non-empty value for parameterName parameter, "+
                             "and it must contain as a substring the parameter actionMethodToCall. "+
@@ -223,8 +222,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
     }    
 
     protected int getOnlineReviewActionIndexNumber(String parameterName, String actionMethodToCall) {
-        int result = -1;
-        if (StringUtils.isBlank(parameterName)||parameterName.indexOf("."+actionMethodToCall+".") == -1) {
+        if (StringUtils.isBlank(parameterName)|| !parameterName.contains("." + actionMethodToCall + ".")) {
             throw new IllegalArgumentException(
                     String.format("getOnlineReviewActionIndex expects a non-empty value for parameterName parameter, "+
                             "and it must contain as a substring the parameter actionMethodToCall. "+
@@ -233,8 +231,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
                     );
         }
         String idxNmbr = StringUtils.substringBetween(parameterName, ".line.", ".anchor");
-        result = Integer.parseInt(idxNmbr);
-        return result;
+        return Integer.parseInt(idxNmbr);
     }
 
     public ActionForward addOnlineReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -300,24 +297,20 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         
         if (protocolForm.getOnlineReviewsActionHelper().getNewProtocolReviewCommitteeMembershipId()==null) {
             valid = false;
-            GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newProtocolReviewCommitteeMembershipId", "error.protocol.onlinereview.create.requiresReviewer", new String[0]);
+            GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newProtocolReviewCommitteeMembershipId", "error.protocol.onlinereview.create.requiresReviewer");
         }
         
         if( protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested() != null && protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue() != null ) {
-            if ( (DateUtils.isSameDay(protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue(), protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested())) ||
-                 (protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue().after(protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested())) ) {
-               //no-op,
-            }
-            else
-            {   //dates are not the same or due date is before requested date
-                valid=false;
-                GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newReviewDateDue", "error.protocol.onlinereview.create.dueDateAfterRequestedDate", new String[0]);
+            if ((!DateUtils.isSameDay(protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue(), protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested())) &&
+                    (!protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue().after(protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested()))) {   //dates are not the same or due date is before requested date
+                     valid=false;
+                     GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newReviewDateDue", "error.protocol.onlinereview.create.dueDateAfterRequestedDate");
             }
         }
         
         if( StringUtils.isEmpty(protocolForm.getOnlineReviewsActionHelper().getNewReviewerTypeCode())) {
             valid=false;
-            GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newReviewerTypeCode", "error.protocol.onlinereview.create.protocolReviewerTypeCode", new String[0]);
+            GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newReviewerTypeCode", "error.protocol.onlinereview.create.protocolReviewerTypeCode");
         }
         
         return valid;        
@@ -350,15 +343,6 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
 
-    /**
-     *
-     * @param mapping the mapping associated with this action.
-     * @param form the ProtocolBase form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the name of the HTML page to display
-     * @throws Exception doesn't ever really happen
-     */
     public ActionForward moveDownOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -445,7 +429,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         ProtocolOnlineReviewDocumentBase prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
         ReviewCommentsBeanBase reviewCommentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
         ReviewAttachmentsBeanBase reviewAttachmentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewAttachmentsBeanFromHelperMap(onlineReviewDocumentNumber);
-        boolean isApproveReview = StringUtils.equals(IacucProtocolOnlineReviewStatus.SAVED_STATUS_CD, prDoc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode());
+
         //check to see if we are the reviewer and this is an approval to the irb admin.
         
         boolean validComments = applyRules(new RouteProtocolOnlineReviewEvent(prDoc, reviewCommentsBean.getReviewComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)));
@@ -464,9 +448,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
                 statusIsOk = true;
         }
 
-        if (!validComments || !statusIsOk) {
-            //nothing to do here.
-        } else {
+        if (validComments && statusIsOk) {
             getReviewCommentsService().saveReviewComments(reviewCommentsBean.getReviewComments(), reviewCommentsBean.getDeletedReviewComments());
             getReviewCommentsService().saveReviewAttachments(reviewAttachmentsBean.getReviewAttachments(), reviewAttachmentsBean.getDeletedReviewAttachments());
 
@@ -577,7 +559,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
                 deleteNoteText = introNoteMessage + reason;
 
                 // get note text max length from DD
-                int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, KRADConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
+                int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, KRADConstants.NOTE_TEXT_PROPERTY_NAME);
 
                 if (!this.applyRules(new DeleteProtocolOnlineReviewEvent(prDoc, reason, deleteNoteText, noteTextMaxLength))) {
                     // figure out exact number of characters that the user can enter
@@ -587,7 +569,8 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
                         // prevent a NPE by setting the reason to a blank string
                         reason = "";
                     }
-                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, DOCUMENT_DELETE_QUESTION, "Are you sure you want to delete this document?", KRADConstants.CONFIRMATION_QUESTION, callerString, "", reason, ERROR_DOCUMENT_DELETE_REASON_REQUIRED, KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, DOCUMENT_DELETE_QUESTION, "Are you sure you want to delete this document?", KRADConstants
+                            .CONFIRMATION_QUESTION, callerString, "", reason, ERROR_DOCUMENT_DELETE_REASON_REQUIRED, KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, Integer.valueOf(reasonLimit).toString());
                 } 
                 
                 if (KRADUtils.containsSensitiveDataPatternMatch(deleteNoteText)) {
@@ -597,8 +580,8 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
                             KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason");
                 } 
                 
-                ProtocolOnlineReviewBase protocolOnlineReview = prDoc.getProtocolOnlineReview();
-                ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
+
+
                 
                 prDoc.getProtocolOnlineReview().addActionPerformed("Delete");
                 KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase)protocolForm.getOnlineReviewsActionHelper().getDocumentHelperMap().get(onlineReviewDocumentNumber).get(OnlineReviewsActionHelperBase.FORM_MAP_KEY);
@@ -635,12 +618,8 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         if(question == null){
             return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,"Are you sure you want to return this document to reviewer ?" , KRADConstants.CONFIRMATION_QUESTION, callerString, "");
          } 
-        else if((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
-            //nothing to do.
-        }
-        else
-        {
-            if (!this.applyRules(new RejectProtocolOnlineReviewCommentEvent(prDoc, reason, new Integer(DOCUMENT_REJECT_REASON_MAXLENGTH).intValue()))) {
+        else if ((!DOCUMENT_REJECT_QUESTION.equals(question)) || !ConfirmationQuestion.NO.equals(buttonClicked)) {
+            if (!this.applyRules(new RejectProtocolOnlineReviewCommentEvent(prDoc, reason, Integer.valueOf(DOCUMENT_REJECT_REASON_MAXLENGTH)))) {
                 if (reason == null) {
                     reason = ""; //Prevents null pointer exception in performQuestion
                 }

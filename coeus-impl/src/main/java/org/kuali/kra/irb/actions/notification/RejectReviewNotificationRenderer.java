@@ -23,21 +23,12 @@ import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 
 import java.util.Map;
 
-/**
- * Renders additional fields for the Return Review notification.
- */
 public class RejectReviewNotificationRenderer extends IRBNotificationRenderer {
 
     private static final long serialVersionUID = 7476787428506238817L;
     
     private String reason;
 
-    /**
-     * Constructs a Return Review notification renderer.
-     * 
-     * @param protocol
-     * @param reason
-     */
     public RejectReviewNotificationRenderer(Protocol protocol, String reason) {
         super(protocol);
         

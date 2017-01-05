@@ -73,6 +73,7 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
 
     protected abstract void removeAttachedCorrespondences(ProtocolActionBase protocolAction);
 
+    @Override
     public ProtocolDocumentBase undoLastAction(ProtocolDocumentBase protocolDocument, UndoLastActionBean undoLastActionBean) throws Exception {
         //Undo ProtocolBase Status and Submission Status update
         ProtocolBase protocol = protocolDocument.getProtocol();
@@ -134,7 +135,7 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
         if (currentWorkflowDocument.isCanceled()) {
             protocolDocument = protocolCopyService.copyProtocol(protocolDocument);
             resetProtocolStatus(protocolDocument.getProtocol());
-        } else if(currentWorkflowDocument != null && currentWorkflowDocument.isFinal() && lastPerformedAction != null 
+        } else if(currentWorkflowDocument.isFinal() && lastPerformedAction != null
                   && isApprovedActionTypeCode(lastPerformedAction.getProtocolActionTypeCode())) {
             ProtocolSubmissionBase oldSubmission = protocolDocument.getProtocol().getProtocolSubmission();
             protocolDocument = protocolVersionService.versionProtocolDocument(protocolDocument);
@@ -152,7 +153,7 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
             convertReviewComments(protocolDocument.getProtocol());            
             documentService.routeDocument(protocolDocument, Constants.PROTOCOL_UNDO_APPROVE_ANNOTATION, null);
             updateProtocolReviews(protocolDocument.getProtocol());
-       } else if (currentWorkflowDocument != null && currentWorkflowDocument.isSaved() && lastPerformedAction != null 
+       } else if (currentWorkflowDocument.isSaved() && lastPerformedAction != null
                 && isRevisionsRequiredActionTypeCode(lastPerformedAction.getProtocolActionTypeCode())) {
             convertReviewComments(protocolDocument.getProtocol());            
             documentService.routeDocument(protocolDocument, Constants.PROTOCOL_UNDO_APPROVE_ANNOTATION, null);            
@@ -176,8 +177,6 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
     /**
      * 
      * Get the last protocol version before the action we are trying to undo.
-     * @param protocol
-     * @return
      */
     protected abstract ProtocolBase getOldProtocol(ProtocolBase protocol);
 

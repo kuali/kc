@@ -1046,8 +1046,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
     protected void setInitialPi(DevelopmentProposal hierarchy, DevelopmentProposal child) {
         ProposalPerson childPi = child.getPrincipalInvestigator();
-        final Optional<ProposalPersonUnit> childPiLeadUnit = childPi.getUnits().stream().filter(ProposalPersonUnit::isLeadUnit).findFirst();
         if (childPi != null) {
+            final Optional<ProposalPersonUnit> childPiLeadUnit = childPi.getUnits().stream().filter(ProposalPersonUnit::isLeadUnit).findFirst();
             int index = hierarchy.getProposalPersons().indexOf(childPi);
             if (index > -1) {
                 ProposalPerson hierarchyPi = hierarchy.getProposalPerson(index);

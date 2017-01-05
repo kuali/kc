@@ -98,6 +98,7 @@ public class KcDocumentRejectionServiceImpl implements KcDocumentRejectionServic
         return false;
     }
 
+    @Override
     public String getWorkflowInitialNodeName(String docTypeName) {
         final RoutePath path = documentTypeService.getRoutePathForDocumentTypeName(docTypeName);
         return path.getPrimaryProcess().getInitialRouteNode().getName();

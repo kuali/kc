@@ -41,8 +41,6 @@ import org.kuali.kra.award.home.ContactRole;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
-import org.kuali.coeus.common.budget.framework.core.BudgetCommonServiceFactory;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
@@ -406,20 +404,24 @@ public class BudgetAction extends BudgetActionBase {
             String roleDesc = "";
             if (budgetPerson.getRolodexId() != null) {
                 PersonRolodex person = budgetParent.getProposalNonEmployee(budgetPerson.getRolodexId());
-                ContactRole role = budgetParent.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
-                if (role != null) { 
-                    roleDesc = person.getInvestigatorRoleDescription();
-                    if(person != null && StringUtils.equals(Constants.KEY_PERSON_ROLE, role.getRoleCode()) && StringUtils.isNotEmpty(person.getProjectRole())) {
-                        roleDesc = person.getProjectRole();
+                if(person != null) {
+                    ContactRole role = budgetParent.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
+                    if (role != null) {
+                        roleDesc = person.getInvestigatorRoleDescription();
+                        if (StringUtils.equals(Constants.KEY_PERSON_ROLE, role.getRoleCode()) && StringUtils.isNotEmpty(person.getProjectRole())) {
+                            roleDesc = person.getProjectRole();
+                        }
                     }
                 }
             } else if (budgetPerson.getPersonId() != null) {
                 PersonRolodex person = budgetParent.getProposalEmployee(budgetPerson.getPersonId());
-                ContactRole role = budgetParent.getProposalEmployeeRole(budgetPerson.getPersonId());
-                if (role != null) { 
-                    roleDesc = person.getInvestigatorRoleDescription();
-                    if(person != null && StringUtils.equals(Constants.KEY_PERSON_ROLE, role.getRoleCode()) && StringUtils.isNotEmpty(person.getProjectRole())) {
-                        roleDesc = person.getProjectRole();
+                if(person != null) {
+                    ContactRole role = budgetParent.getProposalEmployeeRole(budgetPerson.getPersonId());
+                    if (role != null) {
+                        roleDesc = person.getInvestigatorRoleDescription();
+                        if (StringUtils.equals(Constants.KEY_PERSON_ROLE, role.getRoleCode()) && StringUtils.isNotEmpty(person.getProjectRole())) {
+                            roleDesc = person.getProjectRole();
+                        }
                     }
                 }
             }

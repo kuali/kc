@@ -59,32 +59,32 @@ public class AwardBudgetForm extends BudgetForm implements BudgetContainer {
         super();
         awardBudgetPeriodSummaryCalculatedAmount = new AwardBudgetPeriodSummaryCalculatedAmount();
     }
+    @Override
     public void initialize() {
         super.initialize();
         getBudgetDocument().initialize();
     }
-    /**
-     * Gets the awardInMultipleNodeHierarchy attribute. 
-     * @return Returns the awardInMultipleNodeHierarchy.
-     */
+
     public String getAwardInMultipleNodeHierarchy() {
         return awardInMultipleNodeHierarchy;
     }
 
-    /**
-     * Sets the awardInMultipleNodeHierarchy attribute value.
-     * @param awardInMultipleNodeHierarchy The awardInMultipleNodeHierarchy to set.
-     */
+
     public void setAwardInMultipleNodeHierarchy(String awardInMultipleNodeHierarchy) {
         this.awardInMultipleNodeHierarchy = awardInMultipleNodeHierarchy;
     }
+
+    @Override
     public String getActionPrefix(){
         return "awardBudget";
     }
 
     public AwardBudgetDocument getAwardBudgetDocument() {
-        return (AwardBudgetDocument)super.getBudgetDocument();
+        return super.getBudgetDocument();
     }
+
+    @Override
+    @SuppressWarnings("deprecation")
     public List<ExtraButton> getExtraActionsButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
@@ -112,15 +112,9 @@ public class AwardBudgetForm extends BudgetForm implements BudgetContainer {
         
         return extraButtons;
     }
-    
-    /**
-     * This is a utility method to add a new button to the extra buttons
-     * collection.
-     *   
-     * @param property
-     * @param source
-     * @param altText
-     */ 
+
+    @Override
+    @SuppressWarnings("deprecation")
     protected void addExtraButton(String property, String source, String altText){
         
         ExtraButton newButton = new ExtraButton();
@@ -131,24 +125,15 @@ public class AwardBudgetForm extends BudgetForm implements BudgetContainer {
         
         extraButtons.add(newButton);
     }
-    /**
-     * Sets the budgetParentId attribute value.
-     * @param budgetParentId The budgetParentId to set.
-     */
+
     public void setBudgetParentId(String budgetParentId) {
         this.budgetParentId = budgetParentId;
     }
-    /**
-     * Gets the budgetParentId attribute. 
-     * @return Returns the budgetParentId.
-     */
+
     public String getBudgetParentId() {
         return budgetParentId;
     }
-    /**
-     * This method is to define whether FnA rate type is editable in Budget Overview panel.
-     * @return true if any FnA rates defined in award
-     */
+
     public String getFnARateFlagEditable(){
         return Boolean.toString(!getAwardBudgetDocument().getAwardBudget().getOhRatesNonEditable());
     }
@@ -158,39 +143,37 @@ public class AwardBudgetForm extends BudgetForm implements BudgetContainer {
      * not parent Award document.
      */
     @Override
+    @SuppressWarnings("deprecation")
     protected HeaderField getHeaderDocNumber() {
         return new HeaderField("DataDictionary.DocumentHeader.attributes.documentNumber", getBudgetDocument() == null ? null : getBudgetDocument().getDocumentNumber()); 
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     protected HeaderField getHeaderDocStatus (WorkflowDocument parentWorkflowDocument) {
         AwardBudgetExt abe = this.getAwardBudgetDocument().getAwardBudget();
         return new HeaderField("DataDictionary.AttributeReference.attributes.workflowDocumentStatus", abe.getAwardBudgetStatus().getDescription());
     }
     
     @Override
+    @SuppressWarnings("deprecation")
     protected HeaderField getHeaderDocInitiator(WorkflowDocument parentWorkflowDocument) {
         WorkflowDocument doc = getBudgetDocument().getDocumentHeader().getWorkflowDocument();
         return new HeaderField("DataDictionary.AttributeReference.attributes.initiatorNetworkId", doc.getInitiatorPrincipalId());
     }
     
     @Override
+    @SuppressWarnings("deprecation")
     protected HeaderField getHeaderDocCreateDate(WorkflowDocument parentWorkflowDocument) {
         Date ts = getBudgetDocument().getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
         String updateDateStr = CoreApiServiceLocator.getDateTimeService().toString(ts, "hh:mm a MM/dd/yyyy");
         return new HeaderField("DataDictionary.AttributeReference.attributes.createDate", updateDateStr);
     }
-    /**
-     * Gets the awardBudgetPeriodSummaryCalculatedAmount attribute. 
-     * @return Returns the awardBudgetPeriodSummaryCalculatedAmount.
-     */
+
     public AwardBudgetPeriodSummaryCalculatedAmount getAwardBudgetPeriodSummaryCalculatedAmount() {
         return awardBudgetPeriodSummaryCalculatedAmount;
     }
-    /**
-     * Sets the awardBudgetPeriodSummaryCalculatedAmount attribute value.
-     * @param awardBudgetPeriodSummaryCalculatedAmount The awardBudgetPeriodSummaryCalculatedAmount to set.
-     */
+
     public void setAwardBudgetPeriodSummaryCalculatedAmount(
             AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount) {
         this.awardBudgetPeriodSummaryCalculatedAmount = awardBudgetPeriodSummaryCalculatedAmount;
@@ -199,14 +182,13 @@ public class AwardBudgetForm extends BudgetForm implements BudgetContainer {
      * Remove "Modular Budget" tab from award budget  
      * */
     @Override
+    @SuppressWarnings("deprecation")
     public HeaderNavigation[] getHeaderNavigationTabs() {
         HeaderNavigation[] navigation = super.getHeaderNavigationTabs();
-        List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
+        List<HeaderNavigation> resultList = new ArrayList<>();
  
         for (HeaderNavigation nav : navigation) {
-            if (StringUtils.equals(nav.getHeaderTabNavigateTo(),"modularBudget")) {
-           
-            } else {
+            if (!StringUtils.equals(nav.getHeaderTabNavigateTo(),"modularBudget")) {
                 resultList.add(nav);
             }
         }
@@ -217,47 +199,28 @@ public class AwardBudgetForm extends BudgetForm implements BudgetContainer {
     
     @Override
     public boolean getCanModifyBudgetRates() {
-        boolean retVal = this.getEditingMode().containsKey("modifyBudgets");
-        return retVal;
+        return this.getEditingMode().containsKey("modifyBudgets");
     }
     
-    /**
-     * 
-     * This method returns the award associated with the award budget.
-     * @return
-    */ 
+
     public Award getAward() {
         return this.getAwardBudgetDocument().getBudget().getBudgetParent();
     }
     
-    /**
-     * 
-     * This method returns the obligated total for this award budget, which is getPreviousObligatedTotal().add(getObligatedChange()).
-     * @return
-     */
+
     public ScaleTwoDecimal getObligatedTotal() {
-        // getPreviousObligatedTotal + getObligatedChange
         return getPreviousObligatedTotal().add(getObligatedChange());
     }
-    
-    /**
-     * 
-     * This method returns the previous budget's obligation amount.
-     * @return
-     */
+
     public ScaleTwoDecimal getPreviousObligatedTotal() {
         //sum up all the previous changes
         AwardBudgetExt awardBudgetExt = this.getAwardBudgetDocument().getAwardBudget();
-        Award award = (Award) this.getAwardBudgetDocument().getBudget().getBudgetParent();
+        Award award = this.getAwardBudgetDocument().getBudget().getBudgetParent();
         return getSumOfAllPreviousBudgetChanges(awardBudgetExt, award.getBudgets());
     }
     
     /**
-     * 
      * This method sums up all the previous changes of the prior budget versions.
-     * @param curentAwardBudgetExt
-     * @param allBudgets
-     * @return
      */
     protected ScaleTwoDecimal getSumOfAllPreviousBudgetChanges(AwardBudgetExt curentAwardBudgetExt, List<? extends Budget> allBudgets) {
         if (curentAwardBudgetExt != null && curentAwardBudgetExt.getPrevBudget() != null) {
@@ -269,11 +232,7 @@ public class AwardBudgetForm extends BudgetForm implements BudgetContainer {
     }
     
     /**
-     * 
      * This method finds a particular budget in the list of budgets based on the budget id.  If no budget is found, a null is returned.
-     * @param budgetId
-     * @param allBudgets
-     * @return
      */
     protected AwardBudgetExt findAwardBudgetExt(Long budgetId, List<? extends Budget> allBudgets) {
         for (Budget budget : allBudgets) {
@@ -285,12 +244,9 @@ public class AwardBudgetForm extends BudgetForm implements BudgetContainer {
     }
     
     /**
-     * 
      * This method returns the difference in the obligation total between this budget, and the previous.
-     * @return
      */
     public ScaleTwoDecimal getObligatedChange() {
-        //return getObligatedTotal().subtract(getPreviousObligatedTotal());
         AwardBudgetExt budget = this.getAwardBudgetDocument().getAwardBudget();
         if (budget != null && budget.getTotalCostLimit() != null) {
             return budget.getTotalCostLimit();

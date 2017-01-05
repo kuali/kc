@@ -86,10 +86,10 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
               ProtocolBase protocol = protocolOnlineReview.getProtocol();
               protocol.getLeadUnitNumber();
           }
-          String xml = super.serializeDocumentToXml(); 
-          return xml; 
+          return super.serializeDocumentToXml();
       }
 
+    @Override
     public void initialize() {
         super.initialize();
     }
@@ -98,8 +98,8 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
      * 
      * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
      * and ProtocolBase to the outside world - aka a single ProtocolBase field associated with ProtocolDocument
-     * @return
      */
+    @Override
     public ProtocolOnlineReviewBase getProtocolOnlineReview() {
         if (protocolOnlineReviewList.size() == 0) return null;
         return protocolOnlineReviewList.get(0);
@@ -111,6 +111,7 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
      * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
      * and Protocol to the outside world - aka a single Protocol field associated with ProtocolDocument
      */
+    @Override
     public void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolOnlineReview) {
         protocolOnlineReviewList.set(0, (ProtocolOnlineReview) protocolOnlineReview);
     }
@@ -150,7 +151,8 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
     protected List<RolePersons> getAllRolePersons() {
         return new ArrayList<>();
     }
-    
+
+    @Override
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
@@ -205,10 +207,11 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
     public void prepareForSave() {
         super.prepareForSave();
         if (ObjectUtils.isNull(this.getVersionNumber())) {
-            this.setVersionNumber(new Long(0));
+            this.setVersionNumber(0L);
         }
     }
-    
+
+    @Override
     public boolean isProcessComplete() {
         boolean isComplete = true;
         
@@ -265,7 +268,7 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
     private String getURLParamValue(String url, String paramName) {
         String pValue = null;
         
-        if (StringUtils.isNotBlank(url) && url.indexOf("?") > -1) {
+        if (StringUtils.isNotBlank(url) && url.contains("?")) {
             String paramString = url.substring(url.indexOf("?") + 1);
 
             if (StringUtils.isNotBlank(paramString)) {
@@ -285,9 +288,10 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
 
     @Override
     public List<? extends DocumentCustomData> getDocumentCustomData() {
-        return new ArrayList();
+        return new ArrayList<>();
     }
-    
+
+    @Override
     public String getDocumentBoNumber() {
         return getProtocolOnlineReview().getProtocolId().toString();
     }
