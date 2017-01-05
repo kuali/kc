@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-1854: Change terminology from 'reject' to 'return' across the research application
+
+  * RESKC-1854: Change terminology from 'reject' to 'return' across the research application
+  * Travis Schneeberger on Thu, 5 Jan 2017 11:56:19 -0500 [View Commit](../../commit/471e4e95807e17e427417f0a4fad246c0559d93d)
+
+##coeus-1701.0001
 * No Changes
 
 
