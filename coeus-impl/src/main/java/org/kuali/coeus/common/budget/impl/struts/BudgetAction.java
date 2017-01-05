@@ -41,8 +41,6 @@ import org.kuali.kra.award.home.ContactRole;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
-import org.kuali.coeus.common.budget.framework.core.BudgetCommonServiceFactory;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
@@ -406,20 +404,24 @@ public class BudgetAction extends BudgetActionBase {
             String roleDesc = "";
             if (budgetPerson.getRolodexId() != null) {
                 PersonRolodex person = budgetParent.getProposalNonEmployee(budgetPerson.getRolodexId());
-                ContactRole role = budgetParent.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
-                if (role != null) { 
-                    roleDesc = person.getInvestigatorRoleDescription();
-                    if(person != null && StringUtils.equals(Constants.KEY_PERSON_ROLE, role.getRoleCode()) && StringUtils.isNotEmpty(person.getProjectRole())) {
-                        roleDesc = person.getProjectRole();
+                if(person != null) {
+                    ContactRole role = budgetParent.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
+                    if (role != null) {
+                        roleDesc = person.getInvestigatorRoleDescription();
+                        if (StringUtils.equals(Constants.KEY_PERSON_ROLE, role.getRoleCode()) && StringUtils.isNotEmpty(person.getProjectRole())) {
+                            roleDesc = person.getProjectRole();
+                        }
                     }
                 }
             } else if (budgetPerson.getPersonId() != null) {
                 PersonRolodex person = budgetParent.getProposalEmployee(budgetPerson.getPersonId());
-                ContactRole role = budgetParent.getProposalEmployeeRole(budgetPerson.getPersonId());
-                if (role != null) { 
-                    roleDesc = person.getInvestigatorRoleDescription();
-                    if(person != null && StringUtils.equals(Constants.KEY_PERSON_ROLE, role.getRoleCode()) && StringUtils.isNotEmpty(person.getProjectRole())) {
-                        roleDesc = person.getProjectRole();
+                if(person != null) {
+                    ContactRole role = budgetParent.getProposalEmployeeRole(budgetPerson.getPersonId());
+                    if (role != null) {
+                        roleDesc = person.getInvestigatorRoleDescription();
+                        if (StringUtils.equals(Constants.KEY_PERSON_ROLE, role.getRoleCode()) && StringUtils.isNotEmpty(person.getProjectRole())) {
+                            roleDesc = person.getProjectRole();
+                        }
                     }
                 }
             }
@@ -617,7 +619,7 @@ public class BudgetAction extends BudgetActionBase {
         Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
         String reason = request.getParameter(KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String methodToCall = ((KualiForm) form).getMethodToCall();
-        final String questionText = "Are you sure you want to reject this document?";
+        final String questionText = "Are you sure you want to return this document?";
         ActionForward forward;
         if (question == null) {
             forward =  this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,

@@ -52,20 +52,20 @@ public class KcReturnToPreviousNodeAction extends ReturnToPreviousNodeAction {
             if (newNodeInstance.getRouteNode().getRouteNodeId().equals(initialNode.getRouteNodeId())) {
                 LOG.debug("Document was returned to initiator");
                 ActionRequestFactory arFactory = new ActionRequestFactory(getRouteHeader(), newNodeInstance);
-				String actionRequestCode = getReturnToInitiatorActionRequestType().getCode();
-		        
-		        Role aggregatorRole = getRoleService().getRoleByNamespaceCodeAndName(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, RoleConstants.AGGREGATOR_DOCUMENT_LEVEL);
-		        List<RoleMembership> memberships = getRoleService().getRoleMembers(Collections.singletonList(
-		                aggregatorRole.getId()), Collections.singletonMap(KcKimAttributes.DOCUMENT_NUMBER, newNodeInstance.getDocumentId()));
+                String actionRequestCode = getReturnToInitiatorActionRequestType().getCode();
 
-		        if (memberships != null && !memberships.isEmpty()) {
-		        	ActionRequestValue roleMemberRequest = arFactory.addKimRoleRequest(actionRequestCode, 1, aggregatorRole, 
-		        			memberships, KewConstants.AGGREGATORS_REQUEST_FOR_REVIEW_ANNOTATION, KewApiConstants.MACHINE_GENERATED_RESPONSIBILITY_ID, 
-		        			true, ActionRequestPolicy.FIRST.getCode(), null, false);
-		        	roleMemberRequest.setAnnotation(KewConstants.AGGREGATORS_REQUEST_FOR_REVIEW_ANNOTATION);
-		        	roleMemberRequest.getChildrenRequests().stream().forEach(actionRequest -> actionRequest.setAnnotation(KewConstants.AGGREGATORS_REQUEST_FOR_REVIEW_ANNOTATION));
-		            getActionRequestService().activateRequest(roleMemberRequest);
-		        }
+                Role aggregatorRole = getRoleService().getRoleByNamespaceCodeAndName(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, RoleConstants.AGGREGATOR_DOCUMENT_LEVEL);
+                List<RoleMembership> memberships = getRoleService().getRoleMembers(Collections.singletonList(
+                        aggregatorRole.getId()), Collections.singletonMap(KcKimAttributes.DOCUMENT_NUMBER, newNodeInstance.getDocumentId()));
+
+                if (memberships != null && !memberships.isEmpty()) {
+                    ActionRequestValue roleMemberRequest = arFactory.addKimRoleRequest(actionRequestCode, 1, aggregatorRole,
+                            memberships, KewConstants.AGGREGATORS_REQUEST_FOR_REVIEW_ANNOTATION, KewApiConstants.MACHINE_GENERATED_RESPONSIBILITY_ID,
+                            true, ActionRequestPolicy.FIRST.getCode(), null, false);
+                    roleMemberRequest.setAnnotation(KewConstants.AGGREGATORS_REQUEST_FOR_REVIEW_ANNOTATION);
+                    roleMemberRequest.getChildrenRequests().forEach(actionRequest -> actionRequest.setAnnotation(KewConstants.AGGREGATORS_REQUEST_FOR_REVIEW_ANNOTATION));
+                    getActionRequestService().activateRequest(roleMemberRequest);
+                }
             }
         }
     }

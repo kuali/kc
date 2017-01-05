@@ -20,7 +20,6 @@ package org.kuali.kra.iacuc;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
-import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.KcHoldingPageConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.RolePersons;
@@ -30,7 +29,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
-import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
@@ -63,7 +61,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
 
     public IacucProtocolOnlineReviewDocument() { 
         super();
-        protocolOnlineReviewList = new ArrayList<IacucProtocolOnlineReview>();
+        protocolOnlineReviewList = new ArrayList<>();
         IacucProtocolOnlineReview newProtocolReview = new IacucProtocolOnlineReview();
         newProtocolReview.setProtocolOnlineReviewDocument(this);
         protocolOnlineReviewList.add(newProtocolReview);
@@ -75,10 +73,10 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
             ProtocolBase protocol = protocolOnlineReview.getProtocol();
             protocol.getLeadUnitNumber();
         }
-        String xml = super.serializeDocumentToXml(); 
-        return xml; 
+        return super.serializeDocumentToXml();
     }
 
+    @Override
     public void initialize() {
         super.initialize();
     }
@@ -88,8 +86,8 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
      * 
      * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
      * and ProtocolBase to the outside world - aka a single ProtocolBase field associated with ProtocolDocument
-     * @return
      */
+    @Override
     public ProtocolOnlineReviewBase getProtocolOnlineReview() {
         if (protocolOnlineReviewList.size() == 0) return null;
         return protocolOnlineReviewList.get(0);
@@ -100,6 +98,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
      * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
      * and ProtocolBase to the outside world - aka a single ProtocolBase field associated with ProtocolDocument
      */
+    @Override
     public void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolOnlineReview) {
         protocolOnlineReviewList.set(0, (IacucProtocolOnlineReview) protocolOnlineReview);
     }
@@ -136,11 +135,10 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     
     @Override
     protected List<RolePersons> getAllRolePersons() {
-        KcAuthorizationService kraAuthService =
-               (KcAuthorizationService) KcServiceLocator.getService(KcAuthorizationService.class);
-        return new ArrayList<RolePersons>();
+        return new ArrayList<>();
     }
-    
+
+    @Override
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
@@ -178,10 +176,11 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     public void prepareForSave() {
         super.prepareForSave();
         if (ObjectUtils.isNull(this.getVersionNumber())) {
-            this.setVersionNumber(new Long(0));
+            this.setVersionNumber(0L);
         }
     }
-    
+
+    @Override
     public boolean isProcessComplete() {
         boolean isComplete = true;
         
@@ -191,7 +190,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
             String olrEvent = getURLParamValue(backLocation, OLR_EVENT_PARAM);
             if (StringUtils.equalsIgnoreCase(olrEvent, "Approve")) {
                 isComplete = isOnlineReviewApproveComplete(olrDocId);
-            } else if (StringUtils.equalsIgnoreCase(olrEvent, "Reject")) {
+            } else if (StringUtils.equalsIgnoreCase(olrEvent, "Return")) {
                 isComplete = isOnlineReviewRejectComplete(olrDocId);         
             }
         }
@@ -238,7 +237,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     private String getURLParamValue(String url, String paramName) {
         String pValue = null;
         
-        if (StringUtils.isNotBlank(url) && url.indexOf("?") > -1) {
+        if (StringUtils.isNotBlank(url) && url.contains("?")) {
             String paramString = url.substring(url.indexOf("?") + 1);
 
             if (StringUtils.isNotBlank(paramString)) {
@@ -260,7 +259,8 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     public List<? extends DocumentCustomData> getDocumentCustomData() {
         return null;
     }
-    
+
+    @Override
     public String getDocumentBoNumber() {
         return getProtocolOnlineReview().getProtocolId().toString();
     }

@@ -204,12 +204,12 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
 
     @Override
     protected String getProtocolSubmissionStatusRejectedInRoutingCodeHook() {
-        return ProtocolSubmissionStatus.REJECTED_IN_ROUTING;
+        return ProtocolSubmissionStatus.RETURNED_IN_ROUTING;
     }
 
     @Override
     protected ProtocolActionBase getNewDisapprovedInRoutingProtocolActionInstanceHook(ProtocolBase protocol) {
-        return new ProtocolAction( (Protocol) protocol, null, ProtocolActionType.REJECTED_IN_ROUTING);
+        return new ProtocolAction( (Protocol) protocol, null, ProtocolActionType.RETURNED_IN_ROUTING);
     }
 
     @Override

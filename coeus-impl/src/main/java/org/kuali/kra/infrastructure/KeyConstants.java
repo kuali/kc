@@ -943,7 +943,7 @@ public final class KeyConstants {
     
     public static final String AWARD_BUDGET_STATUS_SUBMITTED = "awardBudgetStatusSubmitted";
     public static final String AWARD_BUDGET_STATUS_IN_PROGRESS = "awardBudgetStatusInProgress";
-    public static final String AWARD_BUDGET_STATUS_REJECTED = "awardBudgetStatusRejected";
+    public static final String AWARD_BUDGET_STATUS_RETURNED = "awardBudgetStatusReturned";
     public static final String AWARD_BUDGET_STATUS_POSTED = "awardBudgetStatusPosted";
     public static final String AWARD_BUDGET_STATUS_TO_BE_POSTED = "awardBudgetStatusToBePosted";
     public static final String AWARD_BUDGET_STATUS_DO_NOT_POST = "awardBudgetStatusDoNotPost";

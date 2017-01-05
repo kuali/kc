@@ -56,7 +56,7 @@ public class ProtocolSubmissionStatus extends ProtocolSubmissionStatusBase {
     
     public static final String RETURNED_TO_PI = "213";
     
-    public static final String REJECTED_IN_ROUTING = "405";
+    public static final String RETURNED_IN_ROUTING = "405";
     public static final String RECALLED_IN_ROUTING = "406";
 
     private String protocolSubmissionStatusCode;

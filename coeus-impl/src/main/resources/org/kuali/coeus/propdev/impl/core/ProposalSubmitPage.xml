@@ -76,7 +76,7 @@
                         </property>
                     </bean>
 
-                    <bean parent="Uif-SecondaryActionButton" p:actionLabel="Reject" p:actionScript="showDialog('PropDev-SubmitPage-RejectDialog')" p:order="50"
+                    <bean parent="Uif-SecondaryActionButton" p:actionLabel="Return" p:actionScript="showDialog('PropDev-SubmitPage-RejectDialog')" p:order="50"
                           p:render="@{#editModes['rejectProposal']}"/>
 
                     <bean parent="Uif-LinkField" p:linkText="View Route Log"
@@ -150,9 +150,9 @@
           p:readOnly="false">
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="Are you sure you want to reject this document?" p:order="10"/>
+                <bean parent="Uif-MessageField" p:messageText="Are you sure you want to return this document?" p:order="10"/>
                 <bean parent="Uif-InputField" p:propertyName="actionReason" p:order="20"
-                        p:fieldLabel.labelText="Rejection Reason"/>
+                        p:fieldLabel.labelText="Return Reason"/>
                 <bean parent="Uif-InputField" p:propertyName="actionFile" p:order="30"
                       p:fieldLabel.labelText="Attachment">
                     <property name="control">

@@ -233,7 +233,7 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
     }
 
     public void documentHasBeenRejected( String reason ) {
-        this.getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_REJECTED);
+        this.getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_RETURNED);
         try {
             KcServiceLocator.getService(DocumentService.class).saveDocument(this);
         }

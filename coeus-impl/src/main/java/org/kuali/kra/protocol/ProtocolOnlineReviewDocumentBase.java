@@ -66,7 +66,8 @@ public abstract class ProtocolOnlineReviewDocumentBase extends KcTransactionalDo
 	public ProtocolOnlineReviewDocumentBase() { 
         super();
 	} 
-	
+
+	@Override
     public void initialize() {
         super.initialize();
     }
@@ -76,7 +77,6 @@ public abstract class ProtocolOnlineReviewDocumentBase extends KcTransactionalDo
      * 
      * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocumentBase 
      * and ProtocolBase to the outside world - aka a single ProtocolBase field associated with ProtocolDocumentBase
-     * @return
      */
     public abstract ProtocolOnlineReviewBase getProtocolOnlineReview();
  
@@ -84,15 +84,15 @@ public abstract class ProtocolOnlineReviewDocumentBase extends KcTransactionalDo
      * 
      * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocumentBase 
      * and ProtocolBase to the outside world - aka a single ProtocolBase field associated with ProtocolDocumentBase
-     * @param protocol
      */
      public abstract void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolOnlineReview);
 
      @Override
     protected List<RolePersons> getAllRolePersons() {
-        return new ArrayList<RolePersons>();
+        return new ArrayList<>();
     }
-    
+
+    @Override
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
@@ -121,7 +121,8 @@ public abstract class ProtocolOnlineReviewDocumentBase extends KcTransactionalDo
             this.setVersionNumber(new Long(0));
         }
     }
-    
+
+    @Override
     public boolean isProcessComplete() {
         boolean isComplete = true;
         
@@ -131,7 +132,7 @@ public abstract class ProtocolOnlineReviewDocumentBase extends KcTransactionalDo
             String olrEvent = getURLParamValue(backLocation, OLR_EVENT_PARAM);
             if (StringUtils.equalsIgnoreCase(olrEvent, "Approve")) {
                 isComplete = isOnlineReviewApproveComplete(olrDocId);
-            } else if (StringUtils.equalsIgnoreCase(olrEvent, "Reject")) {
+            } else if (StringUtils.equalsIgnoreCase(olrEvent, "Return")) {
                 isComplete = isOnlineReviewRejectComplete(olrDocId);         
             }
         }
@@ -178,7 +179,7 @@ public abstract class ProtocolOnlineReviewDocumentBase extends KcTransactionalDo
     private String getURLParamValue(String url, String paramName) {
         String pValue = null;
         
-        if (StringUtils.isNotBlank(url) && url.indexOf("?") > -1) {
+        if (StringUtils.isNotBlank(url) && url.contains("?")) {
             String paramString = url.substring(url.indexOf("?") + 1);
 
             if (StringUtils.isNotBlank(paramString)) {

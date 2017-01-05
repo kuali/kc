@@ -83,9 +83,7 @@ import org.springframework.beans.BeanUtils;
 import java.lang.reflect.Method;
 import java.util.*;
 
-/**
- * This class is to process all basic services required for AwardBudget
- */
+
 public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> implements AwardBudgetService {
 	private static final String HIERARCHY_PROPOSAL_NUMBER = "hierarchyProposalNumber";
 	private static final String HIERARCHY_PROPOSAL = "hierarchyProposal";
@@ -111,7 +109,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     public static final String AWARD_ID = "awardId";
     public static final String PROPOSAL_NUMBER = "proposalNumber";
     public static final String UNNAMED = "UNNAMED";
-    public static final String PERSONNEL_FRINGE_TOTALS = "personnelFringeTotals";
+
     public static final String CALCULATED_COST = "calculatedCost";
     public static final String RATE_CLASS_TYPE = "rateClassType";
     public static final String AWARD_FANDA_RATE = "awardFandaRate";
@@ -139,10 +137,11 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         saveDocument(awardBudgetDocument);
     }
 
+    @Override
     public void postWithFinancialIntegration(AwardBudgetDocument awardBudgetDocument) throws Exception {
         if (isValidForPostingToFinancialSystem(awardBudgetDocument)) {
-            BudgetAdjustmentClient client = getBudgetAdjustmentClient();
-            client.createBudgetAdjustmentDocument(awardBudgetDocument);
+
+            getBudgetAdjustmentClient().createBudgetAdjustmentDocument(awardBudgetDocument);
             if (!isValidForPostingToFinancialSystem(awardBudgetDocument)) {
                 post(awardBudgetDocument);
                 String docNumber = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();
@@ -155,32 +154,26 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         }
     }
 
+    @Override
     public boolean isFinancialIntegrationOn() {
         String parameterValue = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
-        if (StringUtils.containsIgnoreCase(parameterValue, Constants.FIN_SYSTEM_INTEGRATION_ON)) {
-            return true;
-        }
-        return false;
+        return StringUtils.containsIgnoreCase(parameterValue, Constants.FIN_SYSTEM_INTEGRATION_ON);
     }
 
     /**
      * This method checks if the budget adjustment document has alredy been created and if the integration parameters is on.
-     * @param awardBudgetDocument
-     * @return
      */
     protected boolean isValidForPostingToFinancialSystem(AwardBudgetDocument awardBudgetDocument) {
         //check if budget adjustment doc nbr has been created here, if so do not post
         String budgetAdjustmentDocumentNumber = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();
         // Need to check empty string also because of KCINFR-363. MySQL treats '' and null different and awardBudget documents
         // initially seem to store the BA doc nbr as ''.
-        if (org.kuali.rice.krad.util.ObjectUtils.isNull(budgetAdjustmentDocumentNumber) || StringUtils.isEmpty(budgetAdjustmentDocumentNumber)) {
-            return true;
-        }
+        return org.kuali.rice.krad.util.ObjectUtils.isNull(budgetAdjustmentDocumentNumber) || StringUtils.isEmpty(budgetAdjustmentDocumentNumber);
 
-        return false;
     }
 
+    @Override
     public AwardBudgetDocument copyBudgetVersion(AwardBudgetDocument budgetDocument, boolean onlyOnePeriod) throws WorkflowException {
         Budget budget = budgetDocument.getBudget();
         AwardDocument awardDocument = (AwardDocument)budgetDocument.getBudget().getBudgetParent().getDocument();
@@ -235,10 +228,6 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                 period.setUnderrecoveryAmount(new ScaleTwoDecimal(0.0));
             }
 
-            /**
-             * KRACOEUS-6312
-             * Zero out any applicable BudgetSubAwardPeriodDetail lines.
-             */
             if (budget.getBudgetSubAwards() != null && budget.getBudgetSubAwards().size() > 0) {
                 List<BudgetSubAwardPeriodDetail> budetSubawardPeriodDetail = budget.getBudgetSubAwards().get(0).getBudgetSubAwardPeriodDetails();
                 for ( int i = 1 ; i < budetSubawardPeriodDetail.size(); i++ ) {
@@ -314,6 +303,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
      *
      * Compares the budget limit lists to make sure they match.
      */
+    @Override
     public boolean limitsMatch(List<AwardBudgetLimit> awardLimits, List<AwardBudgetLimit> budgetLimits) {
         if (awardLimits.size() < budgetLimits.size()) {
             return false;
@@ -473,7 +463,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
     @Override
     public void processDisapproval(AwardBudgetDocument awardBudgetDocument) {
-        processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_REJECTED);
+        processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_RETURNED);
     }
 
     @Override
@@ -637,7 +627,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
     protected void defaultPeriodsIfNeeded(Budget awardBudget) {
         if(incorrectBudgetPeriodDates(awardBudget.getBudgetStartDate(), awardBudget.getBudgetEndDate(), awardBudget.getBudgetPeriods())) {
-            awardBudget.getBudgetPeriods().stream().forEach(budgetPeriod -> {
+            awardBudget.getBudgetPeriods().forEach(budgetPeriod -> {
                                                                 budgetPeriod.setOldEndDate(budgetPeriod.getEndDate());
                                                                 budgetPeriod.setOldStartDate(budgetPeriod.getStartDate());
                                                                 });
@@ -666,7 +656,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     private String getAwardParameterValue(String parameter) {
         return getParameterService().getParameterValueAsString(AwardBudgetDocument.class, parameter);
     }
-    
+
+    @Override
     public void setBudgetLimits(AwardBudgetDocument awardBudgetDocument, Award award) {
         AwardBudgetExt awardBudget = awardBudgetDocument.getAwardBudget();
         awardBudget.setTotalCostLimit(getTotalCostLimit(award));
@@ -939,6 +930,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 		return copyBudgetVersion(budget, false);
 	}
 
+    @Override
     public void copyLineItemsFromProposalPeriods(Collection<BudgetPeriod> rawValues, BudgetPeriod awardBudgetPeriod) throws WorkflowException {
         if (!(awardBudgetPeriod instanceof AwardBudgetPeriodExt)) {
         	throw new IllegalArgumentException("awardBudgetPeriod is not an AwardBudgetPeriodExt");
@@ -946,7 +938,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     	//calling awardBudgetPeriod.getBudget() will load Budget.class instead of AwardBudgetExt.class
         //this will cause classcastexceptions later as the budget with that id is technically an AwardBudgetExt
         //this is all due to an ojb bug. So here we make sure OJB caches the budget as an AwardBudgetExt correctly.
-        AwardBudgetExt budget = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, awardBudgetPeriod.getBudgetId());
+        getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, awardBudgetPeriod.getBudgetId());
         awardBudgetPeriod.getBudgetLineItems().clear();
 
 
@@ -967,7 +959,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     public List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(String awardNumber) {
     	return findBudgetPeriodsFromLinkedProposal(awardService.getActiveOrNewestAward(awardNumber));
     }
-    
+
+    @Override
     public List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(Award award) {
     	Set<Long> budgetIdsAdded = new HashSet<>();
         List<BudgetPeriod> budgetPeriods = new ArrayList<>();
@@ -999,8 +992,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         }
         return budgetPeriods;
     }
-    
 
+    @Override
     public boolean checkForOutstandingBudgets(Award award) {
         boolean result = false;
         
@@ -1057,7 +1050,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
      * Returns the previous budget for this award document which will be the newest posted budget
      */
     protected AwardBudgetExt getPreviousBudget(Award award) {
-        return getNewestBudgetByStatus(award, Arrays.asList(getPostedBudgetStatus()));
+        return getNewestBudgetByStatus(award, Collections.singletonList(getPostedBudgetStatus()));
     }         
     
     protected AwardBudgetExt getNewestBudgetByStatus(Award award, List<String> statuses) { 
@@ -1075,7 +1068,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         }
         return result;        
     }
-    
+
+    @Override
     public List<AwardBudgetExt> getAllBudgetsForAward(Award award) {
         HashSet<AwardBudgetExt> result = new HashSet<>();
         List<VersionHistory> versions = getVersionHistoryService().loadVersionHistory(Award.class, award.getAwardNumber());
@@ -1088,7 +1082,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         Collections.sort(listResult);
         return listResult;
     }
-    
+
+    @Override
     public Award getActiveOrNewestAward(String awardNumber) {
         return awardService.getActiveOrNewestAward(awardNumber);
     }
@@ -1098,7 +1093,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     }
     
     protected String getRejectedBudgetStatus() {
-        return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_REJECTED);
+        return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_RETURNED);
     }
     
     protected String getCancelledBudgetStatus() {
@@ -1113,10 +1108,12 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_DO_NOT_POST);
     }
 
+    @Override
     public boolean isRateOverridden(BudgetPeriod budgetPeriod){
         return ((AwardBudgetPeriodExt)budgetPeriod).getRateOverrideFlag();
     }
 
+    @Override
     public void recalculateBudget(Budget budget) {
         List<BudgetPeriod> awardBudgetPeriods = budget.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : awardBudgetPeriods) {
@@ -1125,11 +1122,14 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         getAwardBudgetCalculationService().calculateBudget(budget);
         getAwardBudgetCalculationService().calculateBudgetSummaryTotals(budget);
     }
+
+    @Override
     public void recalculateBudgetPeriod(Budget budget,BudgetPeriod budgetPeriod) {
         removeBudgetSummaryPeriodCalcAmounts(budgetPeriod);
         getAwardBudgetCalculationService().calculateBudgetPeriod(budget, budgetPeriod);
     }
 
+    @Override
     public void calculateBudgetOnSave(Budget budget) {
         getAwardBudgetCalculationService().calculateBudget(budget);
         getAwardBudgetCalculationService().calculateBudgetSummaryTotals(budget);
@@ -1154,7 +1154,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         return budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost());
     }
 
-
+    @Override
     public void populateSummaryCalcAmounts(Budget budget,BudgetPeriod budgetPeriod) {
         AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt)budgetPeriod;
         List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodFringeAmounts = awardBudgetPeriod.getAwardBudgetPeriodFringeAmounts();
@@ -1231,6 +1231,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         budget.setCostSharingAmount(budget.getSumCostSharingAmountFromPeriods());
     }
 
+    @Override
     public void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod) {
         AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt)budgetPeriod;
         awardBudgetPeriod.setTotalFringeAmount(null);

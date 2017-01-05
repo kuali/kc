@@ -92,11 +92,11 @@ public class IacucProtocolActionType extends ProtocolActionTypeBase {
     public static final String MODIFY_AMENDMENT_SECTION = "125";
     
     // action type to be used only by workflow disapproval post-processpor
-    public static final String REJECTED_IN_ROUTING = "401";
+    public static final String RETURNED_IN_ROUTING = "401";
     
     //No corresponding actionTypeCode for these in Coeus  
     public static final String REVIEW_COMPLETE = "902";
-    public static final String REVIEW_REJECTED = "903";
+    public static final String REVIEW_RETURNED = "903";
     public static final String FUNDING_SOURCE = "904";
     public static final String REVIEW_DELETED = "905";
     public static final String REVIEW_TYPE_DETERMINATION = "908";

@@ -20,12 +20,7 @@ package org.kuali.kra.iacuc.notification;
 
 import java.util.Map;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 
-
-/**
- * Renders additional fields for the IACUC Reject Review notification.
- */
 public class IacucRejectReviewNotificationRenderer extends IacucProtocolNotificationRenderer {
 
     
@@ -34,12 +29,6 @@ public class IacucRejectReviewNotificationRenderer extends IacucProtocolNotifica
     
     private String reason;
 
-    /**
-     * Constructs an IACUC Reject Review notification renderer.
-     * 
-     * @param protocol
-     * @param reason
-     */
     public IacucRejectReviewNotificationRenderer(IacucProtocol protocol, String reason) {
         super(protocol);
         

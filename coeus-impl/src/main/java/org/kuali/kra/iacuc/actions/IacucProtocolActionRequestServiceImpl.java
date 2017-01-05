@@ -1303,7 +1303,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
 
     @Override
     protected String getProtocolRejectedInRoutingActionTypeHook() {
-        return IacucProtocolActionType.REJECTED_IN_ROUTING;
+        return IacucProtocolActionType.RETURNED_IN_ROUTING;
     }
 
     @Override
