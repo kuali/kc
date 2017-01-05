@@ -84,7 +84,7 @@ public interface Constants {
     String NEW_NARRATIVE_USER_RIGHTS_PROPERTY_KEY = "newNarrativeUserRight";
     String INVALID_FILE_NAME_ERROR_CODE = "2";
     String INVALID_FILE_NAME_CHECK_PARAMETER = "INVALID_FILE_NAME_CHECK";
-    String REJECT_NARRATIVE_TYPE_CODE_PARAM = "rejectNarrativeTypeCode";
+    String RETURN_NARRATIVE_TYPE_CODE_PARAM = "returnNarrativeTypeCode";
     String APPROVE_NARRATIVE_TYPE_CODE_PARAM = "approveNarrativeTypeCode";
     String HIDE_AND_DEFAULT_PROP_DEV_DOC_DESC_PARAM = "HIDE_AND_DEFAULT_PROP_DEV_DOC_DESC";
 
@@ -222,7 +222,7 @@ public interface Constants {
     String BUDGET_STATUS_CODE_IN_PROGRESS = "1";
     String BUDGET_STATUS_CODE_TO_BE_POSTED = "10";
     String BUDGET_STATUS_CODE_SUBMITTED = "5";
-    String BUDGET_STATUS_CODE_REJECTED = "8";
+    String BUDGET_STATUS_CODE_RETURNED = "8";
     String BUDGET_STATUS_CODE_CANCELLED = "14";
     String BUDGET_STATUS_CODE_DISAPPROVED = "13";
     

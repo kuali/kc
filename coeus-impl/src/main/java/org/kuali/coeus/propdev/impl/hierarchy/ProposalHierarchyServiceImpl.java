@@ -94,6 +94,17 @@ import static org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstan
 public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
     private static final Log LOG = LogFactory.getLog(ProposalHierarchyServiceImpl.class);
+
+    private static final String HIERARCHY_REJECTED_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.rejected";
+    private static final String HIERARCHY_ENROUTE_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.enroute";
+    private static final String HIERARCHY_CANCEL_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.cancel";
+    private static final String HIERARCHY_DISAPPROVE_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.disapprove";
+    private static final String HIERARCHY_PROCESSED_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.processed";
+    private static final String HIERARCHY_FINAL_APPSTATUS="message.proposalDevelopment.workflow.applicationStatus.final";
+
+    private static final String PROPOSAL_ROUTING_RETURNED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.rejected";
+
+    private static final String PROPOSAL_DEVELOPMENT_DOCUMENT_TYPE = "ProposalDevelopmentDocument";
     private static final String DOCUMENT_NEXTVALUES = "documentNextvalues";
     private static final String HIERARCHY_STATUS = "hierarchyStatus";
     private static final String PROPOSAL_NUMBER = "proposalNumber";
@@ -102,7 +113,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private static final String NARRATIVE_TYPE = "narrativeType";
     private static final String HIERARCHY_PROPOSAL_NUMBER = "hierarchyProposalNumber";
     private static final String NARRATIVE_TYPE_CODE = "narrativeTypeCode";
-    public static final String HIERARCHY_UNIT_SYNC = "HIERARCHY_UNIT_SYNC";
+    private static final String HIERARCHY_UNIT_SYNC = "HIERARCHY_UNIT_SYNC";
 
     @Autowired
     @Qualifier("dataObjectService")
@@ -1269,7 +1280,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      * @param principalId the id of the principal that is rejecting the document.
      */
     protected void rejectProposalHierarchy(ProposalDevelopmentDocument hierarchyParent, String reason, String principalId ) throws ProposalHierarchyException {
-        rejectProposal( hierarchyParent, renderMessage( PROPOSAL_ROUTING_REJECTED_ANNOTATION, reason ), principalId, renderMessage( HIERARCHY_REJECTED_APPSTATUS ) );
+        rejectProposal( hierarchyParent, renderMessage( PROPOSAL_ROUTING_RETURNED_ANNOTATION, reason ), principalId, renderMessage( HIERARCHY_REJECTED_APPSTATUS ) );
     }
 
     @Override
@@ -1278,15 +1289,16 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         DevelopmentProposal pbo = getDevelopmentProposal(proposalNumber);
         ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(pbo.getProposalDocument().getDocumentNumber());
         if (!pbo.isInHierarchy()) {
-            rejectProposal(pDoc, renderMessage(PROPOSAL_ROUTING_REJECTED_ANNOTATION, reason), principalName, renderMessage(HIERARCHY_REJECTED_APPSTATUS));
+            rejectProposal(pDoc, renderMessage(PROPOSAL_ROUTING_RETURNED_ANNOTATION, reason), principalName, renderMessage(HIERARCHY_REJECTED_APPSTATUS));
         } else if (pbo.isParent()) {
             rejectProposalHierarchy(pDoc, reason, principalName);
         } else {
             //it is a child or in some unknown state, either way we do not support rejecting it.
-            throw new UnsupportedOperationException(String.format("Cannot reject proposal %s it is a hierarchy child or ", proposalNumber));
+            throw new UnsupportedOperationException(String.format("Cannot return proposal %s it is a hierarchy child or ", proposalNumber));
         }
 
-        createAndSaveActionNarrative(reason, "Proposal rejection attachment.", rejectFile, getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.REJECT_NARRATIVE_TYPE_CODE_PARAM), pDoc);
+        createAndSaveActionNarrative(reason, "Proposal return attachment.", rejectFile, getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.RETURN_NARRATIVE_TYPE_CODE_PARAM),
+                pDoc);
 
     }
     @Override

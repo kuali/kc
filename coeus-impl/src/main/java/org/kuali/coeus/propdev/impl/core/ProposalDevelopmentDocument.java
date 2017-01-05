@@ -310,9 +310,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                             }
                         }
                     } catch (ProposalHierarchyException pe) {
-                        throw new RuntimeException(String.format("ProposalHeierachyException encountered trying to re-submit rejected parent document:%s", getDocumentNumber()), pe);
+                        throw new RuntimeException(String.format("ProposalHierarchyException encountered trying to re-submit returned parent document:%s", getDocumentNumber()), pe);
                     } catch (Exception we) {
-                        throw new RuntimeException(String.format("Exception trying to re-submit rejected parent:%s", getDocumentNumber()), we);
+                        throw new RuntimeException(String.format("Exception trying to re-submit returned parent:%s", getDocumentNumber()), we);
                     }
                 }
                 String pCode = getDevelopmentProposal().getProposalStateTypeCode();

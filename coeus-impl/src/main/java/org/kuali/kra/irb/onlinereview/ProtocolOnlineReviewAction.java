@@ -499,7 +499,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                         KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason");
             } else {
                 prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.SAVED_STATUS_CD);
-                prDoc.getProtocolOnlineReview().addActionPerformed("Reject");
+                prDoc.getProtocolOnlineReview().addActionPerformed("Return");
                 prDoc.getProtocolOnlineReview().setReviewerApproved(false);
                 prDoc.getProtocolOnlineReview().setAdminAccepted(false);
                 setOnlineReviewCommentFinalFlags((ProtocolOnlineReview)prDoc.getProtocolOnlineReview(), false);
@@ -513,7 +513,8 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 protocolForm.getOnlineReviewsActionHelper().init(true);
                 recordOnlineReviewActionSuccess("returned to reviewer", prDoc);   
                 getProtocolActionRequestService().assignedReviewRejected(protocolForm);
-                return checkToSendNotificationWithHoldingPage(mapping, null, protocolForm, renderer, new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_REJECTED, "Return to Reviewer", prDoc.getDocumentNumber(), "Reject"));
+                return checkToSendNotificationWithHoldingPage(mapping, null, protocolForm, renderer, new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_RETURNED, "Return to" +
+                        " Reviewer", prDoc.getDocumentNumber(), "Return"));
 
             }
         }

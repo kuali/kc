@@ -255,7 +255,7 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
                 } else if (action.getActionTaken() == ActionType.BLANKET_APPROVE && actionsTaken.indexOf(action) != actionsTaken.size()-1) {
                     workflowDocument.superUserBlanketApprove("Finalize for undo");
                 } else if (action.getActionTaken() == ActionType.RETURN_TO_PREVIOUS) {
-                    getProtocolOnlineReviewService().returnProtocolOnlineReviewDocumentToReviewer(document, "Reject for Undo", action.getPrincipalId());
+                    getProtocolOnlineReviewService().returnProtocolOnlineReviewDocumentToReviewer(document, "Return for Undo", action.getPrincipalId());
                 }
             }
         }

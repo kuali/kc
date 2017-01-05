@@ -473,7 +473,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
     @Override
     public void processDisapproval(AwardBudgetDocument awardBudgetDocument) {
-        processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_REJECTED);
+        processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_RETURNED);
     }
 
     @Override
@@ -1098,7 +1098,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     }
     
     protected String getRejectedBudgetStatus() {
-        return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_REJECTED);
+        return getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_RETURNED);
     }
     
     protected String getCancelledBudgetStatus() {

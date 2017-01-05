@@ -92,8 +92,8 @@ import static java.util.stream.Collectors.toList;
 public class ProposalDevelopmentSubmitController extends
 		ProposalDevelopmentControllerBase {
 
-    public static final String REJECT_ACTION_TYPE_CODE = "500";
-    public static final String REJECT_NOTIFICATION = "Reject Notification";
+    public static final String RETURN_ACTION_TYPE_CODE = "500";
+    public static final String RETURN_NOTIFICATION = "Return Notification";
 
     public static final String ANOTHER_USER_APPROVED_ACTION_TYPE_CODE = "501";
     public static final String ANOTHER_USER_APPROVED_NOTIFICATION = "Another User Approved Notification";
@@ -857,7 +857,7 @@ public class ProposalDevelopmentSubmitController extends
         prepareNotification(form.getDevelopmentProposal());
         ProposalDevelopmentNotificationContext notificationContext = new ProposalDevelopmentNotificationContext(
                                                                         form.getDevelopmentProposal(),
-                                                                        REJECT_ACTION_TYPE_CODE, REJECT_NOTIFICATION, getRenderer());
+                                                                        RETURN_ACTION_TYPE_CODE, RETURN_NOTIFICATION, getRenderer());
         form.getNotificationHelper().initializeDefaultValues(notificationContext);
         if (getKcNotificationService().getNotificationType(notificationContext) != null) {
             getKcNotificationService().sendNotification(notificationContext, form.getNotificationHelper().getNotification(), recipients);

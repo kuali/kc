@@ -58,7 +58,7 @@ public class IacucProtocolSubmissionStatus extends ProtocolSubmissionStatusBase 
 
     public static final String MINOR_REVISIONS_REQUIRED = "210";
 
-    public static final String REJECTED_SUBMISSION = "211";
+    public static final String RETURNED_SUBMISSION = "211";
 
     public static final String MAJOR_REVISIONS_REQUIRED = "212";
 
@@ -66,6 +66,6 @@ public class IacucProtocolSubmissionStatus extends ProtocolSubmissionStatusBase 
 
     public static final String ADMINISTRATIVELY_INCOMPLETE = "214";
     
-    public static final String REJECTED_IN_ROUTING = "401";
+    public static final String RETURNED_IN_ROUTING = "401";
 
 }

@@ -1134,7 +1134,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
     
     @Override
     public void assignedReviewRejected(ProtocolForm protocolForm) throws Exception {
-        generateActionCorrespondence(ProtocolActionType.REVIEW_REJECTED, protocolForm.getProtocolDocument().getProtocol());
+        generateActionCorrespondence(ProtocolActionType.REVIEW_RETURNED, protocolForm.getProtocolDocument().getProtocol());
     }
     
     @Override
@@ -1393,7 +1393,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
 
     @Override
     protected String getProtocolRejectedInRoutingActionTypeHook() {
-        return ProtocolActionType.REJECTED_IN_ROUTING;
+        return ProtocolActionType.RETURNED_IN_ROUTING;
     }
 
     @Override

@@ -24,7 +24,7 @@ import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 
 
 /**
- * Renders additional fields for the IACUC Reject Review notification.
+ * Renders additional fields for the IACUC Return Review notification.
  */
 public class IacucRejectReviewNotificationRenderer extends IacucProtocolNotificationRenderer {
 
@@ -35,7 +35,7 @@ public class IacucRejectReviewNotificationRenderer extends IacucProtocolNotifica
     private String reason;
 
     /**
-     * Constructs an IACUC Reject Review notification renderer.
+     * Constructs an IACUC Return Review notification renderer.
      * 
      * @param protocol
      * @param reason

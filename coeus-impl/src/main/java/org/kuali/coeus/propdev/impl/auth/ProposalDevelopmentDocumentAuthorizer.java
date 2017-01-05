@@ -709,7 +709,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
     protected boolean canReject(Person user) {
         return getPermissionService().hasPermission(user.getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
-                PermissionConstants.REJECT_PROPOSAL_DEVELOPMENT_DOCUMENT);
+                PermissionConstants.RETURN_PROPOSAL_DEVELOPMENT_DOCUMENT);
     }
 
     protected boolean isAuthorizedToSubmitToWorkflow(Document document, Person user) {

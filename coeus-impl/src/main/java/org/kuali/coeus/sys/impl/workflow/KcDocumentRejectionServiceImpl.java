@@ -61,7 +61,7 @@ public class KcDocumentRejectionServiceImpl implements KcDocumentRejectionServic
     @Override
     public void reject(WorkflowDocument document, String reason, String principalId,  String appDocStatus, String nodeName) {
         if( LOG.isDebugEnabled() ) {
-            LOG.debug( String.format( "Rejecting document %s to node %s as %s with reason '%s'", document, nodeName, principalId, reason ));
+            LOG.debug( String.format( "Returning document %s to node %s as %s with reason '%s'", document, nodeName, principalId, reason ));
         }
 
         document.returnToPreviousNode(reason, nodeName);

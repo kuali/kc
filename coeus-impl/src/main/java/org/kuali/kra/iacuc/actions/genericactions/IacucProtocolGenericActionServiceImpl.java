@@ -126,12 +126,12 @@ public class IacucProtocolGenericActionServiceImpl extends ProtocolGenericAction
 
     @Override
     protected String getProtocolSubmissionStatusRejectedInRoutingCodeHook() {
-        return IacucProtocolSubmissionStatus.REJECTED_IN_ROUTING;
+        return IacucProtocolSubmissionStatus.RETURNED_IN_ROUTING;
     }
 
     @Override
     protected ProtocolActionBase getNewDisapprovedInRoutingProtocolActionInstanceHook(ProtocolBase protocol) {
-        return new IacucProtocolAction( (IacucProtocol) protocol, (IacucProtocolSubmission) protocol.getProtocolSubmission(), IacucProtocolActionType.REJECTED_IN_ROUTING);
+        return new IacucProtocolAction( (IacucProtocol) protocol, (IacucProtocolSubmission) protocol.getProtocolSubmission(), IacucProtocolActionType.RETURNED_IN_ROUTING);
     }
 
     @Override

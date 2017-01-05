@@ -617,7 +617,7 @@ public class BudgetAction extends BudgetActionBase {
         Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
         String reason = request.getParameter(KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String methodToCall = ((KualiForm) form).getMethodToCall();
-        final String questionText = "Are you sure you want to reject this document?";
+        final String questionText = "Are you sure you want to return this document?";
         ActionForward forward;
         if (question == null) {
             forward =  this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,

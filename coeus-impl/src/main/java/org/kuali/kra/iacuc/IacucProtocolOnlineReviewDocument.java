@@ -191,7 +191,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
             String olrEvent = getURLParamValue(backLocation, OLR_EVENT_PARAM);
             if (StringUtils.equalsIgnoreCase(olrEvent, "Approve")) {
                 isComplete = isOnlineReviewApproveComplete(olrDocId);
-            } else if (StringUtils.equalsIgnoreCase(olrEvent, "Reject")) {
+            } else if (StringUtils.equalsIgnoreCase(olrEvent, "Return")) {
                 isComplete = isOnlineReviewRejectComplete(olrDocId);         
             }
         }

@@ -266,7 +266,7 @@ public interface PermissionConstants {
      String VIEW_COI_UNDISCLOSED_EVENTS = "View COI Undisclosed Events";
     String VIEW_COI_DISPOSITION_STATUS = "View COI Disclosure Disposition";
 
-    String REJECT_PROPOSAL_DEVELOPMENT_DOCUMENT = "Reject ProposalDevelopmentDocument";
+    String RETURN_PROPOSAL_DEVELOPMENT_DOCUMENT = "Return ProposalDevelopmentDocument";
 	String RUN_GLOBAL_REPORTS = "RUN GLOBAL REPORTS";
     String CANCEL_INSTITUTIONAL_PROPOSAL = "Cancel Institutional Proposal";
     String SAVE_INSTITUTIONAL_PROPOSAL = "Save Institutional Proposal";

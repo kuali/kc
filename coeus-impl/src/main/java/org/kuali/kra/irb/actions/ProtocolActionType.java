@@ -123,12 +123,12 @@ public class ProtocolActionType extends ProtocolActionTypeBase {
     public static final String MODIFY_PROTOCOL_SUBMISISON = "309";
     
     // action type to be used only by workflow disapproval post-processor
-    public static final String REJECTED_IN_ROUTING = "404";
+    public static final String RETURNED_IN_ROUTING = "404";
     public static final String RECALLED_IN_ROUTING = "405";
 
     public static final String ASSIGN_REVIEWER = "901";
     public static final String REVIEW_COMPLETE = "902";
-    public static final String REVIEW_REJECTED = "903";
+    public static final String REVIEW_RETURNED = "903";
     public static final String FUNDING_SOURCE = "904";
     public static final String REVIEW_DELETED = "905";
     public static final String RENEWAL_WITH_AMENDMENT_CREATED = "909";

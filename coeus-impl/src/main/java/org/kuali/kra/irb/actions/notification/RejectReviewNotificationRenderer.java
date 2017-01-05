@@ -24,7 +24,7 @@ import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import java.util.Map;
 
 /**
- * Renders additional fields for the Reject Review notification.
+ * Renders additional fields for the Return Review notification.
  */
 public class RejectReviewNotificationRenderer extends IRBNotificationRenderer {
 
@@ -33,7 +33,7 @@ public class RejectReviewNotificationRenderer extends IRBNotificationRenderer {
     private String reason;
 
     /**
-     * Constructs a Reject Review notification renderer.
+     * Constructs a Return Review notification renderer.
      * 
      * @param protocol
      * @param reason
