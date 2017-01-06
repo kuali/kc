@@ -42,7 +42,6 @@ import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswer
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -51,8 +50,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
-    
-    private DataObjectService dataObjectService;
+
     private BusinessObjectService businessObjectService;
     private QuestionnaireAnswerService questionnaireAnswerService;
     private DocumentService documentService;
@@ -69,7 +67,6 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        dataObjectService = KcServiceLocator.getService(DataObjectService.class);
         businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
         documentService = KcServiceLocator.getService(DocumentService.class);
@@ -80,7 +77,6 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
 
     @After
     public void tearDown() throws Exception {
-        dataObjectService = null;
         questionnaireAnswerService  = null;
 
         documentService = null;
@@ -105,7 +101,7 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
             ProposalPerson pp = new ProposalPerson();
             pp.setPersonId(person.getPersonId());
             pp.setDevelopmentProposal(document.getDevelopmentProposal());
-            pp.setProposalPersonNumber(new Integer(0));
+            pp.setProposalPersonNumber(0);
             pp.setDevelopmentProposal(document.getDevelopmentProposal());
 
             pp.setProposalPersonRoleId(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR);
@@ -179,25 +175,25 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
             assertFalse(StringUtils.isEmpty(q.getQuestion().getAffirmativeStatementConversion()));
             assertFalse(StringUtils.isEmpty(q.getQuestion().getNegativeStatementConversion()));
             if (StringUtils.equals(q1, q.getQuestion().getQuestion())) {
-                assertEquals("1", q.getQuestion().getAnswerMaxLength().toString());
+                assertEquals(Integer.valueOf(1), q.getQuestion().getAnswerMaxLength());
                 q1Found = true;
             } else if (StringUtils.equals(q2, q.getQuestion().getQuestion())) {
                 assertEquals("Yes/No", q.getQuestion().getQuestionType().getName());
                 q2Found = true;
             } else if (StringUtils.equals(q3, q.getQuestion().getQuestion())) {
-                assertEquals("1", q.getQuestion().getMaxAnswers().toString());
+                assertEquals("Yes/No", q.getQuestion().getQuestionType().getName());
                 q3Found = true;
             } else if (StringUtils.equals(q4, q.getQuestion().getQuestion())) {
-                assertEquals("1", q.getQuestion().getAnswerMaxLength().toString());
+                assertEquals(Integer.valueOf(1), q.getQuestion().getAnswerMaxLength());
                 q4Found = true;
             } else if (StringUtils.equals(q5, q.getQuestion().getQuestion())) {
-                assertEquals("1", q.getQuestion().getAnswerMaxLength().toString());
+                assertEquals(Integer.valueOf(1), q.getQuestion().getAnswerMaxLength());
                 q5Found = true;
             } else if (StringUtils.equals(q6, q.getQuestion().getQuestion())) {
-                assertEquals("1", q.getQuestion().getAnswerMaxLength().toString());
+                assertEquals(Integer.valueOf(1), q.getQuestion().getAnswerMaxLength());
                 q6Found = true;
             } else {
-                assertTrue("Unknown Question: " + q.getQuestion().getQuestion(), false);
+                fail("Unknown Question: " + q.getQuestion().getQuestion());
             }
         }
         assertTrue(q1Found);
@@ -233,25 +229,25 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
         for(Answer answer : answers) {
             Question thisQuestion = answer.getQuestion();
             if (StringUtils.equals(q1, thisQuestion.getQuestion())) {
-                assertEquals("1", thisQuestion.getAnswerMaxLength().toString());
+                assertEquals(Integer.valueOf(1), thisQuestion.getAnswerMaxLength());
                 q1Found = true;
             } else if (StringUtils.equals(q2, thisQuestion.getQuestion())) {
                 assertEquals("Yes/No", thisQuestion.getQuestionType().getName());
                 q2Found = true;
             } else if (StringUtils.equals(q3, thisQuestion.getQuestion())) {
-                assertEquals("1", thisQuestion.getMaxAnswers().toString());
+                assertEquals("Yes/No", thisQuestion.getQuestionType().getName());
                 q3Found = true;
             } else if (StringUtils.equals(q4, thisQuestion.getQuestion())) {
-                assertEquals("1", thisQuestion.getAnswerMaxLength().toString());
+                assertEquals(Integer.valueOf(1), thisQuestion.getAnswerMaxLength());
                 q4Found = true;
             } else if (StringUtils.equals(q5, thisQuestion.getQuestion())) {
-                assertEquals("1", thisQuestion.getAnswerMaxLength().toString());
+                assertEquals(Integer.valueOf(1), thisQuestion.getAnswerMaxLength());
                 q5Found = true;
             } else if (StringUtils.equals(q6, thisQuestion.getQuestion())) {
-                assertEquals("1", thisQuestion.getAnswerMaxLength().toString());
+                assertEquals(Integer.valueOf(1), thisQuestion.getAnswerMaxLength());
                 q6Found = true;
             } else {
-                assertTrue("Unknown Question: " + thisQuestion.getQuestion(), false);
+                fail("Unknown Question: " + thisQuestion.getQuestion());
             }
         }
         assertTrue(q1Found);
@@ -259,6 +255,6 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
         assertTrue(q3Found);
         assertTrue(q4Found);
         assertTrue(q5Found);
-
+        assertTrue(q6Found);
     }
 }
