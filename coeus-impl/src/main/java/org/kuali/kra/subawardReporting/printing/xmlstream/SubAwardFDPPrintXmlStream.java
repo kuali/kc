@@ -21,7 +21,7 @@ package org.kuali.kra.subawardReporting.printing.xmlstream;
 import java.math.BigDecimal;
 import java.util.*;
 
-
+import java.util.Optional;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.xmlbeans.XmlObject;
@@ -277,22 +277,26 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             if(subaward.getStartDate() != null){
                 subcontractDetail.setStartDate(getDateTimeService().getCalendar(subaward.getStartDate()));
             }
-            if(subaward.getEndDate() != null){
-                subcontractDetail.setEndDate(getDateTimeService().getCalendar(subaward.getEndDate()));
+            Optional<Date>optionalPerformanceDate=   getOptionalPerformanceDate(subaward);
+            if(subaward.getAllSubAwardAmountInfos() != null && !subaward.getAllSubAwardAmountInfos().isEmpty()){
+			if (optionalPerformanceDate.isPresent()) {
+				subcontractDetail.setEndDate(getDateTimeService().getCalendar(optionalPerformanceDate.get()));
+			}
             }
             
             subcontractDetail.setSubcontractorOrgRolodexDetails(rolodexDetailsType);
             subcontractDetail.setSiteInvestigatorDetails(rolodexDetails);
             subcontractDetail.setSubcontractorDetails(organisation);
 
-            if (!subaward.getSubAwardAmountInfoList().isEmpty()) {
-                subcontractDetail.setComments(subaward.getSubAwardAmountInfoList()
-                        .get(subaward.getSubAwardAmountInfoList().size() - 1)
+            if (!subaward.getAllSubAwardAmountInfos().isEmpty()) {
+                subcontractDetail.setComments(subaward.getAllSubAwardAmountInfos()
+                        .get(subaward.getAllSubAwardAmountInfos().size() - 1)
                         .getComments());
             }
+            if(subaward.getAllSubAwardAmountInfos() != null && !subaward.getAllSubAwardAmountInfos().isEmpty()){
+                subcontractDetail.setModificationType(subaward.getAllSubAwardAmountInfos()
+                        .get(subaward.getAllSubAwardAmountInfos().size() - 1).getModificationTypeCode());
 
-            if (StringUtils.isNotEmpty(modificationType)) {
-                subcontractDetail.setModificationType(modificationType);
             }
 
             if (fcoi != null) {
@@ -313,6 +317,11 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
 
             subContractData.setSubcontractDetail(subcontractDetail);
         }
+        private Optional<Date> getOptionalPerformanceDate(SubAward subaward) {
+            Optional<Date>optionalPerformanceDate=   Optional.ofNullable(subaward.getAllSubAwardAmountInfos()
+                    .get(subaward.getAllSubAwardAmountInfos().size() - 1).getPeriodofPerformanceEndDate());
+            return optionalPerformanceDate;
+        }
 
         private String toFlag(Boolean b) {
             return Boolean.TRUE.equals(b) ? "Y" : "N";
@@ -325,16 +334,20 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 subContractAmountInfo.setObligatedAmount(subaward.getTotalObligatedAmount().bigDecimalValue());
                 subContractAmountInfo.setAnticipatedAmount(subaward.getTotalAnticipatedAmount().bigDecimalValue());
             }
-            if(subaward.getSubAwardAmountInfoList() != null && !subaward.getSubAwardAmountInfoList().isEmpty()){
-                SubAwardAmountInfo amountInfo = subaward.getSubAwardAmountInfoList().get(subaward.getSubAwardAmountInfoList().size() - 1);
+            if(subaward.getAllSubAwardAmountInfos() != null && !subaward.getAllSubAwardAmountInfos().isEmpty()){
+                SubAwardAmountInfo amountInfo = subaward.getAllSubAwardAmountInfos().get(subaward.getAllSubAwardAmountInfos().size() - 1);
                 subContractAmountInfo.setObligatedChange(amountInfo.getObligatedChange().bigDecimalValue());
                 subContractAmountInfo.setAnticipatedChange(amountInfo.getAnticipatedChange().bigDecimalValue());
 
                 if(amountInfo.getPeriodofPerformanceStartDate() != null){
-                    subContractAmountInfo.setPerformanceStartDate(getDateTimeService().getCalendar(amountInfo.getPeriodofPerformanceStartDate()));
+                    subContractAmountInfo.setPerformanceStartDate(getDateTimeService().getCalendar(subaward.getStartDate()));
                 }
-                if(amountInfo.getPeriodofPerformanceEndDate() != null){
-                    subContractAmountInfo.setPerformanceEndDate(getDateTimeService().getCalendar(amountInfo.getPeriodofPerformanceEndDate()));
+                Optional<Date>optionalPerformanceDate=   getOptionalPerformanceDate(subaward);
+
+                if(subaward.getAllSubAwardAmountInfos() != null && !subaward.getAllSubAwardAmountInfos().isEmpty()){
+                if(optionalPerformanceDate.isPresent()){
+                    subContractAmountInfo.setPerformanceEndDate(getDateTimeService().getCalendar(optionalPerformanceDate.get()));
+                }
                 }
                 if(amountInfo.getModificationEffectiveDate() != null){
                     subContractAmountInfo.setModificationEffectiveDate(getDateTimeService().getCalendar(amountInfo.getModificationEffectiveDate()));
