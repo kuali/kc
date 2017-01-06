@@ -19,4 +19,5 @@
 
 
 \. ./kc/bootstrap/V1701_002__return.sql
+\. ./kc/bootstrap/V1701_003__question_fix.sql
 commit;

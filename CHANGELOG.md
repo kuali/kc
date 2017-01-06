@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* making sure y/n/na & y/n question types don't allow multiple answers
+  * Travis Schneeberger on Thu, 5 Jan 2017 16:39:38 -0500 [View Commit](../../commit/90ed4a95a08d28a55b2535338520d834e6630718)
+
+##coeus-1701.0002
 * RESKC-1854: Change terminology from 'reject' to 'return' across the research application
 
   * RESKC-1854: Change terminology from 'reject' to 'return' across the research application
