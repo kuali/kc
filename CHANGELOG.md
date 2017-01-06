@@ -2,6 +2,10 @@
 
 ##CURRENT
 * fixes incorrect oracle script for nsf code changes
+  * Terry Durkin on Fri, 6 Jan 2017 13:30:43 -0500 [View Commit](../../commit/34d03e8db62e4491735c3caadcbaec49f00ae231)
+
+##coeus-1701.0004
+* fixes incorrect oracle script for nsf code changes
   * Terry Durkin on Fri, 6 Jan 2017 10:44:40 -0500 [View Commit](../../commit/4345384e7eb68a877038e04524c9331eb096f4e0)
 
 ##coeus-1701.0003
