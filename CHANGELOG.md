@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* fixes incorrect oracle script for nsf code changes
+  * Terry Durkin on Fri, 6 Jan 2017 10:44:40 -0500 [View Commit](../../commit/4345384e7eb68a877038e04524c9331eb096f4e0)
+
+##coeus-1701.0003
 * making sure y/n/na & y/n question types don't allow multiple answers
   * Travis Schneeberger on Thu, 5 Jan 2017 16:39:38 -0500 [View Commit](../../commit/90ed4a95a08d28a55b2535338520d834e6630718)
 
