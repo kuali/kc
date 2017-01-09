@@ -21,6 +21,7 @@ package org.kuali.coeus.common.impl.rolodex;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +32,7 @@ public class RolodexAddressFlagValuesFinder extends UifKeyValuesFinderBase {
     private static final List<KeyValue> KEY_VALUES;
     static {
         final List<KeyValue> temp = new ArrayList<>();
+        temp.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         temp.add(new ConcreteKeyValue("No","No"));
         temp.add(new ConcreteKeyValue("Yes","Yes"));
         KEY_VALUES = Collections.unmodifiableList(temp);
