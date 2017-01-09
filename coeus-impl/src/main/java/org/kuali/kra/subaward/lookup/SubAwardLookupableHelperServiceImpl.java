@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.subaward.lookup;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
@@ -32,7 +33,10 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 /**
@@ -42,7 +46,6 @@ import java.util.stream.Collectors;
 public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
     private static final String REQUISITIONER_USER_NAME="requisitionerUserName";
-    public static final String VERSION_HISTORY_STATUS_FOR_OJB = "versionHistory.statusForOjb";
     public static final String VIEW_DOCUMENT = "viewDocument";
     public static final String DOC_OPENED_FROM_AWARD_SEARCH = "docOpenedFromAwardSearch";
     public static final String DOC_ID = "docId";
@@ -56,14 +59,24 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
     public static final String MEDUSA = "medusa";
     public static final String REGEX_PATTERN = "(?i)%s";
 
+    private static final String SUB_AWARD_DOCUMENT_STATUS = "subAwardSequenceStatus";
+
     @Override
     public List<? extends BusinessObject>
     getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocationDocFormKey(fieldValues);
         String requisitionerUserName = fieldValues.get(REQUISITIONER_USER_NAME);
         fieldValues.remove(REQUISITIONER_USER_NAME);
-        fieldValues.put(VERSION_HISTORY_STATUS_FOR_OJB, VersionStatus.ACTIVE.toString());
-        return filterForRequisitionerUserName((List<SubAward>) super.getSearchResultsUnbounded(fieldValues),requisitionerUserName);
+        if (StringUtils.equals(fieldValues.get(SUB_AWARD_DOCUMENT_STATUS), SubAwardDocumentStatusConstants.Active.code())) {
+            fieldValues.put(SUB_AWARD_DOCUMENT_STATUS, VersionStatus.ACTIVE.name());
+        }
+        else if (StringUtils.equals(fieldValues.get(SUB_AWARD_DOCUMENT_STATUS), SubAwardDocumentStatusConstants.Pending.code())) {
+            fieldValues.put(SUB_AWARD_DOCUMENT_STATUS, VersionStatus.PENDING.name());
+        }
+        else {
+            fieldValues.put(SUB_AWARD_DOCUMENT_STATUS, String.format("%s|%s", VersionStatus.ACTIVE.name(), VersionStatus.PENDING.name()));
+        }
+        return filterForLatestVersionNumber(filterForRequisitionerUserName((List<SubAward>) super.getSearchResultsUnbounded(fieldValues),requisitionerUserName));
     }
 
     /**.
@@ -128,7 +141,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
         getSubAwardDocument().getDocumentNumber());
         parameters.put(DOC_OPENED_FROM_AWARD_SEARCH, "true");
         parameters.put(PLACE_HOLDER_AWARD_ID,
-        subAward.getSubAwardId().toString());
+                subAward.getSubAwardId().toString());
         String href  = UrlFactory.parameterizeUrl(
          "../" + getHtmlAction(), parameters);
         htmlData.setHref(href);
@@ -156,6 +169,19 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
       protected void addEditHtmlData(List<HtmlData> htmlDataList, BusinessObject businessObject) {
           //no-op
       }
+
+    protected List<SubAward> filterForLatestVersionNumber(List<SubAward> subAwards) {
+        List<SubAward> filteredSubAwards = CollectionUtils.createCorrectImplementationForCollection(subAwards);
+        Map<String, SubAward> latestVersionSubAwards = new TreeMap<String, SubAward>();
+        for (SubAward subAward : subAwards) {
+            SubAward latestVersion = latestVersionSubAwards.get(subAward.getSubAwardCode());
+            if (latestVersion == null || latestVersion.getSequenceNumber() < subAward.getSequenceNumber()) {
+                latestVersionSubAwards.put(subAward.getSubAwardCode(), subAward);
+            }
+        }
+        filteredSubAwards.addAll(latestVersionSubAwards.values());
+        return filteredSubAwards;
+    }
 
     protected List<SubAward> filterForRequisitionerUserName(List<SubAward> subAwards,
                                                             String requisitionerUserName) {
