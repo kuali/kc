@@ -20,10 +20,10 @@ package org.kuali.kra.subaward.bo;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.framework.version.VersionStatus;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
@@ -155,10 +155,15 @@ public class SubAwardFundingSource extends SubAwardAssociate {
 		if (getAward() != null) {
 			Map<String,Object> criteria = new HashMap<>();
 			criteria.put(AWARD_NUMBER, award.getAwardNumber());
-			criteria.put(AWARD_SEQUENCE_STATUS, VersionStatus.ACTIVE.toString());
 			List<Award> awards = (List<Award>) getBusinessObjectService().findMatchingOrderBy(Award.class, criteria, SEQUENCE_NUMBER, false);
 			if (CollectionUtils.isNotEmpty(awards)) {
 				activeAward = awards.get(0);
+			}
+			for (Award award : awards) {
+				if (VersionStatus.ACTIVE.toString().equals(award.getAwardSequenceStatus())) {
+					activeAward = award;
+					break;
+				}
 			}
 		}
 		return activeAward;

@@ -920,6 +920,115 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 	}
 }
 
+	function loadFundingSourceAwardNumber(awardNumberFieldName, accountNumberElementId, accountNumberHiddenElementId,
+										  awardStatusElementId, awardStatusHiddenElementId, amountElementId, amountHiddenElementId,
+										  obligationExpirationDateElementId, obligationExpirationDateHiddenElementId, sponsorElementId,
+										  sponsorCodeElementId, sponsorNameElementId, awardDocumentNumberElementId, awardIdElementId) {
+
+		if (dwr.util.getValue( awardNumberFieldName ) != null) {
+			var awardNumber = dwr.util.getValue( awardNumberFieldName );
+			var accountNumberElement = document.getElementById(accountNumberElementId);
+			var accountNumberHiddenElement = document.getElementById(accountNumberHiddenElementId);
+
+			var awardStatusElement= document.getElementById(awardStatusElementId);
+			var awardStatusHiddenElement = document.getElementById(awardStatusHiddenElementId);
+			var sponsorElement = document.getElementById(sponsorElementId);
+			var sponsorCodeElement = document.getElementById(sponsorCodeElementId);
+			var sponsorNameElement = document.getElementById(sponsorNameElementId);
+
+			var amountElement = document.getElementById(amountElementId);
+			var amountHiddenElement = document.getElementById(amountHiddenElementId);
+			var obligationExpirationDateElement = document.getElementById(obligationExpirationDateElementId);
+			var obligationExpirationDateHiddenElement = document.getElementById(obligationExpirationDateHiddenElementId);
+
+			var awardIdElement = document.getElementById(awardIdElementId);
+			var awardDocumentNumberElement = document.getElementById(awardDocumentNumberElementId);
+			var sponsorConcatString = " : ";
+
+			var dwrReply = {
+				callback:function(data) {
+					if ( data != null ) {
+						if (accountNumberElement != null) accountNumberElement.innerHTML = data.accountNumber;
+						if (accountNumberHiddenElement != null) accountNumberHiddenElement.value = data.accountNumber;
+
+						if (awardStatusElement != null) {
+							if (data.statusCode == "1") {
+								awardStatusElement.innerHTML = "Active";
+							}
+							else if (data.statusCode == "3") {
+								awardStatusElement.innerHTML = "Saved";
+							}
+						}
+						if (awardStatusHiddenElement != null) {
+							if (data.statusCode == "1") {
+								awardStatusHiddenElement.value = "Active";
+							}
+							else if (data.statusCode == "3") {
+								awardStatusHiddenElement.value = "Saved";
+							}
+						}
+						if (amountElement != null) {
+							amountElement.innerHTML = data.amountObligatedToDate;
+							amountElement.value = data.amountObligatedToDate;
+						}
+
+						if (amountHiddenElement != null) {
+							amountHiddenElement.innerHTML = data.amountObligatedToDate;
+							amountHiddenElement.value = data.amountObligatedToDate;
+						}
+
+						if (obligationExpirationDateElement != null) obligationExpirationDateElement.innerHTML = formattedDate(data.obligationExpirationDate);
+						if (awardIdElement != null) awardIdElement.value = data.awardId;
+						if (sponsorElement != null) sponsorElement.innerHTML = (data.sponsorCode.concat(sponsorConcatString)).concat(data.sponsorName);
+						if (sponsorCodeElement != null) { sponsorCodeElement.value = data.sponsorCode; sponsorCodeElement.innerHTML = data.sponsorCode; }
+						if (sponsorNameElement != null) { sponsorNameElement.value = data.sponsorName; sponsorNameElement.innerHTML = data.sponsorName; }
+
+						if (obligationExpirationDateHiddenElement != null) {
+							obligationExpirationDateHiddenElement.value = formattedDate(data.obligationExpirationDate);
+							obligationExpirationDateHiddenElement.innerHTML = formattedDate(data.obligationExpirationDate);
+						}
+						if (awardDocumentNumberElement != null) {
+							awardDocumentNumberElement.value = data.awardDocument['documentNumber'];
+							awardDocumentNumberElement.innerHTML = data.awardDocument['documentNumber'];
+						}
+					}
+					else {
+						if (accountNumberElement != null) accountNumberElement.innerHTML = wrapError( "not found" );
+						if (awardStatusElement != null) awardStatusElement.innerHTML = wrapError( "not found" );
+						if (sponsorElement != null) sponsorElement.innerHTML = wrapError( "not found" );
+						if (amountElement != null) amountElement.innerHTML.innerHTML = wrapError( "not found" );
+						if (obligationExpirationDateElement != null) obligationExpirationDateElement.innerHTML = wrapError( "not found" );
+						if (awardDocumentNumberElement != null) awardDocumentNumberElement.value = "";
+						if (awardIdElement != null) awardIdElement.value = "";
+					}
+				},
+				errorHandler:function( errorMessage ) {
+					window.status = errorMessage;
+					if (accountNumberElement != null) accountNumberElement.innerHTML = wrapError( "not found" );
+					if (awardStatusElement != null) awardStatusElement.innerHTML = wrapError( "not found" );
+					if (sponsorElement != null) sponsorElement.innerHTML = wrapError( "not found" );
+					if (amountElement != null) amountElement.innerHTML.innerHTML = wrapError( "not found" );
+					if (obligationExpirationDateElement != null) obligationExpirationDateElement.innerHTML = wrapError( "not found" );
+					if (awardDocumentNumberElement != null) awardDocumentNumberElement.value = "";
+					if (awardIdElement != null) awardIdElement.value = null;
+				}
+			};
+			AwardService.getActiveOrNewestAward(awardNumber, dwrReply);
+		}
+	}
+
+	function formattedDate(date) {
+		var dateValue = new Date(date || Date.now()),
+			month = '' + (dateValue.getMonth() + 1),
+			day   = '' + dateValue.getDate(),
+			year  = dateValue.getFullYear();
+
+		if (month.length < 2) month = '0' + month;
+		if (day.length < 2)   day   = '0' + day;
+
+		return [month, day, year].join('/');
+	}
+
 	/*
 	 * Load the phone number and email address from rolodex info from rolodex id.
 	 */

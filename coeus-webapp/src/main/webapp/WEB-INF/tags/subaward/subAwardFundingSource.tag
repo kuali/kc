@@ -18,6 +18,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<script type='text/javascript' src='dwr/interface/AwardService.js'></script>
+
 <c:set var="subAwardFundingSourceAttributes" value="${DataDictionary.SubAwardFundingSource.attributes}" />
 <c:set var="action" value="subAward" />
 <c:set var="subAwardFundingSource" value="${KualiForm.document.subAwardList[0].subAwardFundingSourceList}"/>
@@ -46,20 +48,64 @@
                <th class="infoline" >
 						Add:
 				</th>
-     			 <td align="center"  colspan=3><kul:htmlControlAttribute property="newSubAwardFundingSource.award.awardNumber" attributeEntry="${subAwardFundingSourceAttributes.awardId}" />
-     			 <c:if test="${readOnly!='true'}">
-                 <kul:lookup boClassName="org.kuali.kra.award.home.Award" fieldConversions="awardNumber:newSubAwardFundingSource.award.awardNumber,awardDocument.documentNumber:newSubAwardFundingSource.award.awardDocument.documentNumber,awardId:newSubAwardFundingSource.awardId,accountNumber:newSubAwardFundingSource.award.accountNumber,statusCode:newSubAwardFundingSource.award.statusCode,sponsorCode:newSubAwardFundingSource.award.sponsorCode,sponsorName:newSubAwardFundingSource.award.sponsorName,latestAwardAmountInfo.amountObligatedToDate:newSubAwardFundingSource.award.latestAwardAmountInfo.amountObligatedToDate,latestAwardAmountInfo.obligationExpirationDate:newSubAwardFundingSource.award.latestAwardAmountInfo.obligationExpirationDate,awardStatus.description:newSubAwardFundingSource.award.awardStatus.description" anchor="${tabKey}" />
-                 </c:if>
+     			 <td align="center"  colspan=3>
+					 <kul:htmlControlAttribute property="newSubAwardFundingSource.award.awardNumber"
+											   attributeEntry="${subAwardFundingSourceAttributes.awardId}"
+											   onblur="loadFundingSourceAwardNumber('newSubAwardFundingSource.award.awardNumber',
+                								'key.accountNumber',
+                								'key.accountNumberHidden',
+                								'key.awardStatus',
+                								'key.awardStatusHidden',
+    							  				'key.amount',
+    							  				'key.amountHidden',
+    							  				'key.obligationExpirationDate',
+    							  				'key.obligationExpirationDateHidden',
+    							  				'key.sponsor',
+    							  				'key.sponsorCode',
+    							  				'key.sponsorName',
+    							  				'key.awardDocumentNumber',
+    							  				'key.awardId');" />
+
+     			 	<c:if test="${readOnly!='true'}">
+                 		<kul:lookup boClassName="org.kuali.kra.award.home.Award" fieldConversions="awardNumber:newSubAwardFundingSource.award.awardNumber,awardDocument.documentNumber:newSubAwardFundingSource.award.awardDocument.documentNumber,awardId:newSubAwardFundingSource.awardId,accountNumber:newSubAwardFundingSource.award.accountNumber,statusCode:newSubAwardFundingSource.award.statusCode,sponsorCode:newSubAwardFundingSource.award.sponsorCode,sponsorName:newSubAwardFundingSource.award.sponsorName,latestAwardAmountInfo.amountObligatedToDate:newSubAwardFundingSource.award.latestAwardAmountInfo.amountObligatedToDate,latestAwardAmountInfo.obligationExpirationDate:newSubAwardFundingSource.award.latestAwardAmountInfo.obligationExpirationDate,awardStatus.description:newSubAwardFundingSource.award.awardStatus.description" anchor="${tabKey}" />
+                 	</c:if>
+
+					 <html:hidden styleId ="key.awardId" property="newSubAwardFundingSource.awardId" />
+						 ${kfunc:registerEditableProperty(KualiForm, "newSubAwardFundingSource.awardId")}
+
+					 <html:hidden styleId ="key.awardNumber" property="newSubAwardFundingSource.award.awardNumber" />
+						 ${kfunc:registerEditableProperty(KualiForm, "newSubAwardFundingSource.award.awardNumber")}
+
+					 <html:hidden styleId ="key.awardDocumentNumber" property="newSubAwardFundingSource.award.awardDocument.documentNumber" />
+						 ${kfunc:registerEditableProperty(KualiForm, "newSubAwardFundingSource.award.awardDocument.documentNumber")}
+
+					 <html:hidden styleId ="key.accountNumberHidden" property="newSubAwardFundingSource.award.accountNumber" />
+						 ${kfunc:registerEditableProperty(KualiForm, "newSubAwardFundingSource.award.accountNumber")}
+
+					 <html:hidden styleId ="key.sponsorCode" property="newSubAwardFundingSource.award.sponsorCode" />
+						 ${kfunc:registerEditableProperty(KualiForm, "newSubAwardFundingSource.award.sponsorCode")}
+
+					 <html:hidden styleId ="key.sponsorName" property="newSubAwardFundingSource.award.sponsorName" />
+						 ${kfunc:registerEditableProperty(KualiForm, "newSubAwardFundingSource.award.sponsorName")}
+
+					 <html:hidden styleId ="key.awardStatusHidden" property="newSubAwardFundingSource.award.awardStatus.description" />
+						 ${kfunc:registerEditableProperty(KualiForm, "newSubAwardFundingSource.award.awardStatus.description")}
+
+					 <html:hidden styleId ="key.amountHidden" property="newSubAwardFundingSource.award.awardAmountInfos[0].amountObligatedToDate" />
+						 ${kfunc:registerEditableProperty(KualiForm, "newSubAwardFundingSource.award.awardAmountInfos[0].amountObligatedToDate")}
+
+					 <html:hidden styleId ="key.obligationExpirationDateHidden" property="newSubAwardFundingSource.award.awardAmountInfos[0].obligationExpirationDate" />
+						 ${kfunc:registerEditableProperty(KualiForm, "newSubAwardFundingSource.award.awardAmountInfos[0].obligationExpirationDate")}
                	</td>
-   				<td><div align="center">
+   				<td><div id="key.accountNumber" align="center">
      					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.accountNumber" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.accountNumber}" datePicker="false" />           
    					</div> 
    				</td>
-   				<td><div align="center">
+   				<td><div id="key.awardStatus" align="center">
      					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.awardStatus.description" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.statusCode}" datePicker="false" />         
    					</div> 
    				</td>
-					<td><div align="center">
+					<td><div id="key.sponsor" align="center">
 							<kul:htmlControlAttribute
 									property="newSubAwardFundingSource.award.sponsorCode" readOnly="true"
 									attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"
@@ -71,11 +117,11 @@
 									datePicker="false" />
 							</c:if> 
 						</div></td>
-					<td><div align="center">
+					<td><div id="key.amount" align="center">
      					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.latestAwardAmountInfo.amountObligatedToDate" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.amountObligatedToDate}" datePicker="false" />
    					</div> 
    				</td>	
-   				<td><div align="center">
+   				<td><div id="key.obligationExpirationDate" align="center">
      					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.latestAwardAmountInfo.obligationExpirationDate" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.obligationExpirationDate}" datePicker="false" />
    					</div> 
    				</td>		
