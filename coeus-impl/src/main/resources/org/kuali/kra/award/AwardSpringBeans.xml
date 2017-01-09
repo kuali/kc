@@ -1187,6 +1187,18 @@
 
     <bean id="awardJavaFunctionKrmsTermService" class="org.kuali.kra.award.service.impl.AwardJavaFunctionKrmsTermServiceImpl"/>
 
+    <bean id="roleService" parent="grlImporter" p:serviceName="kimRoleService" />
+
+    <bean id="fiscalOfficerDerivedRoleTypeService" class="org.kuali.kra.kfs.coa.identity.FiscalOfficerDerivedRoleTypeServiceImpl" >
+        <property name="awardService" ref="awardService" />
+        <property name="roleService" ref="roleService" />
+    </bean>
+
+    <bean id="fiscalOfficerDerivedRoleTypeServiceServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="fiscalOfficerDerivedRoleTypeService"
+          p:localServiceName="fiscalOfficerDerivedRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+
     <bean id="awardDtoService" class="org.kuali.kra.external.award.AwardDtoService">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService"/>
