@@ -31,10 +31,13 @@ import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.coi.disclosure.DisclosureHelper;
 import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
+import org.kuali.kra.coi.permission.PermissionHelper;
 import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireHelper;
 import org.kuali.kra.coi.questionnaire.ScreeningQuestionnaireHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
+import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionableFormInterface;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -48,11 +51,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CoiDisclosureForm extends KcTransactionalDocumentFormBase implements Auditable, QuestionableFormInterface  {
+public class CoiDisclosureForm extends KcTransactionalDocumentFormBase implements Auditable, QuestionableFormInterface, PermissionsForm  {
 
     private static final long serialVersionUID = -5620344612882618024L;
     private transient DisclosureHelper disclosureHelper;
     private transient DisclosureActionHelper disclosureActionHelper;
+    private PermissionHelper permissionHelper;
     private boolean auditActivated;
     private transient CoiNotesAndAttachmentsHelper coiNotesAndAttachmentsHelper;
     private transient NotificationHelper<CoiNotificationContext> notificationHelper;
@@ -84,6 +88,7 @@ public class CoiDisclosureForm extends KcTransactionalDocumentFormBase implement
        setDisclosureActionHelper(new DisclosureActionHelper(this));
        disclosureActionHelper.prepareView();
        setNotificationHelper(new NotificationHelper<CoiNotificationContext>());
+       setPermissionsHelper(new PermissionHelper(this));
     }
 
    public void setCoiNotesAndAttachmentsHelper(CoiNotesAndAttachmentsHelper coiNotesAndAttachmentsHelper) {
@@ -354,5 +359,14 @@ public class CoiDisclosureForm extends KcTransactionalDocumentFormBase implement
     public void setPersonId(String personId) {
         this.personId = personId;
     }
+
+	@Override
+	public PermissionsHelperBase getPermissionsHelper() {
+		return this.permissionHelper;
+	}
+	
+	public void setPermissionsHelper(PermissionHelper persmissionHelper) {
+		this.permissionHelper = persmissionHelper;
+	}
     
 }

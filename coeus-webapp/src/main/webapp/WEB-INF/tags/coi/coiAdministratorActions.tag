@@ -17,10 +17,13 @@
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
-
+<%@ attribute name="topTab" required="true" type="java.lang.Boolean" description="is this the top tab on the page" %>
+<c:if test="${topTab == true}">
+	<%--instead of using kul:tabTop tag just define the workarea div - this gets around an unbalanced tag problem when using conditional tags --%>
+	<div id="workarea">
+</c:if>
 <c:set var="disclosureReviewCompleted" value="${KualiForm.disclosureActionHelper.disclosureReviewComplete}" />
-<kul:tab tabTitle="Administrator Actions" defaultOpen="false" tabErrorKey="coiAdminActionErrors">
+<kul:tab tabTitle="Administrator Actions" defaultOpen="false" tabErrorKey="coiAdminActionErrors" transparentBackground="${topTab}">
 		<c:if test="${not KualiForm.document.coiDisclosureList[0].currentDisclosure}">
             <kra-coi:addCoiReviewerAction />
             <kra:permission value="${KualiForm.disclosureHelper.canUpdateFEStatusAdmin}">
