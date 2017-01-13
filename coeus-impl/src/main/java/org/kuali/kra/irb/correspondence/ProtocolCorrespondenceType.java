@@ -60,4 +60,10 @@ public class ProtocolCorrespondenceType extends ProtocolCorrespondenceTypeBase {
     public void setModule(CorrespondenceTypeModuleIdConstants module) {
         this.module = module;
     }
+    
+    @Override
+	public int compareTo(Object o) {
+    	ProtocolCorrespondenceType other = (ProtocolCorrespondenceType)o;
+		return this.getDescription().compareTo(other.getDescription());
+	}
 }

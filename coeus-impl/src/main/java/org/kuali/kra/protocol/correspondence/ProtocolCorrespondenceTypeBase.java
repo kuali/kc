@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class ProtocolCorrespondenceTypeBase extends KcPersistableBusinessObjectBase {
+public abstract class ProtocolCorrespondenceTypeBase extends KcPersistableBusinessObjectBase implements Comparable{
 
     private static final long serialVersionUID = -4725522827463252054L;
     public static final String APPROVAL_LETTER = "1";

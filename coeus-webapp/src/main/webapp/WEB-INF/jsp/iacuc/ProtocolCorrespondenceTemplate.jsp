@@ -45,15 +45,28 @@
             <span class="subhead-left">Correspondence Templates</span>
             <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplate" altText="help" /></span>
         </h3>
-        
+        <c:set var="previousTabTitle" value=""/>
+        <c:set var="previousTabTitleCount" value="1"/>
         <c:forEach items="${KualiForm.correspondenceTypes}" var="correspondenceType" varStatus="status">
             <c:set var="tabKey" value="${kfunc:generateTabKey(parentTab)}:${kfunc:generateTabKey(tabTitle)}" />
             <c:set var="isOpen" value="false"/>
             <c:if test="${KualiForm.tabStates[tabKey] == 'OPEN'}">
                 <c:set var="isOpen" value="true"/>
             </c:if>
-
-            <kul:innerTab tabTitle="${correspondenceType.description}" 
+            
+            <c:set var="tabTitle" value="${correspondenceType.description}"/>
+            <c:choose>
+			  <c:when test="${tabTitle == previousTabTitle}">
+			  <c:set var="previousTabTitleCount" value="${previousTabTitleCount + 1 }"/>
+			  	<c:set var="tabTitle" value="${tabTitle} ${previousTabTitleCount }"/>
+			  </c:when>
+			  <c:otherwise>
+			  	<c:set var="previousTabTitleCount" value="1"/>
+			  </c:otherwise>
+			</c:choose>
+            <c:set var="previousTabTitle" value="${correspondenceType.description}"/>
+            
+            <kul:innerTab tabTitle="${tabTitle}" 
                           parentTab="${parentTab}" 
                           defaultOpen="${isOpen}"
                           tabErrorKey="newDefaultCorrespondenceTemplates[${status.index}].*,newCorrespondenceTemplates[${status.index}].*,correspondenceTypes[${status.index}].*,replaceCorrespondenceTemplates[${status.index}].*">
