@@ -1,18 +1,18 @@
 <%--
    - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
+   -
    - Copyright 2005-2016 Kuali, Inc.
-   - 
+   -
    - This program is free software: you can redistribute it and/or modify
    - it under the terms of the GNU Affero General Public License as
    - published by the Free Software Foundation, either version 3 of the
    - License, or (at your option) any later version.
-   - 
+   -
    - This program is distributed in the hope that it will be useful,
    - but WITHOUT ANY WARRANTY; without even the implied warranty of
    - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    - GNU Affero General Public License for more details.
-   - 
+   -
    - You should have received a copy of the GNU Affero General Public License
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --%>
@@ -61,13 +61,13 @@ function collapseAll() {
 	    <a href="#" onclick="expandAll()">
 	      <img src="static/images/jquery/plus.gif"/>Expand All</a>
 	    <a href="#" onclick="collapseAll()">
-	      <img src="static/images/jquery/minus.gif"/>Collapse All</a>  
+	      <img src="static/images/jquery/minus.gif"/>Collapse All</a>
         <table cellpadding=0 cellspacing=0 summary="" width="100%">
             <tr>
                   <td colspan="${numOfCols}" class="subhead">
                   <span class="subhead-left">Personnel</span>
                   <span class="subhead-right"><kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardBudgetLimitsHelpUrl" altText="help"/></span>
-                 </td>         
+                 </td>
             </tr>
             <tr>
                 <th width="10%"><div align="center">Cost Element</div></th>
@@ -86,16 +86,16 @@ function collapseAll() {
 			   <td colspan="2" class="tab-subhead">
 	               <a id="A${anchorIndex}" class="${hasItems ? 'expandableLink' : 'disabledImage'}">
               	    <img src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" width=45 height=15 border=0 align=absmiddle id="F${anchorIndex}">
-              	   </a>          	   
+              	   </a>
 			     Salary</td>
 			   <td class="tab-subhead">&nbsp;</td>
 			   <td class="tab-subhead"><div align="right"><fmt:formatNumber value="${curTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</div></td>
 			   <td class="tab-subhead"><div align="right"><fmt:formatNumber value="${prevTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</div></td>
 			   <td class="tab-subhead"><div align="right"><fmt:formatNumber value="${total}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</div></td>
 			 </tr>
-			 
-			 
-			 
+
+
+
 			 <tbody id="G${anchorIndex}" class="expandableArea" style="display: none;">
 			 <c:forEach var="objectCode" items="${personnelObjectCodes}">
 			    <c:set var="currentTotal" value="${budgetSummary.currentObjectCodeTotals[objectCode] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentObjectCodeTotals[objectCode])}"/>
@@ -112,7 +112,7 @@ function collapseAll() {
 			</c:forEach>
 			</tbody>
 			<c:set var="anchorIndex" value="${anchorIndex+1}"/>
-			
+
 			<!-- Fringe -->
              <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals['personnelFringeTotals'] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentSummaryTotals['personnelFringeTotals'])}" />
              <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals['personnelFringeTotals'] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousSummaryTotals['personnelFringeTotals'])}" />
@@ -128,7 +128,7 @@ function collapseAll() {
 			   <td class="tab-subhead"><div align="right"><fmt:formatNumber value="${prevTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</div></td>
 			   <td class="tab-subhead"><div align="right"><fmt:formatNumber value="${total}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</div></td>
 			 </tr>
-			 
+
 			 <tbody id="G${anchorIndex}" class="expandableArea" style="display: none;">
 			 <c:forEach var="objectCode" items="${personnelObjectCodes}">
 			    <c:set var="currentTotal" value="${budgetSummary.currentObjectCodePersonnelFringeTotals[objectCode.costElement] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentObjectCodePersonnelFringeTotals[objectCode.costElement])}"/>
@@ -144,8 +144,8 @@ function collapseAll() {
 				</tr>
 			</c:forEach>
 			</tbody>
-			<c:set var="anchorIndex" value="${anchorIndex+1}"/>		
-			
+			<c:set var="anchorIndex" value="${anchorIndex+1}"/>
+
 			<!-- Calc Direct Costs for Personnel -->
 			 <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals['personnelCalculatedExpenseSummaryTotals'] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentSummaryTotals['personnelCalculatedExpenseSummaryTotals'])}" />
              <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals['personnelCalculatedExpenseSummaryTotals'] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousSummaryTotals['personnelCalculatedExpenseSummaryTotals'])}" />
@@ -163,7 +163,7 @@ function collapseAll() {
 			   <td class="tab-subhead"><div align="right"><fmt:formatNumber value="${prevTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</div></td>
 			   <td class="tab-subhead"><div align="right"><fmt:formatNumber value="${total}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</div></td>
 			 </tr>
-			 
+
 			 <tbody id="G${anchorIndex}" class="expandableArea" style="display: none;">
 			 <c:forEach var="rate" items="${calcRates}">
 			    <c:set var="currentTotal" value="${budgetSummary.currentPersonnelCalculatedExpenseTotals[rate] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentPersonnelCalculatedExpenseTotals[rate])}"/>
@@ -179,8 +179,8 @@ function collapseAll() {
 				</tr>
 			</c:forEach>
 			</tbody>
-			<c:set var="anchorIndex" value="${anchorIndex+1}"/>		
-              
+			<c:set var="anchorIndex" value="${anchorIndex+1}"/>
+
             <c:set var="currentTotal" value="${krafn:getBigDecimal(budgetSummary.currentPersonnelTotal)}"/>
             <c:set var="previousTotal" value="${krafn:getBigDecimal(budgetSummary.previousPersonnelTotal)}"/>
             <c:set var="total" value="${currentTotal + previousTotal}"/>
@@ -192,7 +192,7 @@ function collapseAll() {
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${previousTotal}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/>&nbsp;</strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${total}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/>&nbsp;</strong></td>
             </tr>
-            
+
             <c:set var="currentNonPersonnelTotal" value="0.00"/>
             <c:set var="previousNonPersonnelTotal" value="0.00"/>
             <tr>
@@ -227,7 +227,7 @@ function collapseAll() {
 			   <td class="tab-subhead"><div align="right"><fmt:formatNumber value="${prevTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</div></td>
 			   <td class="tab-subhead"><div align="right"><fmt:formatNumber value="${total}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</div></td>
 			 </tr>
-			 
+
 			 <tbody id="G${anchorIndex}" class="expandableArea" style="display: none;">
 			 <c:forEach var="objectCode" items="${objCodes}">
 			   <c:if test="${objectCode.costElement ne KualiForm.proposalHierarchyIndirectObjectCode}">
@@ -242,13 +242,13 @@ function collapseAll() {
 			 		<td><div align="right"><fmt:formatNumber value="${previousTotal}" type="currency" currencySymbol="" minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/>&nbsp;</div></td>
 			 		<td><div align="right"><fmt:formatNumber value="${total}" type="currency" currencySymbol=""  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/>&nbsp;</div></td>
 			  	</tr>
-			   </c:if> 
+			   </c:if>
 			  </c:forEach>
 			  </tbody>
 			<c:set var="anchorIndex" value="${anchorIndex+1}"/>
-			</c:if>			
+			</c:if>
 		  </c:forEach>
-		  
+
 			<!-- Calc Direct Costs for Non-Personnel -->
 			 <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals['nonPersonnelCalculatedExpenseSummaryTotals'] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentSummaryTotals['nonPersonnelCalculatedExpenseSummaryTotals'])}" />
              <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals['nonPersonnelCalculatedExpenseSummaryTotals'] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousSummaryTotals['nonPersonnelCalculatedExpenseSummaryTotals'])}" />
@@ -256,7 +256,7 @@ function collapseAll() {
              <c:set var="currentNonPersonnelTotal" value="${currentNonPersonnelTotal + curTotal}"/>
              <c:set var="previousNonPersonnelTotal" value="${previousNonPersonnelTotal + prevTotal}"/>
              <c:set var="calcRates" value="${budgetSummary.combinedNonPersonnelCalculatedExpenseRates}"/>
-             <c:set var="hasItems" value="${not empty calcRates}"/>             
+             <c:set var="hasItems" value="${not empty calcRates}"/>
 			 <tr>
 			   <td colspan="2" class="tab-subhead">
 	               <a id="A${anchorIndex}" class="${hasItems ? 'expandableLink' : 'disabledImage'}">
@@ -268,7 +268,7 @@ function collapseAll() {
 			   <td class="tab-subhead"><div align="right"><fmt:formatNumber value="${prevTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</div></td>
 			   <td class="tab-subhead"><div align="right"><fmt:formatNumber value="${total}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</div></td>
 			 </tr>
-			 
+
 			 <tbody id="G${anchorIndex}" class="expandableArea" style="display: none;">
 			 <c:forEach var="rate" items="${calcRates}">
 			    <c:set var="currentTotal" value="${budgetSummary.currentNonPersonnelCalculatedExpenseTotals[rate] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentNonPersonnelCalculatedExpenseTotals[rate])}"/>
@@ -284,8 +284,8 @@ function collapseAll() {
 				</tr>
 			</c:forEach>
 			</tbody>
-			<c:set var="anchorIndex" value="${anchorIndex+1}"/>	
-				
+			<c:set var="anchorIndex" value="${anchorIndex+1}"/>
+
 		    <!-- Non-Personnel Subtotals -->
             <tr>
               <td class="infoline" colspan="2" style="text-align:right;"><strong>Non-Personnel Subtotal</strong></td>
@@ -294,14 +294,14 @@ function collapseAll() {
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${previousNonPersonnelTotal}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/>&nbsp;</strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${currentNonPersonnelTotal + previousNonPersonnelTotal}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/>&nbsp;</strong></td>
             </tr>
-		 
-			
+
+
             <tr>
                   <td colspan="${numOfCols}" class="subhead"><span class="subhead-left"> Totals&nbsp;</span> </td>
             </tr>
             <tr>
               <c:set var="curDirect" value="${krafn:getBigDecimal(budgetSummary.currentBudget.totalDirectCost)}"/>
-              <c:set var="prevDirect" value="${krafn:getBigDecimal(budgetSummary.previousBudget.totalDirectCostInclPrev)}"/>
+              <c:set var="prevDirect" value="${krafn:getBigDecimal(budgetSummary.previousBudget.totalDirectCost)}"/>
               <td colspan="2" class="infoline" style="text-align:right;"><strong>TOTAL DIRECT COSTS</strong></td>
               <td class="infoline" style="text-align:right;"><strong><kul:htmlControlAttribute property="awardBudgetLimitsBean.directCostBudgetLimit" attributeEntry="${budgetLimitAttributes.limit}" styleClass="amount" readOnly="${readOnly}"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${curDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
@@ -310,23 +310,23 @@ function collapseAll() {
             </tr>
             <tr>
               <c:set var="curDirect" value="${krafn:getBigDecimal(budgetSummary.currentBudget.totalIndirectCost)}"/>
-              <c:set var="prevDirect" value="${krafn:getBigDecimal(budgetSummary.previousBudget.totalIndirectCostInclPrev)}"/>
+              <c:set var="prevDirect" value="${krafn:getBigDecimal(budgetSummary.previousBudget.totalIndirectCost)}"/>
               <td colspan="2" class="infoline" style="text-align:right;"><strong>TOTAL F&A COSTS</strong></td>
               <td class="infoline" style="text-align:right;"><strong><kul:htmlControlAttribute property="awardBudgetLimitsBean.indirectCostBudgetLimit" attributeEntry="${budgetLimitAttributes.limit}" styleClass="amount" readOnly="${readOnly}"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${curDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${prevDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${curDirect + prevDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
-            </tr> 
+            </tr>
             <tr>
               <c:set var="curDirect" value="${krafn:getBigDecimal(budgetSummary.currentBudget.totalCost)}"/>
-              <c:set var="prevDirect" value="${krafn:getBigDecimal(budgetSummary.previousBudget.totalCostInclPrev)}"/>
+              <c:set var="prevDirect" value="${krafn:getBigDecimal(budgetSummary.previousBudget.totalCost)}"/>
               <td colspan="2" class="infoline" style="text-align:right;"><strong>TOTAL COSTS</strong></td>
               <td class="infoline" style="text-align:right;"><strong><kul:htmlControlAttribute property="awardBudgetLimitsBean.totalCostBudgetLimit" attributeEntry="${budgetLimitAttributes.limit}" styleClass="amount" readOnly="${readOnly}"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${curDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${prevDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${curDirect + prevDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
             </tr>
-            
+
         </table>
     </div>
 </kul:tab>

@@ -1,18 +1,18 @@
 <%--
    - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
+   -
    - Copyright 2005-2016 Kuali, Inc.
-   - 
+   -
    - This program is free software: you can redistribute it and/or modify
    - it under the terms of the GNU Affero General Public License as
    - published by the Free Software Foundation, either version 3 of the
    - License, or (at your option) any later version.
-   - 
+   -
    - This program is distributed in the hope that it will be useful,
    - but WITHOUT ANY WARRANTY; without even the implied warranty of
    - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    - GNU Affero General Public License for more details.
-   - 
+   -
    - You should have received a copy of the GNU Affero General Public License
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --%>
@@ -89,7 +89,7 @@
     <c:when test="${not empty awardBudgetPage}">
 	  <c:set var="projectDatesString" value ="(${KualiForm.document.award.awardIdAccount})" />
     </c:when>
-    <c:otherwise> 
+    <c:otherwise>
 	  <div id="workarea">
 	  <c:set var="transParent" value="true"/>
 	  <c:set var="projectDatesString" value ="(${KualiForm.document.budget.award.awardIdAccount})" />
@@ -108,7 +108,7 @@
 
     	<h3>
             <span class="subhead-left">Budget Versions</span>
-            
+
             <span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetVersionsHelpUrl" altText="help"/></span>
          </h3>
         <table id="budget-versions-table" cellpadding="0" cellspacing="0" summary="Budget Versions">
@@ -126,7 +126,7 @@
 				    <th><div align="center">Actions</div></th>
 				</kra:section>
 			</tr>
-			
+
 			<kra:section permission="addBudget">
 			<tr class="addline">
             	<th width="50" align="right" scope="row"><div align="right">Add:</div></th>
@@ -145,7 +145,7 @@
           	</tr>
           	</kra:section>
           	</thead>
-          	
+
           	<c:forEach var="budgetVersion" items="${budgetDocumentVersions}" varStatus="status">
           		<c:set var="version" value="${pathToVersions}[${status.index}]" />
           		<c:set var="descriptionUpdatable" value="${budgetVersion.nameUpdatable}" />
@@ -169,7 +169,7 @@
 				<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 					<c:set var="displayStyle" value="display: none;"/>
 				</c:if>
-					
+
 				<tbody>
           		<tr class="budgetline">
            			<td align="right" class="tab-subhead" scope="row">
@@ -185,9 +185,9 @@
            			</td>
            			<td class="tab-subhead"><kul:htmlControlAttribute property="${version}.name" attributeEntry="${budgetAttributes.name}" readOnly="${!descriptionUpdatable}"/></td>
 	            	<td class="tab-subhead"><div align="center">${budgetVersion.budgetVersionNumber}</div></td>
-		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalDirectCostInclPrev" attributeEntry="${budgetAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/></div></td>
-		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalIndirectCostInclPrev" attributeEntry="${budgetAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
-		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalCostInclPrev" attributeEntry="${budgetAttributes.totalCost}" styleClass="amount" readOnly="true"/></div></td>
+		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalDirectCost" attributeEntry="${budgetAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/></div></td>
+		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalIndirectCost" attributeEntry="${budgetAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
+		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalCost" attributeEntry="${budgetAttributes.totalCost}" styleClass="amount" readOnly="true"/></div></td>
 		            <td class="tab-subhead">
 		            	<div align="center">
 		            		<kul:htmlControlAttribute property="${version}.awardBudgetStatusCode" attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" disabled="true"/>
@@ -254,7 +254,7 @@
           	  <td class="infoline" style="text-align:right;" colspan="9"><html:checkbox name="KualiForm" property="showAllBudgetVersions">Show All Budgets</html:checkbox></td>
           	</tr>
         </table>
-	</div> 
+	</div>
 </kul:tab>
 <c:if test="${empty awardBudgetPage}">
   <kul:panelFooter />
