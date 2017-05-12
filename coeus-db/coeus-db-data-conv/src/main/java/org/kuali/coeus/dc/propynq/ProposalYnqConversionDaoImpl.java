@@ -57,7 +57,7 @@ public class ProposalYnqConversionDaoImpl implements ProposalYnqConversionDao {
 		"values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String ADD_QUESTIONNAIRE_USAGE_STR = "insert into questionnaire_usage (questionnaire_usage_id, module_item_code, module_sub_item_code, questionnaire_ref_id_fk, questionnaire_sequence_number, " + 
 		"questionnaire_label, update_timestamp, update_user, ver_nbr, obj_id, is_mandatory, rule_id) " + 
-		"values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		"values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE_PERSON_CERT_BY_STR = "update eps_prop_person set certified_by = (select prncpl_id from krim_prncpl_t where prncpl_nm = ?), certified_time = ? where proposal_number = ? and prop_person_number = ?";
 	private static final String BACKUP_PROPOSAL_YNQ = "create table eps_prop_ynq_bak as select * from eps_prop_ynq";
 	private static final String DELETE_PROPOSAL_YNQ_STR = "delete from eps_prop_ynq where proposal_number = ?";
